@@ -1,13 +1,12 @@
 import Lake
 open Lake DSL
 
-package pnp where
-  -- add package configuration options here
+package PNP
 
-lean_lib ComputationalDichotomy where
-  -- add library configuration options here
-  roots := #[`ComputationalDichotomy]
+-- Dependencia esencial: Mathlib4
+require mathlib from git
+  "https://github.com/leanprover-community/mathlib4" @ "v4.12.0"
 
 @[default_target]
-lean_exe pnp where
-  root := `Main
+lean_lib PNP where
+  globs := #[.submodules `PNP]
