@@ -87,6 +87,7 @@ if lake test 2>&1; then
     echo "✓ Tests completed"
 else
     echo "✗ Tests failed (or no test target configured)"
+    exit 1
 fi
 
 # Run the executable
