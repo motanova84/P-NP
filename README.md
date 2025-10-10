@@ -20,7 +20,7 @@ Where:
 - φ is a CNF formula
 - G_I(φ) is the incidence graph of φ
 - tw(G_I(φ)) is the treewidth of the incidence graph
-- n is the number of variables
+- `n` is the number of variables
 
 ## ✨ The Key Ingredient: Proposed Mechanism to Prevent Evasion
 
