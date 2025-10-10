@@ -11,5 +11,14 @@ jobs:
       run: |
         curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
         echo "$HOME/.elan/bin" >> $GITHUB_PATH
+    - name: Cache mathlib
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.elan
+          .lake
+        key: ${{ runner.os }}-lean-${{ hashFiles('lakefile.lean', 'lean-toolchain') }}
+        restore-keys: |
+          ${{ runner.os }}-lean-
     - name: Build Lean project
       run: lake build
