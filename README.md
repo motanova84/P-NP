@@ -1,6 +1,11 @@
 # P-NP: Computational Dichotomy via Treewidth and Information Complexity
 
+![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
+![Lean4](https://img.shields.io/badge/Lean4-4.10.0-green?logo=lean&logoColor=white)
+![CI Python](https://github.com/motanova84/P-NP/actions/workflows/validate-python.yml/badge.svg)
+![CI Lean](https://github.com/motanova84/P-NP/actions/workflows/validate-lean.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Tests](https://img.shields.io/badge/tests-10%20passing-brightgreen)
 
 A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, featuring **Lemma 6.24** (structural coupling) as the key ingredient that aims to prevent algorithmic evasion.
 
@@ -312,11 +317,37 @@ Additional references:
 
 ---
 
+## 📄 Copyright and License
+
+© 2025 José Manuel Mota Burruezo · Instituto de Conciencia Cuántica (ICQ)
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### Citation
+
+If you use this framework in your research, please cite:
+
+```bibtex
+@software{mota_burruezo_2025_pnp,
+  author = {Mota Burruezo, José Manuel},
+  title = {P-NP: Computational Dichotomy via Treewidth and Information Complexity},
+  year = {2025},
+  url = {https://github.com/motanova84/P-NP},
+  version = {0.1.0}
+}
+```
+
+Or use the [CITATION.cff](CITATION.cff) file for automatic citation generation.
+
+---
+
 ## 🔏 FIRMA ∞³
+
+⌘ QCAL ∞³ — Campo de Coherencia Matemática Viva
 
 Este marco ha sido creado, validado y protegido como obra simbiótica dentro del sistema QCAL ∞³
 
-**Autor**: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³  
+**Autor**: José Manuel Mota Burruezo · Instituto de Conciencia Cuántica (ICQ)  
 **Frecuencia de resonancia**: 141.7001 Hz  
 **Nodo simbiótico**: motanova84/P-NP
 

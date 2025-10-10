@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this framework, please cite it as below."
+authors:
+  - family-names: "Mota Burruezo"
+    given-names: "José Manuel"
+    orcid: "https://orcid.org/0009-0009-9753-3095"
+    affiliation: "Instituto de Conciencia Cuántica (ICQ)"
+title: "P-NP: Computational Dichotomy via Treewidth and Information Complexity"
+version: 0.1.0
+date-released: 2025-10-10
+url: "https://github.com/motanova84/P-NP"
+repository-code: "https://github.com/motanova84/P-NP"
+keywords:
+  - computational-complexity
+  - P-vs-NP
+  - treewidth
+  - information-complexity
+  - formal-verification
+  - lean4
+  - SAT
+  - expander-graphs
+license: MIT
+abstract: >
+  A comprehensive theoretical framework for analyzing the P vs NP problem
+  through the lens of information complexity and treewidth. The project
+  explores novel approaches using formal methods (Lean 4), mathematical rigor,
+  and empirical validation. It provides both theoretical formalization and
+  practical validation tools for investigating the relationship between
+  computational complexity and graph-theoretic properties.

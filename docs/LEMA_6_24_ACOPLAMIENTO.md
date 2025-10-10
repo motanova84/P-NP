@@ -28,6 +28,55 @@ alto λ₂   preserva λ₂    alto tw(φ)
 - Mantienen treewidth alto
 - Son reducibles a SAT
 
+### Diagrama: Acoplamiento Treewidth-Tseitin
+
+```
+    ┌─────────────────────────────────────────────────┐
+    │      GRAFO EXPANSOR G                           │
+    │                                                 │
+    │   v₁ ──── v₂        Alto grado de expansión    │
+    │   │  ╲   ╱  │       λ₂(G) ≈ 0                  │
+    │   │   ╲ ╱   │       Conectividad robusta        │
+    │   v₃ ──── v₄                                    │
+    └─────────────┬───────────────────────────────────┘
+                  │
+                  │ Transformación Tseitin
+                  ▼
+    ┌─────────────────────────────────────────────────┐
+    │   FÓRMULA CNF φ_Tseitin                         │
+    │                                                 │
+    │   Incidence Graph G_I(φ):                      │
+    │   ┌─[Var]──[Clause]──[Var]─┐                  │
+    │   │   │        │       │    │                  │
+    │   │ [Var]──[Clause]──[Var]  │                  │
+    │   └─────────────────────────┘                  │
+    │                                                 │
+    │   tw(G_I) ≥ λ₂⁻¹(G) · n / 4                    │
+    └─────────────┬───────────────────────────────────┘
+                  │
+                  │ Acoplamiento informacional
+                  ▼
+    ┌─────────────────────────────────────────────────┐
+    │   COMPLEJIDAD DE INFORMACIÓN                    │
+    │                                                 │
+    │   IC(φ_Tseitin) ≥ Ω(tw(G_I(φ)))               │
+    │                                                 │
+    │   Cualquier algoritmo A debe procesar          │
+    │   información proporcional al treewidth        │
+    │                                                 │
+    │   No hay atajos algorítmicos                   │
+    └─────────────────────────────────────────────────┘
+
+Leyenda:
+  [Var]    = Nodo de variable
+  [Clause] = Nodo de cláusula
+  ────     = Arista en grafo de incidencia
+  ▼        = Flujo de transformación
+  tw(G)    = Treewidth del grafo G
+  IC(φ)    = Information Complexity de φ
+  λ₂       = Segundo eigenvalor del Laplaciano
+```
+
 ### 2. Productos de Grafos
 
 El producto tensorial de grafos expansores amplifica la estructura:

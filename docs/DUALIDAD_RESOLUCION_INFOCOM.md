@@ -34,6 +34,28 @@ Donde:
 - `RW(φ → ⊥)` = Resolution Width (ancho de resolución)
 - `CC(Search(φ))` = Communication Complexity del problema de búsqueda
 
+### Formalización Simbólica Extendida
+
+Sea `Π_S` un protocolo de comunicación para el problema de búsqueda SAT. Entonces:
+
+```
+IC(Π_S) ≥ α · tw(G_I(φ))
+```
+
+Donde:
+- `IC(Π_S)` = Information Complexity del protocolo
+- `α > 0` = Constante de acoplamiento
+- `tw(G_I(φ))` = Treewidth del grafo de incidencia de φ
+- `G_I(φ)` = Grafo bipartito (variables ↔ cláusulas)
+
+**Desigualdad fundamental**:
+```
+∀ protocolo Π_S que resuelve SAT(φ):
+  I(X; Π_S(X,Y)) + I(Y; Π_S(X,Y)) ≥ α · tw(G_I(φ))
+```
+
+Donde `I(X; Π_S)` denota la información mutua entre la entrada X y el transcript del protocolo.
+
 ## 📐 Componentes Matemáticos
 
 ### 1. Resolution Width
