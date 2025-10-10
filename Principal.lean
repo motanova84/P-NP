@@ -20,3 +20,4 @@ def main : IO Unit := do
   IO.println " → Powered by Lean 4 + Mathlib4"
   IO.println " → Author: José Manuel Mota Burruezo (ICQ)"
   IO.println " → Verification module: ComputationalDichotomy.lean"
+  return ()
