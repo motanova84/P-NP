@@ -73,9 +73,9 @@ These modules are part of the main Lean project:
 # Build entire project including these modules
 lake build
 
-# Check individual module
-lake env lean lean/Treewidth.lean
-lake env lean lean/InfoComplexity.lean
+# Check individual module (syntax check)
+lean lean/Treewidth.lean
+lean lean/InfoComplexity.lean
 ```
 
 ## Dependencies
