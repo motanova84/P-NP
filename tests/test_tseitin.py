@@ -12,7 +12,7 @@ import os
 # Add parent directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from src.gadgets.tseitin_generator import TseitinGenerator, generate_expander_tseitin
+from src.gadgets.tseitin_generator import TseitinGenerator, generate_expander_tseitin, generate_ramanujan_expander, create_treewidth_hard_instance
 
 
 class TestTseitinGenerator(unittest.TestCase):
@@ -61,6 +61,23 @@ class TestTseitinGenerator(unittest.TestCase):
         # Wrong length should raise error
         with self.assertRaises(ValueError):
             generator.generate_formula([0, 0])  # Should be 3 nodes
+    
+    def test_generate_ramanujan_expander(self):
+        """Test Ramanujan-like expander generation."""
+        G = generate_ramanujan_expander(10, d=3)
+        
+        self.assertEqual(G.number_of_nodes(), 10)
+        # Check it's 3-regular
+        for node in G.nodes():
+            self.assertEqual(G.degree(node), 3)
+    
+    def test_create_treewidth_hard_instance(self):
+        """Test creation of treewidth-hard instance."""
+        base_clauses = [[1, 2], [-1, 3]]
+        combined, total_vars = create_treewidth_hard_instance(base_clauses, expander_size=10, d=3)
+        
+        self.assertGreater(len(combined), len(base_clauses))
+        self.assertGreater(total_vars, 3)
 
 
 if __name__ == '__main__':
