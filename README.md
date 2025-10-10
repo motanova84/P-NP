@@ -44,7 +44,7 @@ P-NP/
 │   └── ComputationalDichotomy.lean  # Core definitions and theorems
 ├── Main.lean                 # Punto de entrada Lean
 ├── lakefile.lean            # Configuración del proyecto Lean (con Mathlib4)
-├── lean-toolchain           # Versión de Lean (v4.12.0)
+├── lean-toolchain           # Lean version (v4.12.0)
 ├── examples/                 # Casos de prueba y aplicaciones reales
 │   └── sat/                  # Instancias CNF reales
 │       └── simple_example.cnf
@@ -57,7 +57,7 @@ P-NP/
 ├── .github/
 │   ├── workflows/
 │   │   ├── validate-python.yml
-│   │   └── validate-lean.yml  # Incluye instalación de Mathlib
+│   │   └── validate-lean.yml  # Includes Mathlib installation
 │   └── COPILOT_GUIDE.md
 ├── README.md
 └── LICENSE
