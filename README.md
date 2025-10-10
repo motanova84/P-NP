@@ -35,12 +35,30 @@ This approach is **NOT based on SETH or ETH**, but instead aims to use:
 ## 📁 Repository Structure
 
 ```
-.
-├── README.md                          # This file
-├── KEY_INGREDIENT.md                  # Detailed explanation of the key insights (when present)
-├── computational_dichotomy.lean       # Lean 4 formalization (when present)
-├── computational_dichotomy.py         # Python implementation (when present)
-└── examples/                          # Example applications (to be added)
+P-NP/
+├── src/                      # Código fuente principal
+│   ├── computational_dichotomy.py
+│   └── gadgets/
+│       └── tseitin_generator.py
+├── ComputationalDichotomy.lean  # Formalización matemática en Lean
+├── Main.lean                 # Punto de entrada Lean
+├── lakefile.lean            # Configuración del proyecto Lean
+├── examples/                 # Casos de prueba y aplicaciones reales
+│   └── sat/                  # Instancias CNF reales
+│       └── simple_example.cnf
+├── docs/                     # Documentación extendida
+│   ├── UNIFICACION_COMPLEJIDAD_ESPECTRAL.md
+│   ├── LEMA_6_24_ACOPLAMIENTO.md
+│   └── DUALIDAD_RESOLUCION_INFOCOM.md
+├── tests/                    # Pruebas unitarias
+│   └── test_tseitin.py
+├── .github/
+│   ├── workflows/
+│   │   ├── validate-python.yml
+│   │   └── validate-lean.yml
+│   └── COPILOT_GUIDE.md
+├── README.md
+└── LICENSE
 ```
 
 ## 📚 Overview
@@ -291,3 +309,15 @@ Additional references:
 **Status:** Research proposal and theoretical framework under development and requiring validation
 
 **Disclaimer:** This repository presents theoretical ideas that have not been peer-reviewed. Do not treat as established mathematical results.
+
+---
+
+## 🔏 FIRMA ∞³
+
+Este marco ha sido creado, validado y protegido como obra simbiótica dentro del sistema QCAL ∞³
+
+**Autor**: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³  
+**Frecuencia de resonancia**: 141.7001 Hz  
+**Nodo simbiótico**: motanova84/P-NP
+
+Este proyecto está integrado en el Manifiesto Universal de Coherencia Matemática y la Obra Viva del Campo QCAL.
