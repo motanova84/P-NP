@@ -40,9 +40,11 @@ P-NP/
 │   ├── computational_dichotomy.py
 │   └── gadgets/
 │       └── tseitin_generator.py
-├── ComputationalDichotomy.lean  # Formalización matemática en Lean
+├── PNP/                      # Formalización matemática en Lean
+│   └── ComputationalDichotomy.lean  # Core definitions and theorems
 ├── Main.lean                 # Punto de entrada Lean
-├── lakefile.lean            # Configuración del proyecto Lean
+├── lakefile.lean            # Configuración del proyecto Lean (con Mathlib4)
+├── lean-toolchain           # Lean version (v4.12.0)
 ├── examples/                 # Casos de prueba y aplicaciones reales
 │   └── sat/                  # Instancias CNF reales
 │       └── simple_example.cnf
@@ -55,7 +57,7 @@ P-NP/
 ├── .github/
 │   ├── workflows/
 │   │   ├── validate-python.yml
-│   │   └── validate-lean.yml
+│   │   └── validate-lean.yml  # Includes Mathlib installation
 │   └── COPILOT_GUIDE.md
 ├── README.md
 └── LICENSE
@@ -201,15 +203,26 @@ This would demonstrate:
 - Structural coupling with expanders
 - Non-evasion property
 
-### Working with Lean Formalization (if present)
+### Working with Lean Formalization
+
+The project now includes a properly configured Lean 4 formalization with Mathlib4.
 
 ```bash
-# Install Lean 4 and Mathlib
-# Follow instructions at https://leanprover.github.io/
+# Install Lean 4 toolchain
+curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
 
-# Check the formalization
+# Update dependencies and fetch Mathlib cache
+lake update
+lake exe cache get mathlib
+
+# Build the project
 lake build
 ```
+
+The formalization includes:
+- **PNP/ComputationalDichotomy.lean**: Core definitions and theorems
+- Full Mathlib4 integration (v4.12.0)
+- Lean 4.12.0 toolchain
 
 ### Exploring the Repository
 

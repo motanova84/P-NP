@@ -14,9 +14,11 @@ Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 Frecuencia de resonancia: 141.7001 Hz
 -/
 
-import Mathlib.Data.Nat.Basic
 import Mathlib.Data.List.Basic
-import Mathlib.Logic.Basic
+import Mathlib.Data.Nat.Basic
+import Mathlib.Data.Real.Basic
+import Mathlib.Tactic
+import Mathlib.Combinatorics.SimpleGraph.Basic
 
 namespace ComputationalDichotomy
 
