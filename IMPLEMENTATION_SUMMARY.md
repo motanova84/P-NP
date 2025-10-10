@@ -209,20 +209,20 @@ This implementation **IS**:
 
 ## File-by-File Summary
 
-| File | Purpose | Status |
-|------|---------|--------|
-| README.md | Overview | ✅ Complete |
-| KEY_INGREDIENT.md | Core concepts | ✅ Complete |
-| TECHNICAL_APPENDIX.md | Math details | ✅ Complete |
-| PROOF_STRATEGY.md | Proof architecture | ✅ Complete |
-| VISUAL_EXPLANATION.md | Diagrams | ✅ Complete |
-| QUICK_START.md | Getting started | ✅ Complete |
-| computational_dichotomy.lean | Formal proofs | ⚠️ Statements only |
-| computational_dichotomy.py | Implementation | ✅ Working |
-| examples.py | Demonstrations | ✅ Working |
-| requirements.txt | Dependencies | ✅ Complete |
-| LICENSE | Legal | ✅ Complete |
-| .gitignore | Git config | ✅ Complete |
+File | Purpose | Status
+-----|---------|--------
+README.md | Overview | ✅ Complete
+KEY_INGREDIENT.md | Core concepts | ✅ Complete
+TECHNICAL_APPENDIX.md | Math details | ✅ Complete
+PROOF_STRATEGY.md | Proof architecture | ✅ Complete
+VISUAL_EXPLANATION.md | Diagrams | ✅ Complete
+QUICK_START.md | Getting started | ✅ Complete
+computational_dichotomy.lean | Formal proofs | ⚠️ Statements only
+computational_dichotomy.py | Implementation | ✅ Working
+examples.py | Demonstrations | ✅ Working
+requirements.txt | Dependencies | ✅ Complete
+LICENSE | Legal | ✅ Complete
+.gitignore | Git config | ✅ Complete
 
 ## Acknowledgments
 
