@@ -6,6 +6,8 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
+**🚀 Quick Start:** See [QUICKSTART.md](QUICKSTART.md) for installation and running instructions.
+
 ## 🎯 Proposed Main Result
 
 **Computational Dichotomy Theorem (Proposed):**
@@ -37,26 +39,35 @@ This approach is **NOT based on SETH or ETH**, but instead aims to use:
 ```
 P-NP/
 ├── src/                      # Código fuente principal
-│   ├── computational_dichotomy.py
+│   ├── computational_dichotomy.py  # Framework principal
+│   ├── ic_sat.py            # Algoritmo IC-SAT
 │   └── gadgets/
 │       └── tseitin_generator.py
 ├── ComputationalDichotomy.lean  # Formalización matemática en Lean
 ├── Main.lean                 # Punto de entrada Lean
+├── Principal.lean            # Definiciones principales
 ├── lakefile.lean            # Configuración del proyecto Lean
-├── examples/                 # Casos de prueba y aplicaciones reales
+├── examples/                 # Casos de prueba y aplicaciones
+│   ├── demo_ic_sat.py       # Demostración completa
 │   └── sat/                  # Instancias CNF reales
 │       └── simple_example.cnf
 ├── docs/                     # Documentación extendida
+│   ├── IC_SAT_IMPLEMENTATION.md
 │   ├── UNIFICACION_COMPLEJIDAD_ESPECTRAL.md
 │   ├── LEMA_6_24_ACOPLAMIENTO.md
 │   └── DUALIDAD_RESOLUCION_INFOCOM.md
-├── tests/                    # Pruebas unitarias
+├── tests/                    # Pruebas unitarias (29 tests)
+│   ├── test_ic_sat.py
 │   └── test_tseitin.py
 ├── .github/
 │   ├── workflows/
 │   │   ├── validate-python.yml
 │   │   └── validate-lean.yml
 │   └── COPILOT_GUIDE.md
+├── requirements.txt          # Dependencias Python
+├── run_all_tests.sh         # Script de pruebas completo
+├── simple_demo.py           # Demostración simple
+├── QUICKSTART.md            # Guía de inicio rápido
 ├── README.md
 └── LICENSE
 ```
@@ -172,42 +183,83 @@ The purpose of this repository is to:
 
 **Do NOT cite as an established result.** This is exploratory theoretical work.
 
+## ✅ Repository Status
+
+**All Python components are fully functional and tested:**
+- ✅ 29 unit tests passing (pytest)
+- ✅ IC-SAT algorithm with information complexity tracking
+- ✅ DPLL SAT solver (no external dependencies)
+- ✅ Treewidth estimation and comparison
+- ✅ Tseitin formula generator over expander graphs
+- ✅ Large-scale validation framework
+- ✅ Complete demonstration scripts
+
+**Quick verification:**
+```bash
+./run_all_tests.sh  # Runs all tests and demos
+```
+
 ## 🚀 Getting Started
+
+**👉 See [QUICKSTART.md](QUICKSTART.md) for detailed installation and running instructions.**
+
+### Quick Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/motanova84/P-NP.git
+cd P-NP
+
+# 2. Install Python dependencies
+pip install -r requirements.txt
+
+# 3. Run all tests
+./run_all_tests.sh
+
+# 4. Try the simple demo
+python3 simple_demo.py
+```
 
 ### Prerequisites
 
-For working with Lean formalization (if present):
+For Python framework:
 ```bash
-# Install Lean 4 toolchain
+pip install -r requirements.txt
+```
+
+This installs:
+- `networkx` - Graph algorithms
+- `numpy` - Numerical computing
+- `pytest` - Testing framework
+
+### Running the Python Framework
+
+```bash
+# Run comprehensive test suite
+./run_all_tests.sh
+
+# Run simple demonstration
+python3 simple_demo.py
+
+# Run complete demonstration with all features
+python3 examples/demo_ic_sat.py
+
+# Run specific modules
+python3 src/ic_sat.py
+python3 src/computational_dichotomy.py
+python3 src/gadgets/tseitin_generator.py
+
+# Run unit tests
+pytest tests/ -v
+```
+
+### Working with Lean Formalization
+
+```bash
+# Install Lean 4
 curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
-```
 
-For Python validation scripts (if present):
-```bash
-# Install dependencies
-pip install networkx numpy
-```
-
-### Running the Python Framework (if present)
-
-```bash
-# Run the demonstration
-python computational_dichotomy.py
-```
-
-This would demonstrate:
-- Low treewidth formulas (tractable)
-- High treewidth formulas (intractable)
-- Structural coupling with expanders
-- Non-evasion property
-
-### Working with Lean Formalization (if present)
-
-```bash
-# Install Lean 4 and Mathlib
-# Follow instructions at https://leanprover.github.io/
-
-# Check the formalization
+# Build the Lean project
 lake build
 ```
 
