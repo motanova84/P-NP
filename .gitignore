@@ -1,0 +1,9 @@
+# Lean build artifacts
+.lake/
+lake-packages/
+build/
+*.olean
+*.trace
+
+# OS files
+.DS_Store
