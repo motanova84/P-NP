@@ -1,6 +1,47 @@
-# P-NP: Theoretical Framework for Complexity Analysis
+# P-NP: Computational Dichotomy via Treewidth and Information Complexity
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, featuring **Lemma 6.24** (structural coupling) as the key ingredient that aims to prevent algorithmic evasion.
+
+**⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
+
+## 🎯 Proposed Main Result
+
+**Computational Dichotomy Theorem (Proposed):**
+```
+φ ∈ P ⟺ tw(G_I(φ)) = O(log n)  (if validated)
+```
+
+Where:
+- `φ` is a CNF formula
+- `G_I(φ)` is the incidence graph of φ
+- `tw(G_I(φ))` is the treewidth of the incidence graph
+- `n` is the number of variables
+
+## ✨ The Key Ingredient: Proposed Mechanism to Prevent Evasion
+
+**Lemma 6.24 (Structural Coupling Preserving Treewidth)** proposes that:
+
+> Any CNF formula φ with high treewidth can be coupled via gadgets (Tseitin expanders or graph product padding) to a communication instance where the information bottleneck is **inherent and cannot be eliminated** by classical algorithmic techniques.
+
+**Note:** This is a proposed mechanism requiring rigorous proof.
+
+This approach is **NOT based on SETH or ETH**, but instead aims to use:
+1. Metric properties of treewidth (Graph Minors, Robertson-Seymour)
+2. Duality between resolution, branching programs, and communication
+3. Correlation decay properties in expander graphs
+
+## 📁 Repository Structure
+
+```
+.
+├── README.md                          # This file
+├── KEY_INGREDIENT.md                  # Detailed explanation of the key insights (when present)
+├── computational_dichotomy.lean       # Lean 4 formalization (when present)
+├── computational_dichotomy.py         # Python implementation (when present)
+└── examples/                          # Example applications (to be added)
+```
 
 ## 📚 Overview
 
@@ -29,15 +70,6 @@ This repository explores approaches to this problem using:
 3. **Communication Complexity**: Protocol-based lower bound techniques
 4. **Expander Graphs**: Pseudorandom structures for hardness constructions
 
-## 📂 Repository Structure
-
-This is a research repository that contains theoretical frameworks and proof sketches. The main components include:
-
-- **Formal Proofs**: Lean 4 formalizations of key theorems (when present)
-- **Documentation**: Detailed mathematical write-ups and proof strategies
-- **Examples**: Demonstration code and test cases
-- **Research Notes**: Analysis and exploration of different approaches
-
 ## 🔬 Research Approach
 
 The framework proposes several key innovations:
@@ -64,6 +96,46 @@ Unlike approaches relying on unproven assumptions (SETH, ETH), this work explore
 
 The framework aims to avoid the relativization barrier that affects many complexity-theoretic approaches by leveraging structural properties that don't relativize.
 
+## 🧠 Theoretical Foundation
+
+### The Dichotomy Theorem
+
+**Part 1: Upper Bound** (tw ≤ O(log n) → φ ∈ P)
+- Uses dynamic programming FPT algorithm
+- Time: `2^O(tw) · n^O(1) = 2^O(log n) · n^O(1) = poly(n)`
+
+**Part 2: Lower Bound** (tw = ω(log n) → φ ∉ P)
+- High treewidth → communication protocol with high IC
+- IC(Π | S) ≥ α·tw(φ) → time ≥ 2^Ω(tw)
+- Structural coupling prevents evasion
+
+### Why No Algorithm Can Evade
+
+The **no-evasion theorem** proves that:
+
+1. **Any algorithmic strategy** (DPLL, CDCL, neural networks, etc.) implicitly induces a communication protocol
+2. **That protocol must traverse** the IC bottleneck if tw(G_I) is high
+3. **Therefore, time ≥ 2^Ω(tw/log tw)** is unavoidable
+
+This includes all algorithms:
+- Traditional SAT solvers (DPLL, CDCL)
+- Quantum algorithms
+- Randomized algorithms
+- Machine learning approaches
+- Any future algorithmic paradigm
+
+## 📊 Argument Structure
+
+| Element | Role |
+|---------|------|
+| tw(G_I) | Structural measure of incidence graph |
+| Expander Tseitin | Non-evadable communication bottlenecks |
+| Braverman-Rao | Minimum information flow control |
+| Pinsker inequality | Precision → information requirement |
+| Structural coupling | Forces interdependent subproblem solving |
+| IC lower bound | IC ≥ Ω(tw/log n) for sparse G_I |
+| Non-evasion | IC collapse → contradiction |
+
 ## ⚠️ Important Disclaimers
 
 **This is theoretical research in progress:**
@@ -80,6 +152,8 @@ The purpose of this repository is to:
 - Document the exploration of novel approaches
 - Provide educational resources on complexity theory
 
+**Do NOT cite as an established result.** This is exploratory theoretical work.
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -92,7 +166,31 @@ curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf 
 
 For Python validation scripts (if present):
 ```bash
+# Install dependencies
 pip install networkx numpy
+```
+
+### Running the Python Framework (if present)
+
+```bash
+# Run the demonstration
+python computational_dichotomy.py
+```
+
+This would demonstrate:
+- Low treewidth formulas (tractable)
+- High treewidth formulas (intractable)
+- Structural coupling with expanders
+- Non-evasion property
+
+### Working with Lean Formalization (if present)
+
+```bash
+# Install Lean 4 and Mathlib
+# Follow instructions at https://leanprover.github.io/
+
+# Check the formalization
+lake build
 ```
 
 ### Exploring the Repository
@@ -115,6 +213,25 @@ Information complexity measures the minimum amount of information that must be r
 ### Tseitin Formulas
 
 Tseitin formulas are special CNF constructions over graphs that are satisfiable if and only if the graph has an even number of odd-degree vertices. When constructed over expander graphs, they exhibit high treewidth and serve as hard instances.
+
+## 📖 Documentation
+
+See KEY_INGREDIENT.md (when present) for:
+- Detailed explanation of Lemma 6.24
+- Complete proof structure
+- Technical components
+- Mathematical foundations
+- Implications for P vs NP
+
+## 🔮 Potential Implications
+
+**If this framework is validated** (which requires rigorous proof):
+- ✅ P ≠ NP could be resolved via treewidth characterization
+- ✅ No SETH/ETH assumptions would be needed
+- ✅ Constructive characterization of tractable problems
+- ✅ Would apply to all algorithmic paradigms
+
+**However:** These are potential outcomes contingent on successful validation of the framework.
 
 ## 🤝 Contributing
 
@@ -149,14 +266,28 @@ For questions, feedback, or collaboration opportunities, please open an issue in
 
 Key areas of relevant work:
 
+1. Robertson & Seymour: Graph Minors Theory
+2. Braverman & Rao: Information Complexity Framework
+3. Pinsker: Information-Theoretic Inequalities
+4. Impagliazzo et al.: Resolution and Communication Complexity
+5. Tseitin: Complexity of Theorem-Proving Procedures
+
+Additional references:
 - **Treewidth and Parameterized Complexity**: FPT algorithms and hardness
 - **Information Complexity**: Braverman-Rao framework and applications
 - **Communication Complexity**: Lower bound techniques and separations
 - **Proof Complexity**: Resolution, tree-like proofs, and dag-like proofs
 - **Expander Graphs**: Spectral properties and applications to hardness
 
+## 🔗 Links
+
+- [Lean Documentation](https://leanprover.github.io/)
+- [Graph Minors Theory](https://en.wikipedia.org/wiki/Graph_minor)
+- [Treewidth](https://en.wikipedia.org/wiki/Treewidth)
+- [Information Complexity](https://en.wikipedia.org/wiki/Information_complexity)
+
 ---
 
-**Status**: Research in Progress | Not Peer-Reviewed | Educational Purpose
+**Status:** Research proposal and theoretical framework under development and requiring validation
 
-*This repository represents ongoing research and should be viewed as exploratory work in theoretical computer science.*
+**Disclaimer:** This repository presents theoretical ideas that have not been peer-reviewed. Do not treat as established mathematical results.
