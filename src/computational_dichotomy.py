@@ -37,7 +37,10 @@ def estimate_treewidth(G):
         tw, _ = nx.approximation.treewidth_min_degree(G)
         return tw
     except Exception:
-        return min(G.number_of_nodes(), 1)
+        # Fallback: return a safe upper bound
+        if G.number_of_nodes() == 0:
+            return 0
+        return G.number_of_nodes() - 1
 
 # ========== INFORMATION COMPLEXITY ==========
 
