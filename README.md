@@ -47,7 +47,7 @@ The framework proposes several key innovations:
 The project investigates the hypothesis that computational hardness is fundamentally tied to the treewidth of problem instances:
 
 ```
-φ ∈ P ⟺ tw(G_I(φ)) = O(log n)
+φ ∈ P if and only if tw(G_I(φ)) = O(log n)
 ```
 
 Where:
@@ -129,7 +129,7 @@ Please open issues for discussions or pull requests for contributions.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License. See repository for license details.
 
 ## 🙏 Acknowledgments
 
