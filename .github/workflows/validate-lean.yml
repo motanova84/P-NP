@@ -19,6 +19,6 @@ jobs:
 
       - name: Build Lean project
         run: |
-          lake update                    # ⬅️ obtiene Mathlib4
-          lake exe cache get mathlib     # ⬅️ descarga cache precompilada
-          lake build                     # ⬅️ compila todo tu proyecto
+          lake update                    # Fetch Mathlib4 dependencies
+          lake exe cache get mathlib     # Download precompiled cache
+          lake build                     # Build the entire project

@@ -3,7 +3,7 @@ open Lake DSL
 
 package pnp
 
--- Dependencia de Mathlib4 (ajustada a Lean 4.10.0–4.12.0)
+-- Mathlib4 dependency (compatible with Lean 4.12.0)
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4" @ "v4.12.0"
 
