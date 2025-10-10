@@ -1,12 +1,14 @@
 # P-NP: Computational Dichotomy via Treewidth and Information Complexity
 
-A formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, featuring **Lemma 6.24** (structural coupling) as the key ingredient that prevents algorithmic evasion.
+A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, featuring **Lemma 6.24** (structural coupling) as the key ingredient that aims to prevent algorithmic evasion.
 
-## 🎯 Main Result
+**⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
-**Computational Dichotomy Theorem:**
+## 🎯 Proposed Main Result
+
+**Computational Dichotomy Theorem (Proposed):**
 ```
-φ ∈ P ⟺ tw(G_I(φ)) = O(log n)
+φ ∈ P ⟺ tw(G_I(φ)) = O(log n)  (if validated)
 ```
 
 Where:
@@ -15,13 +17,15 @@ Where:
 - `tw(G_I(φ))` is the treewidth of the incidence graph
 - `n` is the number of variables
 
-## ✨ The Key Ingredient: Why Algorithms Cannot Evade
+## ✨ The Key Ingredient: Proposed Mechanism to Prevent Evasion
 
-**Lemma 6.24 (Structural Coupling Preserving Treewidth)** establishes that:
+**Lemma 6.24 (Structural Coupling Preserving Treewidth)** proposes that:
 
 > Any CNF formula φ with high treewidth can be coupled via gadgets (Tseitin expanders or graph product padding) to a communication instance where the information bottleneck is **inherent and cannot be eliminated** by classical algorithmic techniques.
 
-This is **NOT based on SETH or ETH**, but on:
+**Note:** This is a proposed mechanism requiring rigorous proof.
+
+This approach is **NOT based on SETH or ETH**, but instead aims to use:
 1. Metric properties of treewidth (Graph Minors, Robertson-Seymour)
 2. Duality between resolution, branching programs, and communication
 3. Correlation decay properties in expander graphs
@@ -136,19 +140,25 @@ See [KEY_INGREDIENT.md](KEY_INGREDIENT.md) for:
 
 ## ⚠️ Important Notes
 
-This is a **theoretical framework** that:
+This is a **theoretical framework and research proposal** that:
 - Presents a novel information-theoretic approach to P vs NP
-- Does NOT rely on complexity assumptions (SETH/ETH)
-- Requires complete formal verification
-- Needs peer review and validation
+- Proposes to avoid reliance on complexity assumptions (SETH/ETH)
+- **Requires complete formal verification**
+- **Needs extensive peer review and validation**
+- Has **not been established as correct**
+- May contain gaps or errors requiring resolution
 
-## 🔮 Implications
+**Do NOT cite as an established result.** This is exploratory theoretical work.
 
-If this framework is validated:
-- ✅ P ≠ NP resolved via treewidth characterization
-- ✅ No SETH/ETH assumptions needed
+## 🔮 Potential Implications
+
+**If this framework is validated** (which requires rigorous proof):
+- ✅ P ≠ NP could be resolved via treewidth characterization
+- ✅ No SETH/ETH assumptions would be needed
 - ✅ Constructive characterization of tractable problems
-- ✅ Applies to all algorithmic paradigms
+- ✅ Would apply to all algorithmic paradigms
+
+**However:** These are potential outcomes contingent on successful validation of the framework.
 
 ## 🤝 Contributing
 
@@ -179,4 +189,6 @@ MIT License - See LICENSE file for details
 
 ---
 
-**Status:** Theoretical framework under development and validation
+**Status:** Research proposal and theoretical framework under development and requiring validation
+
+**Disclaimer:** This repository presents theoretical ideas that have not been peer-reviewed. Do not treat as established mathematical results.

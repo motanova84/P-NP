@@ -1,4 +1,6 @@
-# The Key Ingredient: Structural Coupling and Non-Evasion
+# The Key Ingredient: Structural Coupling and Non-Evasion (Proposed Framework)
+
+**⚠️ RESEARCH PROPOSAL:** This document describes a proposed theoretical framework that has not been peer-reviewed or validated. Do not treat as established results.
 
 ## 🎯 The Core Question
 
@@ -6,13 +8,15 @@
 
 What prevents a clever algorithm from "evading" the information barrier constructed through treewidth and Information Complexity (IC)?
 
-## ✦ The Answer: Lemma 6.24 — Structural Coupling Preserving Treewidth
+## ✦ The Proposed Answer: Lemma 6.24 — Structural Coupling Preserving Treewidth
 
-This lemma establishes that **any CNF formula φ with high treewidth can be coupled** (via gadgets like Tseitin expanders or graph product padding) to a communication instance where the **information bottleneck is inherent and cannot be eliminated** by classical algorithmic techniques.
+This lemma **proposes** that **any CNF formula φ with high treewidth can be coupled** (via gadgets like Tseitin expanders or graph product padding) to a communication instance where the **information bottleneck is inherent and cannot be eliminated** by classical algorithmic techniques.
 
-### Why This Is NOT Based on SETH or ETH
+**Status:** This is a proposed mechanism requiring rigorous mathematical proof.
 
-This proof framework does NOT rely on:
+### Why This Would NOT Be Based on SETH or ETH (If Valid)
+
+This proof framework **proposes** to NOT rely on:
 - Strong Exponential Time Hypothesis (SETH)
 - Exponential Time Hypothesis (ETH)
 
@@ -128,20 +132,25 @@ This proves impossibility of evasion by showing that:
 4. Impagliazzo et al.: Resolution and communication complexity
 5. Tseitin: Complexity of theorem-proving procedures
 
-## 🔮 Implications
+## 🔮 Potential Implications
 
-If this framework is correct:
-- **P ≠ NP** is resolved by showing NP-complete problems have high treewidth
+**If this framework is rigorously validated:**
+- **P ≠ NP** could be resolved by showing NP-complete problems have high treewidth
 - **No SETH/ETH assumption needed**: Based on fundamental information theory
 - **Constructive**: Provides actual characterization of tractable problems
 - **Robust**: Applies to all algorithmic strategies, not just specific algorithms
 
+**However:** All of these implications are contingent on successful validation of the framework.
+
 ## ⚠️ Status
 
-This is a **theoretical framework** requiring:
-- [ ] Complete formal verification in Lean
-- [ ] Rigorous proof of Lemma 6.24
+This is a **research proposal and theoretical framework** requiring:
+- [ ] Complete formal verification in Lean or other proof assistants
+- [ ] Rigorous proof of Lemma 6.24 with all details
 - [ ] Verification of all intermediate results
-- [ ] Peer review and validation
+- [ ] Extensive peer review and validation
+- [ ] Resolution of potential gaps and challenges
 
-The framework presents a novel approach to P vs NP based on information-theoretic arguments and graph structure, independent of traditional complexity assumptions.
+**IMPORTANT:** The framework presents a novel approach to P vs NP based on information-theoretic arguments and graph structure. However, it is **NOT a validated proof** and should be treated as a research proposal under development.
+
+**Do NOT cite as an established result.** This is exploratory theoretical work that may contain errors or gaps requiring resolution.

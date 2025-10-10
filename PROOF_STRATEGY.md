@@ -2,7 +2,9 @@
 
 ## Overview
 
-This document outlines the complete proof strategy for the **Computational Dichotomy Theorem**, showing how all components work together to establish that `φ ∈ P ⟺ tw(G_I(φ)) = O(log n)`.
+This document outlines the **proposed** proof strategy for the **Computational Dichotomy Theorem**. This is a theoretical framework that, **if validated**, would establish that `φ ∈ P ⟺ tw(G_I(φ)) = O(log n)`.
+
+**IMPORTANT:** This is a research proposal requiring rigorous verification. The claims herein have not been peer-reviewed and should be treated as a theoretical framework under development, not as established results.
 
 ## The Complete Proof Architecture
 
@@ -75,8 +77,8 @@ The tree decomposition breaks the problem into small, overlapping subproblems. E
 IC(Π_φ) ≥ Ω(k / log n)
 ```
 
-**Why This Works:**
-- High treewidth ⇒ large grid minor (Robertson-Seymor)
+**Why This Works (Proposed):**
+- High treewidth ⇒ large grid minor (Robertson-Seymour)
 - Grid minor ⇒ many disjoint paths (expansion)
 - Disjoint paths ⇒ information bottleneck
 - Bottleneck ⇒ IC lower bound
@@ -171,23 +173,29 @@ Any successful algorithm must:
 
 **Therefore: φ ∉ P** ✓
 
-## The Key Innovation: Why Previous Approaches Failed
+## The Proposed Innovation: A Different Approach
 
-### What Makes This Different?
+### What Makes This Approach Different?
 
-| Previous Approaches | Our Approach |
+This framework attempts a different strategy than traditional complexity-theoretic approaches:
+
+| Traditional Approaches | This Proposed Approach |
 |-------------------|--------------|
-| Assume SETH/ETH | No assumptions needed |
-| Specific algorithms | ALL algorithms |
-| Computational barriers | Information-theoretic barriers |
-| Can be evaded | Provably non-evadable |
+| Often rely on assumptions like SETH/ETH | Aims to use information-theoretic principles |
+| Analyze specific algorithm classes | Attempts to cover all algorithmic strategies |
+| Computational hardness conjectures | Information-theoretic barriers |
+| May have algorithmic workarounds | Proposes inherent structural barriers |
+
+**Note:** These claims require rigorous validation. The comparison is meant to highlight the intended approach, not to diminish the important work in traditional complexity theory.
 
 ### Why Lemma 6.24 Is Critical
 
-**Previous Gap:**
-- Could prove: high tw ⇒ hard for DPLL
-- Could NOT prove: hard for all algorithms
-- Gap: maybe some clever algorithm exists
+**Claimed Gap in Previous Work:**
+- Some conditional results: high tw ⇒ hard for specific algorithms (under SETH/ETH)
+- Unconditional results for all algorithms remain elusive
+- Open question: whether some alternative algorithmic paradigm could succeed
+
+**Note:** This characterization is simplified. The actual state of complexity theory is nuanced, with many sophisticated conditional and unconditional results.
 
 **Lemma 6.24 Closes Gap:**
 - Couples φ to communication problem
@@ -212,7 +220,11 @@ Time Lower Bound
 
 ### Gap 1: "Maybe treewidth can be reduced by preprocessing"
 
-**Resolution:** Treewidth is a graph invariant. Preprocessing changes the formula, not the fundamental structure. Any equivalent formula has similar treewidth (up to constant factors).
+**Proposed Resolution:** This is a significant challenge for the framework. Preprocessing can indeed change treewidth through formula transformations. The framework would need to argue that:
+1. Either all satisfiability-preserving transformations maintain treewidth bounds, or
+2. The hardness transfers to any equivalent representation
+
+**Open Question:** This requires further theoretical work to establish rigorously. The relationship between formula transformations and treewidth preservation is not fully understood.
 
 ### Gap 2: "Maybe information can be compressed cleverly"
 
@@ -256,20 +268,26 @@ Time Lower Bound
 
 ## Conclusion
 
-The proof has the following structure:
+The **proposed** proof framework has the following structure:
 
-1. **Upper bound:** Constructive DP algorithm for low treewidth
-2. **Lower bound:** Information-theoretic barrier for high treewidth
-3. **Non-evasion:** Lemma 6.24 ensures barrier applies to ALL algorithms
-4. **Robustness:** Based on fundamental principles, not assumptions
+1. **Upper bound:** Constructive DP algorithm for low treewidth (well-established)
+2. **Lower bound:** Proposed information-theoretic barrier for high treewidth (requires validation)
+3. **Non-evasion:** Lemma 6.24 proposes barrier applies to ALL algorithms (requires rigorous proof)
+4. **Foundation:** Aims to be based on information-theoretic principles (requires verification)
 
-**The dichotomy is complete:**
+**The proposed dichotomy:**
 ```
-tw ≤ O(log n)  ⟺  φ ∈ P
-tw = ω(log n)  ⟺  φ ∉ P
+tw ≤ O(log n)  ⟺  φ ∈ P  (if framework is valid)
+tw = ω(log n)  ⟺  φ ∉ P  (if framework is valid)
 ```
 
-**Status:** Theoretical framework complete, requiring rigorous verification.
+**Status:** This is a **research proposal and theoretical framework** requiring:
+- Rigorous mathematical verification
+- Peer review by complexity theory experts
+- Resolution of identified gaps and challenges
+- Formal proof verification in proof assistants
+
+**This is NOT an established result.** It represents a proposed approach to P vs NP that requires extensive validation before it can be considered a valid proof.
 
 ---
 
