@@ -1,7 +1,6 @@
 # P-NP: Computational Dichotomy via Treewidth and Information Complexity
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Lean 4 CI](https://github.com/motanova84/P-NP/workflows/Lean%204%20CI/badge.svg)](https://github.com/motanova84/P-NP/actions)
 
 A **formal framework** for analyzing the P vs NP problem through the lens of treewidth and information complexity, featuring **Lemma 6.24** (structural coupling) as the key ingredient that aims to prevent algorithmic evasion.
 
@@ -14,37 +13,37 @@ A **formal framework** for analyzing the P vs NP problem through the lens of tre
 
 Where:
 - `φ` is a CNF formula
-- `G_I(φ)` is the incidence graph of φ  
+- `G_I(φ)` is the incidence graph of φ
 - `tw(G_I(φ))` is the treewidth of the incidence graph
 - `n` is the number of variables
 
-## 🧪 Lean 4 Formalization
+## 🧪 Lean 4 Formalization (Planned)
 
-This repository includes a complete Lean 4 formalization of the theoretical framework:
+This repository plans to include a complete Lean 4 formalization of the theoretical framework:
 
-### Project Structure
+### Planned Project Structure
 ```
 P-NP/
-├── PvsNP/                      # Lean 4 formalization
+├── PvsNP/                      # Lean 4 formalization (to be added)
 │   ├── Main.lean               # Main P ≠ NP theorem
 │   ├── Treewidth.lean          # Treewidth definitions and properties
 │   ├── SILB.lean               # Separator Information Lower Bounds
 │   └── ComputationalModels.lean # Transfer to computational models
-├── tests/                      # Verification tests
+├── tests/                      # Verification tests (to be added)
 │   └── BasicTests.lean         # Basic compilation tests
-├── lakefile.lean               # Project configuration
+├── lakefile.lean               # Project configuration (to be added)
 └── README.md                   # This file
 ```
 
-### Building the Project
+### Building the Project (Future)
 ```bash
 # Install Lean and dependencies
 curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh
 
-# Build the project
+# Build the project (once implemented)
 lake build
 
-# Run tests
+# Run tests (once implemented)
 lake test
 ```
 
@@ -71,7 +70,7 @@ This approach uses:
 4. **Non-Relativization**: Avoiding oracle-based barriers
 5. **Formal Verification**: Complete Lean 4 formalization
 
-### Main Theorems (Formalized in Lean)
+### Main Theorems (To Be Formalized in Lean)
 
 - `P_ne_NP`: Main P ≠ NP theorem statement
 - `computational_dichotomy`: Treewidth-based characterization
@@ -104,21 +103,25 @@ lake test
 ## 🔬 Research Status
 
 ### ✅ Completed
-- Complete Lean 4 project structure
-- All core definitions and theorem statements
-- CI/CD pipeline with GitHub Actions
-- Comprehensive documentation
+- Comprehensive documentation and README
+- Research framework outline
+- Theoretical foundation description
 
 ### 🔄 In Progress
+- Setting up Lean 4 project structure
+- Formalizing core definitions and theorem statements
+- Setting up CI/CD pipeline with GitHub Actions
 - Completing formal proofs (replacing sorry placeholders)
 - Improving constant bounds in SILB theorems
 - Extending empirical validation
 - Peer review and verification
 
 ### 📋 Known Gaps
-- Several theorems use `sorry` (proof placeholders)
+- Lean 4 project files need to be created
+- GitHub Actions workflow for CI needs to be set up
+- Several theorems will use `sorry` (proof placeholders) initially
 - Need to complete treewidth-preserving coupling proof
-- Empirical validation needs larger test suite
+- Empirical validation needs implementation and larger test suite
 
 ## 🤝 Contributing
 
