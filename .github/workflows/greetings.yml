@@ -1,0 +1,30 @@
+name: Greetings
+
+on: [pull_request_target, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: |
+          👋 Thanks for opening your first issue! We appreciate your contribution to the P-NP research project.
+          
+          This repository explores the P vs NP problem through treewidth and information complexity. 
+          
+          Please note that this is theoretical research in progress and all claims require rigorous verification.
+        pr-message: |
+          👋 Thanks for opening your first pull request! We appreciate your contribution to the P-NP research project.
+          
+          Please ensure your changes:
+          - Are well-documented
+          - Include appropriate mathematical rigor
+          - Follow the existing code/documentation style
+          - Have been tested where applicable
+          
+          A maintainer will review your contribution soon!
