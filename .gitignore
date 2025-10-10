@@ -1,4 +1,9 @@
-# Python
+# ===============================
+#  P–NP Project — Unified .gitignore
+#  Combines Python + Lean + Build + OS
+# ===============================
+
+# ---------- PYTHON ----------
 __pycache__/
 *.py[cod]
 *$py.class
@@ -23,18 +28,37 @@ wheels/
 .installed.cfg
 *.egg
 
-# Lean
+# ---------- LEAN ----------
 /build/
 /lake-packages/
 /.lake/
+/*.olean
+/*.trace
 
-# IDE
+# ---------- TEST / RESULTS ----------
+results/
+!results/.gitkeep
+*.log
+*.csv
+*.png
+
+# ---------- IDE ----------
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+*.iml
 
-# OS
+# ---------- OS ----------
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# ---------- CI / CACHE ----------
+.cache/
+__pypackages__/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.pyre/
