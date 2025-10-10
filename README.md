@@ -30,7 +30,7 @@ Where:
 
 This mechanism combines:
 
-- Metric properties of treewidth (Graph Minors, Robertson–Seymour)
+- Metric properties of treewidth (Graph Minors, Robertson-Seymour)
 - Duality between resolution width and communication complexity
 - Correlation decay properties in expander graphs
 
