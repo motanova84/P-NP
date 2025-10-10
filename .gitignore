@@ -32,8 +32,8 @@ wheels/
 /build/
 /lake-packages/
 /.lake/
-/*.olean
-/*.trace
+*.olean
+*.trace
 
 # ---------- TEST / RESULTS ----------
 results/
