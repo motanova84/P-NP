@@ -41,30 +41,54 @@ This approach is **NOT based on SETH or ETH**, but instead aims to use:
 
 ```
 P-NP/
-├── src/                      # Código fuente principal
-│   ├── computational_dichotomy.py
-│   └── gadgets/
+├── src/                           # Source code
+│   ├── computational_dichotomy.py  # Legacy script (still works)
+│   ├── icq_pnp/                   # Python package ✨ NEW
+│   │   ├── __init__.py
+│   │   ├── computational_dichotomy.py  # IC-SAT validation framework
+│   │   └── tseitin_generator.py        # Expander-based generators
+│   └── gadgets/                   # Legacy gadgets (still works)
 │       └── tseitin_generator.py
-├── ComputationalDichotomy.lean  # Formalización matemática en Lean
-├── Main.lean                 # Punto de entrada Lean
-├── lakefile.lean            # Configuración del proyecto Lean
-├── examples/                 # Casos de prueba y aplicaciones reales
-│   └── sat/                  # Instancias CNF reales
+├── lean/                          # Additional Lean modules ✨ NEW
+│   ├── Treewidth.lean            # Graph treewidth definitions
+│   ├── InfoComplexity.lean       # Information complexity
+│   └── README.md
+├── ComputationalDichotomy.lean   # Main Lean formalization
+├── Main.lean                     # Lean entry point
+├── lakefile.lean                # Lean project config (with mathlib4)
+├── data/                         # Benchmark instances ✨ NEW
+│   ├── benchmarks/
+│   │   ├── small.cnf            # Low treewidth example
+│   │   └── expander.cnf         # High treewidth example
+│   └── README.md
+├── results/                      # Generated outputs ✨ NEW
+│   ├── plots/                   # Visualizations (gitignored)
+│   │   └── treewidth_scaling.png
+│   └── README.md
+├── examples/                     # CNF test cases
+│   └── sat/
 │       └── simple_example.cnf
-├── docs/                     # Documentación extendida
-│   ├── UNIFICACION_COMPLEJIDAD_ESPECTRAL.md
-│   ├── LEMA_6_24_ACOPLAMIENTO.md
-│   └── DUALIDAD_RESOLUCION_INFOCOM.md
-├── tests/                    # Pruebas unitarias
+├── docs/                         # Extended documentation
+│   ├── UNIFICACION_COMPLEJIDAD_ESPECTRAL.md  # IC vs CC comparison ✨
+│   ├── LEMA_6_24_ACOPLAMIENTO.md            # With ASCII diagrams ✨
+│   └── DUALIDAD_RESOLUCION_INFOCOM.md       # With formalization ✨
+├── tests/                        # Unit tests
+│   ├── test_ic_sat.py           # IC-SAT validation tests ✨ NEW
 │   └── test_tseitin.py
 ├── .github/
 │   ├── workflows/
-│   │   ├── validate-python.yml
-│   │   └── validate-lean.yml
+│   │   ├── validate-python.yml  # With pytest & artifacts ✨
+│   │   └── validate-lean.yml    # With mathlib caching ✨
 │   └── COPILOT_GUIDE.md
-├── README.md
+├── CITATION.cff                  # Citation metadata ✨ NEW
+├── CODE_OF_CONDUCT.md           # Community guidelines ✨ NEW
+├── CONTRIBUTING.md              # Contribution guide ✨ NEW
+├── CHANGELOG.md                 # Version history ✨ NEW
+├── README.md                    # This file (with badges ✨)
 └── LICENSE
 ```
+
+✨ = Recently added or enhanced
 
 ## 📚 Overview
 
@@ -181,47 +205,99 @@ The purpose of this repository is to:
 
 ### Prerequisites
 
-For working with Lean formalization (if present):
+**For Python validation framework:**
+```bash
+# Install dependencies
+pip install networkx numpy pytest matplotlib pandas
+```
+
+**For Lean formalization:**
 ```bash
 # Install Lean 4 toolchain
 curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
 ```
 
-For Python validation scripts (if present):
+### Running the Python Framework
+
+**Quick demo:**
 ```bash
-# Install dependencies
-pip install networkx numpy
+# Run demonstration mode
+python -m src.icq_pnp.computational_dichotomy --demo
 ```
 
-### Running the Python Framework (if present)
-
+**IC-SAT Validation:**
 ```bash
-# Run the demonstration
-python computational_dichotomy.py
+# Run validation with default parameters
+python -m src.icq_pnp.computational_dichotomy
+
+# Custom problem sizes
+python -m src.icq_pnp.computational_dichotomy --n 100 200 300 500
 ```
 
-This would demonstrate:
-- Low treewidth formulas (tractable)
-- High treewidth formulas (intractable)
-- Structural coupling with expanders
-- Non-evasion property
+This generates:
+- `results/ic_sat_results.csv` - Numerical results
+- `results/plots/treewidth_scaling.png` - Visualization
+- Console output with validation summary
 
-### Working with Lean Formalization (if present)
+**Example output:**
+```
+IC-SAT VALIDATION FRAMEWORK ∞³
+Testing problem sizes: [100, 200, 300]
+✓ Results saved to results/ic_sat_results.csv
+✓ Plot saved to results/plots/treewidth_scaling.png
+
+  n  treewidth  coherence  solved
+100          1   2.302585    True
+200          1   2.649159    True
+300          1   2.851891    True
+
+✓ All tractable cases: True
+```
+
+**Legacy scripts (still work):**
+```bash
+python src/computational_dichotomy.py
+python src/gadgets/tseitin_generator.py
+```
+
+### Running Tests
 
 ```bash
-# Install Lean 4 and Mathlib
-# Follow instructions at https://leanprover.github.io/
+# Run all tests
+pytest -v
 
-# Check the formalization
+# Run specific test suite
+pytest tests/test_ic_sat.py -v
+```
+
+### Working with Lean Formalization
+
+```bash
+# Build the project
 lake build
+
+# Run main executable
+lake exe pnp
+```
+
+Output:
+```
+P-NP Computational Dichotomy Framework ∞³
+Instituto de Conciencia Cuántica (ICQ)
+
+✓ Lean formalization compiled successfully
+✓ Main dichotomy theorem: verified type-correct
+✓ Structural coupling lemma: axiomatized
+✓ Chain formula example: defined
 ```
 
 ### Exploring the Repository
 
-1. **Read the Documentation**: Start with any available documentation files
-2. **Review Pull Requests**: Check closed and open PRs for detailed implementation notes
-3. **Examine Code**: Look at Lean files for formal specifications
-4. **Run Examples**: Execute any provided example scripts to see the framework in action
+1. **Documentation**: Read `docs/` for theoretical background
+2. **Code**: Explore `src/icq_pnp/` for implementations
+3. **Formalization**: Check `ComputationalDichotomy.lean` and `lean/` modules
+4. **Tests**: See `tests/` for validation examples
+5. **Benchmarks**: Examine `data/benchmarks/` for CNF instances
 
 ## 📖 Key Concepts
 
