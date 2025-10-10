@@ -1,0 +1,9 @@
+# P-NP Computational Dichotomy Framework
+# Python Dependencies
+
+# Core dependencies
+networkx>=3.0
+numpy>=1.24.0
+
+# Testing
+pytest>=7.4.0
