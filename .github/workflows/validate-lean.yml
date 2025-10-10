@@ -1,15 +1,24 @@
 name: Validate Lean 4 Proofs
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Install Lean 4
-      run: |
-        curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
-        echo "$HOME/.elan/bin" >> $GITHUB_PATH
-    - name: Build Lean project
-      run: lake build
+      - uses: actions/checkout@v4
+
+      - name: Install Lean 4
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Build Lean project
+        run: |
+          lake update                    # Fetch Mathlib4 dependencies
+          lake exe cache get mathlib     # Download precompiled cache
+          lake build                     # Build the entire project
