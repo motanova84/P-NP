@@ -1,0 +1,11 @@
+c Small CNF instance for low treewidth testing
+c This is a chain formula with 5 variables
+c Expected to be tractable (treewidth = 2)
+c Author: ICQ P-NP Framework
+p cnf 5 6
+-1 2 0
+-2 3 0
+-3 4 0
+-4 5 0
+1 0
+-5 0

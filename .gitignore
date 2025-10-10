@@ -38,3 +38,15 @@ wheels/
 # OS
 .DS_Store
 Thumbs.db
+
+# Results (exclude generated files but keep directory structure)
+results/*.csv
+results/*.json
+results/plots/*.png
+results/plots/*.jpg
+results/plots/*.pdf
+!results/.gitkeep
+!results/plots/.gitkeep
+
+# Pytest
+.pytest_cache/

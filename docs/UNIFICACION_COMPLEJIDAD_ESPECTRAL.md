@@ -62,6 +62,42 @@ Complejidad ←→ Información ←→ Operador ←→ Geometría ←→ Tiempo 
    SAT/NP      Communication   Zeta/L      Arith. Geom.    Complexity
 ```
 
+## 📊 Tabla Comparativa: Complejidad de Información vs Complejidad de Comunicación
+
+| **Aspecto** | **Information Complexity (IC)** | **Communication Complexity (CC)** |
+|-------------|--------------------------------|----------------------------------|
+| **Definición** | I(X; Π(X,Y)) + I(Y; Π(X,Y)) | Bits totales intercambiados en Π |
+| **Medida** | Información mutua (bits) | Comunicación total (bits) |
+| **Robustez** | Robusta a estrategias adaptativas | Puede ser reducida con randomización |
+| **Lower Bounds** | IC(f) ≤ CC(f) siempre | CC(f) puede ser mucho mayor que IC(f) |
+| **Origen Teórico** | Teoría de la información (Shannon) | Yao (1979), Kushilevitz-Nisan |
+| **Aplicación a SAT** | IC(SAT) ≥ Ω(tw(G_I)) | CC(SAT) ≥ IC(SAT) |
+| **Directos Products** | IC(f^n) ≈ n · IC(f) (fuerte) | CC(f^n) puede ser sublinear |
+| **Amortización** | IC = CC amortizado (Braverman-Rao) | CC puede variar por instancia |
+| **No-evasión** | ✓ Fundamental, no evadible | Puede tener protocolos eficientes |
+| **Referencia Clave** | Braverman (2012), Braverman-Rao (2014) | Yao (1979), Kushilevitz-Nisan (1997) |
+
+### Relación Fundamental (Braverman-Rao 2014):
+
+```
+IC(f) = lim_{n→∞} CC(f^n) / n
+```
+
+**Interpretación**: La complejidad de información es la complejidad de comunicación 
+"amortizada" cuando el problema se repite muchas veces.
+
+### Aplicación al Teorema de Dicotomía:
+
+1. **Low treewidth (tw ≤ O(log n))**:
+   - IC(φ) = O(log n)
+   - Protocolos eficientes existen
+   - SAT es resoluble en tiempo polinomial
+
+2. **High treewidth (tw ≥ Ω(n))**:
+   - IC(φ) ≥ Ω(n)
+   - Cualquier protocolo requiere información lineal
+   - SAT requiere tiempo exponencial (no hay atajos)
+
 ## 📐 Formalización Matemática
 
 ### Operador de Complejidad

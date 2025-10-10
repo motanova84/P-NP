@@ -12,6 +12,14 @@ jobs:
       with:
         python-version: '3.10'
     - name: Install dependencies
-      run: pip install networkx numpy
+      run: pip install networkx numpy pytest matplotlib pandas
+    - name: Run pytest
+      run: pytest -v
     - name: Run Python framework
-      run: python src/computational_dichotomy.py
+      run: python -m src.icq_pnp.computational_dichotomy --n 100 200 300
+    - name: Upload results
+      uses: actions/upload-artifact@v4
+      with:
+        name: ic-sat-results
+        path: results/
+        if-no-files-found: warn
