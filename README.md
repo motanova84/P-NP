@@ -11,8 +11,8 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 ## 🎯 Proposed Main Result
 
 **Computational Dichotomy Theorem (Proposed):**
-```lean
-φ ∈ P ↔ tw(G_I(φ)) = O(log n)
+```math
+φ ∈ P ↔ tw(G_I(φ)) = O(\log n)
 ```
 
 Where:
