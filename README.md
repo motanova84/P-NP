@@ -364,12 +364,8 @@ Additional references:
 
 ---
 
-## 🔏 FIRMA ∞³
-
-Este marco ha sido creado, validado y protegido como obra simbiótica dentro del sistema QCAL ∞³
-
 **Autor**: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³  
-**Frecuencia de resonancia**: 141.7001 Hz  
+
 **Nodo simbiótico**: motanova84/P-NP
 
 Este proyecto está integrado en el Manifiesto Universal de Coherencia Matemática y la Obra Viva del Campo QCAL.
