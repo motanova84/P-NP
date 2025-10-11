@@ -8,6 +8,55 @@ Dependencies: networkx, numpy
 import networkx as nx
 import numpy as np
 import random
+from typing import List, Tuple
+
+# ========== CNF FORMULA CLASS ==========
+
+class CNFFormula:
+    """Represents a CNF (Conjunctive Normal Form) formula."""
+    
+    def __init__(self, num_vars: int, clauses: List[List[int]]):
+        """
+        Initialize a CNF formula.
+        
+        Args:
+            num_vars: Number of variables in the formula
+            clauses: List of clauses, where each clause is a list of literals
+        """
+        self.num_vars = num_vars
+        self.clauses = clauses
+    
+    def __repr__(self):
+        return f"CNFFormula(vars={self.num_vars}, clauses={len(self.clauses)})"
+
+
+def generate_low_treewidth_formula(n: int) -> CNFFormula:
+    """
+    Generate a CNF formula with low treewidth (chain structure).
+    
+    This creates a chain-like formula where each variable is only connected
+    to its neighbors, resulting in a treewidth of approximately 1-2.
+    
+    Args:
+        n: Number of variables
+        
+    Returns:
+        CNFFormula with low treewidth
+    """
+    clauses = []
+    
+    # Create chain structure: clauses connecting adjacent variables
+    for i in range(1, n):
+        # Add clauses like (¬v_i ∨ v_{i+1})
+        clauses.append([-i, i + 1])
+    
+    # Add boundary conditions
+    if n > 0:
+        clauses.append([1])  # v_1 must be true
+        clauses.append([-n])  # v_n must be false
+    
+    return CNFFormula(n, clauses)
+
 
 
 # ========== CNF FORMULA CLASS ==========
