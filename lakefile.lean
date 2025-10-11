@@ -11,4 +11,4 @@ lean_lib ComputationalDichotomy where
 
 @[default_target]
 lean_exe pnp where
-  root := `Principal
+  root := `Director

@@ -58,6 +58,23 @@ def generate_low_treewidth_formula(n: int) -> CNFFormula:
     return CNFFormula(n, clauses)
 
 
+
+# ========== CNF FORMULA CLASS ==========
+
+class CNFFormula:
+    """Simple CNF formula representation."""
+    
+    def __init__(self, num_vars, clauses):
+        """
+        Initialize CNF formula.
+        
+        Args:
+            num_vars: Number of variables
+            clauses: List of clauses (each clause is a list of literals)
+        """
+        self.num_vars = num_vars
+        self.clauses = clauses
+
 # ========== GRAPH CONSTRUCTION ==========
 
 def primal_graph(n_vars, clauses):
@@ -78,6 +95,31 @@ def incidence_graph(n_vars, clauses):
         for lit in clause:
             G.add_edge(f'v{abs(lit)}', f'c{j}')
     return G
+
+
+def generate_low_treewidth_formula(n_vars):
+    """
+    Generate a CNF formula with low treewidth (chain structure).
+    
+    Creates clauses that connect consecutive variables in a chain,
+    resulting in a formula with treewidth ≤ 2.
+    
+    Args:
+        n_vars: Number of variables
+        
+    Returns:
+        CNFFormula with chain structure
+    """
+    clauses = []
+    # Create chain: each clause connects consecutive variables
+    for i in range(1, n_vars):
+        # Add clauses like (v_i OR v_{i+1})
+        clauses.append([i, i + 1])
+        # Add clauses like (-v_i OR -v_{i+1}) for some variety
+        if i % 2 == 0:
+            clauses.append([-i, -(i + 1)])
+    
+    return CNFFormula(n_vars, clauses)
 
 # ========== TREEWIDTH ESTIMATION ==========
 
