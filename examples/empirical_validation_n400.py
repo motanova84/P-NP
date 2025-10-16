@@ -142,13 +142,14 @@ def validate_instance(name, n_vars, clauses, expected_class):
         else:
             result = simple_dpll(clauses, n_vars)
             solve_time = time.time() - start_time
-            results['solved'] = result is not None
             results['solve_time'] = solve_time
             
             if solve_time > max_time:
                 print(f"Solve took {solve_time:.4f}s (>10s limit)")
                 results['solved'] = False
             else:
+                # simple_dpll returns 'SAT' or 'UNSAT'
+                results['solved'] = (result == 'SAT' or result == 'UNSAT')
                 print(f"Solved in {solve_time:.4f}s: {result}")
     except Exception as e:
         print(f"Error during solving: {e}")

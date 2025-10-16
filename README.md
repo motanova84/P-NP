@@ -247,6 +247,9 @@ python3 simple_demo.py
 # Run complete demonstration with all features
 python3 examples/demo_ic_sat.py
 
+# Run empirical validation on instances up to n=400
+python3 examples/empirical_validation_n400.py
+
 # Run specific modules
 python3 src/ic_sat.py
 python3 src/computational_dichotomy.py
