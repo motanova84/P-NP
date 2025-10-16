@@ -49,9 +49,12 @@ P-NP/
 ├── lakefile.lean            # Configuración del proyecto Lean
 ├── examples/                 # Casos de prueba y aplicaciones
 │   ├── demo_ic_sat.py       # Demostración completa
+│   ├── empirical_validation_n400.py  # Validación empírica n≤400
 │   └── sat/                  # Instancias CNF reales
 │       └── simple_example.cnf
 ├── docs/                     # Documentación extendida
+│   ├── formal_manuscript.tex # Manuscrito formal LaTeX
+│   ├── MANUSCRIPT_README.md # Guía del manuscrito
 │   ├── IC_SAT_IMPLEMENTATION.md
 │   ├── UNIFICACION_COMPLEJIDAD_ESPECTRAL.md
 │   ├── LEMA_6_24_ACOPLAMIENTO.md
@@ -286,12 +289,25 @@ Tseitin formulas are special CNF constructions over graphs that are satisfiable 
 
 ## 📖 Documentation
 
-See KEY_INGREDIENT.md (when present) for:
-- Detailed explanation of Lemma 6.24
-- Complete proof structure
-- Technical components
-- Mathematical foundations
-- Implications for P vs NP
+### Formal Manuscript
+
+See [docs/formal_manuscript.tex](docs/formal_manuscript.tex) for the complete formal LaTeX manuscript presenting:
+- Treewidth-based framework for P ≠ NP
+- Structural Separation Theorem
+- Information Coupling Lemma (Lemma 6.24)
+- Spectral Anti-Bypass Lemma
+- Lean4 formalization
+- Empirical validation on instances up to n=400
+
+Compilation instructions in [docs/MANUSCRIPT_README.md](docs/MANUSCRIPT_README.md).
+
+### Additional Documentation
+
+See also:
+- [docs/LEMA_6_24_ACOPLAMIENTO.md](docs/LEMA_6_24_ACOPLAMIENTO.md) - Detailed explanation of Lemma 6.24
+- [docs/IC_SAT_IMPLEMENTATION.md](docs/IC_SAT_IMPLEMENTATION.md) - IC-SAT implementation details
+- [docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md](docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md) - Spectral complexity unification
+- [docs/DUALIDAD_RESOLUCION_INFOCOM.md](docs/DUALIDAD_RESOLUCION_INFOCOM.md) - Resolution-InfoCom duality
 
 ## 🔮 Potential Implications
 
