@@ -24,8 +24,7 @@ Para citar este trabajo:
 ```bibtex
 @misc{motaburruezo2025pnp,
   author       = {Mota Burruezo, José Manuel},
-  title        = {{P vs NP: Computational Dichotomy via Treewidth 
-                   and Information Complexity - Official Demonstration}},
+  title        = {{P vs NP: Computational Dichotomy via Treewidth and Information Complexity - Official Demonstration}},
   year         = 2025,
   publisher    = {Zenodo},
   doi          = {10.5281/zenodo.17315719},
