@@ -2,6 +2,14 @@
 
 This guide will help you get the P-NP Computational Dichotomy framework up and running quickly.
 
+## 📄 Official Documentation
+
+For the complete mathematical demonstration and formal proofs, see the official document:
+
+**🔗 [Official Demonstration on Zenodo](https://zenodo.org/records/17315719)**
+
+This repository provides the implementation and practical validation of the concepts described in the official document.
+
 ## Prerequisites
 
 - Python 3.11 or later
