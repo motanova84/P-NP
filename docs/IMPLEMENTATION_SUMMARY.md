@@ -213,4 +213,4 @@ This implementation provides a complete, professional formal manuscript and empi
 - Follows academic and software engineering best practices
 - Provides clear documentation and usage instructions
 
-The framework successfully demonstrates the treewidth-based approach to computational complexity analysis on real instances up to n=400 variables.
+The framework provides preliminary validation of the treewidth-based approach to computational complexity analysis on a test set of instances up to n=400 variables. The 100% accuracy refers to classification on this specific test set of 14 instances, not a general proof.
