@@ -34,6 +34,14 @@ This approach is **NOT based on SETH or ETH**, but instead aims to use:
 2. Duality between resolution, branching programs, and communication
 3. Correlation decay properties in expander graphs
 
+## 📄 Official Documentation
+
+**Official Demonstration Document**: This research is formally documented and available at:
+
+🔗 **[Zenodo Record 17315719](https://zenodo.org/records/17315719)**
+
+This Zenodo repository contains the official, archived version of the demonstration document with complete mathematical proofs and formal argumentation.
+
 ## 📁 Repository Structure
 
 ```
@@ -372,6 +380,9 @@ The framework incorporates ideas from numerous researchers in these fields.
 For questions, feedback, or collaboration opportunities, please open an issue in this repository.
 
 ## 🔗 References
+
+**Official Demonstration Document**:
+- **Mota Burruezo, J. M.** (2025). P vs NP: Computational Dichotomy via Treewidth and Information Complexity - Official Demonstration. *Zenodo*. https://zenodo.org/records/17315719
 
 Key areas of relevant work:
 
