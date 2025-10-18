@@ -54,6 +54,7 @@ This document provides a comprehensive overview of all files in the P-NP reposit
 
 | File | Description | Status |
 |------|-------------|--------|
+| `DOCUMENTO_OFICIAL.md` | Official demonstration document reference (Zenodo) | ✅ Complete |
 | `IC_SAT_IMPLEMENTATION.md` | IC-SAT implementation notes | ✅ Complete |
 | `UNIFICACION_COMPLEJIDAD_ESPECTRAL.md` | Spectral complexity unification | ✅ Complete |
 | `LEMA_6_24_ACOPLAMIENTO.md` | Lemma 6.24 (Structural Coupling) | ✅ Complete |
@@ -206,6 +207,7 @@ pip install -r requirements.txt
 - [README.md](README.md) - Main documentation
 - [QUICKSTART.md](QUICKSTART.md) - Getting started
 - [CONTRIBUTING.md](CONTRIBUTING.md) - Contribution guide
+- [docs/DOCUMENTO_OFICIAL.md](docs/DOCUMENTO_OFICIAL.md) - Official demonstration document (Zenodo)
 - [docs/IC_SAT_IMPLEMENTATION.md](docs/IC_SAT_IMPLEMENTATION.md) - Implementation details
 
 ## 👤 Author
