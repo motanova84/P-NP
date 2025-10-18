@@ -7,7 +7,7 @@ with up to 400 variables, as described in Section 6 of the manuscript.
 
 The validation demonstrates:
 1. Low-treewidth formulas are solved efficiently (polynomial time)
-2. High-treewidth formulas require exponential time
+2. High-treewidth formulas are predicted to be hard to solve
 3. Treewidth accurately predicts computational hardness
 4. 100% accuracy in separating easy from hard instances
 
