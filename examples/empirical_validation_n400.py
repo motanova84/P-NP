@@ -23,9 +23,8 @@ import random
 import numpy as np
 from src.ic_sat import (
     build_primal_graph, build_incidence_graph, estimate_treewidth,
-    simple_dpll, LargeScaleValidation
+    simple_dpll
 )
-from src.gadgets.tseitin_generator import generate_expander_tseitin
 
 
 def generate_test_instances(max_n=400):
