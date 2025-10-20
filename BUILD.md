@@ -37,7 +37,7 @@ lean --check tests/BasicTests.lean
 ├── README.md                   # Main project documentation
 ├── BUILD.md                    # This file
 ├── lakefile.lean              # Lake build configuration
-├── lean-toolchain             # Specifies Lean version (4.3.0)
+├── lean-toolchain             # Specifies Lean version (4.12.0)
 ├── Main.lean                  # Executable entry point
 ├── PvsNP/                     # Main library
 │   ├── Main.lean             # Core definitions and theorems
