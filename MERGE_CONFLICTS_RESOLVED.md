@@ -60,9 +60,9 @@ The following new files were successfully integrated:
 
 ### Python Tests
 All 29 unit tests pass successfully:
-\`\`\`
+```
 ============================= 29 passed in 0.23s ==============================
-\`\`\`
+```
 
 ### Demo Script
 Simple demonstration runs without errors, showing:
