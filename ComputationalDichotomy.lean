@@ -73,6 +73,13 @@ axiom structuralCoupling (φ : CNFFormula) :
     (isSatisfiable ψ ↔ isSatisfiable φ) ∧
     (∀ efficient_alg, ¬(efficient_alg ψ = true))
 
+/-- Lemma 6.35: Structural Reduction Preserving Treewidth (proposed) -/
+axiom structuralReduction (φ ψ : CNFFormula) :
+  (isSatisfiable ψ → isSatisfiable φ) →
+  treewidth ψ ≤ treewidth φ + Nat.log 2 (numVars φ) →
+  ∀ (reduction : CNFFormula → CNFFormula),
+    treewidth (reduction φ) ≤ treewidth φ * 2
+
 /-- Main Dichotomy Theorem (proposed) -/
 theorem computationalDichotomy (φ : CNFFormula) :
   (treewidth φ ≤ 2 * Nat.log 2 (numVars φ) → 
