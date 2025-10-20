@@ -363,7 +363,6 @@ This research builds upon decades of work in:
 The framework incorporates ideas from numerous researchers in these fields.
 
 ## 📮 Contact Institutoconsciencia@proton.me
-## 📮 Contact
 
 For questions, feedback, or collaboration opportunities, please open an issue in this repository.
 
