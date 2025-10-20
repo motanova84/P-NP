@@ -2,7 +2,7 @@
 
 ## Conflict Details
 
-A merge conflict existed in `.github/workflows/validate-python.yml` between:
+A merge conflict in `.github/workflows/validate-python.yml` was resolved between:
 
 ### Branch: `copilot/fix-codigo-computational-dichotomy`
 ```yaml
