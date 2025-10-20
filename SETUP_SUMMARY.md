@@ -4,7 +4,7 @@
 
 ### 1. Lean Project Structure Created
 - ✓ Created `lakefile.lean` with proper package configuration
-- ✓ Created `lean-toolchain` specifying Lean 4.3.0
+- ✓ Created `lean-toolchain` specifying Lean 4.12.0
 - ✓ Created `.gitignore` for Lean build artifacts
 
 ### 2. Source Files Created
