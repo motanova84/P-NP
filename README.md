@@ -70,14 +70,6 @@ P-NP/
 ├── QUICKSTART.md            # Guía de inicio rápido
 ├── README.md
 └── LICENSE
-.
-├── README.md                          # This file
-├── KEY_INGREDIENT.md                  # Detailed explanation of the key insights (when present)
-├── computational_dichotomy.lean       # Lean 4 formalization (when present)
-├── computational_dichotomy.py         # Python implementation (when present)
-└── examples/                          # Example applications (to be added)
-```
-
 ## 📚 Overview
 
 This repository contains a comprehensive theoretical framework for analyzing the P vs NP problem through the lens of **information complexity** and **treewidth**. The project explores novel approaches to one of the most important open questions in theoretical computer science using formal methods, mathematical rigor, and empirical validation.
