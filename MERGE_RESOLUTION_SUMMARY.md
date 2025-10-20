@@ -15,7 +15,7 @@ According to the problem statement, the following files were in conflict:
 1. ✅ **validate-python.yml** - `.github/workflows/validate-python.yml`
 2. ✅ **README.md** - `README.md`
 3. ✅ **requirements.txt** - `requirements.txt`
-4. ✅ **computational_dichotomy.py** - `src/computational_dichotomy.py` (referenced as `dicotomía_computacional.py`)
+4. ✅ **computational_dichotomy.py** - `src/computational_dichotomy.py` (referenced as `dichotomy_computational.py`)
 5. ✅ **test_tseitin.py** - `tests/test_tseitin.py` (referenced as `prueba_tseitin.py`)
 
 ## Resolution Status
