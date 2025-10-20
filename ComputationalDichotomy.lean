@@ -73,11 +73,12 @@ axiom structuralCoupling (φ : CNFFormula) :
     (isSatisfiable ψ ↔ isSatisfiable φ) ∧
     (∀ efficient_alg, ¬(efficient_alg ψ = true))
 
-/-- Lemma 6.35: Structural Reduction Preserving Treewidth (proposed) -/
-axiom structuralReduction (φ ψ : CNFFormula) :
-  (isSatisfiable ψ → isSatisfiable φ) →
-  treewidth ψ ≤ treewidth φ + Nat.log 2 (numVars φ) →
+/-- Lemma 6.35: Structural Reduction Preserving Treewidth (proposed) 
+    States that polynomial reductions cannot increase treewidth beyond a constant factor.
+    A reduction R is implicitly assumed to be polynomial-time and satisfiability-preserving. -/
+axiom structuralReduction (φ : CNFFormula) :
   ∀ (reduction : CNFFormula → CNFFormula),
+    (∀ ψ, isSatisfiable (reduction ψ) → isSatisfiable ψ) →
     treewidth (reduction φ) ≤ treewidth φ * 2
 
 /-- Main Dichotomy Theorem (proposed) -/

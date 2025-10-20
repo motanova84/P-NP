@@ -4,14 +4,14 @@
 
 **Lemma 6.35 (Structural Reduction Preserving Treewidth)**:
 
-> Sean `φ` y `ψ` fórmulas CNF donde `ψ` es una reducción de `φ`. Si:
+> Para cualquier fórmula CNF `φ` y cualquier reducción polinomial `R` que preserva satisfacibilidad:
 >
-> 1. La reducción preserva satisfacibilidad: `SAT(ψ) → SAT(φ)`
-> 2. El treewidth de `ψ` está acotado: `tw(G_I(ψ)) ≤ tw(G_I(φ)) + O(log n)`
+> `tw(R(φ)) ≤ 2 · tw(φ)`
 >
-> Entonces, para cualquier transformación de reducción `R`:
->
-> 3. `tw(G_I(R(φ))) ≤ 2 · tw(G_I(φ))` (crecimiento controlado)
+> Donde:
+> - `R: CNFFormula → CNFFormula` es una reducción polinomial
+> - La reducción preserva satisfacibilidad: `SAT(R(φ)) → SAT(φ)`
+> - El treewidth crece a lo sumo por un factor constante de 2
 >
 > Este lemma garantiza que las reducciones estructurales no aumentan el treewidth de forma explosiva.
 
@@ -35,7 +35,7 @@ Las reducciones polinomiales son transformaciones fundamentales en teoría de la
 El lemma establece límites en cómo las reducciones afectan el treewidth:
 
 ```
-tw(ψ) ≤ tw(φ) + O(log n)
+tw(R(φ)) ≤ 2 · tw(φ)
 ```
 
 Esto implica que:
@@ -45,7 +45,7 @@ Esto implica que:
 
 ### 3. Crecimiento Controlado
 
-Para cualquier reducción `R`, el treewidth crece a lo sumo linealmente:
+Para cualquier reducción `R`, el treewidth crece a lo sumo por un factor constante:
 
 ```
 tw(R(φ)) ≤ 2 · tw(φ)
@@ -141,8 +141,8 @@ Si ambos lemmas se prueban rigurosamente:
 | **Aplicación** | Instancias duras individuales | Familias de reducciones |
 
 Ambos lemmas son **complementarios**:
-- **6.24**: Establece dureza para instancias específicas
-- **6.35**: Extiende dureza a través de reducciones
+- **6.24**: Establece dureza para instancias específicas mediante acoplamiento informacional
+- **6.35**: Garantiza que las reducciones preservan la complejidad estructural (treewidth)
 
 ## ⚠️ Estado Actual
 
