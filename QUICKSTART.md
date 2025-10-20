@@ -111,6 +111,7 @@ This demonstrates:
 - **`docs/IC_SAT_IMPLEMENTATION.md`** - Detailed implementation notes
 - **`docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md`** - Complexity unification
 - **`docs/LEMA_6_24_ACOPLAMIENTO.md`** - Lemma 6.24 (Structural Coupling)
+- **`docs/LEMA_6_35_REDUCCION.md`** - Lemma 6.35 (Structural Reduction)
 - **`docs/DUALIDAD_RESOLUCION_INFOCOM.md`** - Resolution-InfoCom duality
 
 ## Working with Lean (Optional)
