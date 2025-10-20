@@ -70,6 +70,12 @@ P-NP/
 ├── QUICKSTART.md            # Guía de inicio rápido
 ├── README.md
 └── LICENSE
+.
+├── README.md                          # This file
+├── KEY_INGREDIENT.md                  # Detailed explanation of the key insights (when present)
+├── computational_dichotomy.lean       # Lean 4 formalization (when present)
+├── computational_dichotomy.py         # Python implementation (when present)
+└── examples/                          # Example applications (to be added)
 ```
 
 ## 📚 Overview
@@ -260,6 +266,42 @@ pytest tests/ -v
 curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
 
 # Build the Lean project
+## 🚀 Getting Started
+
+### Prerequisites
+
+For working with Lean formalization (if present):
+```bash
+# Install Lean 4 toolchain
+curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
+```
+
+For Python validation scripts (if present):
+```bash
+# Install dependencies
+pip install networkx numpy
+```
+
+### Running the Python Framework (if present)
+
+```bash
+# Run the demonstration
+python computational_dichotomy.py
+```
+
+This would demonstrate:
+- Low treewidth formulas (tractable)
+- High treewidth formulas (intractable)
+- Structural coupling with expanders
+- Non-evasion property
+
+### Working with Lean Formalization (if present)
+
+```bash
+# Install Lean 4 and Mathlib
+# Follow instructions at https://leanprover.github.io/
+
+# Check the formalization
 lake build
 ```
 
@@ -329,6 +371,7 @@ This research builds upon decades of work in:
 The framework incorporates ideas from numerous researchers in these fields.
 
 ## 📮 Contact Institutoconsciencia@proton.me
+## 📮 Contact
 
 For questions, feedback, or collaboration opportunities, please open an issue in this repository.
 
