@@ -124,9 +124,29 @@ Where:
 
 Unlike approaches relying on unproven assumptions (SETH, ETH), this work explores information complexity as a potential avenue for unconditional lower bounds.
 
-### 3. Non-Relativization
+### 3. Avoiding Known Barriers (Anti-Barriers)
 
-The framework aims to avoid the relativization barrier that affects many complexity-theoretic approaches by leveraging structural properties that don't relativize.
+The framework is designed to circumvent three major barriers in complexity theory:
+
+#### Non-Relativization
+The Separator Information Lower Bound (SILB) approach does **not** relativize because:
+- Lower bounds depend on explicit separator structure in incidence graphs, not oracle queries
+- Information content is computed from graph topology, which has no oracle analogue
+- Tseitin gadgets over Ramanujan expanders require specific structural properties
+
+#### Non-Natural Proofs (Razborov-Rudich)
+The framework is **not** a natural proof because:
+- Predicates are not dense (depend on sparse gadget constructions)
+- Treewidth computation is NP-hard (not efficiently constructible)
+- Bounds depend on conditional mutual information restricted by topology
+
+#### Non-Algebrization (Aaronson-Wigderson)
+The approach does **not** algebrize because:
+- Monotonicity of separator information breaks in polynomial quotient rings
+- Graph-theoretic separator structure has no natural embedding in algebraic extensions
+- Information-theoretic bounds don't extend to algebraic closures
+
+See [Section 6](docs/formal_manuscript.tex) of the formal manuscript for detailed technical arguments.
 
 ## 🧠 Theoretical Foundation
 
