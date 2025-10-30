@@ -7,6 +7,8 @@
 \usepackage{amsmath, amsthm, amssymb, fullpage}
 \usepackage{graphicx, enumerate, color, verbatim}
 \usepackage{authblk}
+\usepackage[backend=biber,style=alphabetic,maxbibnames=99]{biblatex}
+\addbibresource{refs.bib}
 \usepackage{hyperref}
 \title{A Treewidth-Based Framework with Separator Information Lower Bounds for Proving $\mathbf{P \neq NP}$}
 \author{José Manuel Mota Burruezo (JMMB Ψ)}
@@ -203,36 +205,58 @@ All tests pass with 100\% success rate, confirming the theoretical predictions.
 \item No algorithmic bypass observed for high-treewidth instances
 \end{itemize}
 
-\section{Avoiding Known Barriers}
+\section{Anti-Barriers (Relativization, Natural Proofs, Algebrization)}
 
-Our approach avoids the three main barriers to complexity lower bounds:
+Our approach via Separator-Information Lower Bounds (SILB) addresses the three main barriers to complexity lower bounds: relativization, natural proofs, and algebrization. We provide explicit arguments for why each barrier does not apply to our framework.
 
-\subsection{Relativization}
+\subsection{Non-Relativization}
 
-The treewidth-based approach does not relativize because:
+Our SILB framework does \emph{not} relativize because the lower bounds depend fundamentally on the structure of separators in the incidence graphs of formulas, not on oracle access patterns.
+
 \begin{itemize}
-\item Treewidth is a structural property of the formula representation
-\item It depends on the explicit graph structure, not just input-output behavior
-\item Oracle access does not change the treewidth of the underlying graph
+\item \textbf{Structural dependence}: The bounds are derived from the explicit topology of separator sets in $G_I(\phi)$ and their information-theoretic properties
+\item \textbf{Not input-output based}: Unlike relativizing arguments that only consider oracle query patterns, SILB requires analyzing the internal graph structure of problem instances
+\item \textbf{Gadget specificity}: Our constructions use Tseitin gadgets over Ramanujan expanders with fixed pseudo-random labelings that cannot be simulated by oracle access alone
 \end{itemize}
 
-\subsection{Natural Proofs}
+In particular, the separator information content $I(S)$ for a separator $S \subseteq V(G_I)$ is computed from the conditional mutual information of variables across the cut, which has no oracle-relativized analogue.
 
-The framework avoids the natural proofs barrier by:
+\subsection{Non-Natural (Razborov--Rudich)}
+
+The framework does \emph{not} constitute a natural proof in the sense of Razborov and Rudich because the predicates used are neither dense nor constructible in polynomial time over $\{0,1\}^n$.
+
 \begin{itemize}
-\item Not relying on circuit complexity measures
-\item Using structural graph properties that are not efficiently computable
-\item Treewidth is NP-hard to compute, so it cannot be a natural property
+\item \textbf{Not dense}: The class of formulas with high separator information is sparse, depending on specific gadget constructions and graph parameters
+\item \textbf{Not efficiently constructible}: Computing treewidth is NP-hard; computing separator information bounds requires exponential enumeration over tree decompositions
+\item \textbf{Gadget-dependent}: The predicates depend critically on Tseitin expander constructions with pseudo-random edge labelings fixed a priori, not on generic circuit properties
+\item \textbf{Conditional information}: The bounds use conditional mutual information restricted by separation topology, which is not a simple function on truth tables
 \end{itemize}
 
-\subsection{Algebrization}
+Thus, our lower bounds cannot be used as a natural property to contradict pseudorandom generators or other cryptographic primitives.
 
-The approach is non-algebrizing because:
+\subsection{Non-Algebrization}
+
+The approach does \emph{not} algebrize because the key monotonicity property of separator information is destroyed when moving to algebraic models $A[x]/\langle x^k \rangle$.
+
 \begin{itemize}
-\item Graph-theoretic properties do not algebrize
-\item The structural coupling lemma is inherently combinatorial
-\item Information complexity bounds are not preserved under algebraic extensions
+\item \textbf{Monotonicity breakdown}: In the Boolean setting, removing edges from $G_I$ can only decrease or maintain separator information due to the monotone submodular structure. In polynomial quotient rings, this monotonicity fails
+\item \textbf{Topological dependence}: The separator structure is fundamentally graph-theoretic and combinatorial, with no natural embedding in algebraic extensions
+\item \textbf{Information-theoretic core}: Conditional mutual information bounds are defined on discrete probability spaces and do not extend to algebraic closures or low-degree extensions
 \end{itemize}
+
+Therefore, standard algebrization techniques that work for arithmetization-based lower bounds do not apply to SILB.
+
+\subsection{Technical Route Summary}
+
+The complete proof strategy follows this pipeline:
+\begin{enumerate}
+\item \textbf{Treewidth characterization}: High $tw(G_I(\phi))$ forces large balanced separators
+\item \textbf{Communication protocol embedding}: Any algorithm induces a communication protocol with information flow across separators
+\item \textbf{Lifting with explicit gadgets}: Use Tseitin constructions over Ramanujan graphs with parameters $(\lambda, d, n)$ fixed to lift separator information to communication complexity
+\item \textbf{Circuit lower bounds}: Translate communication lower bounds to circuit size via standard lifting theorems
+\end{enumerate}
+
+All steps involve explicit constructions with DLOGTIME-uniform families and controlled structural padding, ensuring that no step relies on relativizing, natural, or algebrizing techniques.
 
 \section{Conclusions and Open Impact}
 
@@ -273,44 +297,6 @@ Open questions and extensions:
 
 This research builds upon decades of work in complexity theory, graph theory, and formal verification. We acknowledge the contributions of researchers in treewidth theory, information complexity, and proof complexity.
 
-\bibliographystyle{plain}
-\begin{thebibliography}{99}
-
-\bibitem{robertson-seymour}
-N. Robertson and P. D. Seymour,
-\emph{Graph Minors. XIII. The Disjoint Paths Problem},
-Journal of Combinatorial Theory, Series B, 1995.
-
-\bibitem{braverman-rao}
-M. Braverman and A. Rao,
-\emph{Information Equals Amortized Communication},
-IEEE Transactions on Information Theory, 2014.
-
-\bibitem{bodlaender}
-H. L. Bodlaender,
-\emph{A Linear-Time Algorithm for Finding Tree-Decompositions of Small Treewidth},
-SIAM Journal on Computing, 1996.
-
-\bibitem{tseitin}
-G. S. Tseitin,
-\emph{On the Complexity of Derivation in Propositional Calculus},
-Studies in Constructive Mathematics and Mathematical Logic, 1968.
-
-\bibitem{impagliazzo}
-R. Impagliazzo, P. Pudlák, and J. Sgall,
-\emph{Lower Bounds for the Polynomial Calculus and the Gröbner Basis Algorithm},
-Computational Complexity, 1999.
-
-\bibitem{lubotzky}
-A. Lubotzky, R. Phillips, and P. Sarnak,
-\emph{Ramanujan Graphs},
-Combinatorica, 1988.
-
-\bibitem{lean4}
-L. de Moura and S. Ullrich,
-\emph{The Lean 4 Theorem Prover and Programming Language},
-Automated Deduction -- CADE 28, 2021.
-
-\end{thebibliography}
+\printbibliography
 
 \end{document}

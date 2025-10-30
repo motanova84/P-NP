@@ -9,6 +9,10 @@ require mathlib from git
 lean_lib ComputationalDichotomy where
   roots := #[`ComputationalDichotomy]
 
+lean_lib FormalVerification where
+  roots := #[`FormalVerification]
+  globs := #[.submodules `Treewidth, .submodules `Lifting, .submodules `LowerBounds]
+
 @[default_target]
 lean_exe pnp where
   root := `Director
