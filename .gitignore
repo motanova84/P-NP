@@ -7,3 +7,68 @@ build/
 
 # OS files
 .DS_Store
+# ===============================
+#  P–NP Project — Unified .gitignore
+#  Combines Python + Lean + Build + OS
+# ===============================
+
+# ---------- PYTHON ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ---------- LEAN ----------
+/build/
+/lake-packages/
+/.lake/
+/*.olean
+/*.trace
+
+# ---------- TEST / RESULTS ----------
+results/
+!results/.gitkeep
+*.log
+*.csv
+*.png
+
+# ---------- IDE ----------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.iml
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- CI / CACHE ----------
+.cache/
+__pypackages__/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.pyre/
+lake-manifest.json
