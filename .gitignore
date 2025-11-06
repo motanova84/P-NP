@@ -1,3 +1,12 @@
+# Lean build artifacts
+.lake/
+lake-packages/
+build/
+*.olean
+*.trace
+
+# OS files
+.DS_Store
 # ===============================
 #  P–NP Project — Unified .gitignore
 #  Combines Python + Lean + Build + OS
