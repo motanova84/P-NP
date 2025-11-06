@@ -2,9 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, featuring **Lemma 6.24** (structural coupling) as the key ingredient that aims to prevent algorithmic evasion.
-
-**⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
+A **formal framework** for analyzing the P vs NP problem through the lens of treewidth and information complexity, featuring **Lemma 6.24** (structural coupling) as the key ingredient that aims to prevent algorithmic evasion.
 
 **🚀 Quick Start:** See [QUICKSTART.md](QUICKSTART.md) for installation and running instructions.
 
@@ -12,7 +10,7 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 
 **Computational Dichotomy Theorem (Proposed):**
 ```
-φ ∈ P ⟺ tw(G_I(φ)) = O(log n)  (if validated)
+φ ∈ P ⟺ tw(G_I(φ)) = O(log n)
 ```
 
 Where:
@@ -21,23 +19,22 @@ Where:
 - `tw(G_I(φ))` is the treewidth of the incidence graph
 - `n` is the number of variables
 
-## ✨ The Key Ingredient: Proposed Mechanism to Prevent Evasion
+## 🧪 Lean 4 Formalization (Planned)
 
-**Lemma 6.24 (Structural Coupling Preserving Treewidth)** proposes that:
+This repository plans to include a complete Lean 4 formalization of the theoretical framework:
 
-> Any CNF formula φ with high treewidth can be coupled via gadgets (Tseitin expanders or graph product padding) to a communication instance where the information bottleneck is **inherent and cannot be eliminated** by classical algorithmic techniques.
-
-**Note:** This is a proposed mechanism requiring rigorous proof.
-
-This approach is **NOT based on SETH or ETH**, but instead aims to use:
-1. Metric properties of treewidth (Graph Minors, Robertson-Seymour)
-2. Duality between resolution, branching programs, and communication
-3. Correlation decay properties in expander graphs
-
-## 📁 Repository Structure
-
+### Planned Project Structure
 ```
 P-NP/
+├── PvsNP/                      # Lean 4 formalization (to be added)
+│   ├── Main.lean               # Main P ≠ NP theorem
+│   ├── Treewidth.lean          # Treewidth definitions and properties
+│   ├── SILB.lean               # Separator Information Lower Bounds
+│   └── ComputationalModels.lean # Transfer to computational models
+├── tests/                      # Verification tests (to be added)
+│   └── BasicTests.lean         # Basic compilation tests
+├── lakefile.lean               # Project configuration (to be added)
+└── README.md                   # This file
 ├── src/                      # Código fuente principal
 │   ├── computational_dichotomy.py  # Framework principal
 │   ├── ic_sat.py            # Algoritmo IC-SAT
@@ -75,42 +72,19 @@ P-NP/
 └── LICENSE
 ```
 
-## 📚 Overview
+### Building the Project (Future)
+```bash
+# Install Lean and dependencies
+curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh
 
-This repository contains a comprehensive theoretical framework for analyzing the P vs NP problem through the lens of **information complexity** and **treewidth**. The project explores novel approaches to one of the most important open questions in theoretical computer science using formal methods, mathematical rigor, and empirical validation.
+# Build the project (once implemented)
+lake build
 
-## 🎯 Project Goals
-
-The primary objective of this research is to investigate the relationship between computational complexity and graph-theoretic properties, specifically:
-
-- **Treewidth Analysis**: Understanding how the treewidth of problem instances relates to computational hardness
-- **Information Complexity Bounds**: Applying information-theoretic principles to establish lower bounds on computation
-- **Formal Verification**: Using proof assistants (Lean 4) to formalize mathematical arguments
-- **Empirical Validation**: Testing theoretical predictions on real-world SAT instances
-
-## 🧠 The P vs NP Problem
-
-The P vs NP problem asks whether every problem whose solution can be quickly verified can also be quickly solved. More formally:
-
-- **P**: The class of problems solvable in polynomial time
-- **NP**: The class of problems whose solutions can be verified in polynomial time
-
-This repository explores approaches to this problem using:
-
-1. **Graph Minor Theory** (Robertson-Seymour): Metric properties of treewidth
-2. **Information Complexity** (Braverman-Rao): Fundamental information-theoretic bounds
-3. **Communication Complexity**: Protocol-based lower bound techniques
-4. **Expander Graphs**: Pseudorandom structures for hardness constructions
-
-## 🔬 Research Approach
-
-The framework proposes several key innovations:
-
-### 1. Structural Coupling via Treewidth
-
-The project investigates the hypothesis that computational hardness is fundamentally tied to the treewidth of problem instances:
-
+# Run tests (once implemented)
+lake test
 ```
+
+## ✨ The Key Insight: Structural Coupling
 φ ∈ P if and only if tw(G_I(φ)) = O(log n)
 ```
 
@@ -148,63 +122,34 @@ The approach does **not** algebrize because:
 
 See [Section 6](docs/formal_manuscript.tex) of the formal manuscript for detailed technical arguments.
 
-## 🧠 Theoretical Foundation
+**Lemma 6.24 (Treewidth-Preserving Structural Coupling)** proposes that:
 
-### The Dichotomy Theorem
+> Any CNF formula φ with high treewidth can be coupled via gadgets (Tseitin expanders) to a communication instance where the information bottleneck is inherent and cannot be eliminated by classical algorithmic techniques.
 
-**Part 1: Upper Bound** (tw ≤ O(log n) → φ ∈ P)
-- Uses dynamic programming FPT algorithm
-- Time: `2^O(tw) · n^O(1) = 2^O(log n) · n^O(1) = poly(n)`
+This approach uses:
 
-**Part 2: Lower Bound** (tw = ω(log n) → φ ∉ P)
-- High treewidth → communication protocol with high IC
-- IC(Π | S) ≥ α·tw(φ) → time ≥ 2^Ω(tw)
-- Structural coupling prevents evasion
+- **Treewidth** as a structural complexity measure
+- **Information Complexity** for unconditional lower bounds
+- **Expander Graphs** to create non-evadable bottlenecks
+- **Formal Verification** via Lean 4 for rigorous proof checking
 
-### Why No Algorithm Can Evade
+## 📚 Theoretical Framework
 
-The **no-evasion theorem** proves that:
+### Core Components
 
-1. **Any algorithmic strategy** (DPLL, CDCL, neural networks, etc.) implicitly induces a communication protocol
-2. **That protocol must traverse** the IC bottleneck if tw(G_I) is high
-3. **Therefore, time ≥ 2^Ω(tw/log tw)** is unavoidable
+1. **Treewidth Analysis**: Connecting graph structure to computational hardness
+2. **Information Complexity Bounds**: Using information-theoretic limits
+3. **SILB Framework**: Separator Information Lower Bounds technique
+4. **Non-Relativization**: Avoiding oracle-based barriers
+5. **Formal Verification**: Complete Lean 4 formalization
 
-This includes all algorithms:
-- Traditional SAT solvers (DPLL, CDCL)
-- Quantum algorithms
-- Randomized algorithms
-- Machine learning approaches
-- Any future algorithmic paradigm
+### Main Theorems (To Be Formalized in Lean)
 
-## 📊 Argument Structure
-
-| Element | Role |
-|---------|------|
-| tw(G_I) | Structural measure of incidence graph |
-| Expander Tseitin | Non-evadable communication bottlenecks |
-| Braverman-Rao | Minimum information flow control |
-| Pinsker inequality | Precision → information requirement |
-| Structural coupling | Forces interdependent subproblem solving |
-| IC lower bound | IC ≥ Ω(tw/log n) for sparse G_I |
-| Non-evasion | IC collapse → contradiction |
-
-## ⚠️ Important Disclaimers
-
-**This is theoretical research in progress:**
-
-- This repository contains research proposals and exploratory work
-- Proofs are incomplete and require rigorous verification
-- Claims have not been peer-reviewed
-- The work represents proposed approaches that may contain gaps or errors
-- This is NOT a claimed proof of P ≠ NP
-
-The purpose of this repository is to:
-- Organize research ideas and frameworks
-- Enable collaborative review and feedback
-- Document the exploration of novel approaches
-- Provide educational resources on complexity theory
-
-**Do NOT cite as an established result.** This is exploratory theoretical work.
+- `P_ne_NP`: Main P ≠ NP theorem statement
+- `computational_dichotomy`: Treewidth-based characterization
+- `SILB_lower_bound`: Information complexity lower bounds
+- `non_relativizing`: Proof avoids relativization barrier
+- `non_natural`: Proof avoids natural proofs barrier
 
 ## ✅ Repository Status
 
@@ -217,6 +162,11 @@ The purpose of this repository is to:
 - ✅ Large-scale validation framework
 - ✅ Complete demonstration scripts
 
+- **Lean 4**: Install via elan
+- **Python 3.8+** (optional): For empirical validation
+- **SAT Solvers** (optional): For benchmarking
+
+### Building and Verification
 **Quick verification:**
 ```bash
 ./run_all_tests.sh  # Runs all tests and demos
@@ -247,6 +197,11 @@ python3 simple_demo.py
 
 For Python framework:
 ```bash
+# Clone the repository
+git clone https://github.com/motanova84/P-NP.git
+cd P-NP
+
+# Build with Lake
 pip install -r requirements.txt
 ```
 
@@ -287,31 +242,35 @@ curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf 
 
 # Build the Lean project
 lake build
+
+# Run verification tests
+lake test
 ```
 
-### Exploring the Repository
+## 🔬 Research Status
 
-1. **Read the Documentation**: Start with any available documentation files
-2. **Review Pull Requests**: Check closed and open PRs for detailed implementation notes
-3. **Examine Code**: Look at Lean files for formal specifications
-4. **Run Examples**: Execute any provided example scripts to see the framework in action
+### ✅ Completed
+- Comprehensive documentation and README
+- Research framework outline
+- Theoretical foundation description
 
-## 📖 Key Concepts
+### 🔄 In Progress
+- Setting up Lean 4 project structure
+- Formalizing core definitions and theorem statements
+- Setting up CI/CD pipeline with GitHub Actions
+- Completing formal proofs (replacing sorry placeholders)
+- Improving constant bounds in SILB theorems
+- Extending empirical validation
+- Peer review and verification
 
-### Treewidth
+### 📋 Known Gaps
+- Lean 4 project files need to be created
+- GitHub Actions workflow for CI needs to be set up
+- Several theorems will use `sorry` (proof placeholders) initially
+- Need to complete treewidth-preserving coupling proof
+- Empirical validation needs implementation and larger test suite
 
-Treewidth is a graph-theoretic measure of how "tree-like" a graph is. Graphs with low treewidth admit efficient dynamic programming algorithms, while high treewidth often correlates with computational hardness.
-
-### Information Complexity
-
-Information complexity measures the minimum amount of information that must be revealed by a communication protocol to compute a function. It provides lower bounds that are more robust than traditional complexity measures.
-
-### Tseitin Formulas
-
-Tseitin formulas are special CNF constructions over graphs that are satisfiable if and only if the graph has an even number of odd-degree vertices. When constructed over expander graphs, they exhibit high treewidth and serve as hard instances.
-
-## 📖 Documentation
-
+## 🤝 Contributing
 ### Formal Manuscript
 
 See [docs/formal_manuscript.tex](docs/formal_manuscript.tex) for the complete formal LaTeX manuscript presenting:
@@ -332,71 +291,40 @@ See also:
 - [docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md](docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md) - Spectral complexity unification
 - [docs/DUALIDAD_RESOLUCION_INFOCOM.md](docs/DUALIDAD_RESOLUCION_INFOCOM.md) - Resolution-InfoCom duality
 
-## 🔮 Potential Implications
+This is a research project exploring a novel approach to P vs NP. Contributions welcome in:
 
-**If this framework is validated** (which requires rigorous proof):
-- ✅ P ≠ NP could be resolved via treewidth characterization
-- ✅ No SETH/ETH assumptions would be needed
-- ✅ Constructive characterization of tractable problems
-- ✅ Would apply to all algorithmic paradigms
+- **Proof Completion**: Replacing `sorry` with actual proofs
+- **Mathematical Review**: Identifying gaps or improvements
+- **Formal Verification**: Helping complete Lean proofs
+- **Documentation**: Improving explanations and examples
 
-**However:** These are potential outcomes contingent on successful validation of the framework.
+## ⚠️ Important Disclaimer
 
-## 🤝 Contributing
+**This is theoretical research in progress:**
 
-This is a research project and contributions, critiques, and feedback are welcome:
+- Claims have not been peer-reviewed
+- Proofs contain gaps requiring rigorous verification
+- This should be viewed as a formalization of a research program
+- **NOT a complete proof of P ≠ NP**
 
-- **Mathematical Review**: Identify gaps, errors, or improvements in proofs
-- **Formal Verification**: Help complete Lean proofs
-- **Empirical Testing**: Run experiments on benchmark instances
-- **Documentation**: Improve clarity and accessibility
+The purpose is to:
 
-Please open issues for discussions or pull requests for contributions.
+- Organize research ideas in a rigorous framework
+- Enable collaborative verification
+- Document exploration of novel approaches
+- Provide educational resources
 
 ## 📄 License
 
-This project is licensed under the MIT License. See repository for license details.
-
-## 🙏 Acknowledgments
-
-This research builds upon decades of work in:
-- Computational complexity theory
-- Information theory
-- Graph theory
-- Proof theory and formal verification
-
-The framework incorporates ideas from numerous researchers in these fields.
+This project is licensed under the MIT License.
 
 ## 📮 Contact Institutoconsciencia@proton.me
 
-For questions, feedback, or collaboration opportunities, please open an issue in this repository.
-
-## 🔗 References
-
-Key areas of relevant work:
-
-1. Robertson & Seymour: Graph Minors Theory
-2. Braverman & Rao: Information Complexity Framework
-3. Pinsker: Information-Theoretic Inequalities
-4. Impagliazzo et al.: Resolution and Communication Complexity
-5. Tseitin: Complexity of Theorem-Proving Procedures
-
-Additional references:
-- **Treewidth and Parameterized Complexity**: FPT algorithms and hardness
-- **Information Complexity**: Braverman-Rao framework and applications
-- **Communication Complexity**: Lower bound techniques and separations
-- **Proof Complexity**: Resolution, tree-like proofs, and dag-like proofs
-- **Expander Graphs**: Spectral properties and applications to hardness
-
-## 🔗 Links
-
-- [Lean Documentation](https://leanprover.github.io/)
-- [Graph Minors Theory](https://en.wikipedia.org/wiki/Graph_minor)
-- [Treewidth](https://en.wikipedia.org/wiki/Treewidth)
-- [Information Complexity](https://en.wikipedia.org/wiki/Information_complexity)
+For questions or collaboration: Open an issue on GitHub.
 
 ---
 
+**Status:** 🚧 Active Research | **Version:** 0.1.0 | **Last Updated:** October 2025
 **Status:** Research proposal and theoretical framework under development and requiring validation
 
 **Disclaimer:** This repository presents theoretical ideas that have not been peer-reviewed. Do not treat as established mathematical results.
