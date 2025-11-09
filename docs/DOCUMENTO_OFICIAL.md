@@ -12,7 +12,7 @@ El documento oficial en Zenodo contiene:
 
 - ✅ **Demostración matemática completa** con todos los detalles técnicos
 - ✅ **Pruebas formales** de los lemas y teoremas principales
-- ✅ **Análisis detallado** del acoplamiento estructural (Lemma 6.24)
+- ✅ **Análisis detallado** del acoplamiento estructural (Lema 6.24)
 - ✅ **Fundamentos teóricos** completos
 - ✅ **Referencias bibliográficas** exhaustivas
 - ✅ **Argumentación rigurosa** paso a paso
