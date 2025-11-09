@@ -343,7 +343,7 @@ For questions, feedback, or collaboration opportunities, please open an issue in
 ## 🔗 References
 
 **Official Demonstration Document**:
-- **Mota Burruezo, J. M.** (2025). P vs NP: Computational Dichotomy via Treewidth and Information Complexity - Official Demonstration. *Zenodo*. https://zenodo.org/records/17315719
+- **Mota Burruezo, J. M.** (2025). P vs NP: Computational Dichotomy via Treewidth and Information Complexity - Official Demonstration. *Zenodo*. https://zenodo.org/records/17315719, https://doi.org/10.5281/zenodo.17315719
 
 Key areas of relevant work:
 
