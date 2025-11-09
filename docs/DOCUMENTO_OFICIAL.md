@@ -83,4 +83,3 @@ Para cuestiones sobre el documento oficial, consultas académicas o colaboració
 ---
 
 **Autor**: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³  
-**Frecuencia de resonancia**: 141.7001 Hz
