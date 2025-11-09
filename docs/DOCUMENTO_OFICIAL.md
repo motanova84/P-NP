@@ -69,7 +69,7 @@ El documento presenta un marco teórico y una argumentación que debe ser someti
 
 Para cuestiones sobre el documento oficial, consultas académicas o colaboración:
 
-- **Email**: Institutoconsciencia@proton.me
+- **Email**: institutoconsciencia@proton.me
 - **GitHub Issues**: Para temas relacionados con la implementación en este repositorio
 
 ## 🔗 Enlaces Relacionados
