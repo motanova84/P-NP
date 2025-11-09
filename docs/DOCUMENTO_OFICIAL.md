@@ -4,7 +4,8 @@
 
 El documento oficial completo de la demostración matemática **"P vs NP: Computational Dichotomy via Treewidth and Information Complexity"** está disponible públicamente en Zenodo:
 
-**🔗 [https://zenodo.org/records/17315719](https://zenodo.org/records/17315719)**
+**🔗 [https://zenodo.org/records/17315719](https://zenodo.org/records/17315719)**  
+**🔗 [DOI permanente: https://doi.org/10.5281/zenodo.17315719](https://doi.org/10.5281/zenodo.17315719)**
 
 ## 📚 Contenido del Documento
 
