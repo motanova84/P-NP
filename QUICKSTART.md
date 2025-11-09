@@ -7,6 +7,7 @@ This guide will help you get the P-NP Computational Dichotomy framework up and r
 For the complete mathematical demonstration and formal proofs, see the official document:
 
 **🔗 [Official Demonstration on Zenodo](https://zenodo.org/records/17315719)**
+**🔗 [Permanent DOI Link](https://doi.org/10.5281/zenodo.17315719)**
 
 This repository provides the implementation and practical validation of the concepts described in the official document.
 
