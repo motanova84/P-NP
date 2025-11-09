@@ -76,7 +76,7 @@ Para cuestiones sobre el documento oficial, consultas académicas o colaboració
 - [README Principal](../README.md)
 - [Guía de Inicio Rápido](../QUICKSTART.md)
 - [Implementación IC-SAT](IC_SAT_IMPLEMENTATION.md)
-- [Lemma 6.24 - Acoplamiento Estructural](LEMA_6_24_ACOPLAMIENTO.md)
+- [Lema 6.24 - Acoplamiento Estructural](LEMA_6_24_ACOPLAMIENTO.md)
 - [Dualidad Resolución-InfoCom](DUALIDAD_RESOLUCION_INFOCOM.md)
 
 ---
