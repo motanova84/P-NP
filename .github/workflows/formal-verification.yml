@@ -101,7 +101,7 @@ jobs:
     - name: Verify barrier avoidance
       run: |
         lake build VerificationPipeline
-        lean --run formal/VerificationPipeline.lean
+        lean --run VerificationPipeline.lean
         
     - name: Generate barrier avoidance report
       run: |

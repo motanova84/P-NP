@@ -13,6 +13,9 @@ lean_lib FormalVerification where
   roots := #[`FormalVerification]
   globs := #[.submodules `Treewidth, .submodules `Lifting, .submodules `LowerBounds]
 
+lean_lib VerificationPipeline where
+  roots := #[`VerificationPipeline]
+
 @[default_target]
 lean_exe pnp where
   root := `Director
