@@ -22,7 +22,7 @@ from typing import List, Tuple, Dict
 import json
 
 # Import from existing modules
-from src.ic_sat import IC_SAT, build_incidence_graph, estimate_treewidth
+from src.ic_sat import ic_sat, build_incidence_graph, estimate_treewidth
 from src.gadgets.tseitin_generator import TseitinGenerator
 
 
@@ -62,17 +62,30 @@ class CompleteValidation:
     
     def generate_tseitin_expander(self, n: int) -> Tuple[List, int]:
         """Generate Tseitin formula from expander graph (high treewidth)"""
-        gen = TseitinGenerator()
-        
         # Create expander-like graph (high degree)
         d = min(int(np.sqrt(n)), 10)  # Degree
-        G = nx.random_regular_graph(d, n)
+        
+        # Ensure n*d is even for regular graph
+        if (n * d) % 2 != 0:
+            d = d + 1 if d < 10 else d - 1
+        
+        # Make sure d is at least 3
+        d = max(3, d)
+        
+        try:
+            G = nx.random_regular_graph(d, n)
+        except:
+            # Fallback to Erdos-Renyi
+            p = d / n
+            G = nx.erdos_renyi_graph(n, p)
         
         # Generate Tseitin formula
-        clauses = gen.generate_tseitin_formula(G)
+        gen = TseitinGenerator(G)
+        charge = [i % 2 for i in range(n)]
+        num_vars, clauses = gen.generate_formula(charge)
         
         # Estimate treewidth (expanders have high treewidth)
-        tw = gen.estimate_treewidth(G)
+        tw = max(1, d * int(np.log(max(2, n))))
         
         return clauses, tw
     
@@ -83,11 +96,9 @@ class CompleteValidation:
         Returns:
             Solving time in seconds
         """
-        solver = IC_SAT(clauses, n)
-        
         start_time = time.time()
         try:
-            result = solver.solve(max_depth=max_depth)
+            result = ic_sat(clauses, n, max_depth=max_depth)
             end_time = time.time()
             return end_time - start_time
         except:
@@ -96,7 +107,7 @@ class CompleteValidation:
     
     def compute_treewidth_estimate(self, clauses: List, n: int) -> int:
         """Compute treewidth estimate for instance"""
-        G = build_incidence_graph(clauses, n)
+        G = build_incidence_graph(n, clauses)
         return estimate_treewidth(G)
     
     def run_validation_batch(self, size_range: Tuple[int, int], num_per_size: int = 100):

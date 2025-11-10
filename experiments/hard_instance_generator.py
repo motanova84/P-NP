@@ -31,7 +31,6 @@ class HardInstanceGenerator:
         """
         self.seed = seed
         np.random.seed(seed)
-        self.tseitin_gen = TseitinGenerator()
     
     def generate_random_3sat(self, n: int, ratio: float = 4.3) -> List:
         """
@@ -71,7 +70,9 @@ class HardInstanceGenerator:
         G = nx.path_graph(n)
         
         # Generate Tseitin formula
-        clauses = self.tseitin_gen.generate_tseitin_formula(G)
+        tseitin_gen = TseitinGenerator(G)
+        charge = [i % 2 for i in range(n)]  # Alternating charges
+        num_vars, clauses = tseitin_gen.generate_formula(charge)
         tw = 1  # Path has treewidth 1
         
         return clauses, tw
@@ -90,13 +91,26 @@ class HardInstanceGenerator:
         """
         # Create regular expander (high treewidth)
         d = min(int(np.sqrt(n)), 10)  # Degree
-        G = nx.random_regular_graph(d, n)
+        
+        # Ensure n*d is even
+        if (n * d) % 2 != 0:
+            d = d + 1 if d < 10 else d - 1
+        d = max(3, d)
+        
+        try:
+            G = nx.random_regular_graph(d, n)
+        except:
+            p = d / n
+            G = nx.erdos_renyi_graph(n, p)
         
         # Generate Tseitin formula
-        clauses = self.tseitin_gen.generate_tseitin_formula(G)
+        tseitin_gen = TseitinGenerator(G)
+        charge = [i % 2 for i in range(n)]  # Alternating charges
+        num_vars, clauses = tseitin_gen.generate_formula(charge)
         
-        # Estimate treewidth (expanders have linear treewidth)
-        tw = self.tseitin_gen.estimate_treewidth(G)
+        # Estimate treewidth (expanders have high treewidth)
+        # Simple heuristic: treewidth scales with degree for expanders
+        tw = max(1, d * int(np.log(max(2, n))))
         
         return clauses, tw
     
@@ -118,7 +132,7 @@ class HardInstanceGenerator:
         
         # Create grid with target treewidth
         width = min(target_tw, int(np.sqrt(n)))
-        height = n // width
+        height = max(1, n // width)
         
         G = nx.grid_2d_graph(width, height)
         
@@ -127,8 +141,13 @@ class HardInstanceGenerator:
         G = nx.relabel_nodes(G, mapping)
         
         # Generate Tseitin formula
-        clauses = self.tseitin_gen.generate_tseitin_formula(G)
-        tw = self.tseitin_gen.estimate_treewidth(G)
+        tseitin_gen = TseitinGenerator(G)
+        num_nodes = len(G.nodes())
+        charge = [i % 2 for i in range(num_nodes)]
+        num_vars, clauses = tseitin_gen.generate_formula(charge)
+        
+        # Grid treewidth is min(width, height)
+        tw = min(width, height)
         
         return clauses, tw
     
@@ -144,11 +163,24 @@ class HardInstanceGenerator:
         """
         # For simplicity, use random regular graph as approximation
         # True Ramanujan expanders require more sophisticated construction
-        d = min(int(np.log(n)), 10)  # Logarithmic degree
-        G = nx.random_regular_graph(d, n)
+        d = min(max(3, int(np.log(max(2, n)))), 10)  # Logarithmic degree
         
-        clauses = self.tseitin_gen.generate_tseitin_formula(G)
-        tw = self.tseitin_gen.estimate_treewidth(G)
+        # Ensure n*d is even
+        if (n * d) % 2 != 0:
+            d = d + 1 if d < 10 else d - 1
+        
+        try:
+            G = nx.random_regular_graph(d, n)
+        except:
+            p = d / n
+            G = nx.erdos_renyi_graph(n, p)
+        
+        tseitin_gen = TseitinGenerator(G)
+        charge = [i % 2 for i in range(n)]
+        num_vars, clauses = tseitin_gen.generate_formula(charge)
+        
+        # Estimate treewidth
+        tw = max(1, d * int(np.log(max(2, n))))
         
         return clauses, tw
     
