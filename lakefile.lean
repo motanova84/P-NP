@@ -9,9 +9,22 @@ require mathlib from git
 lean_lib ComputationalDichotomy where
   roots := #[`ComputationalDichotomy]
 
+lean_lib StructuralCoupling where
+  roots := #[`StructuralCoupling]
+
+lean_lib InformationComplexity where
+  roots := #[`InformationComplexity]
+
+lean_lib TreewidthTheory where
+  roots := #[`TreewidthTheory]
+
 lean_lib FormalVerification where
   roots := #[`FormalVerification]
   globs := #[.submodules `Treewidth, .submodules `Lifting, .submodules `LowerBounds]
+
+lean_lib MainTheorem where
+  roots := #[`PvsNP]
+  globs := #[.submodules `formal]
 
 @[default_target]
 lean_exe pnp where
