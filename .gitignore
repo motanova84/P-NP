@@ -63,3 +63,9 @@ pip-wheel-metadata/
 .mypy_cache/
 .pyre/
 lake-manifest.json
+
+# Generated paper
+paper/*.pdf
+paper/*.aux
+paper/*.log
+paper/*.out
