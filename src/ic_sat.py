@@ -495,6 +495,53 @@ class LargeScaleValidation:
         print("=" * 70)
 
 
+class ICSATSolver:
+    """IC-SAT solver with information complexity estimation."""
+    
+    def __init__(self):
+        """Initialize the IC-SAT solver."""
+        pass
+    
+    def estimate_information_complexity(self, formula):
+        """
+        Estimate information complexity of a formula.
+        
+        Args:
+            formula: CNF formula object
+            
+        Returns:
+            Estimated information complexity
+        """
+        # Build incidence graph
+        if hasattr(formula, 'incidence_graph'):
+            G = formula.incidence_graph
+        else:
+            G = build_incidence_graph(formula.num_vars, formula.clauses)
+        
+        # Estimate treewidth
+        tw = estimate_treewidth(G)
+        
+        # Information complexity is related to treewidth and problem size
+        # IC ≈ treewidth * log(clauses) as a heuristic measure
+        n_clauses = len(formula.clauses)
+        ic = tw * np.log2(max(n_clauses, 1) + 1)
+        
+        return ic
+    
+    def solve(self, formula, log=False):
+        """
+        Solve formula using IC-SAT algorithm.
+        
+        Args:
+            formula: CNF formula
+            log: Whether to log intermediate steps
+            
+        Returns:
+            'SAT' or 'UNSAT'
+        """
+        return ic_sat(formula.num_vars, formula.clauses, log=log)
+
+
 if __name__ == "__main__":
     print("IC-SAT Algorithm and Validation Framework ∞³")
     print("Frecuencia de resonancia: 141.7001 Hz")
