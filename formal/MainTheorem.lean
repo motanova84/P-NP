@@ -21,13 +21,13 @@ open TreewidthTheory
 /-- FPT algorithm is polynomial for low treewidth -/
 axiom fpt_algorithm_polynomial
   (φ : CNFFormula)
-  (h : treewidthGraph (incidenceGraph φ) ≤ O (fun n => Nat.log (numVars φ))) :
+  (h : treewidth (incidenceGraph φ) ≤ O (fun n => Nat.log (numVars φ))) :
   φ ∈ P
 
 /-- Upper bound: low treewidth → polynomial time -/
 theorem low_treewidth_implies_P
   (φ : CNFFormula)
-  (h : treewidthGraph (incidenceGraph φ) ≤ O (fun n => Nat.log (numVars φ))) :
+  (h : treewidth (incidenceGraph φ) ≤ O (fun n => Nat.log (numVars φ))) :
   φ ∈ P := by
   -- Use FPT dynamic programming algorithm
   apply fpt_algorithm_polynomial
@@ -36,7 +36,7 @@ theorem low_treewidth_implies_P
 /-- Lower bound: high treewidth → NOT in P -/
 theorem high_treewidth_implies_not_P
   (φ : CNFFormula)
-  (h : treewidthGraph (incidenceGraph φ) ≥ ω (fun n => Nat.log (numVars φ)) (numVars φ)) :
+  (h : treewidth (incidenceGraph φ) ≥ ω (fun n => Nat.log (numVars φ)) (numVars φ)) :
   φ ∉ P := by
   -- Proof by contradiction
   intro ⟨A, h_poly⟩
@@ -47,13 +47,13 @@ theorem high_treewidth_implies_not_P
   
   -- But structural coupling says A is exponential
   have h_slow : A.steps (numVars φ) ≥ 
-    2^(Ω (treewidthGraph (incidenceGraph φ) / (Nat.log (numVars φ) ^ 2))) := by
+    2^(Ω (treewidth (incidenceGraph φ) / (Nat.log (numVars φ) ^ 2))) := by
     apply structural_coupling_complete
     exact h
   
   -- Contradiction for large enough n
   have : ∃ n₀, ∀ n ≥ n₀,
-    2^(Ω (treewidthGraph (incidenceGraph φ) / (Nat.log n ^ 2))) > polynomial n := by
+    2^(Ω (treewidth (incidenceGraph φ) / (Nat.log n ^ 2))) > polynomial n := by
     apply exponential_dominates_polynomial
   
   -- This contradicts h_fast
@@ -83,14 +83,14 @@ theorem P_ne_NP : P ≠ NP := by
   have φ_in_NP : φ ∈ NP := tseitin_in_NP φ
   
   -- φ has high treewidth
-  have high_tw : treewidthGraph (incidenceGraph φ) ≥ Ω n := by
+  have high_tw : treewidth (incidenceGraph φ) ≥ Ω n := by
     apply expander_treewidth_lower_bound
     exact ramanujan_expander_property G
   
   -- Therefore φ ∉ P
   have φ_not_P : φ ∉ P := by
     apply high_treewidth_implies_not_P
-    calc treewidthGraph (incidenceGraph φ)
+    calc treewidth (incidenceGraph φ)
         ≥ Ω n := high_tw
       _ = Ω n := rfl
       _ ≥ ω (fun m => Nat.log m) n := by

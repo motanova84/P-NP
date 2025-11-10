@@ -23,14 +23,8 @@ namespace StructuralCoupling
 
 open ComputationalDichotomy
 
-/-- Graph structure (simplified) -/
-axiom Graph : Type
-
-/-- Incidence graph of a CNF formula -/
-axiom incidenceGraph : CNFFormula → Graph
-
-/-- Treewidth of a graph -/
-axiom treewidth : Graph → ℕ
+/-- Treewidth of a graph (uses treewidthGraph from ComputationalDichotomy) -/
+def treewidth : Graph → ℕ := treewidthGraph
 
 /-- Algorithm type with step count -/
 structure Algorithm where
