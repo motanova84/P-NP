@@ -20,13 +20,14 @@ in ComputationalDichotomy.lean.
 import Treewidth.SeparatorInfo
 import Lifting.Gadgets
 import LowerBounds.Circuits
+import VerificationPipeline
 
 namespace FormalVerification
 
 /-- Version information -/
-def version : String := "0.2.0"
+def version : String := "0.3.0"
 
 /-- Module status -/
-def status : String := "Stubs implemented, proofs pending"
+def status : String := "Verification pipeline implemented, proofs pending"
 
 end FormalVerification
