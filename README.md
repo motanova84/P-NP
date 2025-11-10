@@ -34,6 +34,14 @@ This approach is **NOT based on SETH or ETH**, but instead aims to use:
 2. Duality between resolution, branching programs, and communication
 3. Correlation decay properties in expander graphs
 
+## 📄 Official Documentation
+
+**Official Demonstration Document**: This research is formally documented and available at:
+
+🔗 **[Zenodo Record 17315719](https://zenodo.org/records/17315719)**
+
+This Zenodo repository contains the official, archived version of the demonstration document with complete mathematical proofs and formal argumentation.
+
 ## 📁 Repository Structure
 
 ```
@@ -49,9 +57,12 @@ P-NP/
 ├── lakefile.lean            # Configuración del proyecto Lean
 ├── examples/                 # Casos de prueba y aplicaciones
 │   ├── demo_ic_sat.py       # Demostración completa
+│   ├── empirical_validation_n400.py  # Validación empírica n≤400
 │   └── sat/                  # Instancias CNF reales
 │       └── simple_example.cnf
 ├── docs/                     # Documentación extendida
+│   ├── formal_manuscript.tex # Manuscrito formal LaTeX
+│   ├── MANUSCRIPT_README.md # Guía del manuscrito
 │   ├── IC_SAT_IMPLEMENTATION.md
 │   ├── UNIFICACION_COMPLEJIDAD_ESPECTRAL.md
 │   ├── LEMA_6_24_ACOPLAMIENTO.md
@@ -119,9 +130,29 @@ Where:
 
 Unlike approaches relying on unproven assumptions (SETH, ETH), this work explores information complexity as a potential avenue for unconditional lower bounds.
 
-### 3. Non-Relativization
+### 3. Avoiding Known Barriers (Anti-Barriers)
 
-The framework aims to avoid the relativization barrier that affects many complexity-theoretic approaches by leveraging structural properties that don't relativize.
+The framework is designed to circumvent three major barriers in complexity theory:
+
+#### Non-Relativization
+The Separator Information Lower Bound (SILB) approach does **not** relativize because:
+- Lower bounds depend on explicit separator structure in incidence graphs, not oracle queries
+- Information content is computed from graph topology, which has no oracle analogue
+- Tseitin gadgets over Ramanujan expanders require specific structural properties
+
+#### Non-Natural Proofs (Razborov-Rudich)
+The framework is **not** a natural proof because:
+- Predicates are not dense (depend on sparse gadget constructions)
+- Treewidth computation is NP-hard (not efficiently constructible)
+- Bounds depend on conditional mutual information restricted by topology
+
+#### Non-Algebrization (Aaronson-Wigderson)
+The approach does **not** algebrize because:
+- Monotonicity of separator information breaks in polynomial quotient rings
+- Graph-theoretic separator structure has no natural embedding in algebraic extensions
+- Information-theoretic bounds don't extend to algebraic closures
+
+See [Section 6](docs/formal_manuscript.tex) of the formal manuscript for detailed technical arguments.
 
 ## 🧠 Theoretical Foundation
 
@@ -242,6 +273,9 @@ python3 simple_demo.py
 # Run complete demonstration with all features
 python3 examples/demo_ic_sat.py
 
+# Run empirical validation on instances up to n=400
+python3 examples/empirical_validation_n400.py
+
 # Run specific modules
 python3 src/ic_sat.py
 python3 src/computational_dichotomy.py
@@ -320,12 +354,25 @@ Tseitin formulas are special CNF constructions over graphs that are satisfiable 
 
 ## 📖 Documentation
 
-See KEY_INGREDIENT.md (when present) for:
-- Detailed explanation of Lemma 6.24
-- Complete proof structure
-- Technical components
-- Mathematical foundations
-- Implications for P vs NP
+### Formal Manuscript
+
+See [docs/formal_manuscript.tex](docs/formal_manuscript.tex) for the complete formal LaTeX manuscript presenting:
+- Treewidth-based framework for P ≠ NP
+- Structural Separation Theorem
+- Information Coupling Lemma (Lemma 6.24)
+- Spectral Anti-Bypass Lemma
+- Lean4 formalization
+- Empirical validation on instances up to n=400
+
+Compilation instructions in [docs/MANUSCRIPT_README.md](docs/MANUSCRIPT_README.md).
+
+### Additional Documentation
+
+See also:
+- [docs/LEMA_6_24_ACOPLAMIENTO.md](docs/LEMA_6_24_ACOPLAMIENTO.md) - Detailed explanation of Lemma 6.24
+- [docs/IC_SAT_IMPLEMENTATION.md](docs/IC_SAT_IMPLEMENTATION.md) - IC-SAT implementation details
+- [docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md](docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md) - Spectral complexity unification
+- [docs/DUALIDAD_RESOLUCION_INFOCOM.md](docs/DUALIDAD_RESOLUCION_INFOCOM.md) - Resolution-InfoCom duality
 
 ## 🔮 Potential Implications
 
@@ -367,6 +414,9 @@ The framework incorporates ideas from numerous researchers in these fields.
 For questions, feedback, or collaboration opportunities, please open an issue in this repository.
 
 ## 🔗 References
+
+**Official Demonstration Document**:
+- **Mota Burruezo, J. M.** (2025). P vs NP: Computational Dichotomy via Treewidth and Information Complexity - Official Demonstration. *Zenodo*. https://zenodo.org/records/17315719, https://doi.org/10.5281/zenodo.17315719
 
 Key areas of relevant work:
 
