@@ -2,6 +2,15 @@
 
 This guide will help you get the P-NP Computational Dichotomy framework up and running quickly.
 
+## 📄 Official Documentation
+
+For the complete mathematical demonstration and formal proofs, see the official document:
+
+**🔗 [Official Demonstration on Zenodo](https://zenodo.org/records/17315719)**
+**🔗 [Permanent DOI Link](https://doi.org/10.5281/zenodo.17315719)**
+
+This repository provides the implementation and practical validation of the concepts described in the official document.
+
 ## Prerequisites
 
 - Python 3.11 or later
@@ -102,6 +111,14 @@ This demonstrates:
 ### Lean Formalization
 
 - **`ComputationalDichotomy.lean`** - Formal definitions and theorems in Lean 4
+- **`formal/`** - Complete formal verification modules:
+  - `ComputationalDichotomy.lean` - Computational dichotomy theorem
+  - `StructuralCoupling.lean` - Structural coupling lemma (6.24)
+  - `InformationComplexity.lean` - Information complexity framework
+  - `TreewidthTheory.lean` - Treewidth theory formalization
+  - `MainTheorem.lean` - Main P≠NP theorem
+  - `VerificationPipeline.lean` - Automated verification pipeline
+- **`scripts/formal_verification.sh`** - Complete verification pipeline script
 - **`Main.lean`** - Entry point for Lean project
 - **`Principal.lean`** - Principal definitions
 - **`lakefile.lean`** - Lake build configuration
@@ -129,6 +146,21 @@ curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf 
 lake update
 lake build
 ```
+
+### Run Formal Verification
+
+To run the complete formal verification pipeline:
+
+```bash
+./scripts/formal_verification.sh
+```
+
+This will:
+- Build all Lean modules
+- Check for incomplete proofs (sorry's)
+- Verify the structural coupling lemma
+- Verify the main P≠NP theorem
+- Generate a verification report in `results/verification/`
 
 ## Expected Output
 
