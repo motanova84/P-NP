@@ -62,3 +62,4 @@ pip-wheel-metadata/
 .pytest_cache/
 .mypy_cache/
 .pyre/
+lake-manifest.json
