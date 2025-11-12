@@ -16,3 +16,8 @@ def main : IO Unit := do
   IO.println "- Lemma 6.33: Anti-Bypass"
   IO.println "- Theorem 6.34: Computational Dichotomy"
   IO.println "- Theorem 6.31: Main Lifting Theorem"
+-- Main entry point for the Lean project
+import ComputationalDichotomy
+
+def main : IO Unit :=
+  IO.println "P-NP Computational Dichotomy Framework ∞³"
