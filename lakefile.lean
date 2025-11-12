@@ -18,6 +18,8 @@ lean_lib InformationComplexity where
 
 lean_lib TreewidthTheory where
   roots := #[`TreewidthTheory]
+lean_lib Formal where
+  roots := #[`Formal]
 
 @[default_target]
 lean_exe pnp where
