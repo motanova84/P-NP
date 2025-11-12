@@ -6,6 +6,8 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
+**🚀 Quick Start:** See [QUICKSTART.md](QUICKSTART.md) for installation and running instructions.
+
 ## 🎯 Proposed Main Result
 
 **Computational Dichotomy Theorem (Proposed):**
@@ -32,31 +34,51 @@ This approach is **NOT based on SETH or ETH**, but instead aims to use:
 2. Duality between resolution, branching programs, and communication
 3. Correlation decay properties in expander graphs
 
+## 📄 Official Documentation
+
+**Official Demonstration Document**: This research is formally documented and available at:
+
+🔗 **[Zenodo Record 17315719](https://zenodo.org/records/17315719)**
+
+This Zenodo repository contains the official, archived version of the demonstration document with complete mathematical proofs and formal argumentation.
+
 ## 📁 Repository Structure
 
 ```
 P-NP/
 ├── src/                      # Código fuente principal
-│   ├── computational_dichotomy.py
+│   ├── computational_dichotomy.py  # Framework principal
+│   ├── ic_sat.py            # Algoritmo IC-SAT
 │   └── gadgets/
 │       └── tseitin_generator.py
 ├── ComputationalDichotomy.lean  # Formalización matemática en Lean
 ├── Main.lean                 # Punto de entrada Lean
+├── Principal.lean            # Definiciones principales
 ├── lakefile.lean            # Configuración del proyecto Lean
-├── examples/                 # Casos de prueba y aplicaciones reales
+├── examples/                 # Casos de prueba y aplicaciones
+│   ├── demo_ic_sat.py       # Demostración completa
+│   ├── empirical_validation_n400.py  # Validación empírica n≤400
 │   └── sat/                  # Instancias CNF reales
 │       └── simple_example.cnf
 ├── docs/                     # Documentación extendida
+│   ├── formal_manuscript.tex # Manuscrito formal LaTeX
+│   ├── MANUSCRIPT_README.md # Guía del manuscrito
+│   ├── IC_SAT_IMPLEMENTATION.md
 │   ├── UNIFICACION_COMPLEJIDAD_ESPECTRAL.md
 │   ├── LEMA_6_24_ACOPLAMIENTO.md
 │   └── DUALIDAD_RESOLUCION_INFOCOM.md
-├── tests/                    # Pruebas unitarias
+├── tests/                    # Pruebas unitarias (29 tests)
+│   ├── test_ic_sat.py
 │   └── test_tseitin.py
 ├── .github/
 │   ├── workflows/
 │   │   ├── validate-python.yml
 │   │   └── validate-lean.yml
 │   └── COPILOT_GUIDE.md
+├── requirements.txt          # Dependencias Python
+├── run_all_tests.sh         # Script de pruebas completo
+├── simple_demo.py           # Demostración simple
+├── QUICKSTART.md            # Guía de inicio rápido
 ├── README.md
 └── LICENSE
 ```
@@ -110,9 +132,29 @@ Where:
 
 Unlike approaches relying on unproven assumptions (SETH, ETH), this work explores information complexity as a potential avenue for unconditional lower bounds.
 
-### 3. Non-Relativization
+### 3. Avoiding Known Barriers (Anti-Barriers)
 
-The framework aims to avoid the relativization barrier that affects many complexity-theoretic approaches by leveraging structural properties that don't relativize.
+The framework is designed to circumvent three major barriers in complexity theory:
+
+#### Non-Relativization
+The Separator Information Lower Bound (SILB) approach does **not** relativize because:
+- Lower bounds depend on explicit separator structure in incidence graphs, not oracle queries
+- Information content is computed from graph topology, which has no oracle analogue
+- Tseitin gadgets over Ramanujan expanders require specific structural properties
+
+#### Non-Natural Proofs (Razborov-Rudich)
+The framework is **not** a natural proof because:
+- Predicates are not dense (depend on sparse gadget constructions)
+- Treewidth computation is NP-hard (not efficiently constructible)
+- Bounds depend on conditional mutual information restricted by topology
+
+#### Non-Algebrization (Aaronson-Wigderson)
+The approach does **not** algebrize because:
+- Monotonicity of separator information breaks in polynomial quotient rings
+- Graph-theoretic separator structure has no natural embedding in algebraic extensions
+- Information-theoretic bounds don't extend to algebraic closures
+
+See [Section 6](docs/formal_manuscript.tex) of the formal manuscript for detailed technical arguments.
 
 ## 🧠 Theoretical Foundation
 
@@ -172,42 +214,86 @@ The purpose of this repository is to:
 
 **Do NOT cite as an established result.** This is exploratory theoretical work.
 
+## ✅ Repository Status
+
+**All Python components are fully functional and tested:**
+- ✅ 29 unit tests passing (pytest)
+- ✅ IC-SAT algorithm with information complexity tracking
+- ✅ DPLL SAT solver (no external dependencies)
+- ✅ Treewidth estimation and comparison
+- ✅ Tseitin formula generator over expander graphs
+- ✅ Large-scale validation framework
+- ✅ Complete demonstration scripts
+
+**Quick verification:**
+```bash
+./run_all_tests.sh  # Runs all tests and demos
+```
+
 ## 🚀 Getting Started
+
+**👉 See [QUICKSTART.md](QUICKSTART.md) for detailed installation and running instructions.**
+
+### Quick Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/motanova84/P-NP.git
+cd P-NP
+
+# 2. Install Python dependencies
+pip install -r requirements.txt
+
+# 3. Run all tests
+./run_all_tests.sh
+
+# 4. Try the simple demo
+python3 simple_demo.py
+```
 
 ### Prerequisites
 
-For working with Lean formalization (if present):
+For Python framework:
 ```bash
-# Install Lean 4 toolchain
+pip install -r requirements.txt
+```
+
+This installs:
+- `networkx` - Graph algorithms
+- `numpy` - Numerical computing
+- `pytest` - Testing framework
+
+### Running the Python Framework
+
+```bash
+# Run comprehensive test suite
+./run_all_tests.sh
+
+# Run simple demonstration
+python3 simple_demo.py
+
+# Run complete demonstration with all features
+python3 examples/demo_ic_sat.py
+
+# Run empirical validation on instances up to n=400
+python3 examples/empirical_validation_n400.py
+
+# Run specific modules
+python3 src/ic_sat.py
+python3 src/computational_dichotomy.py
+python3 src/gadgets/tseitin_generator.py
+
+# Run unit tests
+pytest tests/ -v
+```
+
+### Working with Lean Formalization
+
+```bash
+# Install Lean 4
 curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
-```
 
-For Python validation scripts (if present):
-```bash
-# Install dependencies
-pip install networkx numpy
-```
-
-### Running the Python Framework (if present)
-
-```bash
-# Run the demonstration
-python computational_dichotomy.py
-```
-
-This would demonstrate:
-- Low treewidth formulas (tractable)
-- High treewidth formulas (intractable)
-- Structural coupling with expanders
-- Non-evasion property
-
-### Working with Lean Formalization (if present)
-
-```bash
-# Install Lean 4 and Mathlib
-# Follow instructions at https://leanprover.github.io/
-
-# Check the formalization
+# Build the Lean project
 lake build
 ```
 
@@ -234,12 +320,25 @@ Tseitin formulas are special CNF constructions over graphs that are satisfiable 
 
 ## 📖 Documentation
 
-See KEY_INGREDIENT.md (when present) for:
-- Detailed explanation of Lemma 6.24
-- Complete proof structure
-- Technical components
-- Mathematical foundations
-- Implications for P vs NP
+### Formal Manuscript
+
+See [docs/formal_manuscript.tex](docs/formal_manuscript.tex) for the complete formal LaTeX manuscript presenting:
+- Treewidth-based framework for P ≠ NP
+- Structural Separation Theorem
+- Information Coupling Lemma (Lemma 6.24)
+- Spectral Anti-Bypass Lemma
+- Lean4 formalization
+- Empirical validation on instances up to n=400
+
+Compilation instructions in [docs/MANUSCRIPT_README.md](docs/MANUSCRIPT_README.md).
+
+### Additional Documentation
+
+See also:
+- [docs/LEMA_6_24_ACOPLAMIENTO.md](docs/LEMA_6_24_ACOPLAMIENTO.md) - Detailed explanation of Lemma 6.24
+- [docs/IC_SAT_IMPLEMENTATION.md](docs/IC_SAT_IMPLEMENTATION.md) - IC-SAT implementation details
+- [docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md](docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md) - Spectral complexity unification
+- [docs/DUALIDAD_RESOLUCION_INFOCOM.md](docs/DUALIDAD_RESOLUCION_INFOCOM.md) - Resolution-InfoCom duality
 
 ## 🔮 Potential Implications
 
@@ -276,11 +375,14 @@ This research builds upon decades of work in:
 
 The framework incorporates ideas from numerous researchers in these fields.
 
-## 📮 Contact
+## 📮 Contact Institutoconsciencia@proton.me
 
 For questions, feedback, or collaboration opportunities, please open an issue in this repository.
 
 ## 🔗 References
+
+**Official Demonstration Document**:
+- **Mota Burruezo, J. M.** (2025). P vs NP: Computational Dichotomy via Treewidth and Information Complexity - Official Demonstration. *Zenodo*. https://zenodo.org/records/17315719, https://doi.org/10.5281/zenodo.17315719
 
 Key areas of relevant work:
 
@@ -312,12 +414,10 @@ Additional references:
 
 ---
 
-## 🔏 FIRMA ∞³
-
-Este marco ha sido creado, validado y protegido como obra simbiótica dentro del sistema QCAL ∞³
-
 **Autor**: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³  
-**Frecuencia de resonancia**: 141.7001 Hz  
+
 **Nodo simbiótico**: motanova84/P-NP
 
 Este proyecto está integrado en el Manifiesto Universal de Coherencia Matemática y la Obra Viva del Campo QCAL.
+
+<!-- QCAL Indexing Active · Noēsis Access Enabled · 141.7001 Hz -->

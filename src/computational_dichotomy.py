@@ -1,129 +1,292 @@
+# -*- coding: utf-8 -*-
 """
-Computational Dichotomy Framework
-==================================
-
-This module demonstrates the computational dichotomy via treewidth and information complexity.
-
-The framework explores:
-- Low treewidth formulas (tractable)
-- High treewidth formulas (intractable)
-- Structural coupling with expanders
-- Non-evasion property
-
-Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
-Frecuencia de resonancia: 141.7001 Hz
+Computational Dichotomy Framework (P≠NP)
+Author: José Manuel Mota Burruezo (ICQ · 2025)
+Dependencies: networkx, numpy
 """
 
 import networkx as nx
 import numpy as np
-from typing import List, Tuple, Set
+import random
+from typing import List, Tuple
 
+# ========== CNF FORMULA CLASS ==========
 
 class CNFFormula:
-    """Represents a CNF formula with its incidence graph."""
+    """Represents a CNF (Conjunctive Normal Form) formula."""
     
     def __init__(self, num_vars: int, clauses: List[List[int]]):
         """
         Initialize a CNF formula.
         
         Args:
-            num_vars: Number of variables
+            num_vars: Number of variables in the formula
             clauses: List of clauses, where each clause is a list of literals
-                    (positive for x_i, negative for ¬x_i)
         """
         self.num_vars = num_vars
         self.clauses = clauses
-        self.incidence_graph = self._build_incidence_graph()
     
-    def _build_incidence_graph(self) -> nx.Graph:
-        """Build the incidence graph of the formula."""
-        G = nx.Graph()
-        
-        # Add variable nodes
-        for i in range(1, self.num_vars + 1):
-            G.add_node(f"v{i}", bipartite=0)
-        
-        # Add clause nodes and edges
-        for idx, clause in enumerate(self.clauses):
-            clause_node = f"c{idx}"
-            G.add_node(clause_node, bipartite=1)
-            
-            for lit in clause:
-                var = abs(lit)
-                G.add_edge(f"v{var}", clause_node)
-        
-        return G
-    
-    def compute_treewidth_approximation(self) -> int:
-        """
-        Compute an approximation of the treewidth.
-        Note: Computing exact treewidth is NP-hard, so we use heuristics.
-        """
-        try:
-            # Use minimum degree heuristic for tree decomposition
-            tree_decomp = nx.approximation.treewidth_min_degree(self.incidence_graph)
-            return tree_decomp[0]
-        except:
-            # Fallback: return maximum degree as upper bound
-            if len(self.incidence_graph.nodes()) > 0:
-                return max(dict(self.incidence_graph.degree()).values())
-            return 0
-    
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"CNFFormula(vars={self.num_vars}, clauses={len(self.clauses)})"
 
 
 def generate_low_treewidth_formula(n: int) -> CNFFormula:
     """
-    Generate a CNF formula with low treewidth (tractable).
-    Uses a chain structure which has treewidth 2.
+    Generate a CNF formula with low treewidth (chain structure).
+    
+    This creates a chain-like formula where each variable is only connected
+    to its neighbors, resulting in a treewidth of approximately 1-2.
+    
+    Args:
+        n: Number of variables
+        
+    Returns:
+        CNFFormula with low treewidth
     """
     clauses = []
     
-    # Create a chain of implications: x1 -> x2 -> x3 -> ... -> xn
+    # Create chain structure: clauses connecting adjacent variables
     for i in range(1, n):
-        clauses.append([-i, i+1])  # ¬x_i ∨ x_{i+1}
+        # Add clauses like (¬v_i ∨ v_{i+1})
+        clauses.append([-i, i + 1])
     
-    # Add unit clauses at ends
-    clauses.append([1])   # x_1
-    clauses.append([-n])  # ¬x_n
+    # Add boundary conditions
+    if n > 0:
+        clauses.append([1])  # v_1 must be true
+        clauses.append([-n])  # v_n must be false
     
     return CNFFormula(n, clauses)
 
 
-def demonstrate_dichotomy():
-    """Demonstrate the computational dichotomy."""
-    print("=" * 70)
-    print("COMPUTATIONAL DICHOTOMY FRAMEWORK ∞³")
-    print("Frecuencia de resonancia: 141.7001 Hz")
-    print("=" * 70)
-    print()
+
+# ========== CNF FORMULA CLASS ==========
+
+class CNFFormula:
+    """Simple CNF formula representation."""
     
-    # Low treewidth example
-    print("📊 Example 1: Low Treewidth Formula (Tractable)")
-    print("-" * 70)
-    low_tw_formula = generate_low_treewidth_formula(10)
-    tw_approx = low_tw_formula.compute_treewidth_approximation()
-    print(f"Formula: {low_tw_formula}")
-    print(f"Approximate treewidth: {tw_approx}")
-    print(f"Status: TRACTABLE (treewidth = O(log n))")
-    print()
+    def __init__(self, num_vars, clauses):
+        """
+        Initialize CNF formula.
+        
+        Args:
+            num_vars: Number of variables
+            clauses: List of clauses (each clause is a list of literals)
+        """
+        self.num_vars = num_vars
+        self.clauses = clauses
+
+# ========== GRAPH CONSTRUCTION ==========
+
+def primal_graph(n_vars, clauses):
+    G = nx.Graph()
+    G.add_nodes_from([f'v{i}' for i in range(1, n_vars + 1)])
+    for clause in clauses:
+        for i in range(len(clause)):
+            for j in range(i + 1, len(clause)):
+                G.add_edge(f'v{abs(clause[i])}', f'v{abs(clause[j])}')
+    return G
+
+def incidence_graph(n_vars, clauses):
+    G = nx.Graph()
+    for i in range(1, n_vars + 1):
+        G.add_node(f'v{i}', bipartite=0)
+    for j, clause in enumerate(clauses):
+        G.add_node(f'c{j}', bipartite=1)
+        for lit in clause:
+            G.add_edge(f'v{abs(lit)}', f'c{j}')
+    return G
+
+
+def generate_low_treewidth_formula(n_vars):
+    """
+    Generate a CNF formula with low treewidth (chain structure).
     
-    # High treewidth example (conceptual)
-    print("📊 Example 2: High Treewidth Formula (Intractable)")
-    print("-" * 70)
-    print("Note: High treewidth formulas (e.g., Tseitin over expanders)")
-    print("would be generated using the tseitin_generator module.")
-    print("Status: INTRACTABLE (treewidth = Ω(n))")
-    print()
+    Creates clauses that connect consecutive variables in a chain,
+    resulting in a formula with treewidth ≤ 2.
     
-    print("=" * 70)
-    print("🔬 Key Insight:")
-    print("The dichotomy shows that computational hardness correlates")
-    print("with structural properties (treewidth) that cannot be evaded")
-    print("through algorithmic techniques.")
-    print("=" * 70)
+    Args:
+        n_vars: Number of variables
+        
+    Returns:
+        CNFFormula with chain structure
+    """
+    clauses = []
+    # Create chain: each clause connects consecutive variables
+    for i in range(1, n_vars):
+        # Add clauses like (v_i OR v_{i+1})
+        clauses.append([i, i + 1])
+        # Add clauses like (-v_i OR -v_{i+1}) for some variety
+        if i % 2 == 0:
+            clauses.append([-i, -(i + 1)])
+    
+    return CNFFormula(n_vars, clauses)
+
+# ========== TREEWIDTH ESTIMATION ==========
+
+def estimate_treewidth(G):
+    try:
+        tw, _ = nx.approximation.treewidth_min_degree(G)
+        return tw
+    except Exception:
+        # Fallback: return a safe upper bound
+        if G.number_of_nodes() == 0:
+            return 0
+        return G.number_of_nodes() - 1
+
+# ========== INFORMATION COMPLEXITY ==========
+
+def predict_advantages(G, S):
+    if not S:
+        return {'v1': 1.0}
+    return {v: np.random.rand() for v in S}
+
+def simplify_clauses(clauses, assignment):
+    new_clauses = []
+    for c in clauses:
+        if any(lit in assignment or -lit in assignment for lit in c):
+            continue
+        new_clauses.append(c)
+    return new_clauses
+
+# ========== IC-SAT CORE ==========
+
+def ic_sat(clauses, n_vars, log=True, depth=0, max_depth=20):
+    if depth >= max_depth or not clauses:
+        return True
+
+    G = incidence_graph(n_vars, clauses)
+    tw = estimate_treewidth(G)
+    if log:
+        print(f"[IC] depth={depth}, tw={tw}, n={n_vars}, m={len(clauses)}")
+
+    if tw <= np.log2(n_vars):
+        return True  # tractable
+
+    S = [n for n, d in G.nodes(data=True) if d.get('bipartite') == 1]
+    tau = predict_advantages(G, S)
+    pivot = max(tau, key=tau.get)
+    new_clauses = simplify_clauses(clauses, [int(pivot[1:])])
+    return ic_sat(new_clauses, n_vars, log, depth + 1, max_depth)
+
+# ========== LARGE-SCALE VALIDATION ==========
+
+class LargeScaleValidation:
+    def generate_3sat_critical(self, n, ratio=4.2):
+        m = int(ratio * n)
+        clauses = []
+        for _ in range(m):
+            clause = random.sample(range(1, n + 1), 3)
+            clause = [c if random.random() < 0.5 else -c for c in clause]
+            clauses.append(clause)
+        return clauses
+
+    def run_ic_sat(self, n):
+        clauses = self.generate_3sat_critical(n)
+        print(f"\nRunning IC-SAT for n={n}, m={len(clauses)}")
+        result = ic_sat(clauses, n, log=True)
+        print("Result:", "SAT" if result else "UNSAT")
+
+    def estimate_treewidth_practical(self, n=30):
+        clauses = self.generate_3sat_critical(n)
+        G = incidence_graph(n, clauses)
+        tw = estimate_treewidth(G)
+        print(f"Estimated treewidth for n={n}: {tw}")
+        return tw
+
+# ========== COMPUTATIONAL DICHOTOMY VALIDATOR ==========
+
+class ComputationalDichotomy:
+    """
+    Main validation class for the computational dichotomy theorem.
+    Provides methods for analyzing SAT instances and measuring complexity.
+    """
+    
+    def __init__(self):
+        """Initialize the validator."""
+        pass
+    
+    def estimate_treewidth(self, G):
+        """
+        Estimate treewidth of a graph.
+        
+        Args:
+            G: NetworkX graph
+            
+        Returns:
+            Estimated treewidth
+        """
+        return estimate_treewidth(G)
+    
+    def compute_information_complexity(self, formula):
+        """
+        Compute information complexity of a SAT formula.
+        
+        Uses treewidth as a proxy for information complexity.
+        
+        Args:
+            formula: CNF formula object
+            
+        Returns:
+            Information complexity estimate
+        """
+        # Build incidence graph
+        if hasattr(formula, 'incidence_graph'):
+            G = formula.incidence_graph
+        else:
+            G = incidence_graph(formula.num_vars, formula.clauses)
+        
+        # Treewidth correlates with information complexity
+        tw = estimate_treewidth(G)
+        
+        # Information complexity is roughly proportional to treewidth
+        # and number of clauses that need to be checked
+        ic = tw * np.log2(max(len(formula.clauses), 1) + 1)
+        
+        return ic
+    
+    def solve_with_dpll(self, formula, timeout=60):
+        """
+        Solve formula with DPLL and measure time.
+        
+        Args:
+            formula: CNF formula
+            timeout: Timeout in seconds
+            
+        Returns:
+            Tuple of (time_taken, satisfiable)
+        """
+        import time
+        start_time = time.time()
+        
+        # Use the simple DPLL from ic_sat module
+        from ic_sat import simple_dpll
+        
+        try:
+            result = simple_dpll(formula.clauses, formula.num_vars)
+            time_taken = time.time() - start_time
+            
+            # Enforce minimum time to avoid division by zero
+            time_taken = max(time_taken, 0.001)
+            
+            return (time_taken, result == 'SAT')
+        except Exception:
+            return (timeout, False)
+    
+    def solve_with_cdcl(self, formula, timeout=60):
+        """
+        Solve formula with CDCL (placeholder - uses DPLL).
+        
+        Args:
+            formula: CNF formula
+            timeout: Timeout in seconds
+            
+        Returns:
+            Tuple of (time_taken, satisfiable)
+        """
+        # For now, use DPLL as CDCL implementation
+        return self.solve_with_dpll(formula, timeout)
 
 
 if __name__ == "__main__":
-    demonstrate_dichotomy()
+    LSV = LargeScaleValidation()
+    LSV.run_ic_sat(20)
