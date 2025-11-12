@@ -27,6 +27,8 @@ lean_lib FormalVerification where
 
 lean_lib VerificationPipeline where
   roots := #[`VerificationPipeline]
+lean_lib Formal where
+  roots := #[`Formal]
 
 @[default_target]
 lean_exe pnp where
