@@ -25,6 +25,8 @@ lean_lib FormalVerification where
 lean_lib MainTheorem where
   roots := #[`PvsNP]
   globs := #[.submodules `formal]
+lean_lib Formal where
+  roots := #[`Formal]
 
 @[default_target]
 lean_exe pnp where
