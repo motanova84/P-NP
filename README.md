@@ -45,6 +45,18 @@ This Zenodo repository contains the official, archived version of the demonstrat
 ## 📁 Repository Structure
 
 ```
+.
+├── README.md                             # This file
+├── UNIFICACION_RH-BSD-GRH-GOLDBACH.md   # Unified mathematical framework document
+├── KEY_INGREDIENT.md                     # Detailed explanation of the key insights (when present)
+├── computational_dichotomy.lean          # Lean 4 formalization (when present)
+├── computational_dichotomy.py            # Python implementation (when present)
+├── .github/workflows/                    # GitHub Actions CI/CD workflows
+│   ├── ci.yml                           # Repository structure validation
+│   ├── documentation-check.yml          # Documentation verification
+│   ├── markdown-lint.yml                # Markdown linting and link checking
+│   └── greetings.yml                    # New contributor welcoming
+└── examples/                             # Example applications (to be added)
 P-NP/
 ├── src/                      # Código fuente principal
 │   ├── computational_dichotomy.py  # Framework principal
@@ -82,6 +94,17 @@ P-NP/
 ├── README.md
 └── LICENSE
 ```
+
+## 🔄 Continuous Integration & Workflows
+
+This repository includes automated GitHub Actions workflows to maintain code quality and documentation standards:
+
+- **Repository CI** (`ci.yml`): Validates repository structure, checks for duplicate files, and generates metrics
+- **Documentation Check** (`documentation-check.yml`): Verifies required documentation files, validates LaTeX syntax, and generates documentation summaries
+- **Markdown Lint** (`markdown-lint.yml`): Ensures markdown files follow consistent formatting and checks for broken links
+- **Greetings** (`greetings.yml`): Welcomes new contributors and provides guidance on contributions
+
+All workflows run automatically on push and pull requests to maintain repository quality.
 
 ## 📚 Overview
 

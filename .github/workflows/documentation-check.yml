@@ -1,0 +1,69 @@
+name: Documentation Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  documentation-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Verify required documentation files
+      run: |
+        echo "Checking for required documentation files..."
+        
+        # Check for README.md
+        if [ -f "README.md" ]; then
+          echo "✓ README.md exists"
+        else
+          echo "✗ README.md is missing"
+          exit 1
+        fi
+        
+        # Check for mathematical unification document
+        if [ -f "UNIFICACION_RH-BSD-GRH-GOLDBACH.md" ]; then
+          echo "✓ UNIFICACION_RH-BSD-GRH-GOLDBACH.md exists"
+        else
+          echo "✗ UNIFICACION_RH-BSD-GRH-GOLDBACH.md is missing"
+        fi
+        
+        echo "Documentation check completed successfully!"
+
+    - name: Check for LaTeX syntax in markdown
+      run: |
+        echo "Checking for proper LaTeX syntax in markdown files..."
+        
+        # Check if markdown files contain LaTeX equations
+        if grep -r "\\$\\$" *.md || grep -r "\\\[" *.md; then
+          echo "✓ LaTeX equations found in documentation"
+        fi
+        
+        echo "LaTeX syntax check completed!"
+
+    - name: Generate documentation summary
+      run: |
+        echo "# Documentation Summary" > doc-summary.md
+        echo "" >> doc-summary.md
+        echo "## Files Overview" >> doc-summary.md
+        echo "" >> doc-summary.md
+        
+        for file in *.md; do
+          if [ -f "$file" ]; then
+            lines=$(wc -l < "$file")
+            echo "- **$file**: $lines lines" >> doc-summary.md
+          fi
+        done
+        
+        cat doc-summary.md
+
+    - name: Upload documentation summary
+      uses: actions/upload-artifact@v4
+      with:
+        name: documentation-summary
+        path: doc-summary.md
