@@ -13,6 +13,11 @@ lean_lib FormalVerification where
   roots := #[`FormalVerification]
   globs := #[.submodules `Treewidth, .submodules `Lifting, .submodules `LowerBounds]
 
+lean_lib InformationComplexity where
+  roots := #[`InformationComplexity]
+
+lean_lib TreewidthTheory where
+  roots := #[`TreewidthTheory]
 lean_lib Formal where
   roots := #[`Formal]
 
