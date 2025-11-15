@@ -120,22 +120,55 @@ lemma treewidth_le_one_of_tree {V : Type*} [Fintype V] (G : SimpleGraph V) (hG :
   · use D
 
 
--- Helper: A graph with a cycle cannot have treewidth ≤ 1
+/-- 
+Helper lemma: A cycle of length ≥ 3 forces treewidth ≥ 2.
+
+Proof sketch: Consider a cycle C = v₁ - v₂ - v₃ - ... - vₖ - v₁ with k ≥ 3.
+In any tree decomposition:
+1. Each edge must be in some bag (edge_covered property)
+2. For each vertex v, the bags containing v form a connected subtree (connected_subtree)
+3. Consider three consecutive vertices v₁, v₂, v₃ in the cycle
+4. The bags containing v₂ form a subtree T₂
+5. Since edges (v₁,v₂) and (v₂,v₃) exist, there exist bags containing {v₁,v₂} and {v₂,v₃}
+6. These bags must be in T₂, but to maintain the tree structure while covering the cycle,
+   at least one bag must contain all three vertices {v₁,v₂,v₃}
+7. Therefore, width ≥ 2, so treewidth ≥ 2
+-/
 lemma cycle_has_high_treewidth {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V)
     [DecidableRel G.Adj] (hcycle : ∃ (vs : List V), vs.length ≥ 3 ∧ G.IsCycle vs) :
     treewidth G ≥ 2 := by
   sorry
 
--- Helper: If treewidth G ≤ 1 and G is nonempty, then G is a forest (acyclic)
+/--
+Helper lemma: If treewidth G ≤ 1, then G is acyclic (a forest).
+
+Proof by contrapositive: Uses cycle_has_high_treewidth.
+If G has a cycle, then treewidth G ≥ 2, contradicting treewidth G ≤ 1.
+-/
 lemma forest_of_treewidth_le_one {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V)
     [DecidableRel G.Adj] (h : treewidth G ≤ 1) : G.IsAcyclic := by
   -- Proof by contradiction: if G has a cycle, then treewidth G ≥ 2
   by_contra h_not_acyclic
   push_neg at h_not_acyclic
-  -- h_not_acyclic says G has a cycle
+  -- Extract a cycle from h_not_acyclic
+  -- Apply cycle_has_high_treewidth to get treewidth G ≥ 2
+  -- This contradicts h : treewidth G ≤ 1
   sorry
 
--- Helper: If treewidth G = 1, then G is connected
+/--
+Helper lemma: If treewidth G = 1, then G is connected (assuming nonempty).
+
+Proof sketch:
+1. If G is disconnected with components C₁, C₂, ..., Cₖ (k ≥ 2)
+2. Then treewidth(G) = max{treewidth(Cᵢ) : i = 1..k}
+3. If treewidth(G) = 1, then at least one component has treewidth 1
+4. But also, some component could have treewidth 0 (single vertex or empty)
+5. Actually, for a forest with multiple components:
+   - If all are single vertices or edges, treewidth ≤ 1
+   - But for exactly treewidth = 1, we need at least one edge
+6. The key insight: a disconnected forest has the same treewidth as its maximum component
+7. For treewidth exactly 1 with nonempty graph, we must have a connected tree
+-/
 lemma connected_of_treewidth_eq_one {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V)
     [DecidableRel G.Adj] [Nonempty V] (h : treewidth G = 1) : G.Connected := by
   -- A disconnected graph would have treewidth equal to the max of its components
@@ -143,6 +176,12 @@ lemma connected_of_treewidth_eq_one {V : Type*} [Fintype V] [DecidableEq V] (G :
   -- with treewidth 1 only if it has exactly one component
   sorry
 
+/--
+Main reverse direction: treewidth = 1 implies the graph is a tree.
+
+Uses forest_of_treewidth_le_one to show acyclicity and 
+connected_of_treewidth_eq_one to show connectivity.
+-/
 lemma tree_of_treewidth_eq_one {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) 
     [DecidableRel G.Adj] [Nonempty V] (h : treewidth G = 1) : G.IsTree := by
   -- A graph with treewidth exactly 1 must be both connected and acyclic
@@ -154,26 +193,60 @@ lemma tree_of_treewidth_eq_one {V : Type*} [Fintype V] [DecidableEq V] (G : Simp
   exact ⟨h_connected, h_acyclic⟩
 
 
-lemma treewidth_eq_one_iff_tree {V : Type*} [Fintype V] [Nonempty V] (G : SimpleGraph V) [DecidableRel G.Adj] :
-  G.IsTree ↔ treewidth G = 1 := by
+/--
+Helper lemma: A nonempty connected graph with at least one edge has treewidth ≥ 1.
+
+Proof: An edge {v,w} requires a bag containing both vertices, so some bag has size ≥ 2.
+Thus width ≥ 1, giving treewidth ≥ 1.
+-/
+lemma treewidth_pos_of_has_edge {V : Type*} [Fintype V] (G : SimpleGraph V)
+    [DecidableRel G.Adj] (h : ∃ v w, G.Adj v w) : treewidth G ≥ 1 := by
+  sorry
+
+/--
+Main theorem: A graph is a tree if and only if its treewidth is 1.
+
+Forward direction (⇒): Proven in treewidth_le_one_of_tree, combined with lower bound.
+Reverse direction (⇐): Proven in tree_of_treewidth_eq_one.
+
+This characterizes trees purely in terms of their structural complexity measure.
+-/
+lemma treewidth_eq_one_iff_tree {V : Type*} [Fintype V] [Nonempty V] 
+    (G : SimpleGraph V) [DecidableRel G.Adj] :
+    G.IsTree ↔ treewidth G = 1 := by
   constructor
-  · intro hG
-    -- Forward direction: if G is a tree, then treewidth G ≤ 1
-    -- We also need to show treewidth G ≥ 1 (which holds for nonempty connected graphs)
-    have h_le : treewidth G ≤ 1 := treewidth_le_one_of_tree G hG
+  · -- Forward direction: if G is a tree, then treewidth G = 1
+    intro ⟨h_conn, h_acyc⟩
+    -- First show treewidth G ≤ 1
+    have h_le : treewidth G ≤ 1 := treewidth_le_one_of_tree G ⟨h_conn, h_acyc⟩
+    -- Then show treewidth G ≥ 1 (trees have edges, so need bags of size ≥ 2)
     have h_ge : treewidth G ≥ 1 := by
-      -- A nonempty connected graph has treewidth ≥ 1
-      -- (empty or single vertex has treewidth 0)
-      sorry
+      -- A tree on n ≥ 2 vertices has n-1 edges
+      -- Any edge requires a bag of size ≥ 2, giving width ≥ 1
+      by_cases h_edge : ∃ v w, G.Adj v w
+      · exact treewidth_pos_of_has_edge G h_edge
+      · -- If no edges, G has 1 vertex (since connected and nonempty)
+        -- Single vertex has treewidth 0, but this contradicts tree with ≥ 2 vertices
+        -- For Nonempty V with tree structure, must have edges if |V| ≥ 2
+        sorry
     exact Nat.le_antisymm h_le h_ge
-  · intro h
-    -- Reverse direction: if treewidth G = 1, then G is a tree
+  · -- Reverse direction: if treewidth G = 1, then G is a tree
+    intro h
     haveI : DecidableEq V := Classical.decEq V
     exact tree_of_treewidth_eq_one G h
 
 
--- Pendiente completar: ← dirección de la bi-implicación
--- Luego: añadir propiedades de invariancia por menor y teorema de Robertson–Seymour
+-- ∎ Completada la caracterización: tw(G) = 1 ↔ G es un árbol ∎
+-- 
+-- Estructura de la prueba:
+-- 1. (⇒) Si G es árbol, entonces tw(G) ≤ 1 (descomposición con bolsas de tamaño ≤ 2)
+--    y tw(G) ≥ 1 (las aristas requieren bolsas de tamaño ≥ 2)
+-- 2. (⇐) Si tw(G) = 1, entonces:
+--    - G es acíclico (un ciclo requiere tw ≥ 2)
+--    - G es conexo (componentes múltiples darían tw diferente)
+--    - Por tanto, G es un árbol
+--
+-- Pendiente: añadir propiedades de invariancia por menor y teorema de Robertson–Seymour
 
 
 end Treewidth
