@@ -83,6 +83,10 @@ P-NP/
 └── LICENSE
 ```
 
+## 📊 Experimentos Empíricos
+
+- `treewidth_vs_sat_runtime.py`: Simulación que valida empíricamente la predicción estructural de complejidad: instancias SAT con mayor ancho de árbol requieren mayor tiempo de resolución.
+
 ## 📚 Overview
 
 This repository contains a comprehensive theoretical framework for analyzing the P vs NP problem through the lens of **information complexity** and **treewidth**. The project explores novel approaches to one of the most important open questions in theoretical computer science using formal methods, mathematical rigor, and empirical validation.
