@@ -20,16 +20,18 @@ indicates structural complexity.
 import Mathlib.Data.Nat.Basic
 import Mathlib.Order.Basic
 import Formal.ComputationalDichotomy
+import Formal.Treewidth.Treewidth
 
 namespace Formal.TreewidthTheory
 
 open Formal.ComputationalDichotomy
+open Treewidth
 
-/-- Graph type -/
-axiom Graph : Type
+/-- Graph type (using Treewidth.Graph) -/
+abbrev Graph := Treewidth.Graph
 
-/-- Treewidth function on graphs -/
-axiom graphTreewidth : Graph → ℕ
+/-- Treewidth function on graphs (using Treewidth.treewidth) -/
+abbrev graphTreewidth := Treewidth.treewidth
 
 /-- Incidence graph of a CNF formula -/
 axiom incidenceGraph : CNFFormula → Graph
