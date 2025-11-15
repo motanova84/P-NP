@@ -65,7 +65,7 @@ Complete graph on n vertices.
 def completeGraph (n : ℕ) : SimpleGraph (Fin n) :=
   SimpleGraph.completeGraph (Fin n)
 
--- Teorema: tw(Kₙ) = n - 1
+-- Theorem: tw(Kₙ) = n - 1
 theorem complete_graph_treewidth (n : ℕ) : 
   treewidth (completeGraph n) = n - 1 := by
   -- The complete graph requires all vertices in one bag
