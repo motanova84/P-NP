@@ -38,7 +38,7 @@ Replaced the brief "Avoiding Known Barriers" section with comprehensive explanat
 
 Created modular formal verification framework in `formal/` directory:
 
-**formal/Treewidth/Treewidth.lean** (284 lines) - NEW
+**formal/Treewidth/Treewidth.lean** (283 lines) - NEW
 - `TreeDecomposition`: Formal structure for tree decompositions
 - `width`: Width calculation for decompositions
 - `treewidth`: Treewidth definition for graphs
@@ -184,7 +184,7 @@ The RH adélico, 141Hz, and Navier-Stokes sections refer to separate repositorie
 
 Added complete formal tree decomposition module to provide the foundation for treewidth-based complexity analysis.
 
-**formal/Treewidth/Treewidth.lean** (284 lines)
+**formal/Treewidth/Treewidth.lean** (283 lines)
 
 ### Key Definitions
 
