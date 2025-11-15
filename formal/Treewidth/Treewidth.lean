@@ -77,6 +77,7 @@ theorem complete_graph_treewidth (n : ℕ) :
       simp [SimpleGraph.Walk.IsPath] at hp
       simp
   let D : TreeDecomposition (completeGraph n) := {
+    T := T,
     X := fun _ => Finset.univ,
     T_tree := T_is_tree,
     cover := by
