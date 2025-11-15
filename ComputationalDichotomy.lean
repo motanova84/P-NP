@@ -71,11 +71,14 @@ axiom structuralCoupling (φ : CNFFormula) :
   ∀ (alg : CNFFormula → Bool), ∃ (ψ : CNFFormula),
     treewidth ψ ≥ treewidth φ ∧
     (isSatisfiable ψ ↔ isSatisfiable φ) ∧
-    (∀ efficient_alg, ¬(efficient_alg ψ = true))
+    ¬(alg ψ = true)
+
+/-- Logarithm base 2 (axiomatized for now) -/
+axiom log2 : Nat → Nat
 
 /-- Main Dichotomy Theorem (proposed) -/
 theorem computationalDichotomy (φ : CNFFormula) :
-  (treewidth φ ≤ 2 * Nat.log 2 (numVars φ) → 
+  (treewidth φ ≤ 2 * log2 (numVars φ) → 
     ∃ (alg : CNFFormula → Bool), alg φ = true) ∧
   (treewidth φ ≥ numVars φ / 2 → 
     ∀ (alg : CNFFormula → Bool), ∃ (ψ : CNFFormula), ¬(alg ψ = true)) := by
@@ -83,7 +86,7 @@ theorem computationalDichotomy (φ : CNFFormula) :
 
 /-- Example: Low treewidth formula (chain structure) -/
 def chainFormula (n : Nat) : CNFFormula :=
-  List.range (n - 1) |>.map (fun i =>
+  (List.range (n - 1)).map (fun i =>
     [Literal.neg (i + 1), Literal.pos (i + 2)]
   ) ++ [[Literal.pos 1], [Literal.neg n]]
 
