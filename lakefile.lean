@@ -13,7 +13,7 @@ lean_exe «pnp» where
 package PNP
 
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4" @ "v4.12.0"
+  "https://github.com/leanprover-community/mathlib4" @ "v4.20.0"
 
 lean_lib ComputationalDichotomy where
   roots := #[`ComputationalDichotomy]
@@ -21,6 +21,9 @@ lean_lib ComputationalDichotomy where
 lean_lib FormalVerification where
   roots := #[`FormalVerification]
   globs := #[.submodules `Treewidth, .submodules `Lifting, .submodules `LowerBounds]
+
+lean_lib Treewidth where
+  roots := #[`Treewidth]
 
 lean_lib Formal where
   roots := #[`Formal]
