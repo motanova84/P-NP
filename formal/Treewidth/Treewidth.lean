@@ -108,7 +108,7 @@ theorem complete_graph_treewidth (n : ℕ) :
     exact le_refl _
 
 
--- Teorema: tw(G) = 1 ↔ G es un árbol
+-- Theorem: tw(G) = 1 ↔ G is a tree
 
 lemma treewidth_le_one_of_tree {V : Type*} [Fintype V] [DecidableEq V] 
     (G : SimpleGraph V) (hG : G.IsTree) :
