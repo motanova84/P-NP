@@ -57,7 +57,7 @@ The treewidth of a graph is the minimum width over all tree decompositions.
 Uses Nat.findGreatest to find the optimal decomposition.
 -/
 def treewidth (G : SimpleGraph V) : ℕ :=
-  Nat.findGreatest (fun k => ∃ D : TreeDecomposition G, width D ≤ k) (Fintype.card V)
+  Nat.find (fun k => ∃ D : TreeDecomposition G, width D ≤ k) (Fintype.card V)
 
 /--
 Complete graph on n vertices.
