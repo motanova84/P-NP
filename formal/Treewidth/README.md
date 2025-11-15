@@ -4,9 +4,10 @@ This directory contains the formal Lean 4 implementation of treewidth theory for
 
 ## Files
 
-### Treewidth.lean (284 lines)
+### Treewidth.lean (519 lines)
 Complete formalization of tree decompositions and treewidth with proven theorems.
 
+*Note: The file contains two complete implementations concatenated together, resulting in a higher line count.*
 **Main Definitions:**
 - `TreeDecomposition G`: Structure representing a tree decomposition of graph G
 - `width D`: The width of a tree decomposition (max bag size - 1)
