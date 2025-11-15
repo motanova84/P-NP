@@ -7,6 +7,7 @@ of the P≠NP separation via treewidth and information complexity.
 ## Module Structure
 
 * `Treewidth/Treewidth`: Formal definitions of treewidth and tree decompositions
+* `Treewidth`: Tree decomposition theory using SimpleGraph (main module)
 * `Treewidth/SeparatorInfo`: Separator Information Lower Bounds (SILB)
 * `Lifting/Gadgets`: Lifting gadgets and Tseitin constructions
 * `LowerBounds/Circuits`: Circuit lower bounds and separation theorem
@@ -19,6 +20,7 @@ in ComputationalDichotomy.lean.
 
 -- Import submodules
 import Treewidth.Treewidth
+import Treewidth
 import Treewidth.SeparatorInfo
 import Lifting.Gadgets
 import LowerBounds.Circuits
