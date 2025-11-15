@@ -9,6 +9,7 @@ Root module for the formal verification of the P≠NP separation.
 * `Formal.StructuralCoupling`: Structural coupling lemma (6.24)
 * `Formal.InformationComplexity`: Information complexity framework
 * `Formal.TreewidthTheory`: Treewidth theory and properties
+* `Treewidth.Treewidth`: Core treewidth formalization module
 * `Formal.MainTheorem`: Main theorem (P ≠ NP)
 * `Formal.VerificationPipeline`: Complete verification pipeline
 
@@ -23,6 +24,7 @@ import Formal.ComputationalDichotomy
 import Formal.StructuralCoupling
 import Formal.InformationComplexity
 import Formal.TreewidthTheory
+import Formal.Treewidth.Treewidth
 import Formal.MainTheorem
 import Formal.VerificationPipeline
 
