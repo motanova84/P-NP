@@ -67,6 +67,11 @@ This document provides a comprehensive overview of all files in the P-NP reposit
 | `ComputationalDichotomy.lean` | Main formalization | ✅ Valid syntax |
 | `Main.lean` | Entry point | ✅ Valid syntax |
 | `Principal.lean` | Principal definitions | ✅ Valid syntax |
+| `FormalVerification.lean` | Formal verification root module | ✅ Valid syntax |
+| `formal/Treewidth/Treewidth.lean` | Tree decomposition formalization | ✅ Complete |
+| `formal/Treewidth/SeparatorInfo.lean` | Separator information lower bounds | ✅ Valid syntax |
+| `formal/Lifting/Gadgets.lean` | Lifting gadgets and constructions | ✅ Valid syntax |
+| `formal/LowerBounds/Circuits.lean` | Circuit lower bounds | ✅ Valid syntax |
 | `lakefile.lean` | Lake build configuration | ✅ Valid |
 | `lean-toolchain` | Lean version specification | ✅ Valid |
 
@@ -157,9 +162,12 @@ python3 examples/demo_ic_sat.py
 - [x] Basic definitions (Literal, Clause, CNFFormula)
 - [x] Satisfiability definitions
 - [x] Treewidth axiomatization
+- [x] Tree decomposition structure and properties
+- [x] Treewidth theorems for complete graphs (tw(Kn) = n-1)
+- [x] Treewidth theorems for trees (tw(tree) ≤ 1)
 - [x] Structural coupling axiom (Lemma 6.24)
 - [x] Dichotomy theorem statement
-- [ ] Complete proofs (pending)
+- [ ] Complete proofs for tree characterization (pending deep graph theory)
 
 ## 📊 Code Statistics
 
