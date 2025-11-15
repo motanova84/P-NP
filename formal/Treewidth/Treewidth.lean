@@ -160,7 +160,7 @@ lemma tree_of_treewidth_one {V : Type*} [Fintype V] [DecidableEq V]
   sorry
 
 
--- Teorema: Si H es menor de G, entonces tw(H) ≤ tw(G)
+-- Theorem: If H is a minor of G, then tw(H) ≤ tw(G)
 theorem treewidth_minor_monotonic {W : Type*} [Fintype W] [DecidableEq W]
     (G : SimpleGraph V) (H : SimpleGraph W) (f : W → V)
     (minor_map : ∀ ⦃v w : W⦄, H.Adj v w → G.Adj (f v) (f w)) :
