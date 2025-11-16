@@ -45,6 +45,61 @@ This Zenodo repository contains the official, archived version of the demonstrat
 ## 📁 Repository Structure
 
 ```
+.
+├── README.md                          # This file
+├── KEY_INGREDIENT.md                  # Detailed explanation of the key insights
+├── computational_dichotomy.lean       # Lean 4 formalization
+├── computational_dichotomy.py         # Python implementation
+└── examples/                          # Example applications (to be added)
+```
+
+## 🔬 Core Components
+
+### 1. Formal Framework (Lean)
+- `computational_dichotomy.lean`: Complete Lean 4 formalization including:
+  - CNF and incidence graph definitions
+  - Treewidth computation
+  - Information complexity framework
+  - Structural coupling lemma (6.24)
+  - Upper and lower bound theorems
+  - No-evasion theorem
+
+### 2. Computational Framework (Python)
+- `computational_dichotomy.py`: Practical implementation featuring:
+  - CNF formula representation
+  - Incidence graph construction with treewidth computation
+  - Tseitin expander gadgets
+  - Graph product padding
+  - Information complexity analysis
+  - Demonstration examples
+
+## 🚀 Quick Start
+
+### Running the Python Framework
+
+```bash
+# Install dependencies
+pip install networkx
+
+# Run the demonstration
+python computational_dichotomy.py
+```
+
+This will demonstrate:
+- Low treewidth formulas (tractable)
+- High treewidth formulas (intractable)
+- Structural coupling with expanders
+- Non-evasion property
+
+### Working with Lean Formalization
+
+```bash
+# Install Lean 4 and Mathlib
+# Follow instructions at https://leanprover.github.io/
+
+# Check the formalization
+lake build
+```
 P-NP/
 ├── src/                      # Código fuente principal
 │   ├── computational_dichotomy.py  # Framework principal
@@ -199,6 +254,27 @@ This includes all algorithms:
 | Structural coupling | Forces interdependent subproblem solving |
 | IC lower bound | IC ≥ Ω(tw/log n) for sparse G_I |
 | Non-evasion | IC collapse → contradiction |
+
+## 📖 Documentation
+
+See [KEY_INGREDIENT.md](KEY_INGREDIENT.md) for:
+- Detailed explanation of Lemma 6.24
+- Complete proof structure
+- Technical components
+- Mathematical foundations
+- Implications for P vs NP
+
+## ⚠️ Important Notes
+
+This is a **theoretical framework and research proposal** that:
+- Presents a novel information-theoretic approach to P vs NP
+- Proposes to avoid reliance on complexity assumptions (SETH/ETH)
+- **Requires complete formal verification**
+- **Needs extensive peer review and validation**
+- Has **not been established as correct**
+- May contain gaps or errors requiring resolution
+
+**Do NOT cite as an established result.** This is exploratory theoretical work.
 
 ## ⚠️ Important Disclaimers
 
@@ -356,6 +432,13 @@ See also:
 
 ## 🤝 Contributing
 
+This is a research framework open to:
+- Formal verification improvements
+- Additional examples
+- Alternative proof strategies
+- Critical analysis and peer review
+
+## 📚 References
 This is a research project and contributions, critiques, and feedback are welcome:
 
 - **Mathematical Review**: Identify gaps, errors, or improvements in proofs
@@ -396,6 +479,9 @@ Key areas of relevant work:
 4. Impagliazzo et al.: Resolution and Communication Complexity
 5. Tseitin: Complexity of Theorem-Proving Procedures
 
+## 📝 License
+
+MIT License - See LICENSE file for details
 Additional references:
 - **Treewidth and Parameterized Complexity**: FPT algorithms and hardness
 - **Information Complexity**: Braverman-Rao framework and applications
@@ -414,6 +500,7 @@ Additional references:
 
 **Status:** Research proposal and theoretical framework under development and requiring validation
 
+**Disclaimer:** This repository presents theoretical ideas that have not been peer-reviewed. Do not treat as established mathematical results.
 **Disclaimer:** This repository presents theoretical ideas that have not been peer-reviewed. Do not treat as established mathematical results.
 
 ---
