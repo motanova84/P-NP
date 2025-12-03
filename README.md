@@ -90,12 +90,6 @@ P-NP/
 ├── QUICKSTART.md            # Guía de inicio rápido
 ├── README.md
 └── LICENSE
-```
-
-## 📊 Experimentos Empíricos
-
-- `treewidth_vs_sat_runtime.py`: Simulación que valida empíricamente la predicción estructural de complejidad: instancias SAT con mayor ancho de árbol requieren mayor tiempo de resolución.
-
 ## 📚 Overview
 
 This repository contains a comprehensive theoretical framework for analyzing the P vs NP problem through the lens of **information complexity** and **treewidth**. The project explores novel approaches to one of the most important open questions in theoretical computer science using formal methods, mathematical rigor, and empirical validation.
@@ -317,6 +311,42 @@ pytest tests/ -v
 curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
 
 # Build the Lean project
+## 🚀 Getting Started
+
+### Prerequisites
+
+For working with Lean formalization (if present):
+```bash
+# Install Lean 4 toolchain
+curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
+```
+
+For Python validation scripts (if present):
+```bash
+# Install dependencies
+pip install networkx numpy
+```
+
+### Running the Python Framework (if present)
+
+```bash
+# Run the demonstration
+python computational_dichotomy.py
+```
+
+This would demonstrate:
+- Low treewidth formulas (tractable)
+- High treewidth formulas (intractable)
+- Structural coupling with expanders
+- Non-evasion property
+
+### Working with Lean Formalization (if present)
+
+```bash
+# Install Lean 4 and Mathlib
+# Follow instructions at https://leanprover.github.io/
+
+# Check the formalization
 lake build
 ```
 
