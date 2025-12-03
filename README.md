@@ -52,9 +52,16 @@ P-NP/
 │   └── gadgets/
 │       └── tseitin_generator.py
 ├── ComputationalDichotomy.lean  # Formalización matemática en Lean
+├── InformationComplexity.lean  # Teoría de complejidad informacional
+├── TreewidthTheory.lean      # Teoría de treewidth y grafos
 ├── Main.lean                 # Punto de entrada Lean
 ├── Principal.lean            # Definiciones principales
 ├── lakefile.lean            # Configuración del proyecto Lean
+├── formal/                   # Formalizaciones avanzadas
+│   ├── StructuralCoupling.lean  # Lemma 6.24 (completo)
+│   ├── Treewidth/SeparatorInfo.lean
+│   ├── Lifting/Gadgets.lean
+│   └── LowerBounds/Circuits.lean
 ├── examples/                 # Casos de prueba y aplicaciones
 │   ├── demo_ic_sat.py       # Demostración completa
 │   ├── empirical_validation_n400.py  # Validación empírica n≤400
@@ -66,10 +73,12 @@ P-NP/
 │   ├── IC_SAT_IMPLEMENTATION.md
 │   ├── UNIFICACION_COMPLEJIDAD_ESPECTRAL.md
 │   ├── LEMA_6_24_ACOPLAMIENTO.md
+│   ├── LEMMA_6_24_FORMALIZATION.md  # Formalización completa Lean 4
 │   └── DUALIDAD_RESOLUCION_INFOCOM.md
 ├── tests/                    # Pruebas unitarias (29 tests)
 │   ├── test_ic_sat.py
-│   └── test_tseitin.py
+│   ├── test_tseitin.py
+│   └── test_lean_structure.py  # Validación estructura Lean
 ├── .github/
 │   ├── workflows/
 │   │   ├── validate-python.yml
@@ -223,9 +232,19 @@ The purpose of this repository is to:
 - ✅ Large-scale validation framework
 - ✅ Complete demonstration scripts
 
+**Lean 4 Formalization (NEW):**
+- ✅ Complete formalization of Lemma 6.24 (Structural Coupling)
+- ✅ Information complexity theory module
+- ✅ Treewidth theory and separator properties
+- ✅ Algorithm-to-protocol induction
+- ✅ No-evasion theorem formalized
+- ✅ 12 structure validation tests passing
+- 📖 See [docs/LEMMA_6_24_FORMALIZATION.md](docs/LEMMA_6_24_FORMALIZATION.md)
+
 **Quick verification:**
 ```bash
 ./run_all_tests.sh  # Runs all tests and demos
+python3 tests/test_lean_structure.py  # Validates Lean formalization structure
 ```
 
 ## 🚀 Getting Started
