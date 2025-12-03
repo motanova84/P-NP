@@ -193,6 +193,100 @@ class LargeScaleValidation:
         print(f"Estimated treewidth for n={n}: {tw}")
         return tw
 
+# ========== COMPUTATIONAL DICHOTOMY VALIDATOR ==========
+
+class ComputationalDichotomy:
+    """
+    Main validation class for the computational dichotomy theorem.
+    Provides methods for analyzing SAT instances and measuring complexity.
+    """
+    
+    def __init__(self):
+        """Initialize the validator."""
+        pass
+    
+    def estimate_treewidth(self, G):
+        """
+        Estimate treewidth of a graph.
+        
+        Args:
+            G: NetworkX graph
+            
+        Returns:
+            Estimated treewidth
+        """
+        return estimate_treewidth(G)
+    
+    def compute_information_complexity(self, formula):
+        """
+        Compute information complexity of a SAT formula.
+        
+        Uses treewidth as a proxy for information complexity.
+        
+        Args:
+            formula: CNF formula object
+            
+        Returns:
+            Information complexity estimate
+        """
+        # Build incidence graph
+        if hasattr(formula, 'incidence_graph'):
+            G = formula.incidence_graph
+        else:
+            G = incidence_graph(formula.num_vars, formula.clauses)
+        
+        # Treewidth correlates with information complexity
+        tw = estimate_treewidth(G)
+        
+        # Information complexity is roughly proportional to treewidth
+        # and number of clauses that need to be checked
+        ic = tw * np.log2(max(len(formula.clauses), 1) + 1)
+        
+        return ic
+    
+    def solve_with_dpll(self, formula, timeout=60):
+        """
+        Solve formula with DPLL and measure time.
+        
+        Args:
+            formula: CNF formula
+            timeout: Timeout in seconds
+            
+        Returns:
+            Tuple of (time_taken, satisfiable)
+        """
+        import time
+        start_time = time.time()
+        
+        # Use the simple DPLL from ic_sat module
+        from ic_sat import simple_dpll
+        
+        try:
+            result = simple_dpll(formula.clauses, formula.num_vars)
+            time_taken = time.time() - start_time
+            
+            # Enforce minimum time to avoid division by zero
+            time_taken = max(time_taken, 0.001)
+            
+            return (time_taken, result == 'SAT')
+        except Exception:
+            return (timeout, False)
+    
+    def solve_with_cdcl(self, formula, timeout=60):
+        """
+        Solve formula with CDCL (placeholder - uses DPLL).
+        
+        Args:
+            formula: CNF formula
+            timeout: Timeout in seconds
+            
+        Returns:
+            Tuple of (time_taken, satisfiable)
+        """
+        # For now, use DPLL as CDCL implementation
+        return self.solve_with_dpll(formula, timeout)
+
+
 if __name__ == "__main__":
     LSV = LargeScaleValidation()
     LSV.run_ic_sat(20)
