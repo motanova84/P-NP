@@ -21,6 +21,7 @@ from src.ic_sat import (
 )
 from src.computational_dichotomy import CNFFormula, generate_low_treewidth_formula
 from src.gadgets.tseitin_generator import generate_expander_tseitin
+from src.proof_status import ProofStatus
 
 
 def main():
@@ -90,6 +91,11 @@ def main():
     print()
     print("The framework demonstrates the computational dichotomy:")
     print("  φ ∈ P ⟺ tw(G_I(φ)) = O(log n)")
+    print()
+    
+    # Display Proof Status
+    print()
+    print(ProofStatus.display_status())
     print()
     print("Frecuencia de resonancia: 141.7001 Hz ∞³")
     print()

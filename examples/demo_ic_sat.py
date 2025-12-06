@@ -25,6 +25,7 @@ from src.ic_sat import (
 )
 from src.computational_dichotomy import CNFFormula, generate_low_treewidth_formula
 from src.gadgets.tseitin_generator import generate_expander_tseitin
+from src.proof_status import ProofStatus
 
 
 def demo_1_bipartite_labels():
@@ -301,6 +302,11 @@ def main():
     print("  ✓ Variable prediction heuristics")
     print()
     print("The repository is now fully functional!")
+    print()
+    
+    # Display Proof Status
+    print()
+    print(ProofStatus.display_status())
     print()
 
 
