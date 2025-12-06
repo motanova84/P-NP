@@ -4,14 +4,23 @@ open Lake DSL
 package PNP
 
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4" @ "v4.12.0"
+  "https://github.com/leanprover-community/mathlib4" @ "v4.20.0"
 
 lean_lib ComputationalDichotomy where
   roots := #[`ComputationalDichotomy]
 
+lean_lib InformationComplexity where
+  roots := #[`InformationComplexity]
+
+lean_lib TreewidthTheory where
+  roots := #[`TreewidthTheory]
+
 lean_lib FormalVerification where
   roots := #[`FormalVerification]
-  globs := #[.submodules `Treewidth, .submodules `Lifting, .submodules `LowerBounds]
+  globs := #[.submodules `Treewidth, .submodules `Lifting, .submodules `LowerBounds, .submodules `StructuralCoupling]
+
+lean_lib Treewidth where
+  roots := #[`Treewidth]
 
 lean_lib Formal where
   roots := #[`Formal]
