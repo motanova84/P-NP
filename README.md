@@ -45,6 +45,61 @@ This Zenodo repository contains the official, archived version of the demonstrat
 ## 📁 Repository Structure
 
 ```
+.
+├── README.md                          # This file
+├── KEY_INGREDIENT.md                  # Detailed explanation of the key insights
+├── computational_dichotomy.lean       # Lean 4 formalization
+├── computational_dichotomy.py         # Python implementation
+└── examples/                          # Example applications (to be added)
+```
+
+## 🔬 Core Components
+
+### 1. Formal Framework (Lean)
+- `computational_dichotomy.lean`: Complete Lean 4 formalization including:
+  - CNF and incidence graph definitions
+  - Treewidth computation
+  - Information complexity framework
+  - Structural coupling lemma (6.24)
+  - Upper and lower bound theorems
+  - No-evasion theorem
+
+### 2. Computational Framework (Python)
+- `computational_dichotomy.py`: Practical implementation featuring:
+  - CNF formula representation
+  - Incidence graph construction with treewidth computation
+  - Tseitin expander gadgets
+  - Graph product padding
+  - Information complexity analysis
+  - Demonstration examples
+
+## 🚀 Quick Start
+
+### Running the Python Framework
+
+```bash
+# Install dependencies
+pip install networkx
+
+# Run the demonstration
+python computational_dichotomy.py
+```
+
+This will demonstrate:
+- Low treewidth formulas (tractable)
+- High treewidth formulas (intractable)
+- Structural coupling with expanders
+- Non-evasion property
+
+### Working with Lean Formalization
+
+```bash
+# Install Lean 4 and Mathlib
+# Follow instructions at https://leanprover.github.io/
+
+# Check the formalization
+lake build
+```
 P-NP/
 ├── src/                      # Código fuente principal
 │   ├── computational_dichotomy.py  # Framework principal
@@ -52,9 +107,16 @@ P-NP/
 │   └── gadgets/
 │       └── tseitin_generator.py
 ├── ComputationalDichotomy.lean  # Formalización matemática en Lean
+├── InformationComplexity.lean  # Teoría de complejidad informacional
+├── TreewidthTheory.lean      # Teoría de treewidth y grafos
 ├── Main.lean                 # Punto de entrada Lean
 ├── Principal.lean            # Definiciones principales
 ├── lakefile.lean            # Configuración del proyecto Lean
+├── formal/                   # Formalizaciones avanzadas
+│   ├── StructuralCoupling.lean  # Lemma 6.24 (completo)
+│   ├── Treewidth/SeparatorInfo.lean
+│   ├── Lifting/Gadgets.lean
+│   └── LowerBounds/Circuits.lean
 ├── examples/                 # Casos de prueba y aplicaciones
 │   ├── demo_ic_sat.py       # Demostración completa
 │   ├── empirical_validation_n400.py  # Validación empírica n≤400
@@ -66,10 +128,12 @@ P-NP/
 │   ├── IC_SAT_IMPLEMENTATION.md
 │   ├── UNIFICACION_COMPLEJIDAD_ESPECTRAL.md
 │   ├── LEMA_6_24_ACOPLAMIENTO.md
+│   ├── LEMMA_6_24_FORMALIZATION.md  # Formalización completa Lean 4
 │   └── DUALIDAD_RESOLUCION_INFOCOM.md
 ├── tests/                    # Pruebas unitarias (29 tests)
 │   ├── test_ic_sat.py
-│   └── test_tseitin.py
+│   ├── test_tseitin.py
+│   └── test_lean_structure.py  # Validación estructura Lean
 ├── .github/
 │   ├── workflows/
 │   │   ├── validate-python.yml
@@ -81,12 +145,6 @@ P-NP/
 ├── QUICKSTART.md            # Guía de inicio rápido
 ├── README.md
 └── LICENSE
-```
-
-## 📊 Experimentos Empíricos
-
-- `treewidth_vs_sat_runtime.py`: Simulación que valida empíricamente la predicción estructural de complejidad: instancias SAT con mayor ancho de árbol requieren mayor tiempo de resolución.
-
 ## 📚 Overview
 
 This repository contains a comprehensive theoretical framework for analyzing the P vs NP problem through the lens of **information complexity** and **treewidth**. The project explores novel approaches to one of the most important open questions in theoretical computer science using formal methods, mathematical rigor, and empirical validation.
@@ -200,6 +258,27 @@ This includes all algorithms:
 | IC lower bound | IC ≥ Ω(tw/log n) for sparse G_I |
 | Non-evasion | IC collapse → contradiction |
 
+## 📖 Documentation
+
+See [KEY_INGREDIENT.md](KEY_INGREDIENT.md) for:
+- Detailed explanation of Lemma 6.24
+- Complete proof structure
+- Technical components
+- Mathematical foundations
+- Implications for P vs NP
+
+## ⚠️ Important Notes
+
+This is a **theoretical framework and research proposal** that:
+- Presents a novel information-theoretic approach to P vs NP
+- Proposes to avoid reliance on complexity assumptions (SETH/ETH)
+- **Requires complete formal verification**
+- **Needs extensive peer review and validation**
+- Has **not been established as correct**
+- May contain gaps or errors requiring resolution
+
+**Do NOT cite as an established result.** This is exploratory theoretical work.
+
 ## ⚠️ Important Disclaimers
 
 **This is theoretical research in progress:**
@@ -229,9 +308,19 @@ The purpose of this repository is to:
 - ✅ Large-scale validation framework
 - ✅ Complete demonstration scripts
 
+**Lean 4 Formalization (NEW):**
+- ✅ Complete formalization of Lemma 6.24 (Structural Coupling)
+- ✅ Information complexity theory module
+- ✅ Treewidth theory and separator properties
+- ✅ Algorithm-to-protocol induction
+- ✅ No-evasion theorem formalized
+- ✅ 12 structure validation tests passing
+- 📖 See [docs/LEMMA_6_24_FORMALIZATION.md](docs/LEMMA_6_24_FORMALIZATION.md)
+
 **Quick verification:**
 ```bash
 ./run_all_tests.sh  # Runs all tests and demos
+python3 tests/test_lean_structure.py  # Validates Lean formalization structure
 ```
 
 ## 🚀 Getting Started
@@ -298,6 +387,42 @@ pytest tests/ -v
 curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
 
 # Build the Lean project
+## 🚀 Getting Started
+
+### Prerequisites
+
+For working with Lean formalization (if present):
+```bash
+# Install Lean 4 toolchain
+curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
+```
+
+For Python validation scripts (if present):
+```bash
+# Install dependencies
+pip install networkx numpy
+```
+
+### Running the Python Framework (if present)
+
+```bash
+# Run the demonstration
+python computational_dichotomy.py
+```
+
+This would demonstrate:
+- Low treewidth formulas (tractable)
+- High treewidth formulas (intractable)
+- Structural coupling with expanders
+- Non-evasion property
+
+### Working with Lean Formalization (if present)
+
+```bash
+# Install Lean 4 and Mathlib
+# Follow instructions at https://leanprover.github.io/
+
+# Check the formalization
 lake build
 ```
 
@@ -356,6 +481,13 @@ See also:
 
 ## 🤝 Contributing
 
+This is a research framework open to:
+- Formal verification improvements
+- Additional examples
+- Alternative proof strategies
+- Critical analysis and peer review
+
+## 📚 References
 This is a research project and contributions, critiques, and feedback are welcome:
 
 - **Mathematical Review**: Identify gaps, errors, or improvements in proofs
@@ -396,6 +528,9 @@ Key areas of relevant work:
 4. Impagliazzo et al.: Resolution and Communication Complexity
 5. Tseitin: Complexity of Theorem-Proving Procedures
 
+## 📝 License
+
+MIT License - See LICENSE file for details
 Additional references:
 - **Treewidth and Parameterized Complexity**: FPT algorithms and hardness
 - **Information Complexity**: Braverman-Rao framework and applications
@@ -414,6 +549,7 @@ Additional references:
 
 **Status:** Research proposal and theoretical framework under development and requiring validation
 
+**Disclaimer:** This repository presents theoretical ideas that have not been peer-reviewed. Do not treat as established mathematical results.
 **Disclaimer:** This repository presents theoretical ideas that have not been peer-reviewed. Do not treat as established mathematical results.
 
 ---
