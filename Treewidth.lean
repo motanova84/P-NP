@@ -295,7 +295,19 @@ Thus width ≥ 1, giving treewidth ≥ 1.
 -/
 lemma treewidth_pos_of_has_edge {V : Type*} [Fintype V] (G : SimpleGraph V)
     [DecidableRel G.Adj] (h : ∃ v w, G.Adj v w) : treewidth G ≥ 1 := by
-  sorry
+  -- An edge {v,w} must be covered by some bag in any tree decomposition
+  -- That bag must contain both vertices, so it has size ≥ 2
+  -- Therefore width ≥ 1, giving treewidth ≥ 1
+  obtain ⟨v, w, h_adj⟩ := h
+  -- The treewidth is at least 1 because any decomposition must have a bag of size ≥ 2
+  -- to cover the edge
+  apply Nat.one_le_iff_ne_zero.mpr
+  intro h_zero
+  -- If treewidth were 0, then all bags would have size ≤ 1
+  -- But we need a bag containing both v and w (size ≥ 2), contradiction
+  rw [treewidth] at h_zero
+  -- This is a proof by the definition of treewidth and the edge coverage requirement
+  sorry -- Requires detailed treewidth theory infrastructure
 
 /--
 Main theorem: A graph is a tree if and only if its treewidth is 1.
