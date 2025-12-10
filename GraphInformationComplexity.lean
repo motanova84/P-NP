@@ -44,8 +44,8 @@ structure Separator (G : SimpleGraph V) where
   is_balanced : S.card > 0
 
 /-- A balanced separator satisfies size constraints relative to total vertices.
-    Note: S.is_balanced (S.card > 0) is redundant when V > 0 and the size bound holds,
-    but we keep it explicit for clarity in the definition. -/
+    The upper bound |S| ≤ (2/3)|V| ensures that the separator creates
+    significant components on both sides. -/
 def is_balanced_separator (G : SimpleGraph V) (S : Separator G) : Prop :=
   S.S.card ≤ (2 * Fintype.card V) / 3
 
@@ -62,13 +62,15 @@ def GraphIC (G : SimpleGraph V) (S : Separator G) : ℕ :=
 
 /-! ## Main Lemmas and Theorems -/
 
-/-- Balanced separators cannot be too large relative to the graph size -/
+/-- Balanced separators cannot be too large relative to the graph size.
+    This lemma extracts the size bound from the balanced separator property.
+    It's the key inequality used in proving the information complexity lower bound. -/
 lemma balanced_separator_size_bound 
   (G : SimpleGraph V) 
   (S : Separator G) 
   (h_sep : is_balanced_separator G S) :
-  S.S.card ≤ (2 * Fintype.card V) / 3 := by
-  exact h_sep
+  S.S.card ≤ (2 * Fintype.card V) / 3 := 
+  h_sep
 
 /-- The logarithm of total configurations equals the number of non-separator vertices -/
 lemma log_total_configs_eq 
