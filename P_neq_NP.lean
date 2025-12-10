@@ -186,6 +186,13 @@ theorem separator_information_need
 /-- La constante universal κ_Π (kappa Pi) -/
 def κ_Π : ℝ := 2.5773
 
+/-- κ_Π es mayor o igual a 2 -/
+lemma kappa_pi_ge_two : κ_Π ≥ 2 := by norm_num [κ_Π]
+
+/-- 1/κ_Π es menor o igual a 1/2 -/
+lemma inv_kappa_pi_le_half : 1 / κ_Π ≤ 1 / 2 := by
+  apply div_le_div_of_nonneg_left <;> norm_num [κ_Π]
+
 /-- Treewidth de un grafo -/
 axiom treewidth (G : SimpleGraph V) : ℕ
 
@@ -200,7 +207,7 @@ axiom explicit_expansion_constant
 
 /-- Relación entre separador y treewidth -/
 axiom separator_lower_bound_from_treewidth
-  (G : SimpleGraph V) (n : ℕ) (S : Finset V) 
+  (G : SimpleGraph V) (S : Finset V) 
   (hS : BalancedSeparator G S) :
   treewidth G ≤ S.card
 
@@ -230,9 +237,7 @@ theorem kappa_pi_information_connection
       exact separator_information_need G S h_sep
     _ = (1 / 2) * (S.card : ℝ)             := by ring
     _ ≥ (1 / κ_Π) * (S.card : ℝ)           := by
-      have : κ_Π ≥ 2 := by norm_num [κ_Π]
-      have : 1 / κ_Π ≤ 1 / 2 := by
-        apply div_le_div_of_nonneg_left <;> norm_num [κ_Π]
+      have h1 := inv_kappa_pi_le_half
       linarith
 
 /-- TEOREMA PROFUNDO: IC y treewidth son proporcionales vía κ_Π -/
@@ -251,7 +256,7 @@ theorem information_treewidth_duality
     
     -- LOWER BOUND: IC ≥ tw/κ_Π
     · have h1 : treewidth G ≤ S.card := 
-        separator_lower_bound_from_treewidth G (Fintype.card V) S hS
+        separator_lower_bound_from_treewidth G S hS
       have h2 : GraphIC G S ≥ (1/κ_Π) * (S.card : ℝ) := by
         by_cases h : (treewidth G : ℝ) ≥ (Fintype.card V : ℝ) / 10
         · exact kappa_pi_information_connection G S hS h

@@ -130,10 +130,10 @@ variable (G : SimpleGraph V) (S : Finset V)
 
 -- Verificar κ_Π
 #check κ_Π  -- ℝ
-#eval κ_Π   -- 2.5773
+-- Note: κ_Π is noncomputable, use #check not #eval
 
 -- Aplicar teoremas
-example (h : BalancedSeparator G S) : GraphIC G S ≥ S.card / 2 :=
+example (h : BalancedSeparator G S) : GraphIC G S ≥ (S.card : ℝ) / 2 :=
   separator_information_need G S h
 ```
 
