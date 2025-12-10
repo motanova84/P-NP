@@ -182,8 +182,8 @@ def hard_cnf_formula(n: int, seed: int = 42) -> CNFFormula:
         hard_cnf_formula(n) = tseitin_encoding(ramanujan_graph(n))
     
     Properties:
-        - Variables: O(n√n)
-        - Clauses: O(n√n)
+        - Variables: O(n)
+        - Clauses: O(n)
         - Treewidth: Ω(√n)
         - Expansion: ≥ (1 - 2√(d-1)/d) (Ramanujan optimal)
     
