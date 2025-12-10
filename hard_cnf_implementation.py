@@ -21,7 +21,6 @@ class TseitinEncoder:
         """Construye grafo d-regular aproximando expansor Ramanujan"""
         # Método de Margulis (simplificado)
         G = nx.Graph()
-        nodes = list(range(self.n))
         
         # Generar usando aritmética modular (construcción tipo Margulis)
         for i in range(self.n):
