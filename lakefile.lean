@@ -25,6 +25,9 @@ lean_lib Treewidth where
 lean_lib Formal where
   roots := #[`Formal]
 
+lean_lib GraphInformationComplexity where
+  roots := #[`GraphInformationComplexity]
+
 @[default_target]
 lean_exe pnp where
   root := `Director

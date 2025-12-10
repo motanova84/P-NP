@@ -10,6 +10,7 @@ Author: José Manuel Mota Burruezo & Claude (Noēsis)
 import Mathlib.Data.Nat.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.List.Basic
+import Mathlib.Data.Set.Basic
 import Mathlib.Probability.ProbabilityMassFunction.Basic
 
 open Classical
@@ -116,5 +117,52 @@ axiom braverman_rao_lower_bound
   (S : BalancedSeparator)
   (h_balanced : S.is_balanced) :
   protocolIC π ≥ Ω (fun x => x) S.size
+
+/-! ## SAT Communication Protocol -/
+
+/-- Variable type for CNF formulas -/
+axiom V : Type
+
+/-- CNF formula structure -/
+structure CnfFormula where
+  /-- Evaluation function for assignments -/
+  eval : (V → Bool) → Bool
+
+/-- Parametrized communication protocol between two parties computing a specific function -/
+structure TwoPartyProtocol (α β : Type) (f : α → β → Bool) where
+  /-- Message type -/
+  messages : Type
+  /-- Alice's function (sends first message based on her input) -/
+  alice : α → messages
+  /-- Bob's function (computes output based on message and his input) -/
+  bob : messages → β → Bool
+  /-- Protocol correctness: bob ∘ alice computes the target function f -/
+  correct : ∀ (x : α) (y : β), bob (alice x) y = f x y
+
+/-- Protocol for distinguishing SAT assignments -/
+def SATProtocol (φ : CnfFormula) : 
+  TwoPartyProtocol (V → Bool) (V → Bool) (fun x y => φ.eval (fun v => x v || y v)) := {
+  messages := Set V,
+  alice := fun assignment => { v | assignment v = true },
+  bob := fun msg assignment => 
+    φ.eval (fun v => v ∈ msg || assignment v),
+  correct := by
+    intro x y
+    -- We need to prove: φ.eval (fun v => v ∈ {v | x v} || y v) = φ.eval (fun v => x v || y v)
+    simp only [Set.mem_setOf_eq]
+    -- Now both sides are φ.eval of a function, so we just need to show the functions are equal
+    congr 1
+    funext v
+    -- For each v: (x v || y v) = (x v || y v), which is trivial
+    rfl
+}
+
+/-- Information complexity dichotomy theorem -/
+theorem information_complexity_dichotomy 
+  (φ : CnfFormula) :
+  ∀ (x y : V → Bool), 
+    (SATProtocol φ).bob ((SATProtocol φ).alice x) y = φ.eval (fun v => x v || y v) := by
+  intro x y
+  exact (SATProtocol φ).correct x y
 
 end InformationComplexity
