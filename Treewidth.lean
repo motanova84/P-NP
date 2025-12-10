@@ -69,6 +69,7 @@ Coherence from the Instituto de Conciencia Cuántica.
 import Formal.Treewidth.Treewidth
 import Formal.Treewidth.SeparatorInfo
 import Formal.Treewidth.Expander
+import Formal.Treewidth.ExpanderSeparators
 import Formal.TreewidthTheory
 
 -- Re-export main definitions for easy access
@@ -87,6 +88,11 @@ export Treewidth (KAPPA_PI DELTA IsExpander
                    expander_large_separator_rigorous
                    optimal_separator_exists_final
                    BalancedSeparator OptimalSeparator)
+-- Export expander and separator theory (GAP solutions 2, 3, 4)
+export Treewidth.ExpanderSeparators (κ_Π IsKappaExpander BalancedSeparator OptimalSeparator
+                                     kappa_expander_large_separator
+                                     α_optimal separator_treewidth_relation
+                                     separator_potential optimal_separator_minimizes_potential)
 
 end Treewidth
 
