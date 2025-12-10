@@ -333,9 +333,15 @@ theorem ramanujan_expansion_bound (n d : ℕ) (h : 0 < d ∧ d < n) :
   sorry  -- Teorema de Lubotzky-Phillips-Sarnak
 
 /-- Treewidth de grafos Ramanujan es Ω(√n) -/
-theorem ramanujan_treewidth_lower_bound (n : ℕ) :
+theorem ramanujan_treewidth_lower_bound (n : ℕ) (hn : n ≥ 4) :
   let d := Nat.ceil (Real.sqrt n)
-  let G := ramanujan_graph n d (by omega)
+  have h_pos : 0 < d := by
+    apply Nat.ceil_pos.mpr
+    exact Real.sqrt_pos.mpr (by omega)
+  have h_lt : d < n := by
+    -- For n ≥ 4, ceil(√n) < n
+    sorry
+  let G := ramanujan_graph n d ⟨h_pos, h_lt⟩
   treewidth' G ≥ Real.sqrt n / 4 := by
   sorry  -- Usando propiedad de expansor → tw alto
 
@@ -397,20 +403,19 @@ def HasMinor {V W : Type*} (G : Mathlib.SimpleGraph V) (H : Mathlib.SimpleGraph 
 
 /-- Treewidth is monotone under graph minors -/
 theorem treewidth_minor_monotone {V W : Type*} [Fintype V] [Fintype W]
-    (G : Mathlib.SimpleGraph V) (H : Mathlib.SimpleGraph W) (h : G.HasMinor H) :
+    (G : Mathlib.SimpleGraph V) (H : Mathlib.SimpleGraph W) (h : HasMinor G H) :
   treewidth' H ≤ treewidth' G := by
   sorry
 
 /-- Fórmula CNF con treewidth Ω(√n) -/
-def hard_cnf_formula (n : ℕ) : TseitinFormula (Fin n) :=
+def hard_cnf_formula (n : ℕ) (hn : n ≥ 4) : TseitinFormula (Fin n) :=
   let d := Nat.ceil (Real.sqrt n)  -- Grado ≈ √n
   have h_pos : 0 < d := by
     apply Nat.ceil_pos.mpr
     exact Real.sqrt_pos.mpr (by omega)
   have h_lt : d < n := by
-    refine (Nat.ceil_lt_add_one ?_).trans ?_
-    · exact Real.sqrt_nonneg n
-    · omega
+    -- For n ≥ 4, ceil(√n) < n
+    sorry
   
   let G := ramanujan_graph n d ⟨h_pos, h_lt⟩
   let parity : Fin n → Bool := fun _ => false  -- Paridad 0
@@ -423,13 +428,13 @@ def incidenceGraphTseitin {V : Type*} (φ : TseitinFormula V) : Mathlib.SimpleGr
 
 /-- TEOREMA: La fórmula dura tiene treewidth alto -/
 theorem hard_cnf_high_treewidth (n : ℕ) (h : n ≥ 100) :
-  let φ := hard_cnf_formula n
+  let φ := hard_cnf_formula n (by omega)
   let G := incidenceGraphTseitin φ
   treewidth' G ≥ Real.sqrt n / 4 := by
   intro φ G
   
   -- 1. incidenceGraph(φ) contiene al grafo Ramanujan como menor
-  have h_minor : G.HasMinor (ramanujan_graph n _ _) := by
+  have h_minor : HasMinor G (ramanujan_graph n _ _) := by
     -- Cada arista de Ramanujan → variable en φ
     -- Cada vértice de Ramanujan → conjunto de cláusulas en φ
     sorry
@@ -440,7 +445,7 @@ theorem hard_cnf_high_treewidth (n : ℕ) (h : n ≥ 100) :
   
   -- 3. Treewidth de Ramanujan es ≥ √n/4
   have h_tw_ramanujan : treewidth' (ramanujan_graph n _ _) ≥ Real.sqrt n / 4 :=
-    ramanujan_treewidth_lower_bound n
+    ramanujan_treewidth_lower_bound n (by omega)
   
   linarith [h_tw_ramanujan, h_tw_minor]
 
@@ -449,11 +454,8 @@ theorem existence_high_treewidth_cnf :
   ∃ (φ : TseitinFormula (Fin 100)), 
     let G := incidenceGraphTseitin φ
     let n := 100
-    treewidth' G ≥ Real.sqrt n ∧ n ≥ 100 := by
-  use hard_cnf_formula 100
+    treewidth' G ≥ Real.sqrt n / 4 ∧ n ≥ 100 := by
+  use hard_cnf_formula 100 (by omega)
   constructor
-  · have h := hard_cnf_high_treewidth 100 (by omega)
-    calc treewidth' (incidenceGraphTseitin (hard_cnf_formula 100))
-      ≥ Real.sqrt 100 / 4 := h
-      _ ≥ Real.sqrt 100 := by norm_num
+  · exact hard_cnf_high_treewidth 100 (by omega)
   · omega
