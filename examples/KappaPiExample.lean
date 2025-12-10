@@ -67,7 +67,7 @@ example :
     let n := Fintype.card V
     let tw := treewidth (incidenceGraph φ)
     n = 10000 ∧
-    tw ≈ 100 ∧  -- Approximation
+    (95 ≤ tw ∧ tw ≤ 105) ∧  -- tw approximately 100
     tw / κ_Π_squared < 150 := by
   sorry
 
@@ -156,8 +156,8 @@ theorem dichotomy_boundary :
   ∀ (V : Type) [DecidableEq V] [Fintype V] (φ : CnfFormula V),
     let n := Fintype.card V
     let tw := treewidth (incidenceGraph φ)
-    (tw ≤ Real.log n → "tractable") ∧
-    (tw ≥ n / 10 → "intractable") := by
+    (tw ≤ Real.log n → inP φ) ∧
+    (tw ≥ n / 10 → ¬inP φ) := by
   sorry
 
 -- ═══════════════════════════════════════════════════════════
