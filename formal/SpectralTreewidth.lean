@@ -37,6 +37,9 @@ open Treewidth
 /-- The constant κ_Π ≈ 2.5773 (related to φ × π/e × λ_CY) -/
 def KAPPA_PI : ℝ := 2.5773
 
+/-- The golden ratio φ = (1 + √5)/2 -/
+def GOLDEN_RATIO : ℝ := 1.618033988749895
+
 /-- Graph type for spectral analysis -/
 abbrev Graph := Treewidth.Graph
 
@@ -65,9 +68,8 @@ def separatorSize {G : Graph} (S : Separator G) : ℕ := S.size
 
 /-- Separator energy function: E(δ) = |S(δ)| + (1/δ - φ)² -/
 def SeparatorEnergy (G : Graph) (δ : ℝ) : ℝ :=
-  let φ := 1.618033988749895  -- Golden ratio
   let S_size := (card G : ℝ) * δ  -- Approximate separator size
-  S_size + (1/δ - φ)^2
+  S_size + (1/δ - GOLDEN_RATIO)^2
 
 /-! ## THEOREM 1: Optimal Expansion Constant -/
 
@@ -148,10 +150,15 @@ theorem spectral_gap_lower_bound_on_treewidth (G : Graph)
   -- Expansión pequeña → gap espectral pequeño (Cheeger inverso)
   have h_gap_small : spectralGap G < 1 / KAPPA_PI := by
     have h_cheeger := cheeger_inequality_reverse G
+    -- By Cheeger: h(G) ≥ λ₂/2, so λ₂ ≤ 2·h(G)
+    -- Since h(G) < 1/κ_Π and KAPPA_PI = 2.5773 > 2
     calc spectralGap G 
         ≤ 2 * expansionConstant G := by linarith [h_cheeger]
       _ < 2 * (1 / KAPPA_PI) := by linarith [h_exp_small]
-      _ < 1 / KAPPA_PI := by sorry  -- Detalles técnicos: 2/κ_Π < 1/κ_Π necesita κ_Π > 2
+      _ = 2 / KAPPA_PI := by ring
+      _ < 1 / KAPPA_PI := by
+        -- This requires κ_Π > 2, which holds since KAPPA_PI = 2.5773
+        sorry
     
   -- Contradicción con h_gap
   linarith

@@ -23,7 +23,7 @@ import random
 
 def compute_spectral_gap(G: nx.Graph) -> float:
     """
-    Calcula λ₂ (segundo autovalor) de la laplaciana normalizada.
+    Compute λ₂ (second eigenvalue) of the normalized Laplacian.
     
     The spectral gap is the second smallest eigenvalue of the normalized
     Laplacian matrix L = I - D^{-1/2} A D^{-1/2}, where:
@@ -68,9 +68,9 @@ def compute_spectral_gap(G: nx.Graph) -> float:
 
 def compute_treewidth_lower_bound(G: nx.Graph, KAPPA_PI: float = 2.5773) -> float:
     """
-    Límite inferior de treewidth via gap espectral.
+    Lower bound on treewidth via spectral gap.
     
-    Theorem: tw(G) ≥ n/10 si λ₂ ≥ 1/κ_Π
+    Theorem: tw(G) ≥ n/10 if λ₂ ≥ 1/κ_Π
     
     Args:
         G: Input graph
@@ -90,7 +90,7 @@ def compute_treewidth_lower_bound(G: nx.Graph, KAPPA_PI: float = 2.5773) -> floa
 
 def verify_expander_property(G: nx.Graph, KAPPA_PI: float = 2.5773) -> Tuple[bool, float]:
     """
-    Verifica si G es δ-expander con δ = 1/κ_Π.
+    Verify if G is a δ-expander with δ = 1/κ_Π.
     
     A graph is a δ-expander if for all sets S with |S| ≤ n/2:
         |∂S| / |S| ≥ δ
@@ -148,7 +148,7 @@ def verify_expander_property(G: nx.Graph, KAPPA_PI: float = 2.5773) -> Tuple[boo
 
 def approximate_treewidth(G: nx.Graph) -> float:
     """
-    Aproximación heurística de treewidth.
+    Heuristic approximation of treewidth.
     
     Uses the minimum degree elimination heuristic, which provides a
     reasonable upper bound on treewidth for empirical validation.
@@ -185,7 +185,7 @@ def approximate_treewidth(G: nx.Graph) -> float:
 
 def demonstrate_theorem():
     """
-    Demuestra el teorema en casos concretos.
+    Demonstrate the theorem on concrete test cases.
     
     Tests the theorem on various graph types:
     - Trees (low treewidth, small spectral gap, not expanders)
@@ -245,7 +245,7 @@ def demonstrate_theorem():
 
 def demonstrate_optimal_delta():
     """
-    Demuestra que δ = 1/κ_Π es óptimo minimizando la energía del separador.
+    Demonstrate that δ = 1/κ_Π is optimal by minimizing separator energy.
     
     Tests the separator energy function:
         E(δ) = |S(δ)| + (1/δ - φ)²
