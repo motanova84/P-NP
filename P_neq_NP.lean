@@ -283,15 +283,14 @@ axiom incidenceGraph : CnfFormula → SimpleGraph V
 theorem information_complexity_dichotomy
   (φ : CnfFormula)
   (G : SimpleGraph V)
-  (hG : G = incidenceGraph φ) :
-  let k := treewidth G
-  let n := Fintype.card V
+  (hG : G = incidenceGraph φ)
+  (k : ℕ)
+  (hk : k = treewidth G) :
   (Big_O (fun m => (k : ℝ)) (fun m => Real.log m) → 
     ∃ S, Big_O (fun m => GraphIC G S) (fun m => Real.log m)) ∧
   (little_ω (fun m => (k : ℝ)) (fun m => Real.log m) → 
     ∀ S, BalancedSeparator G S → little_ω (fun m => GraphIC G S) (fun m => Real.log m)) := by
   
-  intro k n
   constructor
   
   -- CASO 1: tw bajo → IC bajo

@@ -8,7 +8,7 @@ Successfully implemented `P_neq_NP.lean` - a comprehensive Lean 4 module that fo
 
 ### 1. P_neq_NP.lean (Main Module)
 **Location**: `/home/runner/work/P-NP/P-NP/P_neq_NP.lean`
-**Lines**: 303
+**Lines**: 320
 **Status**: ✅ Complete
 
 **Structure:**
@@ -47,6 +47,7 @@ Comprehensive documentation covering:
 
 ### 3. tests/TestPneqNP.lean (Test File)
 **Location**: `/home/runner/work/P-NP/P-NP/tests/TestPneqNP.lean`
+**Lines**: 27
 **Status**: ✅ Complete
 
 Basic tests verifying:
@@ -209,10 +210,10 @@ All dependencies are from standard Mathlib4 v4.20.0.
 - `lakefile.lean`: Added P_neq_NP library configuration
 
 ### New Files
-- `P_neq_NP.lean`: Main module (303 lines)
-- `P_neq_NP_README.md`: Documentation (177 lines)
-- `tests/TestPneqNP.lean`: Basic tests (17 lines)
-- `TASK_4_COMPLETION_SUMMARY.md`: This file
+- `P_neq_NP.lean`: Main module (320 lines)
+- `P_neq_NP_README.md`: Documentation (150 lines)
+- `tests/TestPneqNP.lean`: Basic tests (27 lines)
+- `TASK_4_COMPLETION_SUMMARY.md`: This file (272 lines)
 
 ### Compatible With
 - Lean 4.20.0
