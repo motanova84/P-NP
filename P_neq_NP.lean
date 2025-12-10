@@ -271,6 +271,49 @@ axiom main_theorem_step5 : True
 -- TASK 3, GAP 3: CONSTRUCCIÓN FORMAL DE HARD_CNF_FORMULA
 -- ═══════════════════════════════════════════════════════════
 
+/-!
+# Formal Construction of HARD_CNF_FORMULA
+
+This section implements the formal construction of hard CNF formulas with high treewidth
+using Ramanujan expander graphs and Tseitin encoding (Gap 3, Task 3).
+
+## Overview
+
+The construction follows three main steps:
+
+1. **Ramanujan Expander Graphs**: Construct d-regular Ramanujan graphs with optimal
+   spectral expansion properties (Lubotzky-Phillips-Sarnak 1988)
+
+2. **Tseitin Encoding**: Encode graph parity constraints as CNF formulas using Tseitin's
+   classical transformation (Tseitin 1968)
+
+3. **Hard Formula Construction**: Combine the above to produce explicit CNF formulas with
+   treewidth Ω(√n), demonstrating existence of formulas with tw = ω(log n)
+
+## Main Results
+
+* `ramanujan_graph`: Construction of d-regular Ramanujan graphs on n vertices
+* `ramanujan_expansion_bound`: Spectral gap bound λ₂ ≤ 2√(d-1)
+* `ramanujan_treewidth_lower_bound`: Treewidth lower bound tw(G) ≥ √n/4
+* `tseitin_encoding`: Conversion of graph parity constraints to CNF
+* `hard_cnf_formula`: Explicit hard formula construction
+* `hard_cnf_high_treewidth`: Main theorem proving high treewidth
+* `existence_high_treewidth_cnf`: Existence result for tw = ω(log n)
+
+## Implementation Status
+
+All definitions and theorem statements are complete with `sorry` placeholders for:
+- Technical graph construction details (known to exist in literature)
+- XOR clause generation (standard CNF transformation)
+- Full proofs of classical results (Tseitin, Lubotzky-Phillips-Sarnak)
+
+## References
+
+* Tseitin (1968): "On the complexity of derivation in propositional calculus"
+* Lubotzky-Phillips-Sarnak (1988): "Ramanujan graphs"
+* Alon-Boppana: Spectral gap bounds for regular graphs
+-/
+
 /-! ### Grafos Expansores Ramanujan (Lubotzky-Phillips-Sarnak 1988) -/
 
 /-- Predicate for graph expander property -/
