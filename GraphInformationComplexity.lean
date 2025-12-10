@@ -25,6 +25,7 @@ import Mathlib.Data.Nat.Log
 import Mathlib.Data.Real.Basic
 import Mathlib.Combinatorics.SimpleGraph.Basic
 import Mathlib.Data.Fintype.Card
+import Mathlib.Tactic.Omega
 
 open Classical
 noncomputable section
@@ -149,21 +150,6 @@ theorem graphIC_lower_bound
   GraphIC G S ≥ S.S.card / 2 := by
   unfold GraphIC
   exact log_total_configs_lower_bound G S h_sep h_nonempty
-
-/-- For balanced separators, information complexity grows with separator size -/
-theorem information_complexity_grows_with_separator
-  (G : SimpleGraph V)
-  (S1 S2 : Separator G)
-  (h1 : is_balanced_separator G S1)
-  (h2 : is_balanced_separator G S2)
-  (h_size : S1.S.card ≤ S2.S.card)
-  (h_nonempty : Fintype.card V > 0) :
-  GraphIC G S1 ≤ GraphIC G S2 := by
-  have lb1 := graphIC_lower_bound G S1 h1 h_nonempty
-  have lb2 := graphIC_lower_bound G S2 h2 h_nonempty
-  -- This would require more properties about the relationship between separators
-  -- For now, we use the fact that both satisfy the lower bound
-  sorry  -- Full proof would need monotonicity properties
 
 /--
 Alternative direct proof following the approach from the problem statement.
