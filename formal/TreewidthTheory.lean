@@ -152,45 +152,54 @@ theorem treewidthUpperBound_valid (φ : CNFFormula) :
 Separator structure from treewidth theory.
 
 A balanced separator divides a graph into two parts of roughly equal size.
+The separator itself consists of vertices that, when removed, disconnect
+the graph into the two balanced parts.
 -/
 structure Separator (G : Graph) where
   vertices : List Nat
-  size : Nat
-  left_size : Nat  -- Size of left partition
-  right_size : Nat -- Size of right partition
+  left_size : Nat  -- Size of left partition (excluding separator)
+  right_size : Nat -- Size of right partition (excluding separator)
   is_balanced : left_size ≥ (left_size + right_size) / 3 ∧ 
                 right_size ≥ (left_size + right_size) / 3
-  nonempty : size > 0
+  nonempty : vertices.length > 0
+  -- Size is derived from vertices list
+  def size : Nat := vertices.length
 
 /--
-Existence of optimal separators with bounded size.
+Existence of optimal balanced separators with bounded size.
 For graphs with high treewidth, there exists a balanced separator
 with size proportional to the treewidth.
 
 This follows from Robertson-Seymour theory: if treewidth is k,
-then there exists a balanced separator of size at most k+1.
+then there exists an optimal balanced separator of size at most k+1.
+
+The separator returned is optimal in the sense that it has minimal size
+among all balanced separators of the graph.
 -/
 theorem optimal_separator_exists (φ : CNFFormula) (h : treewidth φ ≥ 999) :
-  ∃ (S : Separator (incidenceGraph φ)), S.size ≤ 1000 := by
+  ∃ (S : Separator (incidenceGraph φ)), 
+    S.is_balanced ∧ S.size ≤ 1000 ∧ 
+    (∀ S' : Separator (incidenceGraph φ), S'.is_balanced → S.size ≤ S'.size) := by
   sorry
 
 /--
-Separator size is tightly related to treewidth.
+Optimal separator size lower bound from treewidth.
 
+For optimal balanced separators, the size is tightly bounded by treewidth.
 By Robertson-Seymour theory, if treewidth is k, then:
-- There exists a balanced separator of size at most k+1
-- The minimum separator size is at least k
+- There exists an optimal balanced separator of size at most k+1
+- Any optimal balanced separator has size at least k
 
 For our case with treewidth ≥ 999:
-- We get a separator S with size ≤ 1000
-- The separator size must be at least treewidth, so S.size ≥ 999
-- For the information complexity argument, having S.size ≥ 999 is sufficient
+- If S is an optimal separator with size ≤ 1000 (from existence theorem)
+- Then S.size must be at least 999
 
-This version doesn't claim S.size = 1000, only that S.size ≥ 999.
+This theorem only applies to optimal separators (minimal among balanced separators).
 -/
 theorem separator_size_lower_bound (φ : CNFFormula) 
   (S : Separator (incidenceGraph φ)) 
-  (h_tw : treewidth φ ≥ 999) :
+  (h_tw : treewidth φ ≥ 999)
+  (h_optimal : ∀ S' : Separator (incidenceGraph φ), S'.is_balanced → S.size ≤ S'.size) :
   S.size ≥ 999 := by
   sorry
 

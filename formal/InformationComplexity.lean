@@ -130,9 +130,13 @@ then converts to time complexity in Step 5.
 - Structural Coupling Lemma (Lemma 6.24)
 -/
 theorem separator_information_need (φ : CNFFormula) (π : Protocol) 
-  (S : Formal.TreewidthTheory.Separator (Formal.TreewidthTheory.incidenceGraph φ)) :
+  (S : Formal.TreewidthTheory.Separator (Formal.TreewidthTheory.incidenceGraph φ))
+  (h_solves : π_solves_SAT π φ) :
   informationComplexity π ≥ (S.size : ℝ) - 2 := by
   sorry
+
+/-- Predicate: Protocol π correctly solves SAT on formula φ -/
+axiom π_solves_SAT : Protocol → CNFFormula → Prop
 
 /--
 Polynomial Time Implies Bounded Information Complexity
@@ -185,7 +189,7 @@ high information complexity (≥ 998) cannot be achieved by polynomial-time
 algorithms, proving φ ∉ P.
 -/
 axiom polynomial_time_implies_bounded_ic (φ : CNFFormula) (π : Protocol) :
-  (φ ∈ P) → informationComplexity π ≤ (numVars φ : ℝ) * Real.log (numVars φ)
+  (φ ∈ P) → π_solves_SAT π φ → informationComplexity π ≤ (numVars φ : ℝ) * Real.log (numVars φ)
 
 /--
 The class P - membership predicate.
