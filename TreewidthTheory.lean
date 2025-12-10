@@ -148,7 +148,7 @@ axiom ramanujan_graph : ℕ → RamanujanGraph
 def ParityAssignment (n : ℕ) := Fin n → Bool
 
 /-- Tseitin encoding of a graph with parity assignment -/
-axiom tseitin_encoding : RamanujanGraph → ParityAssignment n → CNFFormula
+axiom tseitin_encoding {n : ℕ} : RamanujanGraph → ParityAssignment n → CNFFormula
 
 /-- Hard CNF formula construction using Tseitin over Ramanujan graphs -/
 def hard_cnf_formula (n : ℕ) : CNFFormula :=
