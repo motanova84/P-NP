@@ -15,11 +15,11 @@ KAPPA_PI = 2.5773
 PHI = (1 + sqrt(5)) / 2
 
 def kappa_spiral_angle(n: int) -> float:
-    """Ángulo en la espiral κ_Π para n vértices"""
+    """Angle in the κ_Π spiral for n vertices"""
     return KAPPA_PI * log(max(n, 1))
 
 def spiral_coordinates(n: int) -> List[Tuple[float, float]]:
-    """Coordenadas en espiral logarítmica κ_Π"""
+    """Coordinates in logarithmic κ_Π spiral"""
     coords = []
     for i in range(n):
         theta = kappa_spiral_angle(i + 1)
@@ -30,29 +30,34 @@ def spiral_coordinates(n: int) -> List[Tuple[float, float]]:
     return coords
 
 # ═══════════════════════════════════════════════════════════════
-# ALGORITMO DEFINITIVO: SEPARADOR κ_Π-ÓPTIMO
+# DEFINITIVE ALGORITHM: κ_Π-OPTIMAL SEPARATOR
 # ═══════════════════════════════════════════════════════════════
+
+# Constants for separator verification
+BALANCE_THRESHOLD = 1/3  # Minimum component size ratio
+MAX_COMPONENT_RATIO = 2/3  # Maximum component size ratio
+MAX_OPTIMIZATION_ITERATIONS = 100  # Maximum iterations for balance optimization
 
 @dataclass
 class KappaSeparator:
-    """Separador óptimo con garantías κ_Π"""
+    """Optimal separator with κ_Π guarantees"""
     vertices: Set
     size: int
-    balance: float  # 0 a 1 (1 = perfecto)
+    balance: float  # 0 to 1 (1 = perfect balance)
     treewidth_ratio: float  # |S| / tw(G)
     
     @property
     def is_kappa_optimal(self) -> bool:
-        """Verifica optimalidad κ_Π"""
+        """Verifies κ_Π optimality"""
         return abs(self.treewidth_ratio - 1/KAPPA_PI) < 0.1
 
 def find_kappa_optimal_separator(G: nx.Graph) -> KappaSeparator:
     """
-    Encuentra separador óptimo usando teoría κ_Π.
-    Combina:
-    1. BFS para grafos con tw bajo
-    2. Espiral κ_Π para grafos con tw alto
-    3. Optimización del balance áureo
+    Finds optimal separator using κ_Π theory.
+    Combines:
+    1. BFS for graphs with low treewidth
+    2. κ_Π spiral for graphs with high treewidth
+    3. Golden ratio balance optimization
     """
     n = len(G)
     if n == 0:
@@ -121,7 +126,7 @@ def find_kappa_optimal_separator(G: nx.Graph) -> KappaSeparator:
     return KappaSeparator(best_separator, size, balance, treewidth_ratio)
 
 def improved_bodlaender_separator(G: nx.Graph, tw: float) -> Set:
-    """Versión mejorada del algoritmo de Bodlaender con constante κ_Π"""
+    """Improved version of Bodlaender's algorithm with κ_Π constant"""
     n = len(G)
     if n == 0:
         return set()
@@ -165,7 +170,7 @@ def improved_bodlaender_separator(G: nx.Graph, tw: float) -> Set:
         return separator
 
 def kappa_spiral_separator(G: nx.Graph, tw: float) -> Set:
-    """Separador para grafos con estructura de espiral κ_Π"""
+    """Separator for graphs with κ_Π spiral structure"""
     n = len(G)
     if n == 0:
         return set()
@@ -208,7 +213,7 @@ def kappa_spiral_separator(G: nx.Graph, tw: float) -> Set:
     return best_separator
 
 def optimize_golden_balance(separator: Set, G: nx.Graph) -> Set:
-    """Optimiza el separador para balance áureo φ"""
+    """Optimizes the separator for golden ratio φ balance"""
     n = len(G)
     if n == 0 or not separator:
         return separator
@@ -217,8 +222,8 @@ def optimize_golden_balance(separator: Set, G: nx.Graph) -> Set:
     best_sep = set(separator)
     best_balance = calculate_golden_balance(current_sep, G)
     
-    # Búsqueda local
-    for _ in range(100):  # Iteraciones limitadas
+    # Local search with simulated annealing
+    for _ in range(MAX_OPTIMIZATION_ITERATIONS):
         # Pequeña perturbación
         candidate = perturb_separator(current_sep, G)
         balance = calculate_golden_balance(candidate, G)
@@ -233,7 +238,7 @@ def optimize_golden_balance(separator: Set, G: nx.Graph) -> Set:
     return best_sep
 
 def calculate_golden_balance(separator: Set, G: nx.Graph) -> float:
-    """Calcula qué tan cerca está del balance áureo φ"""
+    """Calculates how close the separator is to golden ratio φ balance"""
     if not separator:
         return 0.0
     
@@ -474,8 +479,8 @@ def complete_demonstration():
 # ═══════════════════════════════════════════════════════════════
 
 def estimate_treewidth(G: nx.Graph) -> float:
-    """Estima treewidth usando heurística min-degree"""
-    # Implementación simplificada
+    """Estimates treewidth using min-degree heuristic"""
+    # Simplified implementation
     if not G.nodes():
         return 0.0
     
@@ -498,7 +503,7 @@ def estimate_treewidth(G: nx.Graph) -> float:
     return float(max_degree)
 
 def calculate_expansion(G: nx.Graph) -> float:
-    """Calcula constante de expansión (mínima sobre subconjuntos pequeños)"""
+    """Calculates expansion constant (minimum over small subsets)"""
     n = len(G)
     if n == 0:
         return 0.0
@@ -542,7 +547,7 @@ def calculate_expansion(G: nx.Graph) -> float:
     return min_expansion
 
 def calculate_conductance(G: nx.Graph, separator: Set) -> float:
-    """Calcula conductancia de un separador"""
+    """Calculates conductance of a separator"""
     if not separator or len(separator) == len(G):
         return float('inf')
     
@@ -562,7 +567,7 @@ def calculate_conductance(G: nx.Graph, separator: Set) -> float:
     return cut_edges / min(vol_S, vol_complement)
 
 def perturb_separator(separator: Set, G: nx.Graph) -> Set:
-    """Perturba ligeramente un separador"""
+    """Slightly perturbs a separator"""
     if not separator or len(separator) >= len(G):
         return separator
     
@@ -595,8 +600,8 @@ def random_subsets(nodes, max_subsets):
     return subsets
 
 def approximate_tree_decomposition(G: nx.Graph, tw: float) -> nx.Graph:
-    """Aproxima una tree decomposition del grafo"""
-    # Implementación simplificada: crear árbol de bags
+    """Approximates a tree decomposition of the graph"""
+    # Simplified implementation: create tree of bags
     tree = nx.Graph()
     
     if not G.nodes():
@@ -633,7 +638,7 @@ def approximate_tree_decomposition(G: nx.Graph, tw: float) -> nx.Graph:
     return tree
 
 def find_golden_balanced_edge(tree_decomp: nx.Graph) -> Tuple:
-    """Encuentra arista que mejor balancea la tree decomposition"""
+    """Finds edge that best balances the tree decomposition"""
     if not tree_decomp.edges():
         return None
     
@@ -657,7 +662,7 @@ def find_golden_balanced_edge(tree_decomp: nx.Graph) -> Tuple:
     return best_edge if best_edge else list(tree_decomp.edges())[0] if tree_decomp.edges() else None
 
 def intersect_bags(tree_decomp: nx.Graph, edge: Tuple) -> Set:
-    """Encuentra intersección de bags en una arista"""
+    """Finds intersection of bags at an edge"""
     if edge is None or not tree_decomp.nodes():
         return set()
     
@@ -668,7 +673,7 @@ def intersect_bags(tree_decomp: nx.Graph, edge: Tuple) -> Set:
     return bag_u & bag_v
 
 def minimize_separator(separator: Set, G: nx.Graph) -> Set:
-    """Minimiza un separador manteniendo la propiedad de separación"""
+    """Minimizes a separator while maintaining separation property"""
     current = separator.copy()
     
     # Intentar eliminar nodos uno a uno
@@ -685,7 +690,7 @@ def minimize_separator(separator: Set, G: nx.Graph) -> Set:
     return current
 
 def find_minimal_vertex_separator(G: nx.Graph) -> Set:
-    """Encuentra un separador de vértices mínimo usando BFS"""
+    """Finds a minimal vertex separator using BFS"""
     n = len(G)
     if n <= 2:
         return set()
@@ -750,7 +755,7 @@ def find_minimal_vertex_separator(G: nx.Graph) -> Set:
     return best_separator
 
 def create_cnf_incidence_graph(n_vars: int, n_clauses: int) -> nx.Graph:
-    """Crea grafo de incidencia de una fórmula CNF aleatoria"""
+    """Creates incidence graph of a random CNF formula"""
     G = nx.Graph()
     
     # Agregar nodos de variables
@@ -768,7 +773,7 @@ def create_cnf_incidence_graph(n_vars: int, n_clauses: int) -> nx.Graph:
     return G
 
 def create_kappa_spiral_graph(n: int) -> nx.Graph:
-    """Crea grafo con estructura de espiral κ_Π"""
+    """Creates graph with κ_Π spiral structure"""
     G = nx.Graph()
     
     # Agregar nodos
