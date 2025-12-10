@@ -144,7 +144,7 @@ All dependencies are from standard Mathlib4 v4.20.0.
 | `CommunicationProtocol` | Structure | Alice-Bob communication framework |
 | `InformationComplexity` | ℕ | Minimum bits for communication |
 | `SATProtocol` | Protocol | SAT instance communication |
-| `GraphIC` | ℕ | Information complexity via separators |
+| `GraphIC` | ℝ | Information complexity via separators |
 | `BalancedSeparator` | Prop | Balanced separator predicate |
 | `κ_Π` | ℝ | Universal constant (2.5773) |
 | `Big_O` | Prop | Asymptotic upper bound |

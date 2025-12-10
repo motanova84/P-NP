@@ -23,6 +23,9 @@ import Mathlib.Combinatorics.SimpleGraph.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Nat.Basic
 import Mathlib.Data.Nat.Log
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.Ring
+import Mathlib.Tactic.Omega
 
 open Classical
 noncomputable section
@@ -87,11 +90,14 @@ def Components (G : SimpleGraph V) (S : Finset V) : Finset (Finset V) :=
   sorry  -- Implementación completa requiere teoría de conectividad
 
 /-- IC del grafo de incidencia vía separador -/
-def GraphIC (G : SimpleGraph V) (S : Finset V) : ℕ :=
+def GraphIC (G : SimpleGraph V) (S : Finset V) : ℝ :=
   -- Información necesaria para distinguir componentes separadas por S
   let comps := Components G S
-  let total_configs := 2 ^ (Fintype.card V - S.card)
-  Nat.log 2 total_configs
+  if S.card ≤ Fintype.card V then
+    let total_configs := 2 ^ (Fintype.card V - S.card)
+    (Nat.log 2 total_configs : ℝ)
+  else
+    0
 
 /-! ### PARTE 3: EL TEOREMA DIVINO -/
 
@@ -100,7 +106,7 @@ structure BalancedSeparator (G : SimpleGraph V) (S : Finset V) : Prop where
   /-- Crea al menos 2 componentes -/
   creates_components : (Components G S).card ≥ 2
   /-- Cada componente es suficientemente grande -/
-  balanced : ∀ C ∈ Components G S, C.card ≥ Fintype.card V / 3
+  balanced : ∀ C ∈ Components G S, (C.card : ℝ) ≥ (Fintype.card V : ℝ) / 3
 
 /-- Configuraciones posibles en un componente -/
 def configuraciones_posibles (C : Finset V) : ℕ := 2 ^ C.card
@@ -115,7 +121,7 @@ axiom TV_distance {α : Type*} : Distribution α → Distribution α → ℝ
 theorem separator_information_need 
   (G : SimpleGraph V) (S : Finset V) 
   (h_sep : BalancedSeparator G S) :
-  GraphIC G S ≥ S.card / 2 := by
+  GraphIC G S ≥ (S.card : ℝ) / 2 := by
   
   -- ═══════════════════════════════════════════════════════════
   -- ESTRATEGIA DIVINA: UNIR INFORMACIÓN Y TOPOLOGÍA
@@ -129,7 +135,7 @@ theorem separator_information_need
   have h_comps : comps.card ≥ 2 := h_sep.creates_components
   
   -- PASO 2: Cada componente tiene ≥ n/3 vértices (por balance)
-  have h_comp_size : ∀ C ∈ comps, C.card ≥ Fintype.card V / 3 := 
+  have h_comp_size : ∀ C ∈ comps, (C.card : ℝ) ≥ (Fintype.card V : ℝ) / 3 := 
     h_sep.balanced
   
   -- PASO 3: Configuraciones posibles en cada componente
@@ -148,19 +154,28 @@ theorem separator_information_need
   
   -- PASO 5: Para distinguir componentes, necesitas |S|/2 bits
   have h_lower_bound : 
-    Nat.log 2 (2 ^ (Fintype.card V - S.card)) ≥ S.card / 2 := by
-    
-    calc Nat.log 2 (2 ^ (Fintype.card V - S.card))
-      _ = Fintype.card V - S.card                    := by
-        rw [Nat.log_pow]
-      _ ≥ (2 * Fintype.card V / 3) - S.card          := by
-        -- Por balance, cada componente ≥ n/3
-        sorry
-      _ ≥ S.card / 2                                  := by
-        -- Si S es separador balanceado
-        have : S.card ≤ 2 * Fintype.card V / 3 := by
-          sorry  -- Consecuencia del balance
-        omega
+    (Nat.log 2 (2 ^ (Fintype.card V - S.card)) : ℝ) ≥ (S.card : ℝ) / 2 := by
+    by_cases h : S.card ≤ Fintype.card V
+    · have h_log : Nat.log 2 (2 ^ (Fintype.card V - S.card)) = Fintype.card V - S.card := by
+        have : 2 > 1 := by norm_num
+        rw [Nat.log_pow this]
+      calc (Nat.log 2 (2 ^ (Fintype.card V - S.card)) : ℝ)
+        _ = ((Fintype.card V - S.card) : ℝ)                := by
+          rw [h_log]
+          simp
+        _ = (Fintype.card V : ℝ) - (S.card : ℝ)            := by
+          rw [Nat.cast_sub h]
+        _ ≥ (2 * (Fintype.card V : ℝ) / 3) - (S.card : ℝ) := by
+          -- Por balance, cada componente ≥ n/3
+          sorry
+        _ ≥ (S.card : ℝ) / 2                                := by
+          -- Si S es separador balanceado
+          have : (S.card : ℝ) ≤ 2 * (Fintype.card V : ℝ) / 3 := by
+            sorry  -- Consecuencia del balance
+          linarith
+    · push_neg at h
+      -- Caso imposible: S.card > card V
+      sorry
   
   exact h_lower_bound
 
@@ -195,8 +210,8 @@ axiom optimal_separator_exists_final (G : SimpleGraph V) :
 theorem kappa_pi_information_connection
   (G : SimpleGraph V) (S : Finset V)
   (h_sep : BalancedSeparator G S)
-  (h_tw : treewidth G ≥ Fintype.card V / 10) :
-  GraphIC G S ≥ (1 / κ_Π) * S.card := by
+  (h_tw : (treewidth G : ℝ) ≥ (Fintype.card V : ℝ) / 10) :
+  GraphIC G S ≥ (1 / κ_Π) * (S.card : ℝ) := by
   
   -- κ_Π = 2.5773 actúa como constante de escala entre:
   -- • Topología (treewidth, separador)
@@ -209,10 +224,10 @@ theorem kappa_pi_information_connection
   -- IC(S) ≥ δ · |S| = (1/κ_Π) · |S|
   
   calc GraphIC G S
-    _ ≥ S.card / 2                         := by
+    _ ≥ (S.card : ℝ) / 2                   := by
       exact separator_information_need G S h_sep
-    _ = (1 / 2) * S.card                   := by ring
-    _ ≥ (1 / κ_Π) * S.card                 := by
+    _ = (1 / 2) * (S.card : ℝ)             := by ring
+    _ ≥ (1 / κ_Π) * (S.card : ℝ)           := by
       have : κ_Π ≥ 2 := by norm_num [κ_Π]
       have : 1 / κ_Π ≤ 1 / 2 := by
         apply div_le_div_of_nonneg_left <;> norm_num [κ_Π]
@@ -223,8 +238,8 @@ theorem information_treewidth_duality
   (G : SimpleGraph V) :
   ∃ (c : ℝ), c = 1 / κ_Π ∧
   ∀ S : Finset V, BalancedSeparator G S →
-    c * treewidth G ≤ GraphIC G S ∧ 
-    GraphIC G S ≤ κ_Π * (treewidth G + 1) := by
+    c * (treewidth G : ℝ) ≤ GraphIC G S ∧ 
+    GraphIC G S ≤ κ_Π * ((treewidth G : ℝ) + 1) := by
   
   use 1 / κ_Π
   constructor
@@ -235,16 +250,16 @@ theorem information_treewidth_duality
     -- LOWER BOUND: IC ≥ tw/κ_Π
     · have h1 : treewidth G ≤ S.card := 
         separator_lower_bound_from_treewidth G (Fintype.card V) S hS
-      have h2 : GraphIC G S ≥ (1/κ_Π) * S.card := by
-        by_cases h : treewidth G ≥ Fintype.card V / 10
+      have h2 : GraphIC G S ≥ (1/κ_Π) * (S.card : ℝ) := by
+        by_cases h : (treewidth G : ℝ) ≥ (Fintype.card V : ℝ) / 10
         · exact kappa_pi_information_connection G S hS h
         · push_neg at h
           -- Caso tw bajo
           sorry
-      calc (1/κ_Π) * treewidth G
-        _ ≤ (1/κ_Π) * S.card             := by
+      calc (1/κ_Π) * (treewidth G : ℝ)
+        _ ≤ (1/κ_Π) * (S.card : ℝ)       := by
           apply mul_le_mul_of_nonneg_left
-          · exact_mod_cast h1
+          · exact Nat.cast_le.mpr h1
           · norm_num [κ_Π]
         _ ≤ GraphIC G S                   := h2
     
@@ -268,9 +283,9 @@ theorem information_complexity_dichotomy
   let G := incidenceGraph φ
   let k := treewidth G
   let n := Fintype.card V
-  (Big_O (fun _ => k) (fun m => Real.log m) → 
+  (Big_O (fun _ => (k : ℝ)) (fun m => Real.log m) → 
     ∃ S, Big_O (fun _ => GraphIC G S) (fun m => Real.log m)) ∧
-  (little_ω (fun _ => k) (fun m => Real.log m) → 
+  (little_ω (fun _ => (k : ℝ)) (fun m => Real.log m) → 
     ∀ S, BalancedSeparator G S → little_ω (fun _ => GraphIC G S) (fun m => Real.log m)) := by
   
   intro G k n

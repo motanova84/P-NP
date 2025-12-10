@@ -22,7 +22,7 @@ Este módulo implementa la teoría de complejidad de información como geometrí
 **Definiciones clave:**
 - `SATProtocol φ`: Protocolo para distinguir asignaciones SAT
 - `Components G S`: Componentes de un grafo separadas por un conjunto S
-- `GraphIC G S`: Complejidad de información del grafo de incidencia vía separador
+- `GraphIC G S`: Complejidad de información del grafo de incidencia vía separador (retorna ℝ)
 
 ### PARTE 3: EL TEOREMA DIVINO
 
