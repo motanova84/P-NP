@@ -3,12 +3,26 @@
 Computational Dichotomy Framework (P≠NP)
 Author: José Manuel Mota Burruezo (ICQ · 2025)
 Dependencies: networkx, numpy
+
+Featuring: κ_Π = 2.5773 - The Millennium Constant
 """
 
 import networkx as nx
 import numpy as np
 import random
 from typing import List, Tuple
+import sys
+import os
+
+# Add src to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
+from constants import (
+    KAPPA_PI, 
+    QCAL_FREQUENCY_HZ,
+    information_complexity_lower_bound,
+    p_np_dichotomy_threshold,
+    is_in_P
+)
 
 # ========== CNF FORMULA CLASS ==========
 
@@ -219,15 +233,18 @@ class ComputationalDichotomy:
     
     def compute_information_complexity(self, formula):
         """
-        Compute information complexity of a SAT formula.
+        Compute information complexity of a SAT formula using κ_Π.
         
-        Uses treewidth as a proxy for information complexity.
+        Uses the millennium constant κ_Π = 2.5773 to compute the
+        fundamental information complexity bound:
+        
+        IC(Π | S) ≥ κ_Π · tw(φ) / log n
         
         Args:
             formula: CNF formula object
             
         Returns:
-            Information complexity estimate
+            Information complexity estimate (in bits)
         """
         # Build incidence graph
         if hasattr(formula, 'incidence_graph'):
@@ -235,12 +252,11 @@ class ComputationalDichotomy:
         else:
             G = incidence_graph(formula.num_vars, formula.clauses)
         
-        # Treewidth correlates with information complexity
+        # Estimate treewidth
         tw = estimate_treewidth(G)
         
-        # Information complexity is roughly proportional to treewidth
-        # and number of clauses that need to be checked
-        ic = tw * np.log2(max(len(formula.clauses), 1) + 1)
+        # Apply κ_Π bound from constants module
+        ic = information_complexity_lower_bound(tw, formula.num_vars)
         
         return ic
     
@@ -288,5 +304,19 @@ class ComputationalDichotomy:
 
 
 if __name__ == "__main__":
+    print("=" * 70)
+    print("Computational Dichotomy Framework with κ_Π")
+    print("=" * 70)
+    print(f"κ_Π (Millennium Constant): {KAPPA_PI}")
+    print(f"QCAL Frequency: {QCAL_FREQUENCY_HZ} Hz")
+    print()
+    
+    # Test with example
+    print("Testing with n=20 variables:")
     LSV = LargeScaleValidation()
     LSV.run_ic_sat(20)
+    
+    print()
+    print("=" * 70)
+    print("Frequency: 141.7001 Hz ∞³")
+    print("=" * 70)
