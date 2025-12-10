@@ -16,6 +16,7 @@ using Mathlib's graph theory library.
 -/
 
 import Mathlib
+import Formal.Treewidth.ExpanderSeparators
 
 namespace Treewidth
 
