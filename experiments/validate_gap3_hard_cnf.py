@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 import networkx as nx
 import numpy as np
 from src.computational_dichotomy import (
-    hard_cnf_formula, ramanujan_graph, CNFFormula, 
+    hard_cnf_formula, ramanujan_graph, 
     incidence_graph, estimate_treewidth
 )
 
