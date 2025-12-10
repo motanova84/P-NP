@@ -200,7 +200,7 @@ theorem expander_implies_high_treewidth
   (δ : ℝ) 
   (h_exp : IsExpander G δ) 
   (h_δ : δ > 0) :
-  treewidth G ≥ δ * Fintype.card V / (2 * (1 + δ)) := by
+  ↑(treewidth G) ≥ δ * Fintype.card V / (2 * (1 + δ)) := by
   -- Using Cheeger's inequality and relationship with treewidth
   -- Known theorem in graph theory
   sorry
