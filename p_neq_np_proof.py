@@ -7,6 +7,11 @@ from typing import Dict, List, Tuple
 import matplotlib.pyplot as plt
 
 KAPPA_PI = 2.5773
+MIN_DEGREE = 3
+MIN_VARS_FOR_SAMPLING = 3
+POLY_DEGREE = 3
+CORRELATION_THRESHOLD = 0.95
+SEPARATION_THRESHOLD = 10
 
 class PNePProof:
     """
@@ -21,15 +26,18 @@ class PNePProof:
         Genera fórmula CNF con tw(G) = Ω(n).
         Basado en construcción de grafos expansores.
         """
+        if n < MIN_VARS_FOR_SAMPLING:
+            raise ValueError(f"n debe ser al menos {MIN_VARS_FOR_SAMPLING} para generar fórmulas")
+        
         # Grafo aleatorio regular (d-regular con d ≈ √n)
-        d = max(3, int(math.sqrt(n)))
+        d = max(MIN_DEGREE, int(math.sqrt(n)))
         G = nx.random_regular_graph(d, n)
         
         # Añadir cláusulas (nodos tipo C)
         for i in range(2 * n):
             G.add_node(f"C{i}", type='clause')
-            # Conectar a 3 variables aleatorias
-            vars_sample = np.random.choice(list(range(n)), 3, replace=False)
+            # Conectar a MIN_VARS_FOR_SAMPLING variables aleatorias
+            vars_sample = np.random.choice(list(range(n)), MIN_VARS_FOR_SAMPLING, replace=False)
             for v in vars_sample:
                 G.add_edge(f"C{i}", v)
         
@@ -95,7 +103,7 @@ class PNePProof:
             time_log = math.log2(max(time_est, 1))
             
             # Bound polinomial (hipotético si P=NP)
-            poly_bound = n ** 3  # Ejemplo: O(n³)
+            poly_bound = n ** POLY_DEGREE
             poly_log = math.log2(poly_bound)
             
             # Ratio exponencial/polinomial
@@ -171,30 +179,41 @@ class PNePProof:
         print("\n  📊 Gráfico guardado: p_neq_np_dichotomy.png")
         plt.show()
     
-    def final_verdict(self) -> bool:
+    def final_verdict(self) -> Tuple[bool, Dict[str, bool]]:
         """
         Emite veredicto final basado en análisis empírico.
+        Returns: (verdict, test_results)
         """
         # Verificar que ratio crece sin bound
         ratios = self.results['ratio']
         
         # Test 1: Ratio debe crecer monótonamente
-        is_growing = all(ratios[i] <= ratios[i+1] for i in range(len(ratios)-1))
+        is_growing = len(ratios) >= 2 and all(ratios[i] <= ratios[i+1] for i in range(len(ratios)-1))
         
         # Test 2: Último ratio debe ser >> 1
-        final_ratio = ratios[-1]
-        significantly_separated = final_ratio > 10
+        final_ratio = ratios[-1] if ratios else 0
+        significantly_separated = final_ratio > SEPARATION_THRESHOLD
         
         # Test 3: IC correlaciona con tw via κ_Π
         ic_vals = self.results['ic']
         tw_vals = self.results['tw']
         theoretical_ic = [tw/KAPPA_PI for tw in tw_vals]
-        correlation = np.corrcoef(ic_vals, theoretical_ic)[0, 1]
-        kappa_validates = correlation > 0.95
+        
+        # Handle edge case where correlation might be NaN
+        correlation = 0.0
+        if len(ic_vals) > 1 and np.std(ic_vals) > 0 and np.std(theoretical_ic) > 0:
+            correlation = np.corrcoef(ic_vals, theoretical_ic)[0, 1]
+        kappa_validates = correlation > CORRELATION_THRESHOLD
+        
+        test_results = {
+            'is_growing': is_growing,
+            'significantly_separated': significantly_separated,
+            'kappa_validates': kappa_validates
+        }
         
         verdict = is_growing and significantly_separated and kappa_validates
         
-        return verdict
+        return verdict, test_results
 
 def main():
     print("═" * 70)
@@ -218,11 +237,11 @@ def main():
     print("\n⚖️  FASE 3: VEREDICTO FINAL")
     print("─" * 70)
     
-    verdict = proof.final_verdict()
+    verdict, test_results = proof.final_verdict()
     
-    print(f"\n  Test 1: Ratio crece monótonamente: ✅" if verdict else "  ❌")
-    print(f"  Test 2: Separación significativa: ✅" if verdict else "  ❌")
-    print(f"  Test 3: κ_Π valida dualidad: ✅" if verdict else "  ❌")
+    print(f"\n  Test 1: Ratio crece monótonamente: {'✅' if test_results['is_growing'] else '❌'}")
+    print(f"  Test 2: Separación significativa: {'✅' if test_results['significantly_separated'] else '❌'}")
+    print(f"  Test 3: κ_Π valida dualidad: {'✅' if test_results['kappa_validates'] else '❌'}")
     
     print("\n" + "═" * 70)
     if verdict:
