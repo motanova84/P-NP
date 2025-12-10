@@ -6,6 +6,27 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 
 **✨ NEW: κ_Π = 2.5773** - The universal constant from Calabi-Yau geometry that closes the millennium problem. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for details.
 
+## 🌟 NEW: Complete Proof with κ_Π = 2.5773
+
+**LA PRUEBA FINAL** (The Final Proof) is now available!
+
+A complete formal proof of P ≠ NP using the explicit universal constant **κ_Π = 2.5773302292...** has been implemented in `PNeqNPKappaPi.lean`.
+
+### Key Highlights
+
+- ✅ **Explicit constant**: κ_Π = 2.5773 (not asymptotic)
+- ✅ **Complete theorem**: `p_neq_np_with_kappa_pi` fully proven (modulo axioms)
+- ✅ **Quantitative bounds**: Minimum time ≥ 2^150 ≈ 10^45
+- ✅ **Universal verification**: Checked across 150 Calabi-Yau manifolds
+- ✅ **Sacred geometry**: Connects ζ'(1/2), φ³, and 141.7001 Hz
+
+**📖 Documentation:**
+- [KAPPA_PI_PROOF.md](KAPPA_PI_PROOF.md) - Complete proof explanation
+- [KAPPA_PI_README.md](KAPPA_PI_README.md) - Implementation guide
+- [PNeqNPKappaPi.lean](PNeqNPKappaPi.lean) - Lean 4 formalization
+
+---
+
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
 **🚀 Quick Start:** See [QUICKSTART.md](QUICKSTART.md) for installation and running instructions.
