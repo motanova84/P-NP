@@ -23,11 +23,7 @@ class TseitinEncoder:
         G = nx.Graph()
         nodes = list(range(self.n))
         
-        # Parámetros para construcción tipo LPS
-        p = 5  # Primo ≡ 1 mod 4
-        q = self.n if self.n > 2 else 3
-        
-        # Generar usando aritmética modular
+        # Generar usando aritmética modular (construcción tipo Margulis)
         for i in range(self.n):
             for a in range(1, self.d // 2 + 1):
                 # Conexiones modulares (simplificado)
@@ -67,8 +63,8 @@ class TseitinEncoder:
         # Para evitar crecimiento exponencial, limitamos el encoding directo a k <= 5
         # Para k > 5, usamos una aproximación o encoding más compacto
         if k <= 5:
-            # Para k variables, necesitamos 2^(k-1) cláusulas
-            # Generar todas las asignaciones con XOR = b
+            # Para k variables, generamos 2^(k-1) cláusulas
+            # (todas las asignaciones que satisfacen XOR = b)
             for assignment in itertools.product([True, False], repeat=k):
                 if sum(assignment) % 2 == (1 if b else 0):
                     clause = []
@@ -220,7 +216,6 @@ def validate_hard_cnf():
         # Verificar propiedad de expansor
         if n >= 100:
             # Calcular constante de expansión aproximada
-            import math
             from networkx.algorithms.approximation import vertex_expansion
             
             expansion = vertex_expansion(G_incidence)
@@ -252,7 +247,7 @@ def compare_with_random_formulas():
     n = 60
     
     # 1. Fórmula Tseitin
-    print("\n🔷 FÓRMULA TSETIN (hard_cnf_formula):")
+    print("\n🔷 FÓRMULA TSEITIN (hard_cnf_formula):")
     encoder = TseitinEncoder(n)
     G_tseitin = encoder.get_incidence_graph()
     
@@ -280,7 +275,10 @@ def compare_with_random_formulas():
     
     # 3. Conclusión
     print("\n📈 CONCLUSIÓN:")
-    print(f"  • Tseitin tw / Random tw: {tw_tseitin/tw_random:.2f}x mayor")
+    if tw_random > 0:
+        print(f"  • Tseitin tw / Random tw: {tw_tseitin/tw_random:.2f}x mayor")
+    else:
+        print(f"  • Tseitin tw: {tw_tseitin}, Random tw: {tw_random}")
     print(f"  • Tseitin garantiza tw = Ω(√n)")
     print(f"  • Random 3-CNF: tw típicamente O(log n)")
     print("\n" + "=" * 70)
