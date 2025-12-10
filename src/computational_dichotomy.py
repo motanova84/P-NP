@@ -43,6 +43,38 @@ class CNFFormula:
     def __repr__(self):
         return f"CNFFormula(vars={self.num_vars}, clauses={len(self.clauses)})"
 
+
+def generate_low_treewidth_formula(n: int) -> CNFFormula:
+    """
+    Generate a CNF formula with low treewidth (chain structure).
+    
+    This creates a chain-like formula where each variable is only connected
+    to its neighbors, resulting in a treewidth of approximately 1-2.
+    
+    Args:
+        n: Number of variables
+        
+    Returns:
+        CNFFormula with low treewidth
+    """
+    clauses = []
+    
+    # Create chain structure: clauses connecting adjacent variables
+    for i in range(1, n):
+        # Add clauses like (v_i ∨ v_{i+1})
+        clauses.append([i, i + 1])
+        # Add clauses like (¬v_i ∨ ¬v_{i+1}) for variety
+        if i % 2 == 0:
+            clauses.append([-i, -(i + 1)])
+    
+    # Add boundary conditions
+    if n > 0:
+        clauses.append([1])  # v_1 must be true
+        clauses.append([-n])  # v_n must be false
+    
+    return CNFFormula(n, clauses)
+
+
 # ========== GRAPH CONSTRUCTION ==========
 
 def primal_graph(n_vars, clauses):
