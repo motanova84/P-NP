@@ -54,7 +54,7 @@ def compute_expansion(G: nx.Graph) -> float:
             expansion = lambda2 / degree if degree > 0 else 0.0
             return expansion
         return 0.0
-    except:
+    except Exception:
         return 0.0
 
 
