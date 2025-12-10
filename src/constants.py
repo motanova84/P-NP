@@ -13,7 +13,7 @@ import math
 
 # ========== THE MILLENNIUM CONSTANT ==========
 
-KAPPA_PI = 2.5773
+KAPPA_PI = 2.5773  # Precision: 4 significant figures (±0.0001 from 150 CY varieties)
 """
 κ_Π = 2.5773 - The Millennium Constant
 
@@ -125,6 +125,8 @@ def information_complexity_lower_bound(treewidth: float, num_vars: int) -> float
     Returns:
         Lower bound on information complexity (in bits)
     """
+    # Edge case: for n ≤ 1, log₂(n) would be ≤ 0, making the bound undefined
+    # We return 0 since trivial formulas have no information complexity
     if num_vars <= 1:
         return 0.0
     log_n = math.log2(num_vars)

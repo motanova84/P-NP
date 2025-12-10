@@ -37,7 +37,7 @@ from src.constants import (
 def main():
     print("=" * 70)
     print("P-NP Computational Dichotomy: Simple Demonstration")
-    print("Featuring κ_Π = 2.5773 - The Millennium Constant")
+    print(f"Featuring κ_Π = {KAPPA_PI} - The Millennium Constant")
     print("=" * 70)
     print()
     print(f"κ_Π (Millennium Constant): {KAPPA_PI}")

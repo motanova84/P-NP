@@ -281,7 +281,7 @@ class ComputationalDichotomy:
         
         # Build or get incidence graph
         if hasattr(formula, 'incidence_graph'):
-            from computational_dichotomy import IncidenceGraph
+            # Note: IncidenceGraph is defined in this module
             if isinstance(formula, CNF):
                 inc_graph = IncidenceGraph(formula)
                 tw = inc_graph.compute_treewidth()
