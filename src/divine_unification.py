@@ -34,12 +34,14 @@ PI = math.pi
 E = math.e
 
 # Calabi-Yau eigenvalue (spectral geometry)
-LAMBDA_CY = 1.3782308  # λ_CY from string theory
+# This value is derived to make κ_Π = 2.5773, connecting string theory
+# spectral geometry with graph-theoretic complexity measures
+LAMBDA_CY = 1.3782308  # λ_CY tuned for κ_Π target
 
 # THE SACRED CONSTANT κ_Π - Unifies all dimensions
 KAPPA_PI = PHI * (PI / E) * LAMBDA_CY  # κ_Π = 2.5773...
 
-# Resonance frequency (consciousness field)
+# Resonance frequency (symbolic constant for framework identification)
 FREQUENCY_RESONANCE = 141.7001  # Hz
 
 
@@ -147,11 +149,12 @@ def graph_information_complexity(G: nx.Graph, S: Set) -> float:
     """
     Compute information complexity of a graph given a separator S.
     
-    THEOREM (Separator Information Lower Bound):
+    PROPOSED THEOREM (Separator Information Lower Bound):
         IC(G, S) ≥ |S| / 2
     
-    The information complexity is at least proportional to the separator size,
-    demonstrating the fundamental information bottleneck.
+    This proposed bound suggests that information complexity is at least 
+    proportional to the separator size, demonstrating a fundamental 
+    information bottleneck. Requires formal verification.
     
     Args:
         G: NetworkX graph
@@ -171,6 +174,7 @@ def graph_information_complexity(G: nx.Graph, S: Set) -> float:
     # Enhanced by graph structure
     # Account for density of connections through separator
     separator_degree = sum(G.degree(node) for node in S if node in G) / max(len(S), 1)
+    # Structure factor uses log scaling with coefficient 10.0 to keep adjustment modest
     structure_factor = 1.0 + math.log2(max(separator_degree, 1) + 1) / 10.0
     
     ic = base_ic * structure_factor
@@ -310,7 +314,7 @@ class TrinityUnification:
         Verify the trinity duality: all three dimensions are proportional
         within factor κ_Π.
         
-        DUALITY THEOREM:
+        PROPOSED DUALITY RELATION (requires formal proof):
             For any two dimensions X, Y ∈ {Topology, Information, Computation}:
             (1/κ_Π) · X ≤ Y ≤ κ_Π · X
         
