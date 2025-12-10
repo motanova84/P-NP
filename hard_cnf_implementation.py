@@ -13,16 +13,16 @@ class TseitinEncoder:
     def __init__(self, n: int):
         self.n = n
         self.d = int(np.ceil(np.sqrt(n)))
+        self.next_aux_var = None  # Will be set during encoding
         
-        # Construir grafo expandidor (aproximación)
+        # Construir grafo expansor (aproximación)
         self.G = self._build_expander_graph()
         
     def _build_expander_graph(self) -> nx.Graph:
         """Construye grafo d-regular aproximando expansor Ramanujan"""
-        # Método de Margulis (simplificado)
         G = nx.Graph()
         
-        # Generar usando aritmética modular (construcción tipo Margulis)
+        # Generar usando aritmética modular (construcción simplificada inspirada en expansores)
         for i in range(self.n):
             for a in range(1, self.d // 2 + 1):
                 # Conexiones modulares (simplificado)
@@ -43,6 +43,9 @@ class TseitinEncoder:
         """
         Genera cláusulas CNF para: XOR(variables) = b
         
+        Uses direct encoding for k <= 3 variables, and Tseitin-style encoding
+        with auxiliary variables for k > 3 to avoid exponential blowup.
+        
         Args:
             variables: Lista de IDs de variables
             b: Valor objetivo del XOR
@@ -51,7 +54,7 @@ class TseitinEncoder:
             Lista de cláusulas CNF (lista de literales)
         """
         if not variables:
-            # XOR() of no variables = 0 (false)
+            # XOR() of no variables = 0 (False)
             # If b=False (want 0), this is satisfied -> return []
             # If b=True (want 1), this is unsatisfiable -> return [[]]
             return [[]] if b else []
@@ -59,11 +62,10 @@ class TseitinEncoder:
         clauses = []
         k = len(variables)
         
-        # Para evitar crecimiento exponencial, limitamos el encoding directo a k <= 5
-        # Para k > 5, usamos una aproximación o encoding más compacto
-        if k <= 5:
-            # Para k variables, generamos 2^(k-1) cláusulas
-            # (todas las asignaciones que satisfacen XOR = b)
+        # For k <= 3, use direct encoding (2^(k-1) clauses)
+        # This is acceptable as we get at most 4 clauses
+        if k <= 3:
+            # Generate all satisfying assignments for XOR = b
             for assignment in itertools.product([True, False], repeat=k):
                 if sum(assignment) % 2 == (1 if b else 0):
                     clause = []
@@ -72,31 +74,77 @@ class TseitinEncoder:
                         clause.append(literal)
                     clauses.append(clause)
         else:
-            # Para k > 5, usamos un encoding más compacto (aunque menos preciso)
-            # Esto es una aproximación que mantiene la estructura general
-            # Añadimos algunas cláusulas representativas
-            if b:  # XOR = 1 (odd parity)
-                # Al menos una variable debe ser verdadera
-                clauses.append(variables[:])
-                # Añadimos algunas cláusulas representativas
-                for i in range(min(8, k)):
-                    clause = []
-                    for j in range(k):
-                        if j == i:
-                            clause.append(variables[j])
-                        else:
-                            clause.append(-variables[j])
-                    clauses.append(clause)
-            else:  # XOR = 0 (even parity)
-                # Añadimos algunas cláusulas representativas para paridad par
-                for i in range(min(8, k)):
-                    clause = []
-                    for j in range(k):
-                        if (j % 2) == (i % 2):
-                            clause.append(variables[j])
-                        else:
-                            clause.append(-variables[j])
-                    clauses.append(clause)
+            # For k > 3, use Tseitin-style encoding with auxiliary variables
+            # This gives O(k) clauses instead of O(2^k)
+            # We encode XOR as a chain: aux1 = x1 XOR x2, aux2 = aux1 XOR x3, ...
+            clauses.extend(self._xor_with_aux_vars(variables, b))
+        
+        return clauses
+    
+    def _xor_with_aux_vars(self, variables: List[int], b: bool) -> List[List[int]]:
+        """
+        Encode XOR using auxiliary variables (Tseitin-style).
+        Returns clauses that enforce XOR(variables) = b using O(k) clauses.
+        """
+        if self.next_aux_var is None:
+            raise RuntimeError("next_aux_var not initialized")
+        
+        clauses = []
+        k = len(variables)
+        
+        # Build chain: aux_i = variables[i] XOR aux_{i-1}
+        # aux_0 = variables[0] XOR variables[1]
+        aux_vars = []
+        
+        # First auxiliary: aux_0 = x_0 XOR x_1
+        aux_0 = self.next_aux_var
+        self.next_aux_var += 1
+        aux_vars.append(aux_0)
+        
+        # Encode: aux_0 = x_0 XOR x_1
+        # CNF: (aux_0 v x_0 v x_1) ^ (~aux_0 v ~x_0 v x_1) ^ (~aux_0 v x_0 v ~x_1) ^ (aux_0 v ~x_0 v ~x_1)
+        x0, x1 = variables[0], variables[1]
+        clauses.extend([
+            [aux_0, x0, x1],
+            [-aux_0, -x0, x1],
+            [-aux_0, x0, -x1],
+            [aux_0, -x0, -x1]
+        ])
+        
+        # Chain remaining variables
+        prev_aux = aux_0
+        for i in range(2, k):
+            if i < k - 1:
+                # Need another auxiliary variable
+                curr_aux = self.next_aux_var
+                self.next_aux_var += 1
+                aux_vars.append(curr_aux)
+                
+                # Encode: curr_aux = prev_aux XOR variables[i]
+                xi = variables[i]
+                clauses.extend([
+                    [curr_aux, prev_aux, xi],
+                    [-curr_aux, -prev_aux, xi],
+                    [-curr_aux, prev_aux, -xi],
+                    [curr_aux, -prev_aux, -xi]
+                ])
+                prev_aux = curr_aux
+            else:
+                # Last variable: result should equal b
+                # Encode: b = prev_aux XOR variables[i]
+                xi = variables[i]
+                if b:
+                    # b = 1: prev_aux XOR xi = 1
+                    clauses.extend([
+                        [prev_aux, xi],
+                        [-prev_aux, -xi]
+                    ])
+                else:
+                    # b = 0: prev_aux XOR xi = 0
+                    clauses.extend([
+                        [prev_aux, -xi],
+                        [-prev_aux, xi]
+                    ])
         
         return clauses
     
@@ -118,6 +166,9 @@ class TseitinEncoder:
             if edge not in edge_to_var:
                 edge_to_var[edge] = var_counter
                 var_counter += 1
+        
+        # Initialize auxiliary variable counter
+        self.next_aux_var = var_counter
         
         variables = set(edge_to_var.values())
         clauses = []
@@ -157,9 +208,9 @@ class TseitinEncoder:
         
         return G
 
-# ──────────────────────────────────────────────────────────────
+# ============================================================
 # VALIDACIÓN EMPÍRICA
-# ──────────────────────────────────────────────────────────────
+# ============================================================
 
 def validate_hard_cnf():
     """Valida que hard_cnf_formula produce fórmulas con treewidth alto"""
@@ -202,9 +253,9 @@ def validate_hard_cnf():
             G_copy.remove_node(v)
         
         tw_estimate = max_degree
-        # The constant 1/4 is a heuristic scaling factor for the expected treewidth lower bound.
-        # For random or expander graphs, the treewidth is known to be Ω(√n) (see e.g. Bodlaender, H. L. (1998). "A partial k-arboretum of graphs with bounded treewidth". Theoretical Computer Science, 209(1-2), 1-45).
-        # The divisor 4 is chosen empirically to provide a conservative lower bound for practical instances.
+        # For expander graphs, the treewidth is known to be Ω(√n).
+        # The constant 1/4 is a conservative heuristic scaling factor for the expected lower bound
+        # in practical instances. See Bodlaender (1998) "A partial k-arboretum of graphs with bounded treewidth".
         expected_min = np.sqrt(len(G_incidence)) / 4
         
         print(f"  • Treewidth estimado: {tw_estimate}")
@@ -216,6 +267,8 @@ def validate_hard_cnf():
             print(f"  ⚠️  POR DEBAJO DEL LOWER BOUND (puede mejorar)")
         
         # Verificar propiedad de expansor
+        # Solo calculamos la expansión para n >= 100 por razones de rendimiento,
+        # ya que el cálculo puede ser costoso para grafos grandes.
         if n >= 100:
             # Calcular constante de expansión aproximada
             from networkx.algorithms.approximation import vertex_expansion
@@ -236,9 +289,9 @@ def validate_hard_cnf():
     print("   • Basada en construcción Tseitin sobre expansores")
     print("=" * 70)
 
-# ──────────────────────────────────────────────────────────────
+# ============================================================
 # COMPARACIÓN CON FÓRMULAS ALEATORIAS
-# ──────────────────────────────────────────────────────────────
+# ============================================================
 
 def compare_with_random_formulas():
     """Compara fórmulas Tseitin con fórmulas 3-CNF aleatorias"""
@@ -327,9 +380,9 @@ def generate_random_3cnf_incidence(num_vars: int, num_clauses: int) -> nx.Graph:
     
     return G
 
-# ──────────────────────────────────────────────────────────────
+# ============================================================
 # EJECUCIÓN
-# ──────────────────────────────────────────────────────────────
+# ============================================================
 
 if __name__ == "__main__":
     validate_hard_cnf()

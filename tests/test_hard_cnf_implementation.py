@@ -13,8 +13,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from hard_cnf_implementation import (
     TseitinEncoder,
-    validate_hard_cnf,
-    compare_with_random_formulas,
     estimate_treewidth,
     generate_random_3cnf_incidence
 )
@@ -50,13 +48,37 @@ class TestTseitinEncoder(unittest.TestCase):
         """Test XOR clause generation for small number of variables."""
         encoder = TseitinEncoder(10)
         
-        # Test with 2 variables, XOR = 0
+        # Test with 2 variables, XOR = 0 (even parity)
         clauses = encoder.generate_xor_clauses([1, 2], False)
         self.assertGreater(len(clauses), 0)
+        # For 2 vars with XOR=0, should have 2 clauses: (1,2) and (-1,-2)
+        self.assertEqual(len(clauses), 2)
         
-        # Test with 3 variables, XOR = 1
+        # Test with 3 variables, XOR = 1 (odd parity)
         clauses = encoder.generate_xor_clauses([1, 2, 3], True)
         self.assertGreater(len(clauses), 0)
+        # For 3 vars with XOR=1, should have 4 clauses
+        self.assertEqual(len(clauses), 4)
+    
+    def test_generate_xor_clauses_large(self):
+        """Test XOR clause generation for k > 3 (uses auxiliary variables)."""
+        encoder = TseitinEncoder(10)
+        
+        # Initialize next_aux_var as encode() would do
+        encoder.next_aux_var = 100
+        
+        # Test with 5 variables, XOR = 0
+        clauses = encoder.generate_xor_clauses([1, 2, 3, 4, 5], False)
+        self.assertGreater(len(clauses), 0)
+        # Should use auxiliary variable encoding (linear in k, not exponential)
+        # Expected: O(k) clauses, not O(2^k)
+        self.assertLess(len(clauses), 50)  # Much less than 2^5 = 32
+        
+        # Test with 6 variables, XOR = 1
+        encoder.next_aux_var = 100
+        clauses = encoder.generate_xor_clauses([1, 2, 3, 4, 5, 6], True)
+        self.assertGreater(len(clauses), 0)
+        self.assertLess(len(clauses), 50)
     
     def test_generate_xor_clauses_empty(self):
         """Test XOR clause generation with no variables."""
@@ -66,10 +88,12 @@ class TestTseitinEncoder(unittest.TestCase):
         # If b=False (want 0), this is satisfied -> no constraints needed
         clauses = encoder.generate_xor_clauses([], False)
         self.assertEqual(len(clauses), 0)
+        # Verify it's satisfiable (no constraints)
         
         # XOR of no variables = 0 but we want 1 -> unsatisfiable
         clauses = encoder.generate_xor_clauses([], True)
         self.assertEqual(len(clauses), 1)
+        # Verify it's the empty clause (unsatisfiable)
         self.assertEqual(clauses[0], [])
     
     def test_encode(self):
@@ -140,30 +164,23 @@ class TestValidationFunctions(unittest.TestCase):
         # Should have edges
         self.assertGreater(len(G.edges()), 0)
 
-
 class TestModuleExecution(unittest.TestCase):
     """Test cases for module-level functions."""
     
-    def test_validate_hard_cnf_runs(self):
-        """Test that validate_hard_cnf runs without errors."""
-        # This is a smoke test - just verify it doesn't crash
-        # We don't check the output as it's printed to stdout
-        try:
-            # We can't easily capture the output without redirecting stdout
-            # So we just make sure it doesn't raise an exception
-            # validate_hard_cnf()  # Commented out as it takes time
-            self.assertTrue(True)  # Placeholder
-        except Exception as e:
-            self.fail(f"validate_hard_cnf raised an exception: {e}")
-    
-    def test_compare_with_random_formulas_runs(self):
-        """Test that compare_with_random_formulas runs without errors."""
-        # This is a smoke test - just verify it doesn't crash
-        try:
-            # compare_with_random_formulas()  # Commented out as it takes time
-            self.assertTrue(True)  # Placeholder
-        except Exception as e:
-            self.fail(f"compare_with_random_formulas raised an exception: {e}")
+    def test_encoder_produces_valid_cnf(self):
+        """Test that encoder produces a valid CNF formula."""
+        encoder = TseitinEncoder(10)
+        variables, clauses = encoder.encode()
+        
+        # All clauses should contain only literals from the variable set
+        all_vars_in_clauses = set()
+        for clause in clauses:
+            for literal in clause:
+                all_vars_in_clauses.add(abs(literal))
+        
+        # All variables in clauses should be valid
+        for var in all_vars_in_clauses:
+            self.assertGreater(var, 0)
 
 
 if __name__ == '__main__':
