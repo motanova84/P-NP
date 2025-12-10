@@ -233,7 +233,12 @@ end Examples
 -- PLACEHOLDER FOR FUTURE TASKS
 -- ═══════════════════════════════════════════════════════════
 
-/-- TODO: Task 2 - Treewidth definition -/
+/-- 
+TODO: Task 2 - Treewidth definition
+Note: This uses the local SimpleGraph type. In future integration,
+consider using Mathlib.Combinatorics.SimpleGraph.Basic for consistency
+with existing treewidth implementations.
+-/
 def treewidth (G : SimpleGraph V) : ℕ := sorry
 
 /-- TODO: Task 3 - Optimal separator existence -/
