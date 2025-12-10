@@ -123,18 +123,13 @@ class TestHardCNFFormula(unittest.TestCase):
         self.assertEqual(formula1.num_vars, formula2.num_vars)
         self.assertEqual(len(formula1.clauses), len(formula2.clauses))
     
-    def test_all_odd_parity_unsatisfiable(self):
-        """Test that all-odd parity assignment creates unsatisfiable formula."""
+    def test_all_odd_parity_formula(self):
+        """Test that all-odd parity assignment creates a valid formula."""
         n = 10
         G = ramanujan_graph(n, seed=42)
         
-        # Count total degree (sum of all degrees)
-        
-        # Total degree is always even (each edge counted twice)
-        # So sum of odd parities (n odd values) is odd if n is odd
-        # This means the formula should be unsatisfiable
-        
-        # Just verify the formula is created without error
+        # Create formula with all-odd parity assignment
+        # Note: This test only verifies formula generation, not satisfiability
         parity = [1] * n
         formula = tseitin_encoding(G, parity)
         
