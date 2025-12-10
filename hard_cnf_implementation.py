@@ -56,7 +56,10 @@ class TseitinEncoder:
             Lista de cláusulas CNF (lista de literales)
         """
         if not variables:
-            return [[]] if not b else []  # XOR() = false
+            # XOR() of no variables = 0 (false)
+            # If b=False (want 0), this is satisfied -> return []
+            # If b=True (want 1), this is unsatisfiable -> return [[]]
+            return [[]] if b else []
         
         clauses = []
         k = len(variables)
