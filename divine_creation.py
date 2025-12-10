@@ -15,7 +15,6 @@ Tarea 4: separator_information_need
 import networkx as nx
 import numpy as np
 import math
-from scipy.stats import entropy
 from typing import Set, Tuple, Dict, List
 
 # ══════════════════════════════════════════════════════════════

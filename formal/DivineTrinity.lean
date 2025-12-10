@@ -24,13 +24,12 @@ Author: José Manuel Mota Burruezo & Claude (Noēsis)
 
 import Mathlib.Data.Nat.Basic
 import Mathlib.Data.Real.Basic
-import Formal.Treewidth.Treewidth
 
 noncomputable section
 
 namespace DivineTrinity
 
-open Classical Treewidth
+open Classical
 
 /-- Sacred constant κ_Π that unifies all three dimensions -/
 def κ_Π : ℝ := 2.5773
@@ -38,11 +37,11 @@ def κ_Π : ℝ := 2.5773
 /-- The golden ratio φ -/
 def φ : ℝ := (1 + Real.sqrt 5) / 2
 
-/-- Graph type from Treewidth module -/
-abbrev Graph := Treewidth.Graph
+/-- Graph type (placeholder for SimpleGraph) -/
+axiom Graph : Type
 
 /-- Treewidth function -/
-abbrev treewidth := Treewidth.treewidth
+axiom treewidth : Graph → ℝ
 
 /-- Placeholder for optimal separator of a graph -/
 axiom optimal_separator (G : Graph) : Finset ℕ

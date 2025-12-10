@@ -159,18 +159,18 @@ class TestDivineTrinity(unittest.TestCase):
     
     def test_display_trinity_runs(self):
         """Test that display_trinity runs without error."""
+        import io
+        import contextlib
+        
         G = nx.path_graph(5)
         trinity = DivineTrinity(G)
         
         # Should not raise an exception
         try:
-            import io
-            import sys
-            old_stdout = sys.stdout
-            sys.stdout = io.StringIO()
-            trinity.display_trinity()
-            output = sys.stdout.getvalue()
-            sys.stdout = old_stdout
+            output_buffer = io.StringIO()
+            with contextlib.redirect_stdout(output_buffer):
+                trinity.display_trinity()
+            output = output_buffer.getvalue()
             
             # Check output contains expected strings
             self.assertIn("TRINIDAD DIVINA", output)
@@ -226,11 +226,12 @@ class TestDivineUnityTheorem(unittest.TestCase):
         """Test divine trinity on CNF-SAT incidence graph."""
         # Create CNF-SAT incidence graph
         CNF = nx.Graph()
-        for i in range(20):
-            CNF.add_node(f"x{i}", type='var')
+        var_names = [f"x{i}" for i in range(20)]
+        for var in var_names:
+            CNF.add_node(var, type='var')
         for j in range(80):
             CNF.add_node(f"C{j}", type='clause')
-            vars_in_clause = np.random.choice([f"x{i}" for i in range(20)], 3, replace=False)
+            vars_in_clause = np.random.choice(var_names, 3, replace=False)
             for v in vars_in_clause:
                 CNF.add_edge(f"C{j}", v)
         
