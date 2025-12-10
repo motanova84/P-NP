@@ -287,7 +287,7 @@ def print_gap3_summary():
     print()
     print("PROPIEDADES:")
     print("  • Variables: O(n√n)")
-    print("  • Cláusulas: O(n√n)")
+    print("  • Cláusulas: O(n)")
     print("  • Treewidth: Ω(√n)")
     print("  • Expansión: ≥ (1 - 2√(d-1)/d) (Ramanujan óptimo)")
     print()
