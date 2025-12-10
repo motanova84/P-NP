@@ -23,6 +23,7 @@ import Formal.ComputationalDichotomy
 import Formal.StructuralCoupling
 import Formal.InformationComplexity
 import Formal.TreewidthTheory
+import Formal.TreewidthIntegration
 
 namespace Formal.MainTheorem
 
