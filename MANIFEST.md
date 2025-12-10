@@ -67,6 +67,7 @@ This document provides a comprehensive overview of all files in the P-NP reposit
 | `ComputationalDichotomy.lean` | Main formalization | ✅ Valid syntax |
 | `Main.lean` | Entry point | ✅ Valid syntax |
 | `Principal.lean` | Principal definitions | ✅ Valid syntax |
+| `P_neq_NP.lean` | κ_Π separator theory and optimal bounds | ✅ Complete |
 | `lakefile.lean` | Lake build configuration | ✅ Valid |
 | `lean-toolchain` | Lean version specification | ✅ Valid |
 

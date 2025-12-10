@@ -63,6 +63,12 @@ This Zenodo repository contains the official, archived version of the demonstrat
   - Structural coupling lemma (6.24)
   - Upper and lower bound theorems
   - No-evasion theorem
+- `P_neq_NP.lean`: κ_Π separator theory with optimal bounds:
+  - Universal constant κ_Π = 2.5773 (golden ratio × π/e × Calabi-Yau)
+  - Optimal separator theorem with κ_Π·log n bound
+  - Logarithmic spiral construction
+  - High treewidth implies κ_Π-expander property
+  - Proof framework avoiding expander requirement gap
 
 ### 2. Computational Framework (Python)
 - `computational_dichotomy.py`: Practical implementation featuring:
