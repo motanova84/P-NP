@@ -146,10 +146,10 @@ def _add_xor_clauses(vars: List[int], target: int, clauses: List[List[int]]):
     """
     Add CNF clauses encoding XOR of variables equals target.
     
-    For XOR(v1, v2, ..., vn) = target, add clauses that forbid
-    all assignments with wrong parity.
-    
-    This uses the standard Tseitin XOR encoding which generates 2^(n-1) clauses.
+    For XOR(v1, v2, ..., vn) = target, enumerate all 2^n possible assignments
+    to the variables. For each assignment with the wrong parity, add a clause
+    forbidding that assignment. This results in approximately 2^(n-1) clauses
+    being added, although the loop enumerates all 2^n assignments.
     """
     n = len(vars)
     if n == 0:
