@@ -61,7 +61,8 @@ axiom entropy {X Y : Type*} (Π : CommunicationProtocol X Y)
 def InformationComplexity {X Y : Type*} (Π : CommunicationProtocol X Y) 
   (S : Finset X) : ℝ :=
   -- Entropía mínima de mensajes dada la restricción S
-  0  -- Placeholder: sInf { H(M) | M es distribución de mensajes condicionada a S }
+  -- Full formalization would require: sInf { H(M) | M es distribución de mensajes condicionada a S }
+  sorry  -- Requires complete measure theory formalization
 
 /-! ### PARTE 2: CONEXIÓN CON GRAFOS -/
 
@@ -79,9 +80,11 @@ def SATProtocol (φ : CnfFormula) :
   CommunicationProtocol (formula_vars φ → Bool) (formula_vars φ → Bool) := {
   messages := Finset (formula_vars φ)  -- Alice envía subset de variables
   alice := fun assignment => 
-    sorry  -- { v | assignment v = true }  -- Variables asignadas a true
+    -- Alice envía las variables asignadas a true
+    -- Full implementation: { v | assignment v = true }
+    sorry  -- Requires decidable predicate construction
   bob := fun msg assignment => 
-    -- Bob verifica si φ es satisfecha
+    -- Bob verifica si φ es satisfecha con la información combinada
     cnf_eval φ assignment
 }
 
@@ -257,8 +260,17 @@ theorem information_treewidth_duality
         by_cases h : Treewidth.treewidth G ≥ Fintype.card V / 10
         · exact kappa_pi_information_connection G S hS h
         · push_neg at h
-          -- Caso tw bajo
-          sorry
+          -- Caso tw bajo: el grafo no es un expansor fuerte
+          -- pero aún mantenemos la cota inferior por el teorema general
+          have h_base := separator_information_need G S hS
+          calc (GraphIC G S : ℝ)
+            _ ≥ (S.card / 2 : ℝ)     := Nat.cast_le.mpr h_base
+            _ = (1 / 2) * S.card      := by ring
+            _ ≥ (1 / κ_Π) * S.card    := by
+              have : κ_Π ≥ 2 := by norm_num [κ_Π]
+              have : 1 / κ_Π ≤ 1 / 2 := by
+                apply div_le_div_of_nonneg_left <;> norm_num [κ_Π]
+              linarith
       calc (1/κ_Π) * (Treewidth.treewidth G : ℝ)
         _ ≤ (1/κ_Π) * S.card             := by
           apply mul_le_mul_of_nonneg_left
@@ -267,7 +279,13 @@ theorem information_treewidth_duality
         _ ≤ (GraphIC G S : ℝ)                   := h2
     
     -- UPPER BOUND: IC ≤ κ_Π·(tw+1)
-    · sorry  -- Construcción de protocolo eficiente
+    · -- Construcción de protocolo eficiente usando tree decomposition
+      -- 1. Existe una tree decomposition de ancho tw
+      -- 2. Alice y Bob pueden comunicar usando la estructura del árbol
+      -- 3. Cada bolsa requiere a lo sumo log(tw+1) bits
+      -- 4. El número de bolsas es O(n)
+      -- 5. Total IC ≤ κ_Π * (tw + 1) por construcción explícita
+      sorry  -- Requires full tree decomposition protocol construction
 
 /-- Notación O para cota superior -/
 axiom O_notation : (ℝ → ℝ) → ℝ → ℝ
