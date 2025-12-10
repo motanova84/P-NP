@@ -105,71 +105,62 @@ theorem log_total_configs_lower_bound
   (h_sep : is_balanced_separator G S)
   (h_nonempty : Fintype.card V > 0) :
   Nat.log 2 (total_configs G S) ≥ S.S.card / 2 := by
-  -- Step 1: Express log in terms of vertex counts
+  -- Step 1: Prove that log₂(2^k) = k for the total configurations
   have h_card : Fintype.card V ≥ S.S.card := by
     by_contra h_contra
     push_neg at h_contra
-    -- If S.S.card > Fintype.card V, then separator contains more vertices than exist
     have h_bound := balanced_separator_size_bound G S h_sep
-    -- But (2 * Fintype.card V) / 3 < Fintype.card V for any positive card
     have : (2 * Fintype.card V) / 3 < Fintype.card V := by
       apply Nat.div_lt_self h_nonempty
       omega
     omega
   
-  have h_log : Nat.log 2 (total_configs G S) = Fintype.card V - S.S.card := 
-    log_total_configs_eq G S h_card
+  -- By definition: total_configs = 2^(Fintype.card V - S.S.card)
+  -- Therefore: log₂(total_configs) = Fintype.card V - S.S.card
+  have h_log : Nat.log 2 (total_configs G S) = Fintype.card V - S.S.card := by
+    unfold total_configs
+    by_cases h : Fintype.card V - S.S.card > 0
+    · exact Nat.log_pow h
+    · push_neg at h
+      have : Fintype.card V - S.S.card = 0 := by omega
+      simp [this]
   
-  -- Step 2: Apply the balanced separator size bound
+  -- Step 2: We need to show: Fintype.card V - S.S.card ≥ S.S.card / 2
+  -- This is equivalent to: Fintype.card V ≥ (3/2) * S.S.card
+  -- Which follows from: S.S.card ≤ (2/3) * Fintype.card V
   have bound : S.S.card ≤ (2 * Fintype.card V) / 3 := 
     balanced_separator_size_bound G S h_sep
   
-  -- Step 3: Show that Fintype.card V - S.S.card ≥ S.S.card / 2
   rw [h_log]
   
-  -- We need to prove: Fintype.card V - S.S.card ≥ S.S.card / 2
-  -- Equivalently: Fintype.card V ≥ S.S.card + S.S.card / 2 = (3/2) * S.S.card
-  -- From bound: S.S.card ≤ (2/3) * Fintype.card V
-  -- Therefore: Fintype.card V ≥ (3/2) * S.S.card
-  
-  -- Let's work with the inequality directly
-  have h_rearrange : 2 * (Fintype.card V - S.S.card) ≥ S.S.card := by
-    have h1 : 2 * Fintype.card V - 2 * S.S.card ≥ S.S.card := by
-      -- From bound: S.S.card ≤ (2 * Fintype.card V) / 3
-      -- Multiply by 3: 3 * S.S.card ≤ 2 * Fintype.card V
-      have h_mult : 3 * S.S.card ≤ 2 * Fintype.card V := by
-        calc 3 * S.S.card 
-            = S.S.card + 2 * S.S.card := by ring
-          _ ≤ S.S.card + 2 * ((2 * Fintype.card V) / 3) := by {
-              apply Nat.add_le_add_left
-              apply Nat.mul_le_mul_left
-              exact bound
-            }
-          _ ≤ S.S.card + (4 * Fintype.card V) / 3 := by {
-              apply Nat.add_le_add_left
-              rfl
-            }
-          _ ≤ (3 * S.S.card + 4 * Fintype.card V) / 3 + S.S.card - S.S.card := by {
-              omega
-            }
-          _ ≤ 2 * Fintype.card V := by {
-              -- This follows from the bound, but needs careful arithmetic
-              have : 3 * S.S.card ≤ 2 * Fintype.card V := by
-                have h_div_le : S.S.card * 3 ≤ (2 * Fintype.card V) / 3 * 3 := by
-                  apply Nat.mul_le_mul_right
-                  exact bound
-                calc S.S.card * 3
-                    ≤ (2 * Fintype.card V) / 3 * 3 := h_div_le
-                  _ ≤ 2 * Fintype.card V := Nat.div_mul_le_self (2 * Fintype.card V) 3
-              exact this
-            }
-      -- Rearrange: 2 * Fintype.card V ≥ 3 * S.S.card
-      -- Therefore: 2 * Fintype.card V - 2 * S.S.card ≥ S.S.card
-      omega
+  -- Prove: Fintype.card V - S.S.card ≥ S.S.card / 2
+  -- From bound: S.S.card ≤ (2 * Fintype.card V) / 3
+  -- Multiplying by 3: 3 * S.S.card ≤ 2 * Fintype.card V
+  -- Subtracting 2 * S.S.card: S.S.card ≤ 2 * Fintype.card V - 2 * S.S.card
+  -- Therefore: S.S.card ≤ 2 * (Fintype.card V - S.S.card)
+  -- Dividing by 2: S.S.card / 2 ≤ Fintype.card V - S.S.card
+  have h_bound : Fintype.card V - S.S.card ≥ S.S.card / 2 := by
+    -- Use the bound directly via arithmetic reasoning
+    have h_mult3 : 3 * S.S.card ≤ 2 * Fintype.card V := by
+      calc 3 * S.S.card
+          = S.S.card + 2 * S.S.card := by ring
+        _ ≤ S.S.card + 2 * ((2 * Fintype.card V) / 3) := by
+            apply Nat.add_le_add_left
+            exact Nat.mul_le_mul_left 2 bound
+        _ ≤ S.S.card + ((4 * Fintype.card V) / 3) := by rfl
+        _ ≤ (3 * S.S.card + 4 * Fintype.card V) / 3 + S.S.card - S.S.card := by omega
+        _ ≤ 2 * Fintype.card V := by
+            have : S.S.card * 3 ≤ 2 * Fintype.card V := by
+              have h_div : S.S.card * 3 ≤ ((2 * Fintype.card V) / 3) * 3 := by
+                exact Nat.mul_le_mul_right 3 bound
+              calc S.S.card * 3
+                  ≤ ((2 * Fintype.card V) / 3) * 3 := h_div
+                _ ≤ 2 * Fintype.card V := Nat.div_mul_le_self (2 * Fintype.card V) 3
+            exact this
+    -- From 3 * S.S.card ≤ 2 * Fintype.card V, we get the desired bound
     omega
   
-  -- From h_rearrange, we get Fintype.card V - S.S.card ≥ S.S.card / 2
-  omega
+  exact h_bound
 
 /-! ## Corollaries and Applications -/
 
@@ -197,5 +188,45 @@ theorem information_complexity_grows_with_separator
   -- This would require more properties about the relationship between separators
   -- For now, we use the fact that both satisfy the lower bound
   sorry  -- Full proof would need monotonicity properties
+
+/--
+Alternative direct proof following the approach from the problem statement.
+
+Given:
+- total_configs = 2^(Fintype.card V - S.card)
+- log₂(total_configs) = Fintype.card V - S.card
+
+Need to prove:
+- Fintype.card V - S.card ≥ S.card / 2
+
+This is equivalent to:
+- Fintype.card V ≥ (3/2) * S.card
+- S.card ≤ (2/3) * Fintype.card V
+
+Which is exactly the balanced_separator_size_bound!
+-/
+theorem log_total_configs_lower_bound_direct
+  (G : SimpleGraph V) 
+  (S : Separator G)
+  (h_sep : is_balanced_separator G S)
+  (h_nonempty : Fintype.card V > 0) :
+  Nat.log 2 (2 ^ (Fintype.card V - S.S.card)) ≥ S.S.card / 2 := by
+  -- Step 1: Establish that log₂(2^k) = k
+  have h_log : Nat.log 2 (2 ^ (Fintype.card V - S.S.card)) = Fintype.card V - S.S.card := by
+    by_cases h : Fintype.card V - S.S.card > 0
+    · exact Nat.log_pow h
+    · push_neg at h
+      have : Fintype.card V - S.S.card = 0 := by omega
+      simp [this]
+  
+  rw [h_log]
+  
+  -- Step 2: Use the balanced separator bound
+  -- From balanced_separator_size_bound: S.card ≤ (2/3) * Fintype.card V
+  have bound : S.S.card ≤ (2 * Fintype.card V) / 3 := balanced_separator_size_bound G S h_sep
+  
+  -- Step 3: Prove Fintype.card V - S.card ≥ S.card / 2
+  -- This follows directly from the bound via arithmetic
+  omega
 
 end GraphInformationComplexity
