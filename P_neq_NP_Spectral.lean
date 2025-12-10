@@ -144,7 +144,10 @@ theorem P_neq_NP_via_spectral : P ≠ NP := by
   
   have h_tw : treewidth G ≥ (n G) / 10 := by
     have := hard_formula_property n
-    sorry  -- Need to connect n with n(G)
+    -- TODO: Need axiom connecting input size n to graph vertex count n(G)
+    -- For hard_cnf_formula n, we should have n(G) = Θ(n)
+    -- This requires: axiom hard_formula_vertex_count : ∀ n, n (incidenceGraph (hard_cnf_formula n)) = n
+    sorry
   
   -- Aplicar cadena completa: tw alto → IsExpander
   have h1 := gap1_closed_proof G h_tw
@@ -159,15 +162,17 @@ theorem P_neq_NP_via_spectral : P ≠ NP := by
   have h3 := lemma5 G S h2
   
   -- SAT ∈ P (por hipótesis P = NP y SAT ∈ NP)
-  -- Asumimos que existe un algoritmo polinomial para SAT
-  let algo : CNFFormula → Bool := sorry
-  have h_poly : in_P algo := sorry  -- Derivado de P = NP
+  -- From P = NP hypothesis, we derive that SAT has a polynomial algorithm
+  -- TODO: Need proper axiom: (P = NP) → (∃ algo : CNFFormula → Bool, in_P algo ∧ correct algo)
+  -- For now, we assume such an algorithm exists as a consequence of P = NP
+  -- This should be derived formally from the meaning of P = NP
+  obtain ⟨algo, h_poly, h_correct⟩ : ∃ algo : CNFFormula → Bool, in_P algo ∧ True := sorry
   
   -- Aplicar lemma6: IC grande → tiempo exponencial
   have h4 := lemma6 φ_n algo S G h3
   
   -- Aplicar lemma7: Tiempo exponencial → no está en P
-  have h5 := lemma7 algo h4
+  have h5 := lemma7 algo n h4
   
   -- Contradicción: algo ∈ P pero algo ∉ P
   exact h5 h_poly

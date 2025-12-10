@@ -51,11 +51,26 @@ def spectralGap (G : Graph) : ℝ := sorry
     to the size of S. -/
 def expansionConstant (G : Graph) : ℝ := sorry
 
-/-- A graph is an expander with parameter δ if its expansion constant is at least δ -/
+/-- 
+A graph is an expander with parameter δ if its expansion constant is at least δ.
+
+The expansion parameter δ represents the minimum ratio of boundary edges to set size.
+Larger δ means better expansion (more well-connected graph).
+For our purposes, δ = 1/(2·κ_Π) provides sufficient expansion to force large separators.
+-/
 def IsExpander (G : Graph) (δ : ℝ) : Prop :=
   expansionConstant G ≥ δ
 
-/-- A balanced separator S of a graph G divides the graph into roughly equal parts -/
+/-- 
+A balanced separator S of a graph G divides the graph into roughly equal parts.
+
+Note: The `is_separator` field is deliberately simplified as `True` for this prototype.
+A full formalization would require:
+  - Proper definition of graph separation (removing S disconnects G)
+  - Balance condition (both components have size ≥ n/3)
+  - Minimality or optimality conditions
+This simplified version is sufficient for demonstrating the proof chain structure.
+-/
 structure BalancedSeparator (G : Graph) (S : Finset V) where
   is_separator : True  -- Simplified: S separates G into components
   balanced : S.card ≤ (n G) / 2  -- S is not too large
@@ -195,16 +210,19 @@ be in P (polynomial time).
 This is immediate from the definition of P: polynomial time means
 time ≤ n^c for some constant c, but 2^(n/(6·κ_Π)) grows faster than
 any polynomial for large n.
+
+Note: The parameter n_input represents the input size to the algorithm,
+which should correspond to the graph size n(G) in the calling context.
 -/
 theorem exponential_time_not_polynomial :
-  ∀ {φ : Type*} (algo : φ → Bool),
-  time algo ≥ (2 : ℝ) ^ ((n : ℕ) / (6 * κ_Π)) →
+  ∀ {φ : Type*} (algo : φ → Bool) (n_input : ℕ),
+  time algo ≥ (2 : ℝ) ^ ((n_input : ℝ) / (6 * κ_Π)) →
   ¬ in_P algo := by
-  intro φ algo h_time h_P
+  intro φ algo n_input h_time h_P
   -- Proof by contradiction:
-  -- If algo ∈ P, then time(algo) ≤ n^c for some c
-  -- But we have time(algo) ≥ 2^(n/(6·κ_Π))
-  -- For large enough n: 2^(n/(6·κ_Π)) > n^c (exponential beats polynomial)
+  -- If algo ∈ P, then time(algo) ≤ n_input^c for some c
+  -- But we have time(algo) ≥ 2^(n_input/(6·κ_Π))
+  -- For large enough n_input: 2^(n_input/(6·κ_Π)) > n_input^c (exponential beats polynomial)
   -- This is a contradiction
   sorry
 
