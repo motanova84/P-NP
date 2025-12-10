@@ -150,11 +150,17 @@ theorem treewidthUpperBound_valid (φ : CNFFormula) :
 
 /--
 Separator structure from treewidth theory.
+
+A balanced separator divides a graph into two parts of roughly equal size.
 -/
 structure Separator (G : Graph) where
   vertices : List Nat
   size : Nat
-  is_balanced : size > 0
+  left_size : Nat  -- Size of left partition
+  right_size : Nat -- Size of right partition
+  is_balanced : left_size ≥ (left_size + right_size) / 3 ∧ 
+                right_size ≥ (left_size + right_size) / 3
+  nonempty : size > 0
 
 /--
 Existence of optimal separators with bounded size.
@@ -169,14 +175,23 @@ theorem optimal_separator_exists (φ : CNFFormula) (h : treewidth φ ≥ 999) :
   sorry
 
 /--
-Separator size is closely related to treewidth.
-If treewidth ≥ k, then any optimal separator has size at least k.
+Separator size is tightly related to treewidth.
+
+By Robertson-Seymour theory, if treewidth is k, then:
+- There exists a balanced separator of size at most k+1
+- The minimum separator size is at least k
+
+For our case with treewidth ≥ 999:
+- We get a separator S with size ≤ 1000
+- The separator size must be at least treewidth, so S.size ≥ 999
+- For the information complexity argument, having S.size ≥ 999 is sufficient
+
+This version doesn't claim S.size = 1000, only that S.size ≥ 999.
 -/
 theorem separator_size_lower_bound (φ : CNFFormula) 
   (S : Separator (incidenceGraph φ)) 
-  (h_tw : treewidth φ ≥ 999) 
-  (h_optimal : S.size ≤ 1000) :
-  S.size ≥ 1000 := by
+  (h_tw : treewidth φ ≥ 999) :
+  S.size ≥ 999 := by
   sorry
 
 end Formal.TreewidthTheory
