@@ -146,15 +146,23 @@ deriving DecidableEq
 def incidenceGraph (φ : CnfFormula) : SimpleGraph (IncVertex φ.numVars φ.clauses.length) :=
   fun u v => match u, v with
   | IncVertex.var i, IncVertex.clause j => 
-      let clause := φ.clauses.get! j.val
-      clause.any (fun lit => match lit with
-        | Literal.pos k => k = i.val
-        | Literal.neg k => k = i.val)
+      -- Safe access: j.val < φ.clauses.length by type constraint
+      if h : j.val < φ.clauses.length then
+        let clause := φ.clauses.get ⟨j.val, h⟩
+        clause.any (fun lit => match lit with
+          | Literal.pos k => k = i.val
+          | Literal.neg k => k = i.val)
+      else
+        false
   | IncVertex.clause j, IncVertex.var i => 
-      let clause := φ.clauses.get! j.val
-      clause.any (fun lit => match lit with
-        | Literal.pos k => k = i.val
-        | Literal.neg k => k = i.val)
+      -- Safe access: j.val < φ.clauses.length by type constraint
+      if h : j.val < φ.clauses.length then
+        let clause := φ.clauses.get ⟨j.val, h⟩
+        clause.any (fun lit => match lit with
+          | Literal.pos k => k = i.val
+          | Literal.neg k => k = i.val)
+      else
+        false
   | _, _ => false
 
 /-! ### Approximation Algorithms -/

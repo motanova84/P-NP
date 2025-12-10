@@ -74,9 +74,10 @@ theorem computational_dichotomy (φ : CNF) (n : ℕ)
     -- SILB framework gives exponential communication complexity
     sorry
 
-/-- Treewidth characterizes computational complexity -/
-theorem treewidth_complexity_equivalence (φ : CNF) :
-    (cnf_treewidth φ = O(Nat.log φ.numVars)) ↔ 
+/-- Treewidth characterizes computational complexity
+    Low treewidth (≤ c * log n) implies polynomial time algorithm exists -/
+theorem treewidth_complexity_equivalence (φ : CNF) (c : ℕ) :
+    (cnf_treewidth φ ≤ c * Nat.log φ.numVars) ↔ 
     (∃ alg : Algorithm, ∀ n, alg.time_complexity n ≤ n ^ 4) := by
   sorry
 
