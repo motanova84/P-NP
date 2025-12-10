@@ -129,7 +129,6 @@ class TestHardCNFFormula(unittest.TestCase):
         G = ramanujan_graph(n, seed=42)
         
         # Count total degree (sum of all degrees)
-        total_degree = sum(d for _, d in G.degree())
         
         # Total degree is always even (each edge counted twice)
         # So sum of odd parities (n odd values) is odd if n is odd
