@@ -25,6 +25,12 @@ lean_lib Treewidth where
 lean_lib Formal where
   roots := #[`Formal]
 
+lean_lib SpectralTheory where
+  roots := #[`SpectralTheory]
+
+lean_lib PNPSpectral where
+  roots := #[`P_neq_NP_Spectral]
+
 @[default_target]
 lean_exe pnp where
   root := `Director
