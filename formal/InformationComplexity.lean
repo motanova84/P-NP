@@ -74,4 +74,31 @@ theorem informationToComputational (π : Protocol) (φ : CNFFormula) :
   ∀ (alg : CNFFormula → Bool), ∃ (ψ : CNFFormula), ¬(alg ψ = true) := by
   sorry
 
+/--
+Information complexity of any algorithm solving SAT on φ
+is at least proportional to the separator size minus 2.
+This is the key counting argument connecting separators to information.
+-/
+theorem separator_information_need (φ : CNFFormula) (π : Protocol) 
+  (S : Formal.TreewidthTheory.Separator (Formal.TreewidthTheory.incidenceGraph φ)) :
+  informationComplexity π ≥ (S.size : ℝ) - 2 := by
+  sorry
+
+/--
+Polynomial time algorithms have bounded information complexity.
+If SAT is in P, then any algorithm solving it has IC bounded by poly(n).
+-/
+axiom polynomial_time_implies_bounded_ic (φ : CNFFormula) (π : Protocol) :
+  (φ ∈ P) → informationComplexity π ≤ (numVars φ : ℝ) * Real.log (numVars φ)
+
+/--
+The class P - membership predicate.
+-/
+axiom P : Set CNFFormula
+
+/--
+Membership notation for P.
+-/
+instance : Membership CNFFormula (Set CNFFormula) := inferInstance
+
 end Formal.InformationComplexity

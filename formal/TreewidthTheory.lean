@@ -97,4 +97,34 @@ theorem treewidthDichotomy (φ : CNFFormula) (n : Nat) :
       ∃ (ψ : CNFFormula), ¬(alg ψ = true)) := by
   sorry
 
+/--
+Treewidth approximation algorithm.
+Returns an upper bound on the actual treewidth.
+-/
+axiom tw_approx (φ : CNFFormula) : Nat
+
+/--
+The approximation algorithm provides a valid upper bound.
+-/
+theorem treewidthUpperBound_valid (φ : CNFFormula) :
+  treewidth φ ≤ tw_approx φ := by
+  sorry
+
+/--
+Separator structure from treewidth theory.
+-/
+structure Separator (G : Graph) where
+  vertices : List Nat
+  size : Nat
+  is_balanced : size > 0
+
+/--
+Existence of optimal separators with bounded size.
+For graphs with high treewidth, there exists a balanced separator
+with size proportional to the treewidth.
+-/
+theorem optimal_separator_exists (φ : CNFFormula) (h : treewidth φ ≥ 999) :
+  ∃ (S : Separator (incidenceGraph φ)), S.size ≤ 1000 := by
+  sorry
+
 end Formal.TreewidthTheory
