@@ -21,6 +21,9 @@ class PNePProof:
         Genera fórmula CNF con tw(G) = Ω(n).
         Basado en construcción de grafos expansores.
         """
+        if n < 3:
+            raise ValueError("n must be at least 3 to generate meaningful formulas")
+        
         # Grafo aleatorio regular (d-regular con d ≈ √n para crear densidad)
         d = max(3, min(int(math.sqrt(n)) + 2, n - 1))
         if d % 2 == 1 and n % 2 == 1:
@@ -61,7 +64,7 @@ class PNePProof:
     def compute_information_complexity(self, G: nx.Graph, tw: float) -> float:
         """
         Calcula IC via dualidad κ_Π.
-        IC ≈ (1/κ_Π) * tw
+        IC ≈ tw / κ_Π
         """
         return tw / KAPPA_PI
     
@@ -95,6 +98,7 @@ class PNePProof:
             tw = self.measure_treewidth(G)
             ic = self.compute_information_complexity(G, tw)
             time_est = self.estimate_time_complexity(G, ic)
+            # Use max(time_est, 1) to avoid log(0) for very small IC values
             time_log = math.log2(max(time_est, 1))
             
             # Bound polinomial (hipotético si P=NP)
@@ -225,9 +229,21 @@ def main():
     
     verdict = proof.final_verdict()
     
-    print(f"\n  Test 1: Ratio crece monótonamente: ✅" if verdict else "  ❌")
-    print(f"  Test 2: Separación significativa: ✅" if verdict else "  ❌")
-    print(f"  Test 3: κ_Π valida dualidad: ✅" if verdict else "  ❌")
+    # Individual test results
+    ratios = proof.results['ratio']
+    growing_pairs = sum(1 for i in range(len(ratios)-1) if ratios[i] <= ratios[i+1])
+    is_growing = growing_pairs >= 0.8 * (len(ratios) - 1)
+    significantly_separated = ratios[-1] > 1.0
+    
+    ic_vals = proof.results['ic']
+    tw_vals = proof.results['tw']
+    theoretical_ic = [tw/KAPPA_PI for tw in tw_vals]
+    correlation = np.corrcoef(ic_vals, theoretical_ic)[0, 1]
+    kappa_validates = correlation > 0.99
+    
+    print(f"\n  Test 1: Ratio crece monótonamente: {'✅' if is_growing else '❌'}")
+    print(f"  Test 2: Separación significativa: {'✅' if significantly_separated else '❌'}")
+    print(f"  Test 3: κ_Π valida dualidad: {'✅' if kappa_validates else '❌'}")
     
     print("\n" + "═" * 70)
     if verdict:
