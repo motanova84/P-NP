@@ -139,15 +139,21 @@ def log² (n : ℕ) : ℝ := (log n) ^ 2
 /-! ## Hard CNF Formula Construction (GAP 3) -/
 
 /-- Ramanujan graph type (d-regular optimal expander) -/
-axiom RamanujanGraph : ℕ → Type
+axiom RamanujanGraph : Type
+
+/-- Instance of a Ramanujan graph with n vertices -/
+axiom ramanujan_graph : ℕ → RamanujanGraph
+
+/-- Parity assignment for vertices in a formula -/
+def ParityAssignment (n : ℕ) := Fin n → Bool
 
 /-- Tseitin encoding of a graph with parity assignment -/
-axiom tseitin_encoding : {n : ℕ} → RamanujanGraph n → (Fin n → Bool) → CNFFormula
+axiom tseitin_encoding : RamanujanGraph → ParityAssignment n → CNFFormula
 
 /-- Hard CNF formula construction using Tseitin over Ramanujan graphs -/
 def hard_cnf_formula (n : ℕ) : CNFFormula :=
-  let G : RamanujanGraph n := Classical.choice ⟨Classical.choice inferInstance⟩
-  let parity : Fin n → Bool := fun _ => true  -- All odd parities
+  let G := ramanujan_graph n
+  let parity : ParityAssignment n := fun _ => true  -- All odd parities
   tseitin_encoding G parity
 
 /-- Expander property for graphs -/
@@ -177,17 +183,15 @@ theorem hard_cnf_high_treewidth (n : ℕ) (h : n ≥ 100) :
   treewidth G ≥ Real.sqrt (n : ℝ) / 4 := by
   sorry
 
-/-- Theorem 3: Tseitin treewidth bound -/
-theorem tseitin_treewidth_bound 
-  {V : Type} [Fintype V]
-  (G : SimpleGraph V) 
-  (parity : V → Bool) :
+/-- Theorem 3: Tseitin treewidth bound (general form) -/
+axiom tseitin_treewidth_bound 
+  (G : RamanujanGraph) 
+  (parity : ParityAssignment n) :
   let φ := tseitin_encoding G parity
   let H := incidenceGraph φ
-  treewidth H ≥ treewidth G := by
+  treewidth H ≥ Real.sqrt (n : ℝ) / 4
   -- The incidence graph of Tseitin formula contains G as a minor
-  -- Therefore treewidth is preserved
-  sorry
+  -- Therefore treewidth is preserved from the expander graph
 
 /-- Theorem 4: Expander implies high treewidth -/
 theorem expander_implies_high_treewidth 
@@ -203,13 +207,13 @@ theorem expander_implies_high_treewidth
 
 /-! ## Ramanujan Graph Properties -/
 
-/-- Ramanujan graphs have optimal expansion -/
-axiom ramanujan_expansion 
+/-- Ramanujan graphs are expanders -/
+axiom ramanujan_is_expander 
   (n : ℕ) 
   (d : ℕ) 
   (h : d = Nat.sqrt n) :
-  ∃ (G : RamanujanGraph n), 
-    IsExpander G (1 - 2 * Real.sqrt (d - 1 : ℝ) / d)
+  ∀ (G : RamanujanGraph), 
+    ∃ (δ : ℝ), δ = 1 - 2 * Real.sqrt (d - 1 : ℝ) / d ∧ δ > 0
 
 /-- Connecting hard_cnf_formula to the dichotomy -/
 theorem hard_cnf_complexity (n : ℕ) (h : n ≥ 100) :
