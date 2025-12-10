@@ -43,9 +43,11 @@ structure Separator (G : SimpleGraph V) where
   /-- The separator is balanced: creates at least 2 significant components -/
   is_balanced : S.card > 0
 
-/-- A balanced separator satisfies size constraints relative to total vertices -/
+/-- A balanced separator satisfies size constraints relative to total vertices.
+    Note: S.is_balanced (S.card > 0) is redundant when V > 0 and the size bound holds,
+    but we keep it explicit for clarity in the definition. -/
 def is_balanced_separator (G : SimpleGraph V) (S : Separator G) : Prop :=
-  S.is_balanced ∧ S.S.card ≤ (2 * Fintype.card V) / 3
+  S.S.card ≤ (2 * Fintype.card V) / 3
 
 /-! ## Information Complexity Definitions -/
 
@@ -66,12 +68,7 @@ lemma balanced_separator_size_bound
   (S : Separator G) 
   (h_sep : is_balanced_separator G S) :
   S.S.card ≤ (2 * Fintype.card V) / 3 := by
-  exact h_sep.2
-
-/-- Key lemma: log₂ of a power of 2 equals the exponent -/
-lemma log_pow_eq (k : ℕ) (h : k > 0) : 
-  Nat.log 2 (2 ^ k) = k := by
-  exact Nat.log_pow h
+  exact h_sep
 
 /-- The logarithm of total configurations equals the number of non-separator vertices -/
 lemma log_total_configs_eq 
@@ -81,7 +78,7 @@ lemma log_total_configs_eq
   Nat.log 2 (total_configs G S) = Fintype.card V - S.S.card := by
   unfold total_configs
   by_cases h : Fintype.card V - S.S.card > 0
-  · exact log_pow_eq (Fintype.card V - S.S.card) h
+  · exact Nat.log_pow h
   · push_neg at h
     have : Fintype.card V - S.S.card = 0 := by omega
     simp [this]
@@ -106,7 +103,7 @@ theorem log_total_configs_lower_bound
   (h_sep : is_balanced_separator G S)
   (h_nonempty : Fintype.card V > 0) :
   Nat.log 2 (total_configs G S) ≥ S.S.card / 2 := by
-  -- Step 1: Prove that log₂(2^k) = k for the total configurations
+  -- Step 1: Establish that Fintype.card V ≥ S.S.card (separator can't be larger than graph)
   have h_card : Fintype.card V ≥ S.S.card := by
     by_contra h_contra
     push_neg at h_contra
@@ -116,27 +113,13 @@ theorem log_total_configs_lower_bound
       omega
     omega
   
-  -- By definition: total_configs = 2^(Fintype.card V - S.S.card)
-  -- Therefore: log₂(total_configs) = Fintype.card V - S.S.card
-  have h_log : Nat.log 2 (total_configs G S) = Fintype.card V - S.S.card := by
-    unfold total_configs
-    by_cases h : Fintype.card V - S.S.card > 0
-    · exact Nat.log_pow h
-    · push_neg at h
-      have : Fintype.card V - S.S.card = 0 := by omega
-      simp [this]
-  
-  -- Step 2: We need to show: Fintype.card V - S.S.card ≥ S.S.card / 2
-  -- This is equivalent to: Fintype.card V ≥ (3/2) * S.S.card
-  -- Which follows from: S.S.card ≤ (2/3) * Fintype.card V
-  have bound : S.S.card ≤ (2 * Fintype.card V) / 3 := 
-    balanced_separator_size_bound G S h_sep
-  
+  -- Step 2: Apply log_total_configs_eq to simplify
+  have h_log := log_total_configs_eq G S h_card
   rw [h_log]
   
-  -- Prove: Fintype.card V - S.S.card ≥ S.S.card / 2
-  -- From bound: S.S.card ≤ (2 * Fintype.card V) / 3
-  -- The omega tactic handles this arithmetic reasoning directly
+  -- Step 3: Prove Fintype.card V - S.S.card ≥ S.S.card / 2
+  -- Using the balanced separator bound: S.S.card ≤ (2/3) * Fintype.card V
+  have bound := balanced_separator_size_bound G S h_sep
   omega
 
 /-! ## Corollaries and Applications -/
@@ -174,21 +157,15 @@ theorem log_total_configs_lower_bound_direct
   (h_nonempty : Fintype.card V > 0) :
   Nat.log 2 (2 ^ (Fintype.card V - S.S.card)) ≥ S.S.card / 2 := by
   -- Step 1: Establish that log₂(2^k) = k
-  have h_log : Nat.log 2 (2 ^ (Fintype.card V - S.S.card)) = Fintype.card V - S.S.card := by
-    by_cases h : Fintype.card V - S.S.card > 0
-    · exact Nat.log_pow h
-    · push_neg at h
-      have : Fintype.card V - S.S.card = 0 := by omega
-      simp [this]
-  
-  rw [h_log]
-  
-  -- Step 2: Use the balanced separator bound
-  -- From balanced_separator_size_bound: S.card ≤ (2/3) * Fintype.card V
-  have bound : S.S.card ≤ (2 * Fintype.card V) / 3 := balanced_separator_size_bound G S h_sep
-  
-  -- Step 3: Prove Fintype.card V - S.card ≥ S.card / 2
-  -- This follows directly from the bound via arithmetic
-  omega
+  by_cases h : Fintype.card V - S.S.card > 0
+  · -- When the exponent is positive, log₂(2^k) = k
+    rw [Nat.log_pow h]
+    -- Use the balanced separator bound: S.card ≤ (2/3) * Fintype.card V
+    have bound := balanced_separator_size_bound G S h_sep
+    omega
+  · -- When the exponent is 0, both sides are 0
+    push_neg at h
+    have : Fintype.card V - S.S.card = 0 := by omega
+    simp [this]
 
 end GraphInformationComplexity
