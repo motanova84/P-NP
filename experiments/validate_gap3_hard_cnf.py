@@ -303,7 +303,7 @@ def print_gap3_summary():
     print("  • Expansión verificada ✓")
     print()
     print("CONSTANTES EXPLÍCITAS:")
-    print("  • d = ⌈√n⌉ (grado del expansor)")
+    print("  • d = 3 o 4 (grado del expansor)")
     print("  • Expansión δ ≥ 1 - 2√(d-1)/d")
     print("  • Treewidth ≥ δ·n/(2(1+δ)) ≈ 0.19·n para n grande")
     print()
