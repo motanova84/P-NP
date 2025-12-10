@@ -8,6 +8,8 @@ Tests the implementation of IC(Π_φ | S) ≥ c · tw(G_I(φ))
 import pytest
 import sys
 import os
+import networkx as nx
+import numpy as np
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
@@ -21,6 +23,9 @@ from critical_inequality_strategy import (
     CriticalInequalityValidator,
     InequalityResult
 )
+
+# Test constants
+FLOAT_COMPARISON_TOLERANCE = 0.001
 
 
 class TestRamanujanExpanderBuilder:
@@ -36,7 +41,6 @@ class TestRamanujanExpanderBuilder:
     
     def test_verify_ramanujan_property(self):
         """Test Ramanujan property verification"""
-        import numpy as np
         builder = RamanujanExpanderBuilder(n=20, d=4)  # Use even d for easier construction
         G = builder.construct_ramanujan_approximation()
         
@@ -59,8 +63,6 @@ class TestTseitinFormulaGenerator:
     
     def test_generate_on_triangle(self):
         """Test Tseitin formula on simple triangle"""
-        import networkx as nx
-        
         G = nx.cycle_graph(3)
         gen = TseitinFormulaGenerator(G)
         clauses, G_I = gen.generate_tseitin_formula()
@@ -93,8 +95,6 @@ class TestSeparatorAnalyzer:
     
     def test_find_separator_simple(self):
         """Test separator finding on simple graph"""
-        import networkx as nx
-        
         G = nx.path_graph(10)
         analyzer = SeparatorAnalyzer(G)
         separator = analyzer.find_balanced_separator()
@@ -120,8 +120,6 @@ class TestTreewidthEstimator:
     
     def test_estimate_path(self):
         """Test treewidth of path (should be 1)"""
-        import networkx as nx
-        
         G = nx.path_graph(10)
         estimator = TreewidthEstimator(G)
         tw = estimator.estimate_treewidth()
@@ -132,8 +130,6 @@ class TestTreewidthEstimator:
     
     def test_estimate_clique(self):
         """Test treewidth of clique (should be n-1)"""
-        import networkx as nx
-        
         n = 5
         G = nx.complete_graph(n)
         estimator = TreewidthEstimator(G)
@@ -144,8 +140,6 @@ class TestTreewidthEstimator:
     
     def test_estimate_positive(self):
         """Test that treewidth is always positive for non-empty graphs"""
-        import networkx as nx
-        
         G = nx.cycle_graph(6)
         estimator = TreewidthEstimator(G)
         tw = estimator.estimate_treewidth()
@@ -158,8 +152,6 @@ class TestInformationComplexityEstimator:
     
     def test_estimate_IC_basic(self):
         """Test basic IC estimation"""
-        import networkx as nx
-        
         # Simple formula
         clauses = [[1, 2], [-1, 3], [2, -3]]
         num_vars = 3
@@ -179,8 +171,6 @@ class TestInformationComplexityEstimator:
     
     def test_IC_increases_with_separator_size(self):
         """Test that IC increases with separator size"""
-        import networkx as nx
-        
         clauses = [[1, 2, 3], [-1, -2], [2, -3, 4]]
         num_vars = 4
         
@@ -225,7 +215,7 @@ class TestCriticalInequalityValidator:
             if result.tw > 0:
                 # Check c = IC / tw
                 expected_c = result.IC / result.tw
-                assert abs(result.constant_c - expected_c) < 0.001
+                assert abs(result.constant_c - expected_c) < FLOAT_COMPARISON_TOLERANCE
     
     def test_empirical_validation_structure(self):
         """Test structure of empirical validation results"""

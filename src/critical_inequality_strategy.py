@@ -97,7 +97,7 @@ class RamanujanExpanderBuilder:
             if len(sorted_eigs) > 1:
                 return abs(sorted_eigs[1])
             return 0.0
-        except:
+        except (ValueError, np.linalg.LinAlgError):
             return float('inf')
     
     def verify_ramanujan_property(self, G: nx.Graph) -> bool:
@@ -323,6 +323,11 @@ class InformationComplexityEstimator:
     for SAT instances.
     """
     
+    # Information contribution per variable in separator (bits)
+    # Theoretical basis: Fano's inequality with error rate ε=1/3
+    # gives IC ≥ H(X) - H(ε) ≥ 1 - 0.92 ≈ 0.08 ≥ 1/10
+    IC_PER_VARIABLE = 0.1
+    
     def __init__(self, clauses: List[List[int]], num_vars: int):
         self.clauses = clauses
         self.num_vars = num_vars
@@ -342,14 +347,11 @@ class InformationComplexityEstimator:
         Returns:
             Estimated IC value in bits
         """
-        # Information contribution from each variable in separator
-        ic_per_var = 0.1  # Conservative estimate (≥ 1/10 bit per variable)
-        
         # Variables in separator that are actually used
         used_vars = self._count_separator_variables(separator, G_incidence)
         
         # Total information complexity
-        IC = used_vars * ic_per_var
+        IC = used_vars * self.IC_PER_VARIABLE
         
         # Add contribution from communication across separator
         cross_edges = self._count_cross_separator_edges(separator, G_incidence)
@@ -448,7 +450,7 @@ class TreewidthEstimator:
                 max_clique_size = max(len(c) for c in cliques)
                 return max_clique_size - 1
             return 0
-        except:
+        except (ValueError, nx.NetworkXError):
             return 0
 
 
