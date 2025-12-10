@@ -135,32 +135,8 @@ theorem log_total_configs_lower_bound
   
   -- Prove: Fintype.card V - S.S.card ≥ S.S.card / 2
   -- From bound: S.S.card ≤ (2 * Fintype.card V) / 3
-  -- Multiplying by 3: 3 * S.S.card ≤ 2 * Fintype.card V
-  -- Subtracting 2 * S.S.card: S.S.card ≤ 2 * Fintype.card V - 2 * S.S.card
-  -- Therefore: S.S.card ≤ 2 * (Fintype.card V - S.S.card)
-  -- Dividing by 2: S.S.card / 2 ≤ Fintype.card V - S.S.card
-  have h_bound : Fintype.card V - S.S.card ≥ S.S.card / 2 := by
-    -- Use the bound directly via arithmetic reasoning
-    have h_mult3 : 3 * S.S.card ≤ 2 * Fintype.card V := by
-      calc 3 * S.S.card
-          = S.S.card + 2 * S.S.card := by ring
-        _ ≤ S.S.card + 2 * ((2 * Fintype.card V) / 3) := by
-            apply Nat.add_le_add_left
-            exact Nat.mul_le_mul_left 2 bound
-        _ ≤ S.S.card + ((4 * Fintype.card V) / 3) := by rfl
-        _ ≤ (3 * S.S.card + 4 * Fintype.card V) / 3 + S.S.card - S.S.card := by omega
-        _ ≤ 2 * Fintype.card V := by
-            have : S.S.card * 3 ≤ 2 * Fintype.card V := by
-              have h_div : S.S.card * 3 ≤ ((2 * Fintype.card V) / 3) * 3 := by
-                exact Nat.mul_le_mul_right 3 bound
-              calc S.S.card * 3
-                  ≤ ((2 * Fintype.card V) / 3) * 3 := h_div
-                _ ≤ 2 * Fintype.card V := Nat.div_mul_le_self (2 * Fintype.card V) 3
-            exact this
-    -- From 3 * S.S.card ≤ 2 * Fintype.card V, we get the desired bound
-    omega
-  
-  exact h_bound
+  -- The omega tactic handles this arithmetic reasoning directly
+  omega
 
 /-! ## Corollaries and Applications -/
 
