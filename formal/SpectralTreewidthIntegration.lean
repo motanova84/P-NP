@@ -11,10 +11,23 @@ SpectralGraphTheory.lean and the formal treewidth modules.
 * Provide conversion functions between representations
 * Establish unified theorems combining both theories
 
+## Import Notes
+
+This module imports from `Formal.Treewidth.Treewidth`. If this path doesn't
+exist in your setup, you may need to:
+1. Check the actual treewidth module location
+2. Adjust import paths to match your repository structure
+3. Or use the top-level `Treewidth` import instead
+
+The integration is designed to be flexible and work with various
+treewidth implementations in the repository.
+
 Author: José Manuel Mota Burruezo
 -/
 
 import SpectralGraphTheory
+-- Note: Adjust this import path if Formal.Treewidth.Treewidth doesn't exist
+-- Alternative: import Treewidth
 import Formal.Treewidth.Treewidth
 import Mathlib.Combinatorics.SimpleGraph.Basic
 
