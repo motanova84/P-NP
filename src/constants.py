@@ -81,6 +81,21 @@ GOLDEN_RATIO = (1 + math.sqrt(5)) / 2
 Appears naturally in the relationship between κ_Π and the QCAL frequency.
 """
 
+# Logarithmic spiral scale constants
+C_0_KAPPA = math.log(KAPPA_PI) / (2 * math.pi)
+"""
+c₀ (kappa variant) ≈ 0.150
+Scale constant for logarithmic spiral: a = exp(θ × c₀)
+Related to κ_Π through: c₀ = log(κ_Π) / (2π)
+"""
+
+C_0_PHI = math.log(GOLDEN_RATIO) / math.pi
+"""
+c₀ (phi variant) ≈ 0.153
+Scale constant for logarithmic spiral: a = exp(θ × c₀)
+Related to φ through: c₀ = log(φ) / π
+"""
+
 # Information complexity scaling factor
 IC_SCALING_FACTOR = KAPPA_PI
 """
