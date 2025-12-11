@@ -23,6 +23,9 @@ from src.constants import (
     compare_classical_vs_critical_frequency,
 )
 
+# Test constants
+MIN_EXPECTED_AMPLIFICATION = 10  # Minimum expected complexity amplification at critical frequency
+
 
 class TestFrequencyDependentComplexity(unittest.TestCase):
     """Test suite for frequency-dependent complexity framework."""
@@ -75,10 +78,10 @@ class TestFrequencyDependentComplexity(unittest.TestCase):
         self.assertGreater(ic_critical, ic_classical,
             "IC should increase at critical frequency")
         
-        # IC amplification should be significant (at least 10x)
+        # IC amplification should be significant
         amplification = ic_critical / ic_classical if ic_classical > 0 else float('inf')
-        self.assertGreater(amplification, 10,
-            f"IC amplification should be significant (got {amplification:.2f}x)")
+        self.assertGreater(amplification, MIN_EXPECTED_AMPLIFICATION,
+            f"IC amplification should be at least {MIN_EXPECTED_AMPLIFICATION}x (got {amplification:.2f}x)")
     
     def test_three_dimensional_analysis_classical(self):
         """Test three-dimensional analysis at classical frequency."""
@@ -129,12 +132,12 @@ class TestFrequencyDependentComplexity(unittest.TestCase):
         
         # κ_Π should decay at critical frequency
         kappa_ratio = comparison['comparison']['kappa_ratio']
-        self.assertGreater(kappa_ratio, 10,
+        self.assertGreater(kappa_ratio, MIN_EXPECTED_AMPLIFICATION,
             f"κ_Π should decay significantly (ratio: {kappa_ratio:.2f}x)")
         
         # IC should be amplified at critical frequency
         ic_ratio = comparison['comparison']['IC_ratio']
-        self.assertGreater(ic_ratio, 10,
+        self.assertGreater(ic_ratio, MIN_EXPECTED_AMPLIFICATION,
             f"IC should be amplified significantly (ratio: {ic_ratio:.2f}x)")
     
     def test_frequency_interpolation(self):

@@ -133,6 +133,12 @@ Related to κ_Π through: κ_Π ≈ 1/(2·sin(π/7))
 
 # ========== COMPUTATIONAL BOUNDS ==========
 
+# Numerical stability constants
+EPSILON_ZERO = 1e-10  # Threshold for considering a value as zero
+EPSILON_FREQUENCY = 1e-6  # Threshold for frequency matching
+MAX_IC_MULTIPLIER = 1e6  # Maximum IC multiplier when κ_Π approaches zero
+MAX_LOG_TIME = 100  # Maximum log₂(time) to prevent overflow in exponential calculations
+
 def spectral_constant_at_frequency(omega: float, num_vars: int) -> float:
     """
     Calculate the frequency-dependent spectral constant κ_Π(ω, n).
@@ -156,11 +162,11 @@ def spectral_constant_at_frequency(omega: float, num_vars: int) -> float:
         return KAPPA_PI
     
     # At ω = 0: classical regime, constant κ_Π
-    if abs(omega) < 1e-10:
+    if abs(omega) < EPSILON_ZERO:
         return KAPPA_PI
     
     # At ω = ω_c: critical frequency, κ_Π decays
-    if abs(omega - OMEGA_CRITICAL) < 1e-6:
+    if abs(omega - OMEGA_CRITICAL) < EPSILON_FREQUENCY:
         sqrt_n = math.sqrt(num_vars)
         log_n = math.log2(num_vars)
         if log_n > 0:
@@ -210,9 +216,9 @@ def information_complexity_at_frequency(treewidth: float, num_vars: int, omega: 
     
     # IC is inversely proportional to κ_Π
     # When κ_Π collapses (at ω_c), IC explodes
-    if kappa_omega < 1e-6:
+    if kappa_omega < EPSILON_FREQUENCY:
         # Prevent division by zero, return a very large IC
-        return treewidth * log_n * 1e6
+        return treewidth * log_n * MAX_IC_MULTIPLIER
     
     # IC(ω) = tw · log(n) / κ_Π(ω)
     # At ω = 0: κ_Π is large (2.5773), IC is small
@@ -370,15 +376,15 @@ def analyze_three_dimensional_complexity(num_vars: int, treewidth: float, omega:
         
         # Frequency dimension
         'frequency_omega': omega,
-        'frequency_regime': 'classical (ω=0)' if abs(omega) < 1e-10 
-                           else 'critical (ω=ω_c)' if abs(omega - OMEGA_CRITICAL) < 1e-6
+        'frequency_regime': 'classical (ω=0)' if abs(omega) < EPSILON_ZERO 
+                           else 'critical (ω=ω_c)' if abs(omega - OMEGA_CRITICAL) < EPSILON_FREQUENCY
                            else f'intermediate (ω={omega:.2f})',
         'kappa_at_frequency': kappa_omega,
         
         # Time dimension
         'time_ic_bits': ic_omega,
         'time_min_log2': min_time_log2,
-        'time_min_operations': 2 ** min_time_log2 if min_time_log2 < 100 else float('inf'),
+        'time_min_operations': 2 ** min(min_time_log2, MAX_LOG_TIME) if min_time_log2 < MAX_LOG_TIME else float('inf'),
         
         # P/NP classification
         'dichotomy_threshold': threshold,

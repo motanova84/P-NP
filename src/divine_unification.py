@@ -604,6 +604,11 @@ def verify_separator_information_theorem_demo():
 # FREQUENCY-DEPENDENT UNIFICATION (THE MISSING DIMENSION)
 # ============================================================================
 
+# Numerical stability constants for frequency analysis
+EPSILON_ZERO = 1e-10  # Threshold for considering a value as zero
+EPSILON_FREQUENCY = 1e-6  # Threshold for frequency matching
+MAX_IC_MULTIPLIER = 1e6  # Maximum IC multiplier when κ_Π approaches zero
+
 def spectral_constant_at_frequency(omega: float, n: int) -> float:
     """
     Calculate the frequency-dependent spectral constant κ_Π(ω, n).
@@ -625,11 +630,11 @@ def spectral_constant_at_frequency(omega: float, n: int) -> float:
         return KAPPA_PI
     
     # At ω = 0: classical regime, constant κ_Π
-    if abs(omega) < 1e-10:
+    if abs(omega) < EPSILON_ZERO:
         return KAPPA_PI
     
     # At ω = ω_c: critical frequency, κ_Π decays
-    if abs(omega - OMEGA_CRITICAL) < 1e-6:
+    if abs(omega - OMEGA_CRITICAL) < EPSILON_FREQUENCY:
         sqrt_n = math.sqrt(n)
         log_n = math.log2(n)
         if log_n > 0:
@@ -684,7 +689,7 @@ def analyze_graph_at_frequency(G: nx.Graph, omega: float = 0.0) -> dict:
     # Information complexity (inversely proportional to κ_Π)
     ic_base = graph_information_complexity(G, S)
     # At critical frequency, IC is amplified by the decay of κ_Π
-    ic_effective = ic_base / (kappa_omega / KAPPA_PI) if kappa_omega > 1e-10 else ic_base * 1e6
+    ic_effective = ic_base / (kappa_omega / KAPPA_PI) if kappa_omega > EPSILON_FREQUENCY else ic_base * MAX_IC_MULTIPLIER
     
     # Time complexity
     log_time = ic_effective
@@ -693,14 +698,14 @@ def analyze_graph_at_frequency(G: nx.Graph, omega: float = 0.0) -> dict:
         'space_n': n,
         'separator_size': len(S),
         'frequency_omega': omega,
-        'frequency_regime': 'classical (ω=0)' if abs(omega) < 1e-10 
-                           else 'critical (ω=ω_c)' if abs(omega - OMEGA_CRITICAL) < 1e-6
+        'frequency_regime': 'classical (ω=0)' if abs(omega) < EPSILON_ZERO 
+                           else 'critical (ω=ω_c)' if abs(omega - OMEGA_CRITICAL) < EPSILON_FREQUENCY
                            else f'intermediate (ω={omega:.2f})',
         'kappa_at_frequency': kappa_omega,
         'IC_base': ic_base,
         'IC_effective': ic_effective,
         'min_log2_time': log_time,
-        'spectrum_state': 'collapsed' if abs(omega) < 1e-10 else 'revealed',
+        'spectrum_state': 'collapsed' if abs(omega) < EPSILON_ZERO else 'revealed',
     }
 
 
