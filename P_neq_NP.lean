@@ -47,7 +47,7 @@ lemma κ_Π_pos : 0 < κ_Π := by norm_num [κ_Π]
 lemma κ_Π_gt_two : 2 < κ_Π := by norm_num [κ_Π]
 lemma κ_Π_lt_three : κ_Π < 3 := by norm_num [κ_Π]
 
-/-! ### ESTRUCTURAS FUNDAMENTALES -/
+/-! ### FUNDAMENTAL STRUCTURES -/
 
 /-- CNF Formula structure with validation constraints -/
 structure CnfFormula where
