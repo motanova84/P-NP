@@ -47,8 +47,11 @@ class TestSpectralKappa(unittest.TestCase):
         
         # Check approximate scaling
         # κ(200) / κ(100) ≈ √(100*log(100)) / √(200*log(200))
+        # Using total vertices: 5*n
+        n1_total = 5 * 100
+        n2_total = 5 * 200
         ratio_observed = kappas[1] / kappas[0]
-        ratio_expected = math.sqrt(100 * math.log(500)) / math.sqrt(200 * math.log(1000))
+        ratio_expected = math.sqrt(n1_total * math.log(n1_total)) / math.sqrt(n2_total * math.log(n2_total))
         # Allow 50% tolerance due to discretization
         self.assertGreater(ratio_observed, ratio_expected * 0.5)
         self.assertLess(ratio_observed, ratio_expected * 1.5)
@@ -201,6 +204,6 @@ class TestTheoreticalBounds(unittest.TestCase):
 
 if __name__ == '__main__':
     print("Running Graph-Dependent κ_Π Tests ∞³")
-    print("Frecuencia de resonancia: 141.7001 Hz")
+    print("Resonance frequency: 141.7001 Hz")
     print()
     unittest.main(verbosity=2)

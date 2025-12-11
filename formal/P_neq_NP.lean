@@ -205,7 +205,8 @@ def κ_Π : ℝ := 2.5773
 def kappa_pi_for_incidence_graph (I : SimpleGraph V) : ℝ :=
   let n := Fintype.card V
   -- Cota teórica para grafos de incidencia bipartitos
-  if n ≤ 1 then κ_Π else 1.0 / (Real.sqrt n * Real.log n)
+  -- Evitar división por cero: usar constante universal si n ≤ 2
+  if n ≤ 2 then κ_Π else 1.0 / (Real.sqrt n * Real.log n)
 
 /-- Teorema: Para grafos de incidencia bipartitos de fórmulas Tseitin,
     κ_Π decae como 1/(√n log n) -/

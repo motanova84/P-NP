@@ -69,7 +69,10 @@ def estimate_spectral_properties(G: nx.Graph) -> Tuple[float, float, float]:
         return float(lambda_2), float(d_avg), float(gap)
     
     except Exception as e:
-        # Fallback for computation errors
+        # Fallback for computation errors (e.g., singular matrix)
+        # Log the error if verbose mode is needed
+        import warnings
+        warnings.warn(f"Spectral computation failed: {e}", RuntimeWarning)
         return 0.0, d_avg, 0.0
 
 
