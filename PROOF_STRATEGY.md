@@ -26,11 +26,13 @@ IC(Π | S) ≥ κ_Π · tw(φ) / log n  (κ_Π = 2.5773)
 
 ### The Millennium Constant κ_Π = 2.5773
 
-The **Millennium Constant** κ_Π is a universal constant that appears across multiple domains:
-- **Calabi-Yau Geometry**: Emerged from analysis of 150 Calabi-Yau manifold varieties
-- **Information Theory**: Defines the scaling factor for information complexity bounds
-- **Computational Complexity**: Establishes the fundamental barrier between P and NP
-- **Spectral Graph Theory**: Related to expansion properties of Ramanujan graphs
+The **Millennium Constant** κ_Π is a proposed universal constant that, according to this research framework, appears across multiple domains:
+- **Calabi-Yau Geometry**: Proposed to emerge from analysis of 150 Calabi-Yau manifold varieties
+- **Information Theory**: Proposed as the scaling factor for information complexity bounds
+- **Computational Complexity**: Proposed to establish the fundamental barrier between P and NP
+- **Spectral Graph Theory**: Proposed connection to expansion properties of Ramanujan graphs
+
+**Note:** These connections are part of the proposed theoretical framework and require validation.
 
 See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for complete derivation and validation.
 
@@ -282,45 +284,51 @@ Time Lower Bound: Time ≥ 2^(κ_Π · tw / log n)
 
 ### Universal Constant Across Domains
 
-The **Millennium Constant** κ_Π = 2.5773 is not an arbitrary scaling factor but a universal constant that appears consistently across multiple mathematical domains:
+The **Millennium Constant** κ_Π = 2.5773 is proposed as a universal constant (not an arbitrary scaling factor) that appears consistently across multiple mathematical domains within this theoretical framework:
 
-#### 1. Topological Origin (Calabi-Yau Geometry)
+#### 1. Topological Origin (Calabi-Yau Geometry) - Proposed
 ```
-κ_Π = χ_norm · h^{1,1} / h^{2,1}
+κ_Π ≈ χ_norm · h^{1,1} / h^{2,1}
 ```
-Averaged over 150 distinct Calabi-Yau 3-fold varieties, this ratio converges to 2.5773 ± 0.0001.
+According to the framework, averaged over 150 distinct Calabi-Yau 3-fold varieties, this ratio converges to 2.5773 ± 0.0001. 
 
-#### 2. Information-Theoretic Role
+**Note:** This topological interpretation is part of the proposed framework and requires peer review.
+
+#### 2. Information-Theoretic Role - Proposed
 In the communication complexity framework:
 ```
 IC(Π | S) ≥ κ_Π · tw(φ) / log n
 ```
 This bound quantifies the minimum information that must flow through any protocol solving φ.
 
-#### 3. Computational Barrier
+#### 3. Computational Barrier - Proposed
 The time lower bound becomes:
 ```
 Time(φ) ≥ 2^(κ_Π · tw(φ) / log n) = 2^(2.5773 · tw(φ) / log n)
 ```
 
-#### 4. Connection to QCAL Frequency
-The constant relates to the quantum computational arithmetic lattice frequency:
+#### 4. Connection to QCAL Frequency - Proposed
+According to the framework, the constant relates to the quantum computational arithmetic lattice frequency. The KAPPA_PI_MILLENNIUM_CONSTANT.md document presents this connection as:
 ```
-κ_Π = log₂(f_QCAL / π²) + φ - π
-    = log₂(141.7001 / 9.8696) + 1.618 - 3.14159
-    ≈ 2.5773
+κ_Π ≈ log₂(f_QCAL / π²) + φ - π
 ```
-Where f_QCAL = 141.7001 Hz and φ = golden ratio.
+Where f_QCAL = 141.7001 Hz and φ = golden ratio (≈ 1.618).
 
-### Why κ_Π Strengthens the Framework
+**Note:** See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for the detailed derivation, which includes intermediate steps showing how the "phase adjustment" term (-π) is applied to reach the final value.
+
+### Why κ_Π Strengthens the Framework (If Validated)
+
+If the proposed framework is validated, κ_Π would provide:
 
 1. **Precision**: Replaces asymptotic Ω(·) notation with exact constant
-2. **Universality**: Same constant appears in topology, information theory, and computation
+2. **Universality**: Same constant proposed across topology, information theory, and computation
 3. **Predictive Power**: Allows quantitative predictions for specific instances
-4. **Non-arbitrariness**: Derived from fundamental mathematical structures
-5. **Testability**: Can be empirically validated on benchmark instances
+4. **Non-arbitrariness**: Proposed derivation from fundamental mathematical structures
+5. **Testability**: Can be empirically tested on benchmark instances
 
-For complete details on κ_Π derivation and validation, see [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md).
+**Important:** These benefits are contingent on successful validation of the framework and the proposed connections between domains.
+
+For complete details on the proposed κ_Π derivation and validation, see [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md).
 
 ## Verification Strategy
 
