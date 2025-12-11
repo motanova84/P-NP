@@ -6,6 +6,16 @@
 
 ---
 
+## Quick Navigation
+
+**For Researchers & Reviewers**: See [Section 5](#5-what-existing-literature-says-vs-what-this-framework-claims) for comparison tables
+
+**For Implementation Users**: See [Section 8](#8-summary-whats-new-whats-known-whats-unproven) for status markers (✅, ⚠️, 🔬)
+
+**For Validation Planning**: See [Section 9](#9-recommendations-for-validation) for roadmap
+
+---
+
 ## Executive Summary
 
 This document contextualizes the treewidth-based computational dichotomy within existing complexity theory literature, clarifying what aspects align with established results and what claims extend beyond current knowledge. It addresses the relationship between:
@@ -14,6 +24,8 @@ This document contextualizes the treewidth-based computational dichotomy within 
 2. The proposed global dichotomy theorem
 3. The information complexity inequality with κ_Π
 4. Existing information complexity lower bounds
+
+**Key Takeaway**: This framework proposes significant extensions beyond classical FPT results. While it builds on solid foundations (✅), the complete dichotomy and IC inequality with geometric constant κ_Π are novel claims (⚠️) requiring rigorous validation.
 
 ---
 
