@@ -80,6 +80,13 @@ This Zenodo repository contains the official, archived version of the demonstrat
   - Upper and lower bound theorems
   - No-evasion theorem
 
+- **NEW: `FinalAxiom.lean`**: Holographic complexity law
+  - AdS/CFT correspondence for computation
+  - Ryu-Takayanagi surface volumes
+  - Time-volume holographic bound
+  - Physical lower bounds for SAT
+  - See [FINAL_AXIOM_README.md](FINAL_AXIOM_README.md) for details
+
 ### 2. Computational Framework (Python)
 - `computational_dichotomy.py`: Practical implementation featuring:
   - CNF formula representation
@@ -88,6 +95,12 @@ This Zenodo repository contains the official, archived version of the demonstrat
   - Graph product padding
   - Information complexity analysis
   - Demonstration examples
+
+- **NEW: `final_verification.py`**: Holographic axiom verification
+  - Empirical validation of holographic law
+  - Time-volume relationship verification
+  - Visualization of exponential separation
+  - Statistical analysis across instance sizes
 
 ## 🚀 Quick Start
 
@@ -107,6 +120,22 @@ This will demonstrate:
 - Structural coupling with expanders
 - Non-evasion property
 
+### Running the Holographic Verification (NEW)
+
+```bash
+# Install dependencies
+pip install numpy matplotlib
+
+# Run holographic axiom verification
+python final_verification.py
+```
+
+This will:
+- Verify the holographic time-volume law empirically
+- Generate plots showing exponential separation
+- Validate the axiom across multiple instance sizes
+- Produce `final_proof_TIMESTAMP.png` with visualizations
+
 ### Working with Lean Formalization
 
 ```bash
@@ -115,6 +144,9 @@ This will demonstrate:
 
 # Check the formalization
 lake build
+
+# Build specific modules
+lake build FinalAxiom
 ```
 P-NP/
 ├── src/                      # Código fuente principal
