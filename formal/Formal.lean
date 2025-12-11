@@ -10,8 +10,9 @@ Root module for the formal verification of the P≠NP separation.
 * `Formal.InformationComplexity`: Information complexity framework
 * `Formal.TreewidthTheory`: Treewidth theory and properties
 * `Treewidth.Treewidth`: Core treewidth formalization module
-* `Formal.TreewidthIntegration`: Validation of treewidth integration (NEW)
-* `Formal.P_neq_NP`: Sacred geometry formalization with κ_Π constant (NEW)
+* `Formal.TreewidthIntegration`: Validation of treewidth integration
+* `Formal.P_neq_NP`: Sacred geometry formalization with κ_Π constant
+* `Formal.ConsciousnessQuantization`: P≠NP ⟺ Consciousness Quantization (NEW)
 * `Formal.MainTheorem`: Main theorem (P ≠ NP)
 * `Formal.VerificationPipeline`: Complete verification pipeline
 
@@ -39,6 +40,7 @@ import Formal.TreewidthTheory
 import Formal.Treewidth.Treewidth
 import Formal.TreewidthIntegration
 import Formal.P_neq_NP
+import Formal.ConsciousnessQuantization
 import Formal.MainTheorem
 import Formal.VerificationPipeline
 import Formal.AuxiliaryLemmas
