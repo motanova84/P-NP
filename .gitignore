@@ -49,6 +49,7 @@ results/
 *.log
 *.csv
 *.png
+data/hard_instances/
 
 # ---------- IDE ----------
 .vscode/
