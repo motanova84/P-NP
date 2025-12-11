@@ -27,6 +27,8 @@ lean_lib Formal where
 
 lean_lib P_neq_NP where
   roots := #[`P_neq_NP]
+lean_lib GraphInformationComplexity where
+  roots := #[`GraphInformationComplexity]
 
 @[default_target]
 lean_exe pnp where
