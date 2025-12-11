@@ -89,7 +89,32 @@ This Zenodo repository contains the official, archived version of the demonstrat
   - Information complexity analysis
   - Demonstration examples
 
+### 3. Holographic Verification (NEW)
+- `holographic_verification.py`: **P≠NP via Einstein's Relativity + AdS/CFT**
+  - Demonstrates P≠NP through holographic principles
+  - Implements Susskind's computational complexity bound
+  - Connects Einstein's theory of relativity to computational complexity
+  - Shows how spacetime geometry imposes fundamental limits on computation
+  - Uses Ryu-Takayanagi volumes and the QCAL framework
+  - See [HOLOGRAPHIC_VERIFICATION_README.md](HOLOGRAPHIC_VERIFICATION_README.md) for details
+
 ## 🚀 Quick Start
+
+### Running the Holographic Verification
+
+```bash
+# Install dependencies
+pip install numpy networkx matplotlib
+
+# Run holographic verification
+python3 holographic_verification.py
+```
+
+This demonstrates P≠NP through:
+- 🌌 Einstein's theory of relativity (1905-1915)
+- 🔬 Holographic principle (AdS/CFT correspondence)
+- ⏱️ Susskind's computational time bounds (2014)
+- 📊 Comparison with polynomial and exponential algorithms
 
 ### Running the Python Framework
 
