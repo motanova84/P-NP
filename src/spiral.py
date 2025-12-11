@@ -135,14 +135,20 @@ def spiral_points(num_points: int,
     Generate a list of points along the logarithmic spiral.
     
     Args:
-        num_points: Number of points to generate
+        num_points: Number of points to generate (must be >= 0)
         theta_max: Maximum angle to sample (default: 4π, two full rotations)
         variant: Which c₀ variant to use
         
     Returns:
         List of tuples (θ, x, y) representing points on the spiral
+        
+    Raises:
+        ValueError: If num_points < 0
     """
-    if num_points <= 0:
+    if num_points < 0:
+        raise ValueError("num_points must be non-negative")
+    
+    if num_points == 0:
         return []
     
     points = []

@@ -249,6 +249,13 @@ class TestSpiralPoints:
         points = spiral_points(0)
         assert len(points) == 0
     
+    def test_spiral_points_negative(self):
+        """Test that negative num_points raises ValueError."""
+        with pytest.raises(ValueError):
+            spiral_points(-1)
+        with pytest.raises(ValueError):
+            spiral_points(-10)
+    
     def test_spiral_points_single(self):
         """Test single point generation."""
         points = spiral_points(1)
