@@ -88,6 +88,12 @@ This Zenodo repository contains the official, archived version of the demonstrat
   - Graph product padding
   - Information complexity analysis
   - Demonstration examples
+- `gap2_verification.py`: Empirical verification of IC → Exponential Time theorem:
+  - Information complexity measurement (IC) on graphs
+  - Graph separator algorithms
+  - Tseitin encoding for CNF generation
+  - SAT solving time measurement with DPLL
+  - Statistical analysis and visualization of verification results
 
 ## 🚀 Quick Start
 
@@ -95,10 +101,13 @@ This Zenodo repository contains the official, archived version of the demonstrat
 
 ```bash
 # Install dependencies
-pip install networkx
+pip install -r requirements.txt
 
 # Run the demonstration
 python computational_dichotomy.py
+
+# Run GAP 2 verification (IC → Exponential Time)
+python gap2_verification.py
 ```
 
 This will demonstrate:
@@ -106,6 +115,7 @@ This will demonstrate:
 - High treewidth formulas (intractable)
 - Structural coupling with expanders
 - Non-evasion property
+- Empirical verification of IC-Time relationship (gap2_verification.py)
 
 ### Working with Lean Formalization
 
