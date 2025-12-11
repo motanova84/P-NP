@@ -30,7 +30,7 @@ import Mathlib.Tactic.Omega
 namespace Formal.Reductions
 
 -- ══════════════════════════════════════════════════════════════
--- BÁSICOS: ALFABETOS Y LENGUAJES
+-- BASICS: ALPHABETS AND LANGUAGES
 -- ══════════════════════════════════════════════════════════════
 
 /-- A language over alphabet Σ is a set of strings -/
@@ -221,9 +221,20 @@ theorem reduction_transitive {Σ₁ Σ₂ Σ₃ : Type*}
             _ ↔ L₂ (r₁₂.f w)                := r₁₂.preserves w
             _ ↔ L₃ (r₂₃.f (r₁₂.f w))       := r₂₃.preserves (r₁₂.f w) }
 
+/-- Class P (placeholder for formal P definition) -/
+axiom P_Class : Type
+
+/-- Membership in P_Class -/
+axiom in_P_Class {Σ : Type*} (L : Language Σ) : Prop
+
 /-- If L is NP-complete and L ∈ P, then P = NP -/
 theorem np_complete_in_p_implies_p_eq_np {Σ : Type*} (L : Language Σ)
-  (h_complete : NPComplete L) : sorry := by
-  sorry  -- Requires formalization of class P
+  (h_complete : NPComplete L) (h_in_p : in_P_Class L) :
+  ∀ {Σ' : Type*} (L' : Language Σ'), in_NP_Class L' → in_P_Class L' := by
+  intro Σ' L' h_L'_in_np
+  -- L' ∈ NP and L is NP-complete, so L' ≤ₚ L
+  have r := h_complete.np_hard L' h_L'_in_np
+  -- L ∈ P and L' ≤ₚ L implies L' ∈ P
+  sorry  -- Requires formalization that reductions preserve membership in P
 
 end Formal.Reductions
