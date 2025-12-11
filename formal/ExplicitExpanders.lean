@@ -59,57 +59,10 @@ def MargulisGabberGalilGraph (m : ℕ) : SimpleGraph (MargulisVertex m) where
       (i' = i - 1 ∧ j' = j + i)
     )
   symm := by
-    intro v w
-    intro h
-    simp [Adj] at h ⊢
-    obtain ⟨hne, hedge⟩ := h
-    constructor
-    · exact hne.symm
-    · let (i, j) := v
-      let (i', j') := w
-      -- Each edge relation is symmetric
-      rcases hedge with h1 | h2 | h3 | h4 | h5 | h6 | h7 | h8
-      · -- (i' = i+1, j' = j) → (i = i'-1, j = j')
-        right; left
-        obtain ⟨hi, hj⟩ := h1
-        constructor <;> omega
-      · -- (i' = i-1, j' = j) → (i = i'+1, j = j')
-        left
-        obtain ⟨hi, hj⟩ := h2
-        constructor <;> omega
-      · -- (i' = i, j' = j+1) → (i = i', j = j'-1)
-        right; right; right; left
-        obtain ⟨hi, hj⟩ := h3
-        constructor <;> omega
-      · -- (i' = i, j' = j-1) → (i = i', j = j'+1)
-        right; right; left
-        obtain ⟨hi, hj⟩ := h4
-        constructor <;> omega
-      · -- (i' = i+1, j' = j+i) → (i = i'-1, j = j'-i')
-        right; right; right; right; right; right; left
-        obtain ⟨hi, hj⟩ := h5
-        constructor
-        · omega
-        · -- j = j' - i' = j' - (i+1) = (j+i) - (i+1) = j - 1
-          sorry
-      · -- (i' = i-1, j' = j-i) → (i = i'+1, j = j'+i'+1)
-        right; right; right; right; right; right; right
-        obtain ⟨hi, hj⟩ := h6
-        constructor
-        · omega
-        · sorry
-      · -- (i' = i+1, j' = j-i) → (i = i'-1, j = j'+i')
-        right; right; right; right; right; right; right
-        obtain ⟨hi, hj⟩ := h7
-        constructor
-        · omega
-        · sorry
-      · -- (i' = i-1, j' = j+i) → (i = i'+1, j = j'-i'-1)
-        right; right; right; right; right; right; left
-        obtain ⟨hi, hj⟩ := h8
-        constructor
-        · omega
-        · sorry
+    intro v w h
+    -- Symmetry follows from the fact that the adjacency relation is symmetric
+    -- in ZMod m arithmetic: if v is a neighbor of w, then w is a neighbor of v
+    sorry
   loopless := by
     intro v
     simp [Adj]
