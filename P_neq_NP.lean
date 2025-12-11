@@ -277,14 +277,14 @@ axiom eval_polynomial_time (φ : CnfFormula) (cert : V → Bool) :
 def BigO (f g : ℕ → ℕ) : Prop :=
   ∃ c n₀, ∀ n ≥ n₀, f n ≤ c * g n
 
-/-- Clase de complejidad P -/
+/-- Complexity class P -/
 def P : Set (CnfFormula → Bool) :=
   { f | ∃ algo : CnfFormula → Bool, ∃ poly : ℕ → ℕ, ∃ k : ℕ,
     (∀ n, poly n ≤ n ^ k + k) ∧
     (∀ φ, time algo φ ≤ poly φ.vars.card) ∧
     (∀ φ, algo φ = f φ) }
 
-/-- Clase de complejidad NP -/
+/-- Complexity class NP -/
 def NP : Set (CnfFormula → Bool) :=
   { f | ∃ verif : CnfFormula → (V → Bool) → Bool, ∃ poly : ℕ → ℕ, ∃ k : ℕ,
     (∀ n, poly n ≤ n ^ k + k) ∧
