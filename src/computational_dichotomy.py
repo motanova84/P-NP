@@ -402,7 +402,14 @@ class ComputationalDichotomy:
         start_time = time.time()
         
         # Use the simple DPLL from ic_sat module
-        from ic_sat import simple_dpll
+        try:
+            from ic_sat import simple_dpll
+        except ImportError:
+            # Fallback to direct import from src
+            import sys
+            import os
+            sys.path.insert(0, os.path.dirname(__file__))
+            from ic_sat import simple_dpll
         
         try:
             result = simple_dpll(formula.clauses, formula.num_vars)
