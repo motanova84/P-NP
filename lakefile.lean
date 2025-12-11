@@ -33,6 +33,12 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib TseitinHardFamily where
+  roots := #[`TseitinHardFamily]
+
+lean_lib KappaSmallForIncidence where
+  roots := #[`KappaSmallForIncidence]
+
 @[default_target]
 lean_exe pnp where
   root := `Director
