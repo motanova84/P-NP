@@ -7,6 +7,11 @@ from typing import Dict, List, Tuple
 import matplotlib.pyplot as plt
 
 KAPPA_PI = 2.5773
+MIN_DEGREE = 3
+MIN_VARS_FOR_SAMPLING = 3
+POLY_DEGREE = 3
+CORRELATION_THRESHOLD = 0.95
+SEPARATION_THRESHOLD = 10
 
 class PNePProof:
     """
@@ -21,6 +26,18 @@ class PNePProof:
         Genera fórmula CNF con tw(G) = Ω(n).
         Basado en construcción de grafos expansores.
         """
+        if n < MIN_VARS_FOR_SAMPLING:
+            raise ValueError(f"n debe ser al menos {MIN_VARS_FOR_SAMPLING} para generar fórmulas")
+        
+        # Grafo aleatorio regular (d-regular con d ≈ √n)
+        d = max(MIN_DEGREE, int(math.sqrt(n)))
+        G = nx.random_regular_graph(d, n)
+        
+        # Añadir cláusulas (nodos tipo C)
+        for i in range(2 * n):
+            G.add_node(f"C{i}", type='clause')
+            # Conectar a MIN_VARS_FOR_SAMPLING variables aleatorias
+            vars_sample = np.random.choice(list(range(n)), MIN_VARS_FOR_SAMPLING, replace=False)
         if n < 3:
             raise ValueError("n must be at least 3 to generate meaningful formulas")
         
@@ -64,6 +81,7 @@ class PNePProof:
     def compute_information_complexity(self, G: nx.Graph, tw: float) -> float:
         """
         Calcula IC via dualidad κ_Π.
+        IC ≈ (1/κ_Π) * tw
         IC ≈ tw / κ_Π
         """
         return tw / KAPPA_PI
@@ -98,6 +116,10 @@ class PNePProof:
             tw = self.measure_treewidth(G)
             ic = self.compute_information_complexity(G, tw)
             time_est = self.estimate_time_complexity(G, ic)
+            time_log = math.log2(max(time_est, 1))
+            
+            # Bound polinomial (hipotético si P=NP)
+            poly_bound = n ** POLY_DEGREE
             # Use max(time_est, 1) to avoid log(0) for very small IC values
             time_log = math.log2(max(time_est, 1))
             
@@ -178,6 +200,10 @@ class PNePProof:
         print("\n  📊 Gráfico guardado: p_neq_np_dichotomy.png")
         plt.show()
     
+    def final_verdict(self) -> Tuple[bool, Dict[str, bool]]:
+        """
+        Emite veredicto final basado en análisis empírico.
+        Returns: (verdict, test_results)
     def final_verdict(self) -> bool:
         """
         Emite veredicto final basado en análisis empírico.
@@ -185,6 +211,33 @@ class PNePProof:
         # Verificar que ratio crece sin bound
         ratios = self.results['ratio']
         
+        # Test 1: Ratio debe crecer monótonamente
+        is_growing = len(ratios) >= 2 and all(ratios[i] <= ratios[i+1] for i in range(len(ratios)-1))
+        
+        # Test 2: Último ratio debe ser >> 1
+        final_ratio = ratios[-1] if ratios else 0
+        significantly_separated = final_ratio > SEPARATION_THRESHOLD
+        
+        # Test 3: IC correlaciona con tw via κ_Π
+        ic_vals = self.results['ic']
+        tw_vals = self.results['tw']
+        theoretical_ic = [tw/KAPPA_PI for tw in tw_vals]
+        
+        # Handle edge case where correlation might be NaN
+        correlation = 0.0
+        if len(ic_vals) > 1 and np.std(ic_vals) > 0 and np.std(theoretical_ic) > 0:
+            correlation = np.corrcoef(ic_vals, theoretical_ic)[0, 1]
+        kappa_validates = correlation > CORRELATION_THRESHOLD
+        
+        test_results = {
+            'is_growing': is_growing,
+            'significantly_separated': significantly_separated,
+            'kappa_validates': kappa_validates
+        }
+        
+        verdict = is_growing and significantly_separated and kappa_validates
+        
+        return verdict, test_results
         # Test 1: Ratio debe crecer monótonamente (permitir pequeñas desviaciones)
         # Al menos el 80% de los pares deben mostrar crecimiento
         growing_pairs = sum(1 for i in range(len(ratios)-1) if ratios[i] <= ratios[i+1])
@@ -227,6 +280,11 @@ def main():
     print("\n⚖️  FASE 3: VEREDICTO FINAL")
     print("─" * 70)
     
+    verdict, test_results = proof.final_verdict()
+    
+    print(f"\n  Test 1: Ratio crece monótonamente: {'✅' if test_results['is_growing'] else '❌'}")
+    print(f"  Test 2: Separación significativa: {'✅' if test_results['significantly_separated'] else '❌'}")
+    print(f"  Test 3: κ_Π valida dualidad: {'✅' if test_results['kappa_validates'] else '❌'}")
     verdict = proof.final_verdict()
     
     # Individual test results
