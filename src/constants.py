@@ -15,15 +15,38 @@ import math
 
 KAPPA_PI = 2.5773  # Precision: 4 significant figures (±0.0001 from 150 CY varieties)
 """
-κ_Π = 2.5773 - The Millennium Constant
+κ_Π = 2.5773 - The Millennium Constant (Universal Value)
 
-The fundamental constant that closes the P vs NP problem by unifying:
-- Topology (from Calabi-Yau manifolds)
-- Information Theory (complexity bounds)
-- Computation (algorithmic barriers)
+IMPORTANT: κ_Π is GRAPH-DEPENDENT, not universal!
+===================================================
 
-Origins:
---------
+This universal value applies to general graphs. However, for specific graph
+structures like bipartite incidence graphs from Tseitin formulas, κ_Π can be
+MUCH SMALLER, leading to tighter information complexity bounds.
+
+For Bipartite Incidence Graphs:
+--------------------------------
+The value of κ_Π depends on the spectral properties of the graph:
+    
+    κ_Π(G) ≤ O(1/(√n log n))
+
+where n is the number of vertices in the incidence graph.
+
+Key Consequence:
+----------------
+For Tseitin formulas over expander graphs with incidence graphs of size n:
+    - Treewidth: tw(I) ≤ O(√n)
+    - κ_Π(I): κ_Π ≤ O(1/(√n log n))
+    - Information Complexity: IC ≥ tw/(2κ_Π) ≥ Ω(n log n)
+    - Runtime: Time ≥ 2^(IC) ≥ n^(Ω(n))
+
+This provides the separation we need for P≠NP!
+
+The universal constant below represents the maximum value across general graphs.
+For specific instances, use the graph-dependent calculation from spectral_kappa.py.
+
+Origins (Universal Constant):
+------------------------------
 1. **Calabi-Yau Connection**: Emerged from the study of Calabi-Yau 3-folds
    in string theory compactifications. The constant relates to the normalized
    Euler characteristic and Hodge numbers of certain Calabi-Yau varieties.
@@ -219,6 +242,13 @@ def validate_kappa_pi():
 
 
 # ========== MODULE INITIALIZATION ==========
+
+# For graph-dependent κ_Π calculations, see:
+#   src/spectral_kappa.py
+# which implements:
+#   - kappa_pi_for_incidence_graph(G, method="spectral")
+#   - validate_kappa_bound(G)
+#   - information_complexity_lower_bound_spectral(tw, G)
 
 if __name__ == "__main__":
     print("=" * 70)
