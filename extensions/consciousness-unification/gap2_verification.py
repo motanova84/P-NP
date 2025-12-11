@@ -121,7 +121,7 @@ class GAP2Verifier:
         exponent = min(exponent, 20)
         
         predicted_time = 2 ** exponent
-        return predicted_time * 1e-6  # Scale to reasonable time units
+        return predicted_time * 1e-3  # Scale to reasonable time units (milliseconds)
     
     def verify_instance(self, G: nx.Graph, size: int, trial: int) -> Dict:
         """
