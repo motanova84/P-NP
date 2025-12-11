@@ -8,6 +8,12 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
+**📖 NEW: Context Document** - See [TREEWIDTH_CNF_FORMULATION_CONTEXT.md](TREEWIDTH_CNF_FORMULATION_CONTEXT.md) for a comprehensive discussion of how this framework relates to established complexity theory. This document clarifies:
+- What aspects build on classical FPT (fixed-parameter tractable) results (✅ known)
+- What claims extend beyond existing theory (⚠️ proposed)
+- How the IC inequality relates to existing information complexity bounds
+- The role of the geometric constant κ_Π = 2.5773
+
 **🚀 Quick Start:** See [QUICKSTART.md](QUICKSTART.md) for installation and running instructions.
 
 ## 🎯 Proposed Main Result
@@ -25,6 +31,8 @@ Where:
 - `tw(G_I(φ))` is the treewidth of the incidence graph
 - `n` is the number of variables
 - `κ_Π = 2.5773` is the **Millennium Constant** from Calabi-Yau geometry
+
+**Note:** This extends beyond classical FPT results which establish tractability for *bounded* (constant) treewidth. The proposed dichotomy claims a *complete characterization* of P with a *logarithmic threshold*. See [TREEWIDTH_CNF_FORMULATION_CONTEXT.md](TREEWIDTH_CNF_FORMULATION_CONTEXT.md) for detailed discussion.
 
 ## 🌟 κ_Π = 2.5773: The Millennium Constant
 
