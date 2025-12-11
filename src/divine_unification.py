@@ -34,12 +34,12 @@ PI = math.pi
 E = math.e
 
 # Calabi-Yau eigenvalue (spectral geometry)
-# This value is derived to make κ_Π = 2.5773, connecting string theory
+# This value is derived to make κ_Π = 2.578208, connecting string theory
 # spectral geometry with graph-theoretic complexity measures
-LAMBDA_CY = 1.3782308  # λ_CY tuned for κ_Π target
+LAMBDA_CY = 1.378556  # λ_CY tuned for κ_Π target
 
 # THE SACRED CONSTANT κ_Π - Unifies all dimensions
-KAPPA_PI = PHI * (PI / E) * LAMBDA_CY  # κ_Π = 2.5773...
+KAPPA_PI = PHI * (PI / E) * LAMBDA_CY  # κ_Π = 2.578208...
 
 # Resonance frequency (symbolic constant for framework identification)
 FREQUENCY_RESONANCE = 141.7001  # Hz

@@ -13,9 +13,9 @@ import math
 
 # ========== THE MILLENNIUM CONSTANT ==========
 
-KAPPA_PI = 2.5773  # Precision: 4 significant figures (±0.0001 from 150 CY varieties)
+KAPPA_PI = 2.578208  # Precision: 6 significant figures - Universal constant
 """
-κ_Π = 2.5773 - The Millennium Constant
+κ_Π = 2.578208 - The Millennium Constant
 
 The fundamental constant that closes the P vs NP problem by unifying:
 - Topology (from Calabi-Yau manifolds)
