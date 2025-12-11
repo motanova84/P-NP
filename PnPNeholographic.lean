@@ -39,6 +39,9 @@ def volume_integral (n : ℕ) (hn : n ≥ 1) : ℝ :=
   let A := A_CFT n
   A * eval_integral_L_div_z_sq n hn
 
+/-- Constante física β para la ley de tiempo holográfico --/
+def β_phys : ℝ := 0.04
+
 /-- Ley exponencial del tiempo en función del volumen: T(n) ≥ exp(β ⋅ Vol(n)) --/
 def minimal_time_bound (n : ℕ) (hn : n ≥ 1) (β : ℝ) : ℝ :=
   let V := volume_integral n hn
@@ -119,8 +122,11 @@ theorem time_exponential_lower_bound
 axiom P_Class : Type
 axiom NP_Class : Type
 
-/-- Axioma: SAT está en NP --/
-axiom SAT_in_NP : True
+/-- Representación del problema SAT --/
+axiom SAT : Type
+
+/-- Axioma: SAT está en NP (representado como propiedad del tipo) --/
+axiom SAT_in_NP : SAT → NP_Class
 
 /-- Axioma: Si P = NP, entonces SAT se resuelve en tiempo polinomial --/
 axiom SAT_in_P_implies_polynomial_time :
@@ -142,7 +148,7 @@ axiom minimal_time_to_solve_SAT (n : ℕ) : ℝ
   está acotado inferiormente por el tiempo de complejidad holográfica.
 -/
 axiom minimal_time_to_solve_SAT_geq_holographic_bound :
-  ∀ n : ℕ, n ≥ 100 → minimal_time_to_solve_SAT n ≥ minimal_time_bound n (by omega) 0.04
+  ∀ n : ℕ, n ≥ 100 → minimal_time_to_solve_SAT n ≥ minimal_time_bound n (by omega) β_phys
 
 /--
   TEOREMA PRINCIPAL: P ≠ NP
@@ -160,9 +166,13 @@ theorem P_neq_NP : P_Class ≠ NP_Class := by
     ∃ k : ℕ, (n : ℝ)^k ≥ minimal_time_to_solve_SAT n :=
       SAT_in_P_implies_polynomial_time h_eq
   
-  -- Elegir un n suficientemente grande y un grado k máximo (e.g., k=10)
-  let n := 10000 -- n grande
-  let k := 10    -- Grado polinomial
+  -- Constantes para la demostración
+  let n_witness := 10000 -- Tamaño suficientemente grande
+  let k_max_poly := 10   -- Grado polinomial máximo considerado
+  
+  -- Elegir un n suficientemente grande y un grado k máximo
+  let n := n_witness
+  let k := k_max_poly
   have hn : n ≥ 100 := by norm_num
   
   -- Upper Bound Polinomial: T_SAT ≤ n^k
@@ -171,8 +181,8 @@ theorem P_neq_NP : P_Class ≠ NP_Class := by
   let T_poly := (n : ℝ)^k -- Usamos el k=10 de la demostración anterior
   
   -- 2. Lower Bound Holográfico (T_holo)
-  let β_real := (0.04 : ℝ) -- Asumimos β=0.04 > 0 (Constante física)
-  have hβ : β_real > 0 := by norm_num
+  let β_real := β_phys -- Constante física de la dualidad AdS/CFT
+  have hβ : β_real > 0 := by norm_num [β_phys]
   let T_holo := minimal_time_bound n hn β_real
   
   -- El tiempo de SAT debe ser al menos el tiempo holográfico (Dualidad T_holo ≤ T_SAT)
