@@ -1,11 +1,25 @@
 # kappa_verification.py
 import numpy as np
 import networkx as nx
-from scipy.sparse.linalg import eigsh
 import matplotlib.pyplot as plt
+from typing import Tuple
 
-def construct_tseitin_incidence(n: int, d: int = 8) -> nx.Graph:
-    """Construir grafo de incidencia de Tseitin sobre expander."""
+def construct_tseitin_incidence(n: int, d: int = 8) -> Tuple[nx.Graph, nx.Graph]:
+    """Construir grafo de incidencia de Tseitin sobre expander.
+    
+    Args:
+        n: Number of nodes in base graph (must be odd for d=8)
+        d: Degree of regularity (default 8)
+        
+    Returns:
+        Tuple of (incidence_graph, base_graph)
+    """
+    # Validate inputs
+    if d * n % 2 != 0:
+        raise ValueError(f"d*n must be even: d={d}, n={n}, d*n={d*n}")
+    if d >= n:
+        raise ValueError(f"d must be less than n: d={d}, n={n}")
+    
     # Grafo expander base (simulado)
     base_G = nx.random_regular_graph(d, n)
     
@@ -58,16 +72,15 @@ def compute_spectral_constant(G: nx.Graph) -> float:
     lambda_2 = eigenvalues[1] if len(eigenvalues) > 1 else 0
     
     # kappa formula using non-normalized lambda_2
+    # Check for degenerate cases
+    if d_avg <= 1:
+        raise ValueError(f"Average degree too small: d_avg={d_avg}")
+    
     denominator_term = np.sqrt(d_avg * (d_avg - 1))
     
-    # Check if lambda_2 >= sqrt(d_avg * (d_avg - 1))
-    if lambda_2 >= denominator_term:
-        # This causes negative kappa - the critical issue!
-        kappa = 1.0 / (1 - lambda_2 / denominator_term)
-        return kappa  # Will be negative
-    else:
-        kappa = 1.0 / (1 - lambda_2 / denominator_term)
-        return kappa
+    # Compute kappa (will be negative if lambda_2 > denominator_term)
+    kappa = 1.0 / (1 - lambda_2 / denominator_term)
+    return kappa
 
 def verify_kappa_decay(max_n: int = 500, step: int = 50):
     """Verificar que kappa decae como O(1/(sqrt(n) log n)).
@@ -87,6 +100,11 @@ def verify_kappa_decay(max_n: int = 500, step: int = 50):
             
             # Keep all results, including negative kappa values
             # This is the key insight - negative kappa invalidates the bound
+            # Check for potential division by zero
+            if 5*n <= 1 or np.log(5*n) == 0:
+                print(f"Skipping n={n}: bound calculation would divide by zero")
+                continue
+                
             bound = 2.0 / (np.sqrt(5*n) * np.log(5*n))  # 5n vértices totales
             ratio = kappa / bound
             results.append((n, kappa, bound, ratio))
