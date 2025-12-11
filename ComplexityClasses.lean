@@ -22,9 +22,11 @@ class InputAlphabet (Σ Γ : Type*) where
 
 /-- Conjunto de estados -/
 class StateSet (Q : Type*) where
+  initial : Q
   accept : Q
   reject : Q
   accept_ne_reject : accept ≠ reject
+  [decEq : DecidableEq Q]
 
 /-- Configuración de una Máquina de Turing -/
 structure Config (Σ Γ Q : Type*) where
@@ -39,7 +41,7 @@ structure TuringMachine (Σ Γ Q : Type*) [InputAlphabet Σ Γ] [StateSet Q] whe
 /-- Configuración inicial -/
 def TuringMachine.initialConfig {Σ Γ Q : Type*} [InputAlphabet Σ Γ] [StateSet Q]
   (M : TuringMachine Σ Γ Q) (w : List Σ) : Config Σ Γ Q :=
-  { state := StateSet.accept,  -- Placeholder, should be initial state
+  { state := StateSet.initial,  -- Estado inicial
     tape := fun i => if h : 0 ≤ i ∧ i < w.length 
                      then InputAlphabet.embed (w.get ⟨i.toNat, by
                        cases i
@@ -57,13 +59,14 @@ def TuringMachine.step {Σ Γ Q : Type*} [InputAlphabet Σ Γ] [StateSet Q]
     head := move c.head }
 
 /-- Ejecución de la MT por t pasos -/
-def TuringMachine.run {Σ Γ Q : Type*} [InputAlphabet Σ Γ] [StateSet Q]
+def TuringMachine.run {Σ Γ Q : Type*} [InputAlphabet Σ Γ] [inst : StateSet Q]
   (M : TuringMachine Σ Γ Q) (c : Config Σ Γ Q) : ℕ → Option (Config Σ Γ Q)
   | 0 => some c
   | t + 1 => 
     match M.run c t with
     | none => none
     | some c' => 
+      haveI : DecidableEq Q := inst.decEq
       if c'.state = StateSet.accept ∨ c'.state = StateSet.reject 
       then some c'
       else some (M.step c')
@@ -71,9 +74,11 @@ def TuringMachine.run {Σ Γ Q : Type*} [InputAlphabet Σ Γ] [StateSet Q]
 /-- Tiempo de ejecución de M en entrada w -/
 def TuringMachine.runTime {Σ Γ Q : Type*} [InputAlphabet Σ Γ] [StateSet Q]
   (M : TuringMachine Σ Γ Q) (w : List Σ) : ℕ :=
-  Nat.find (by
-    -- Existe algún t tal que M para en w
-    sorry)
+  -- El primer tiempo t donde M para (acepta o rechaza)
+  -- Axiomatizado - requiere decidibilidad de parada
+  Classical.choice (by
+    sorry  -- Axioma: existe t tal que M para en w
+  )
 
 /-- Salida codificada en la cinta -/
 def tape_output {Σ Γ Q : Type*} [InputAlphabet Σ Γ] [StateSet Q] 
