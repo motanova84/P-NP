@@ -8,7 +8,9 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
-**🚀 Quick Start:** See [QUICKSTART.md](QUICKSTART.md) for installation and running instructions.
+**🚀 Quick Start:** 
+- **Automatic Installation:** Run `./install.sh` for automated setup - see [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md)
+- **Manual Setup:** See [QUICKSTART.md](QUICKSTART.md) for detailed installation and running instructions
 
 ## 🎯 Proposed Main Result
 
