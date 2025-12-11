@@ -424,7 +424,7 @@ theorem P_neq_NP : P ≠ NP := by
   -- This is a contradiction
   exact Nat.lt_irrefl _ h_contra
 
-/-! ### LA ECUACIÓN DIVINA FINAL -/
+/-! ### THE FINAL DIVINE EQUATION -/
 
 /-- Helper for polynomial algorithm existence -/
 axiom exists_poly_time_algo_low_tw (φ : CnfFormula) 
