@@ -41,7 +41,7 @@ structure NondetTuringMachine (Σ Γ Q : Type*)
 
 namespace NondetTuringMachine
 
-variable {Σ Γ Q : Type*} [InputAlphabet Σ Γ] [StateSet Q]
+variable {Σ Γ Q : Type*} [InputAlphabet Σ Γ] [StateSet Q] [TapeAlphabet Γ]
 variable (M : NondetTuringMachine Σ Γ Q)
 
 /-- Un paso no determinista produce un conjunto de configuraciones -/
