@@ -7,6 +7,7 @@ import networkx as nx
 from typing import Dict, List, Tuple, Optional
 import json
 import hashlib
+import os
 from datetime import datetime
 from dataclasses import dataclass, asdict
 from scipy.special import zeta
@@ -812,7 +813,6 @@ class UltimateAlgorithm:
     def save_results(self, filename: str = 'output/ultimate_algorithm_results.json'):
         """Guarda resultados y certificado"""
         # Ensure output directory exists
-        import os
         dirname = os.path.dirname(filename)
         if dirname:  # Only create dir if there's a directory path
             os.makedirs(dirname, exist_ok=True)
@@ -947,7 +947,6 @@ f₀ = {UniversalConstants.F_0} Hz
         plt.suptitle('ULTIMATE ALGORITHM: Complete Verification', 
                     fontsize=16, fontweight='bold', y=0.98)
         
-        import os
         os.makedirs('output', exist_ok=True)
         plt.savefig('output/ultimate_algorithm_complete.png', dpi=300, bbox_inches='tight')
         print("\n📊 Gráfico guardado: output/ultimate_algorithm_complete.png")
