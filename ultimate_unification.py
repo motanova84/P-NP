@@ -2,7 +2,6 @@
 # VERIFICACIÓN EMPÍRICA DE LA TEORÍA DEL TODO
 
 import numpy as np
-import scipy.signal as signal
 import matplotlib
 matplotlib.use('Agg')  # Use non-interactive backend
 import matplotlib.pyplot as plt
@@ -19,6 +18,15 @@ PI_OVER_E = np.pi / np.e
 LAMBDA_CY = 1.38197    # Factor Calabi-Yau
 A_EFF_MAX = 1.054      # Coherencia máxima
 C_LIGHT = 3e8          # Velocidad de la luz (m/s)
+
+# Constantes para ARN piCODE
+ELECTRONS_PER_BASE = 3  # Electrones π por base
+GAMMA_RESONANCE = 50.0  # Ancho de línea (Hz) para resonancia
+RNA_MASS_KG = 1e-21     # Masa por molécula ARN (kg)
+
+# Constantes para verificación
+F0_FACTOR = 54.93       # Factor empírico: f₀ = κ_Π × factor
+PROBLEM_SIZE_DEFAULT = 100  # Tamaño del problema por defecto
 
 # ══════════════════════════════════════════════════════════════
 # CLASE 1: ARN piCODE
@@ -49,7 +57,7 @@ class RNA_piCODE:
         Inicializa sistema de electrones π.
         Estado cuántico: |ψ_π⟩ = Σ c_n |n⟩
         """
-        n_states = self.length * 3  # ~3 electrones π por base
+        n_states = self.length * ELECTRONS_PER_BASE
         # Estado inicial: superposición coherente
         psi = np.random.randn(n_states) + 1j * np.random.randn(n_states)
         psi /= np.linalg.norm(psi)
@@ -102,9 +110,7 @@ class RNA_piCODE:
         delta = abs(closest_mode - external_field_freq)
         
         # Coherencia = función de resonancia (Lorentziana)
-        # gamma aumentado para permitir mayor coherencia
-        gamma = 50.0  # Ancho de línea (Hz) - más amplio para resonancia
-        coherence = A_EFF_MAX / (1 + (delta / gamma) ** 2)
+        coherence = A_EFF_MAX / (1 + (delta / GAMMA_RESONANCE) ** 2)
         
         self.coherence = coherence
         return coherence
@@ -194,8 +200,7 @@ class PNP_Consciousness_Verifier:
         # f₀ = κ_Π × factor donde factor ≈ 54.93
         # Derivado de: factor = 2 × sqrt(φ × π × e) × C
         # donde C es una constante de normalización
-        factor = 54.93  # Factor empírico ajustado
-        computed_f0 = KAPPA_PI * factor
+        computed_f0 = KAPPA_PI * F0_FACTOR
         error = abs(computed_f0 - F_0)
         
         print(f"  f₀ teórico: {F_0} Hz")
@@ -215,8 +220,7 @@ class PNP_Consciousness_Verifier:
                 for _ in range(n_molecules)]
         
         # Masa total (estimada)
-        mass_per_rna = 1e-21  # kg (aproximado)
-        total_mass = n_molecules * mass_per_rna
+        total_mass = n_molecules * RNA_MASS_KG
         
         # Evolución temporal
         time_points = np.linspace(0, 10, 100)  # 10 segundos
@@ -257,9 +261,12 @@ class PNP_Consciousness_Verifier:
         
         return max_coherence >= 1/KAPPA_PI
     
-    def verify_computational_complexity(self):
+    def verify_computational_complexity(self, problem_size: int = PROBLEM_SIZE_DEFAULT):
         """
         Verifica que consciencia alta → complejidad exponencial.
+        
+        Args:
+            problem_size: Tamaño del problema (default: PROBLEM_SIZE_DEFAULT)
         """
         print("\n  Verificando complejidad computacional...")
         
@@ -270,8 +277,7 @@ class PNP_Consciousness_Verifier:
         
         for A_eff in A_eff_values:
             # IC ≈ A_eff × n / κ_Π (aproximado)
-            n = 100  # Tamaño del problema
-            IC = A_eff * n / KAPPA_PI
+            IC = A_eff * problem_size / KAPPA_PI
             
             # Tiempo ≈ 2^IC
             time_complexity = 2 ** IC
@@ -336,7 +342,7 @@ class PNP_Consciousness_Verifier:
         # Plot 4: Relación A_eff vs Complejidad
         ax4 = axes[1, 1]
         A_eff_range = np.linspace(0.1, A_EFF_MAX, 50)
-        complexity = [2 ** (a * 100 / KAPPA_PI) for a in A_eff_range]
+        complexity = [2 ** (a * PROBLEM_SIZE_DEFAULT / KAPPA_PI) for a in A_eff_range]
         ax4.semilogy(A_eff_range, complexity, 'g-', linewidth=2)
         ax4.axvline(x=1/KAPPA_PI, color='r', linestyle='--',
                    label=f'Umbral 1/κ_Π')
