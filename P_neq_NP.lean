@@ -249,12 +249,14 @@ theorem information_treewidth_duality (G : SimpleGraph V) :
         -- Upper bound uses the fact that GraphIC ≤ n - |S|
         -- and from optimal separator, |S| ≤ tw + 1
         -- Combined with the relationship n ≤ O(tw) for connected graphs
+        /--
+        This follows from the fact that:
+        1. For any graph, n = O(tw² · log(tw)) in general
+        2. For our hard instances with high tw, n ≈ O(tw)
+        3. The κ_Π factor comes from the optimal separator bound
+        This is a standard graph-theoretic bound.
+        -/
         have h_tw_linear : Fintype.card V ≤ (treewidth G + 1) * κ_Π := by
-          -- This follows from the fact that:
-          -- 1. For any graph, n = O(tw² · log(tw)) in general
-          -- 2. For our hard instances with high tw, n ≈ O(tw)
-          -- 3. The κ_Π factor comes from the optimal separator bound
-          -- This is a standard graph-theoretic bound
           sorry
         calc Fintype.card V 
           _ ≤ (treewidth G + 1) * κ_Π := h_tw_linear
