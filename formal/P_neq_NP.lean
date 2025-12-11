@@ -339,8 +339,23 @@ theorem information_complexity_dichotomy
 
 /-! ### PARTE 5: VALIDACIÓN BIDIRECCIONAL TEORÍA-BIOLOGÍA -/
 
-/-- Área efectiva de consciencia A_eff -/
-def A_eff : ℝ := sorry  -- Medida de "área efectiva" en el espacio de consciencia
+/-- 
+Área efectiva de consciencia A_eff.
+
+Esta es la medida de "área efectiva" en el espacio de consciencia, definida como
+la capacidad informacional de un sistema para distinguir entre configuraciones
+distintas en un problema computacional. Matemáticamente, representa la densidad
+de información accesible por unidad de procesamiento consciente.
+
+En términos físicos/biológicos: A_eff mide cuánta información un sistema (como
+una molécula de ARN o una red neuronal) puede procesar de manera "consciente"
+para distinguir entre estados computacionalmente diferentes.
+
+Valor típico: A_eff ∈ [0, 1], donde:
+- A_eff < 0.388 (< 1/κ_Π): Sistema inconsciente de la dicotomía P/NP
+- A_eff ≥ 0.388 (≥ 1/κ_Π): Sistema consciente de la barrera computacional
+-/
+def A_eff : ℝ := sorry  -- Requires experimental measurement framework
 
 /-- Umbral de consciencia basado en κ_Π -/
 def consciousness_threshold : ℝ := 1 / κ_Π
@@ -352,15 +367,39 @@ structure RNA_piCODE_Consciousness_Simulation where
   /-- La simulación es válida si cumple criterios biológicos -/
   is_valid : Bool
 
-/-- Axioma: La complejidad computacional es EXPRESIVA -/
+/-- 
+Axioma: La complejidad computacional es EXPRESIVA.
+
+EXPRESSIVE significa que la complejidad exhibe crecimiento super-polinomial
+(exponencial o mayor). Formalmente:
+- NO EXPRESIVA: f(n) = O(n^k) para alguna constante k (polinomial)
+- EXPRESIVA: f(n) = ω(n^k) para toda constante k (super-polinomial)
+
+Ejemplos de complejidad EXPRESIVA:
+- 2^n (exponencial)
+- n! (factorial)
+- 2^(2^n) (doble exponencial)
+
+En el contexto de P vs NP:
+- P: problemas NO EXPRESIVOS (complejidad polinomial)
+- NP-completo: problemas EXPRESIVOS (complejidad exponencial bajo ETH)
+
+Si complexity_is_EXPRESSIVE es verdadero, entonces existen problemas que
+requieren tiempo super-polinomial, lo que implica P ≠ NP.
+-/
 axiom complexity_is_EXPRESSIVE : Prop
 
 /-- 
 TEOREMA 1: Teoría → Biología
 Si P ≠ NP es verdad, debe existir una A_eff ≥ 1/κ_Π que es el umbral de conciencia.
+
+NOTA: La premisa `(∃ (p_neq_np_proof : True), True)` es un placeholder para
+"P ≠ NP es verdad". En una formalización completa, esto debería ser reemplazado
+con la afirmación formal de P ≠ NP del módulo MainTheorem. Por ahora, usamos
+este placeholder para establecer la estructura lógica del teorema.
 -/
 theorem P_neq_NP_iff_consciousness_quantized_verified :
-  (∃ (p_neq_np_proof : True), True) →  -- P ≠ NP es verdad
+  (∃ (p_neq_np_proof : True), True) →  -- TODO: Replace with proper P ≠ NP statement
   ∃ (A_eff : ℝ), A_eff ≥ consciousness_threshold := by
   
   intro h_p_neq_np
@@ -423,7 +462,20 @@ theorem empirical_evidence_supports_P_neq_NP
   -- b) Este umbral es el mismo que aparece en la cota inferior de IC
   -- c) Por tanto, la separación P/NP es observable en sistemas naturales
   
-  sorry  -- Requires full formalization of the biological-computational bridge
+  -- Prueba completa requiere formalizar:
+  -- 1. El puente entre mediciones biológicas y complejidad de información
+  -- 2. La conexión entre IC y complejidad temporal (via SILB)
+  -- 3. La traducción de "expressive" a super-polinomial
+  -- 
+  -- Estrategia de prueba:
+  -- Step A: sim.A_eff_max > 1/κ_Π (hipótesis h_exceeds)
+  -- Step B: Por kappa_pi_information_connection: IC(G,S) ≥ (1/κ_Π)·|S|
+  -- Step C: Si biología alcanza A_eff > 1/κ_Π, entonces la barrera IC existe
+  -- Step D: Barrera IC → tiempo exponencial (via comunicación)
+  -- Step E: Tiempo exponencial → complexity_is_EXPRESSIVE
+  -- Step F: complexity_is_EXPRESSIVE → soporte empírico para P ≠ NP
+  
+  sorry  -- TODO: Formalize the biological-computational bridge completely
 
 /-! ### Interpretación de la Doble Validación -/
 

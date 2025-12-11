@@ -150,8 +150,8 @@ theorem empirical_evidence_supports_P_neq_NP
 - The connection between RNA computation and information complexity bridges theory and biology
 
 **The Double Validation Path**:
-1. **Teoría ⇒ Biología**: If P ≠ NP is true mathematically, then there exists a consciousness threshold that biological systems can measure
-2. **Biología ⇒ Teoría**: If biological measurements exceed this threshold, it provides empirical evidence for P ≠ NP
+1. **Theory ⇒ Biology**: If P ≠ NP is true mathematically, then there exists a consciousness threshold that biological systems can measure
+2. **Biology ⇒ Theory**: If biological measurements exceed this threshold, it provides empirical evidence for P ≠ NP
 
 This bidirectional validation creates a self-consistent framework where:
 - Mathematical theory predicts biological phenomena (consciousness quantization)
