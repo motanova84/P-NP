@@ -12,6 +12,7 @@ Frequency: 141.7001 Hz ∞³
 import sys
 import os
 import math
+import cmath
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
@@ -140,13 +141,18 @@ def plot_field_psi():
     ax3.legend(fontsize=9)
     
     # Plot 4: Field phase
-    phase_profile = [math.degrees(psi_field(r, theta_fixed).imag / abs(psi_field(r, theta_fixed))) 
-                    for r in r_vals]
+    phase_profile = []
+    r_sample = r_vals[::5]  # Sample every 5th point for efficiency
     
-    ax4.scatter(r_vals[::5], phase_profile[::5], c=r_vals[::5], cmap='plasma', s=50)
+    for r in r_sample:
+        psi = psi_field(r, theta_fixed)
+        phase = cmath.phase(psi)
+        phase_profile.append(phase)
+    
+    ax4.scatter(r_sample, phase_profile, c=r_sample, cmap='plasma', s=50)
     ax4.axvline(x=R_THRESHOLD, color='r', linestyle='--', label=f'Threshold r = {R_THRESHOLD}')
     ax4.set_xlabel('Radius r', fontsize=11)
-    ax4.set_ylabel('Phase Component', fontsize=11)
+    ax4.set_ylabel('Phase (radians)', fontsize=11)
     ax4.set_title('Field Phase Structure', fontsize=12, fontweight='bold')
     ax4.grid(True, alpha=0.3)
     ax4.legend(fontsize=9)

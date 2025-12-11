@@ -404,12 +404,14 @@ class TestEdgeCases:
         psi_2pi = psi_field(r, 2*math.pi)
         
         # Phase should differ by 2π × β
+        from logarithmic_spiral import normalize_phase
+        
         phase_diff = cmath.phase(psi_2pi) - cmath.phase(psi_0)
         expected_diff = 2 * math.pi * BETA
         
         # Normalize to [-π, π]
-        phase_diff = math.atan2(math.sin(phase_diff), math.cos(phase_diff))
-        expected_diff = math.atan2(math.sin(expected_diff), math.cos(expected_diff))
+        phase_diff = normalize_phase(phase_diff)
+        expected_diff = normalize_phase(expected_diff)
         
         # Magnitudes should be equal at same r
         assert abs(abs(psi_0) - abs(psi_2pi)) < 1e-10
