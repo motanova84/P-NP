@@ -5,9 +5,15 @@ Universal Constants for P≠NP Framework
 This module defines the fundamental constants that emerge from the unification
 of topology, information theory, and computational complexity.
 
-⚠️ IMPORTANT: These are not mere mathematical constructs, but manifestations
-of the universal structure of existence itself. See UNIVERSAL_PRINCIPLES.md
-for the complete philosophical framework.
+⚠️ IMPORTANT PHILOSOPHICAL REFRAMING: These are not mere mathematical constructs,
+but proposed manifestations of universal structure. This is a RESEARCH PROPOSAL
+representing a philosophical perspective, not established mathematical fact.
+
+P ≠ NP remains an open problem in computational complexity theory. This framework
+proposes an alternative perspective where certain concepts (IC ≥ α as axiom,
+κ_Π as universal invariant, f₀ as operational pulse) are reinterpreted to
+emphasize their fundamental nature. See UNIVERSAL_PRINCIPLES.md for the complete
+philosophical framework and PHILOSOPHICAL_REFRAMING_SUMMARY.md for clarifications.
 
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 Frequency: 141.7001 Hz ∞³
@@ -21,11 +27,19 @@ KAPPA_PI = 2.5773  # Precision: 4 significant figures (±0.0001 from 150 CY vari
 """
 κ_Π = 2.5773 - Universal Invariant of All Forms of Existence
 
-⚠️ κ_Π is NOT a mathematical constant. It is a universal invariant of every
-form of existence.
+⚠️ PHILOSOPHICAL FRAMEWORK: In this proposed framework, κ_Π is interpreted as
+a "universal invariant" rather than just a "mathematical constant" to emphasize
+its appearance across multiple domains. This is a philosophical choice meant to
+highlight its unifying role.
 
-A "constant" is a fixed number in calculations. An "invariant" is a property
-that remains unchanged across all transformations and domains. κ_Π appears in:
+Traditional constants like π and e are also universal, arising from geometry and
+growth. The term "invariant" here emphasizes κ_Π's PROPOSED role as a conversion
+factor between domains (topology ↔ information ↔ computation), rather than
+arising within a single domain.
+
+A "constant" is a fixed number in calculations. An "invariant" (in this context)
+is a property that remains unchanged across transformations and domains. κ_Π
+is proposed to appear in:
 
 1. **Topology** (Calabi-Yau manifolds): Ratio of Hodge numbers in 150 varieties
 2. **Information Theory**: Scaling factor in complexity bounds
@@ -64,11 +78,15 @@ This is an AXIOM of intelligent space geometry, not a derived lemma.
 
 Philosophical Significance:
 --------------------------
-The appearance of κ_Π across all domains reveals that complexity is not
-arbitrary, but rooted in the fundamental structure of the universe. There
-exists a unifying mathematics that governs all forms of existence.
+The appearance of κ_Π across all domains is PROPOSED to reveal that complexity
+is not arbitrary, but rooted in the fundamental structure of the universe. There
+is PROPOSED to exist a unifying mathematics that governs all forms of existence.
 
-κ_Π is the conversion factor between:
+⚠️ This is a philosophical interpretation within a research framework, not an
+established mathematical fact. It represents one perspective on how to understand
+the relationships between topology, information, and computation.
+
+κ_Π is proposed as the conversion factor between:
 - Topology (tw) → Information (IC): IC = κ_Π · tw / log n
 - Information (IC) → Computation (Time): Time = 2^IC
 - Geometry (CY) → Everything: κ_Π emerges from Calabi-Yau
@@ -156,22 +174,33 @@ IC_SCALING_FACTOR = KAPPA_PI
 """
 The scaling factor α in the geometric axiom IC ≥ α.
 
-⚠️ IC ≥ α is NOT a lemma. It is a geometric axiom of intelligent space.
+⚠️ PHILOSOPHICAL FRAMEWORK: In this proposed framework, IC ≥ α is interpreted
+as a "geometric axiom of intelligent space" rather than a derived bound. This
+is a PHILOSOPHICAL CHOICE to emphasize its fundamental nature in this framework.
+
+In conventional complexity theory, information complexity bounds are proven from
+other principles. This framework proposes an ALTERNATIVE PERSPECTIVE where
+IC ≥ α is taken as axiomatic - a fundamental principle accepted as the starting
+point, similar to how Euclid's postulates define geometry.
+
+This reframing does NOT claim that IC ≥ α is self-evident or universally accepted
+in mathematics. It is a proposed axiom WITHIN THIS FRAMEWORK to emphasize the
+fundamental relationship between information and topology.
 
 A "lemma" is an auxiliary result proven from other results.
 
-An "axiom" is a fundamental principle accepted as truth because it reflects
-the inherent structure of the mathematical space.
+An "axiom" (in this framework) is a fundamental principle accepted as the
+starting point that defines how the space behaves.
 
-IC ≥ α is an axiom because:
+IC ≥ α is proposed as an axiom in this framework because:
 
-1. **Not derived from something more fundamental**: It is the most basic
-   expression that information has cost
-2. **Defines space geometry**: Establishes the minimum metric for measuring
-   informational separation
-3. **Universally valid**: Applies to all communication protocols in all
-   intelligent spaces
-4. **Reflects deep symmetry**: Connects information (IC) with topology
+1. **Not derived from something more fundamental IN THIS FRAMEWORK**: It is the
+   most basic expression that information has cost
+2. **Defines space geometry IN THIS FRAMEWORK**: Establishes the minimum metric
+   for measuring informational separation
+3. **Proposed as universally valid**: Should apply to all communication protocols
+   in all intelligent spaces (requires validation)
+4. **Reflects proposed symmetry**: Connects information (IC) with topology
    (treewidth) via α = κ_Π
 
 What is an "Intelligent Space"?
@@ -232,19 +261,22 @@ Related to κ_Π through: κ_Π ≈ 1/(2·sin(π/7))
 
 # ========== COMPUTATIONAL BOUNDS ==========
 
-# ⚠️ IMPORTANT: P ≠ NP is not proven through demonstration.
-# It is DERIVED as a consequence of universal structure.
+# ⚠️ IMPORTANT: These functions implement the PROPOSED framework where
+# P ≠ NP is derived from universal structure. P ≠ NP remains an OPEN PROBLEM
+# in computational complexity theory. This is a RESEARCH PROPOSAL, not
+# established mathematical fact.
 #
-# The functions below calculate bounds that follow from:
-# - The geometric axiom IC ≥ α
-# - The universal invariant κ_Π
-# - The operational pulse f₀
+# The functions below calculate bounds based on the proposed framework:
+# - The geometric axiom IC ≥ α (a philosophical choice, not universally accepted)
+# - The universal invariant κ_Π (proposed interpretation)
+# - The operational pulse f₀ (proposed interpretation)
 #
-# These are not arbitrary calculations, but reflections of how
-# information, topology, and computation are fundamentally intertwined
-# in the fabric of the cosmos.
+# These are not arbitrary calculations, but reflections of how this framework
+# PROPOSES that information, topology, and computation are fundamentally
+# intertwined in the fabric of the cosmos.
 #
 # See UNIVERSAL_PRINCIPLES.md for the complete philosophical framework.
+# See PHILOSOPHICAL_REFRAMING_SUMMARY.md for clarifications on this approach.
 
 def information_complexity_lower_bound(treewidth: float, num_vars: int) -> float:
     """

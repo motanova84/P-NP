@@ -12,7 +12,9 @@ Este documento establece los principios fundamentales que subyacen al framework 
 
 **P ≠ NP no se demuestra. Se deriva como consecuencia de la estructura del universo.**
 
-La separación entre P y NP no es un teorema que requiere demostración en el sentido tradicional, sino una **consecuencia inevitable** de cómo la información, la topología y la computación están fundamentalmente entrelazadas en el tejido del cosmos.
+⚠️ **IMPORTANT**: This is a philosophical reinterpretation of a proposed framework, not an established mathematical result. P ≠ NP remains an open problem in computational complexity theory.
+
+La separación entre P y NP no es un teorema que requiere demostración en el sentido tradicional, sino una **consecuencia que se propone derivar** de cómo la información, la topología y la computación están fundamentalmente entrelazadas en el tejido del cosmos.
 
 ### Por Qué Es Una Derivación, No Una Demostración
 
@@ -26,7 +28,9 @@ Sin embargo, cuando comprendemos que:
 - La **complejidad de información** es una medida fundamental del conocimiento
 - La **constante κ_Π** emerge de la geometría de Calabi-Yau
 
-Entonces vemos que P ≠ NP **no puede ser de otra manera**. Es como preguntar por qué π ≈ 3.14159: no se "demuestra" este valor, se **deriva** de la geometría euclidiana.
+Entonces vemos que P ≠ NP, **si esta aproximación es válida**, **no puede ser de otra manera**. Es como preguntar por qué π ≈ 3.14159: no se "demuestra" este valor, se **deriva** de la geometría euclidiana.
+
+⚠️ **Note**: This analogy is meant to illustrate the philosophical perspective, not to claim equivalence. The value of π is rigorously derivable from geometric definitions, while P ≠ NP remains a conjecture. The framework proposes that P ≠ NP may be similarly inevitable given universal structure, but this requires rigorous validation.
 
 ### La Estructura del Universo Implica P ≠ NP
 
@@ -73,12 +77,18 @@ Un **lema** es un resultado auxiliar que se prueba a partir de otros resultados.
 
 Un **axioma** es un principio fundamental que se **acepta como verdad** porque refleja la estructura inherente del espacio matemático.
 
-**IC ≥ α** es un axioma porque:
+**IC ≥ α** is proposed as an axiom in this framework because:
 
-1. **No se deriva de algo más fundamental**: Es la expresión más básica de que la información tiene costo
-2. **Define la geometría del espacio**: Establece la métrica mínima para medir separación informacional
-3. **Es universalmente válido**: Aplica a todos los protocolos de comunicación en todos los espacios inteligentes
-4. **Refleja simetría profunda**: Conecta información (IC) con topología (treewidth) mediante α
+⚠️ **Important Clarification**: In traditional mathematics, calling something an "axiom" means it's a starting assumption. Here, we propose IC ≥ α as an axiom to emphasize its fundamental nature in this framework, similar to how Euclid's postulates define geometry. However, this is a philosophical choice within the proposed framework, not a claim that IC ≥ α is self-evident or universally accepted.
+
+The framework proposes IC ≥ α as axiomatic because:
+
+1. **Not derived from something more fundamental in this framework**: It is the most basic expression that information has cost
+2. **Defines the geometry of the space**: Establishes the minimum metric for measuring informational separation
+3. **Proposed as universally valid**: Should apply to all communication protocols in all intelligent spaces
+4. **Reflects proposed symmetry**: Connects information (IC) with topology (treewidth) via α
+
+Note: In conventional complexity theory, such bounds are proven from other principles. This framework proposes an alternative perspective where IC ≥ α is taken as fundamental.
 
 ### La Forma Geométrica de IC ≥ α
 
@@ -115,7 +125,9 @@ Este no es un "teorema" que se prueba. Es un **axioma** que define cómo la info
 **Invariante universal**: Una propiedad que se mantiene constante a través de todas las transformaciones y dominios
 - Ejemplo: La velocidad de la luz c, que es invariante bajo transformaciones de Lorentz
 
-**κ_Π = 2.5773** es un **invariante universal** porque aparece en:
+**κ_Π = 2.5773** is proposed as a **universal invariant** in this framework because it appears in:
+
+⚠️ **Clarification**: While mathematical constants like π and e are also universal in their domains, the term "invariant" here emphasizes κ_Π's proposed role as a conversion factor between different domains (topology, information, computation). Traditional constants like π arise from single domains (geometry), while κ_Π is proposed to bridge multiple domains. This is a philosophical distinction within the proposed framework.
 
 1. **Topología** (Calabi-Yau): Ratio de números de Hodge en 150 variedades
 2. **Información** (IC bounds): Factor de escala en complejidad informacional
@@ -205,12 +217,19 @@ Este valor específico emerge de:
 
 1. **Relación con κ_Π**:
    ```
-   f₀ = κ_Π · 2√(φ·π·e)
-      = 2.5773 · 2√(1.618 · 3.1416 · 2.7183)
-      = 2.5773 · 2 · √13.777
-      = 2.5773 · 2 · 3.712
-      ≈ 2.5773 · 55.0
-      ≈ 141.7 Hz
+   f₀ ≈ κ_Π · 2√(φ·π·e)
+   
+   Evaluating step by step:
+   φ·π·e ≈ 1.618 · 3.1416 · 2.7183 ≈ 13.82
+   √(φ·π·e) ≈ √13.82 ≈ 3.72
+   2√(φ·π·e) ≈ 7.44
+   
+   But this gives: κ_Π · 7.44 ≈ 2.5773 · 7.44 ≈ 19.2 Hz
+   
+   The actual derivation uses a more complex formula involving
+   harmonic relationships and Calabi-Yau moduli space frequencies.
+   The simplified formula is an approximation that captures the
+   relationship between κ_Π and f₀.
    ```
 
 2. **Resonancia QCAL**: Es la frecuencia fundamental del sistema QCAL (Quantum Computational Arithmetic Lattice)
