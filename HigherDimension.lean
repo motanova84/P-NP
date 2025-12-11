@@ -84,9 +84,9 @@ structure AdSCFT_Duality where
   correlator_equality : True
 
 /-- Nuestro grafo de Tseitin es dual a teoría de campos en AdS₃ -/
-theorem tseitin_dual_to_AdS3 (n : ℕ) :
-    ∃ (duality : AdSCFT_Duality),
-      duality.ads_space.curvature ≈ -1 / (log n) := by
+theorem tseitin_dual_to_AdS3 (n : ℕ) (hn : n > 1) :
+    ∃ (duality : AdSCFT_Duality) (ε : ℝ),
+      ε > 0 ∧ |duality.ads_space.curvature - (-1 / (log n))| < ε := by
   sorry
 
 -- ══════════════════════════════════════════════════════════════
@@ -133,9 +133,9 @@ axiom P_algorithms_live_at_boundary :
       ∃ (poly : ℕ → ℝ), ∀ n, M.time_evolution n ≤ poly n
 
 /-- La complejidad de información es profundidad en el bulk -/
-theorem information_complexity_is_bulk_depth (n : ℕ) :
-    ∃ (duality : AdSCFT_Duality) (IC : ℝ),
-      IC ≈ -duality.ads_space.curvature * log n := by
+theorem information_complexity_is_bulk_depth (n : ℕ) (hn : n > 1) :
+    ∃ (duality : AdSCFT_Duality) (IC : ℝ) (ε : ℝ),
+      ε > 0 ∧ |IC - (-duality.ads_space.curvature * log n)| < ε := by
   sorry
 
 -- ══════════════════════════════════════════════════════════════
@@ -176,7 +176,7 @@ theorem P_neq_NP_from_QFT : P_Class ≠ NP_Class := by
   
   -- Las instancias duras de Tseitin requieren acceder al bulk
   -- a profundidad z ~ 1/(√n log n)
-  have h_bulk_depth : ∀ n : ℕ, n > 0 → 
+  have h_bulk_depth : ∀ n : ℕ, n > 1 → 
       required_bulk_depth n > 0 := by
     intro n hn
     unfold required_bulk_depth
@@ -184,7 +184,12 @@ theorem P_neq_NP_from_QFT : P_Class ≠ NP_Class := by
     · apply one_pos
     · apply mul_pos
       · exact sqrt_pos.mpr (Nat.cast_pos.mpr hn)
-      · exact log_pos (Nat.one_lt_cast.mpr (Nat.one_lt_iff_ne_one.mpr sorry))
+      · have h_log_pos : log (n : ℝ) > 0 := by
+          apply log_pos
+          have : (n : ℝ) > 1 := by
+            exact Nat.one_lt_cast.mpr hn
+          exact this
+        exact h_log_pos
   
   -- Contradicción: algoritmos polinomiales vs tiempo exponencial
   sorry

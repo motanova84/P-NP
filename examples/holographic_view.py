@@ -14,16 +14,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import networkx as nx
+import os
 
 class HolographicGraph:
     """Eleva un grafo a espacio AdS₃."""
     
-    def __init__(self, G, n):
+    def __init__(self, G, n, seed=None):
         self.G = G
         self.n = n
         self.vertices = list(G.nodes())
         
-        # Métrica de AdS: ds² = (dz² + dx²)/z²
+        # Set random seed for reproducibility if provided
+        if seed is not None:
+            np.random.seed(seed)
+        
+        # Métrica de AdS: ds² = (dz² + dx² + dy²)/z²
         self.z_min = 1/(np.sqrt(n) * np.log(n)) if n > 1 else 0.01
         self.z_max = 1.0  # Boundary
         self.embeddings = None
@@ -78,7 +83,9 @@ class HolographicGraph:
             geodesic = []
             for ti in t:
                 # Interpolación en coordenadas hiperbólicas
-                z = 1/((1-ti)/p1[2] + ti/p2[2]) if p1[2] > 0 and p2[2] > 0 else 0.5
+                # Use safe division to avoid division by zero
+                denom = (1-ti)/max(p1[2], 1e-10) + ti/max(p2[2], 1e-10)
+                z = 1/denom if denom > 0 else 0.5
                 x = (1-ti)*p1[0] + ti*p2[0]
                 y = (1-ti)*p1[1] + ti*p2[1]
                 geodesic.append((x, y, z))
@@ -154,8 +161,12 @@ class HolographicGraph:
         
         plt.suptitle(f'Holografía del Grafo (n={self.n})', fontsize=16, fontweight='bold')
         plt.tight_layout()
-        plt.savefig('/tmp/holographic_view.png', dpi=150, bbox_inches='tight')
-        print(f"Figure saved to /tmp/holographic_view.png")
+        
+        # Use temp directory in a cross-platform way
+        import tempfile
+        output_path = os.path.join(tempfile.gettempdir(), 'holographic_view.png')
+        plt.savefig(output_path, dpi=150, bbox_inches='tight')
+        print(f"Figure saved to {output_path}")
         plt.show()
     
     def kappa_propagator(self, z):
