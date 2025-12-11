@@ -124,15 +124,16 @@ def run (c : Config Σ Γ Q) : ℕ → Option (Config Σ Γ Q)
       | none => none
       | some c' => M.step c'
 
-/-- Configuración inicial desde input -/
+/-- Configuración inicial desde input 
+    La cabeza comienza en el primer símbolo (o blank si input vacío) -/
 def initialConfig (input : List Σ) : Config Σ Γ Q :=
   { state := StateSet.start,
     tape := {
       left := [],
       current := match input with
-        | [] => TapeAlphabet.blank
-        | h :: _ => InputAlphabet.input_subset h,
-      right := input.tail.map InputAlphabet.input_subset
+        | [] => TapeAlphabet.blank  -- Input vacío: cabeza en blank
+        | h :: _ => InputAlphabet.input_subset h,  -- Cabeza en primer símbolo
+      right := input.tail.map InputAlphabet.input_subset  -- Resto del input a la derecha
     }
   }
 

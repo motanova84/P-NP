@@ -1,13 +1,12 @@
 /-
-Tests for Turing Machine formalization
+Basic Tests for Turing Machine Formalization
 -/
 
 import TuringMachine
 
-/-! # Tests básicos para Máquinas de Turing
+/-! # Basic Tests for Turing Machines
 
-Este archivo contiene ejemplos y tests básicos para la formalización
-de Máquinas de Turing.
+This file contains examples and basic tests for the Turing Machine formalization.
 -/
 
 -- ══════════════════════════════════════════════════════════════
