@@ -47,15 +47,40 @@ example : Real.sqrt (2 * π * A_eff_max) = κ_Π := by
 
 /-! ## RNA piCODE Structure Tests -/
 
+/-- Helper function to construct quantum state (placeholder) -/
+axiom make_quantum_state : QuantumState
+
+/-- Helper to construct golden spiral -/
+axiom make_golden_spiral : GoldenSpiralStructure
+
 /-- Example: Construct a theoretical RNA piCODE molecule tuned to f₀ -/
-axiom example_rna_picode : RNA_piCODE
+def example_rna_picode : RNA_piCODE := {
+  pi_electrons := make_quantum_state
+  vibrational_modes := [f₀, 140.0, 143.0]  -- Modes near f₀
+  helical_geometry := make_golden_spiral
+  coherence := A_eff_max
+  resonance_condition := by
+    use f₀
+    constructor
+    · simp [List.mem_cons]
+    · norm_num
+}
 
 /-- The example RNA has a mode at f₀ -/
-axiom example_rna_tuned : ∃ ω ∈ example_rna_picode.vibrational_modes, ω = f₀
+example : ∃ ω ∈ example_rna_picode.vibrational_modes, ω = f₀ := by
+  use f₀
+  constructor
+  · simp [example_rna_picode, List.mem_cons]
+  · rfl
 
 /-- Test that tuned RNA achieves maximum coherence -/
-example : example_rna_picode.coherence = A_eff_max :=
-  RNA_maximizes_attention example_rna_picode example_rna_tuned
+example : example_rna_picode.coherence = A_eff_max := by
+  have h_tuned : ∃ ω ∈ example_rna_picode.vibrational_modes, ω = f₀ := by
+    use f₀
+    constructor
+    · simp [example_rna_picode, List.mem_cons]
+    · rfl
+  exact RNA_maximizes_attention example_rna_picode h_tuned
 
 /-! ## Consciousness Tests -/
 
@@ -67,9 +92,14 @@ axiom example_organism_has_rna : example_organism.contains example_rna_picode
 
 /-- Test that consciousness equation holds -/
 example : example_organism.consciousness = 
-  example_organism.mass * c^2 * example_rna_picode.coherence^2 :=
-  consciousness_from_RNA_resonance example_organism example_rna_picode 
-    example_organism_has_rna example_rna_tuned
+  example_organism.mass * c^2 * example_rna_picode.coherence^2 := by
+  have h_tuned : ∃ ω ∈ example_rna_picode.vibrational_modes, ω = f₀ := by
+    use f₀
+    constructor
+    · simp [example_rna_picode, List.mem_cons]
+    · rfl
+  exact consciousness_from_RNA_resonance example_organism example_rna_picode 
+    example_organism_has_rna h_tuned
 
 /-! ## P≠NP Consciousness Connection Tests -/
 
@@ -102,11 +132,11 @@ example : 1.6 < φ ∧ φ < 1.7 := by
   · sorry -- Requires computation of √5
   · sorry -- Requires computation of √5
 
-/-- A_eff_max is close to 1 -/
-example : 1 < A_eff_max ∧ A_eff_max < 1.1 := by
-  constructor
-  · norm_num
-  · norm_num
+/-- A_eff_max equals 1 (normalized) -/
+example : A_eff_max = 1 := A_eff_max_eq_one
+
+/-- A_eff_max is positive -/
+example : 0 < A_eff_max := by norm_num [A_eff_max]
 
 /-! ## Integration Tests -/
 

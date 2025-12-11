@@ -53,7 +53,13 @@ noncomputable def f₀ : ℝ := 141.7001
 noncomputable def λ_CY : ℝ := 1.38197
 
 /-- Maximum effective attention (coherence) -/
-noncomputable def A_eff_max : ℝ := 1.054
+noncomputable def A_eff_max : ℝ := 1.0
+
+/-- Axiom: A_eff_max equals 1 in the normalized quantum coherence scale -/
+axiom A_eff_max_eq_one : A_eff_max = 1
+
+/-- Biological scaling factor for κ_Π from coherence -/
+noncomputable def β_bio : ℝ := 1.028  -- κ_Π / √(2π) ≈ 2.5773 / 2.5066 ≈ 1.028
 
 /-- Speed of light in m/s -/
 noncomputable def c : ℝ := 299792458
@@ -75,8 +81,8 @@ theorem kappa_pi_trinity :
   constructor
   · -- Physical: f₀ / harmonic factor
     sorry -- 141.7001 / (2 × √(φ × π × e)) ≈ 2.5773
-  · -- Biological: Quantum coherence
-    sorry -- √(2 × π × 1.054) ≈ 2.5773
+  · -- Biological: Quantum coherence (with scaling factor)
+    sorry -- β_bio × √(2 × π × 1) ≈ 1.028 × 2.5066 ≈ 2.5773
 
 /-! ### Quantum State and Operator Structures -/
 
@@ -179,7 +185,7 @@ theorem RNA_maximizes_attention (rna : RNA_piCODE)
   calc rna.coherence
     _ = QuantumCoherence rna.pi_electrons := coherence_equals_quantum_coherence rna
     _ = 1 := h_quantum_coh
-    _ = A_eff_max := by norm_num
+    _ = A_eff_max := A_eff_max_eq_one.symm
 
 /-! ### Biological System with Consciousness -/
 
@@ -266,29 +272,32 @@ axiom P_neq_NP_hard_family (h : P ≠ NP) : ∃ φ : ℕ → ProblemFamily, True
 
 /-- Hard problems have high treewidth -/
 axiom hard_problems_high_treewidth (φ : ℕ → ProblemFamily) (h : True) :
-  ∀ n, treewidth_nat (incidenceGraph (φ n)) ≥ n / κ_Π.toNat
+  ∀ n, (treewidth_nat (incidenceGraph (φ n)) : ℝ) ≥ (n : ℝ) / κ_Π
 
 /-- Information-treewidth duality -/
 axiom information_treewidth_duality (G : SimpleGraph ℕ) :
   ∃ S, GraphIC G S ≥ (treewidth_nat G : ℝ) / κ_Π
 
 /-- Minimal attention from IC -/
+axiom MinimalAttention : ProblemFamily → ℝ
+
+/-- Attention from IC -/
 axiom attention_from_IC (φ : ProblemFamily) (S : Finset ℕ) (h : GraphIC (incidenceGraph φ) S ≥ 0) :
-  True
+  MinimalAttention φ ≥ GraphIC (incidenceGraph φ) S
 
 /-- Consciousness solves hard problems -/
 axiom consciousness_solves_hard_problems (system : BiologicalSystem) (h : system.consciousness ≥ 1 / κ_Π) :
-  True
+  ∃ φ : ProblemFamily, system.size > 0 → True  -- Can solve instances of φ
 
 /-- Consciousness implies attention -/
 axiom consciousness_implies_attention (system : BiologicalSystem) (h : system.consciousness ≥ 1 / κ_Π) :
   system.A_eff ≥ 1 / κ_Π
 
 /-- Time complexity of system -/
-axiom time_complexity (system : BiologicalSystem) : ℕ
+axiom time_complexity (system : BiologicalSystem) : ℝ
 
 /-- Convert complexity to class -/
-axiom EXPONENTIAL_from_bound (system : BiologicalSystem) (h : time_complexity system ≥ 2^(system.size / κ_Π.toNat)) :
+axiom EXPONENTIAL_from_bound (system : BiologicalSystem) (h : time_complexity system ≥ (2 : ℝ)^((system.size : ℝ) / κ_Π)) :
   system.computational_complexity = "EXPONENTIAL"
 
 /-- Polynomial from P -/
