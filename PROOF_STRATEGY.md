@@ -196,6 +196,7 @@ Where: IC(Π_φ) ≥ κ_Π · tw(φ) / log n  (κ_Π = 2.5773)
 4. When k = ω(log n):
    ```
    Time = 2^(κ_Π · k / log n) 
+        = 2^(2.5773 · k / log n)      [where k = ω(log n)]
         = 2^(2.5773 · ω(log n) / log n)
         = 2^(2.5773 · ω(1)) 
         = 2^ω(1) 
@@ -290,9 +291,9 @@ The **Millennium Constant** κ_Π = 2.5773 is proposed as a universal constant (
 ```
 κ_Π ≈ χ_norm · h^{1,1} / h^{2,1}
 ```
-According to the framework, averaged over 150 distinct Calabi-Yau 3-fold varieties, this ratio converges to 2.5773 ± 0.0001. 
+According to the framework, averaged over 150 distinct Calabi-Yau 3-fold varieties, this ratio converges to 2.5773 ± 0.0001. Here χ_norm is the normalized Euler characteristic, and h^{1,1}, h^{2,1} are Hodge numbers of the variety.
 
-**Note:** This topological interpretation is part of the proposed framework and requires peer review.
+**Note:** This topological interpretation is part of the proposed framework and requires peer review. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for complete mathematical details.
 
 #### 2. Information-Theoretic Role - Proposed
 In the communication complexity framework:
@@ -308,13 +309,13 @@ Time(φ) ≥ 2^(κ_Π · tw(φ) / log n) = 2^(2.5773 · tw(φ) / log n)
 ```
 
 #### 4. Connection to QCAL Frequency - Proposed
-According to the framework, the constant relates to the quantum computational arithmetic lattice frequency. The KAPPA_PI_MILLENNIUM_CONSTANT.md document presents this connection as:
+According to the framework, the constant relates to the quantum computational arithmetic lattice frequency. The framework proposes that f_QCAL = 141.7001 Hz represents a fundamental resonance frequency in computational systems. The KAPPA_PI_MILLENNIUM_CONSTANT.md document presents this connection as:
 ```
 κ_Π ≈ log₂(f_QCAL / π²) + φ - π
 ```
-Where f_QCAL = 141.7001 Hz and φ = golden ratio (≈ 1.618).
+Where f_QCAL = 141.7001 Hz (proposed QCAL resonance frequency) and φ = golden ratio (≈ 1.618).
 
-**Note:** See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for the detailed derivation, which includes intermediate steps showing how the "phase adjustment" term (-π) is applied to reach the final value.
+**Note:** See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for the detailed derivation, including the physical interpretation of f_QCAL and the intermediate steps showing how the "phase adjustment" term (-π) is applied to reach the final value.
 
 ### Why κ_Π Strengthens the Framework (If Validated)
 
