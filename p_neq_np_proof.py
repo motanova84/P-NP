@@ -226,7 +226,9 @@ class PNePProof:
         ax6.semilogy(n, self.results['bound_poly_ratio'], 'o-', 
                     color='darkgreen', linewidth=2, markersize=8, label='$T_{Holo}$ / $T_P$')
         ax6.axhline(y=1, color='red', linestyle='--', linewidth=3, label='Umbral crítico (ratio=1)')
-        ax6.fill_between(n, 1, ax6.get_ylim()[1], alpha=0.1, color='red', 
+        # Get y-limits after plotting data
+        ylim_max = max(self.results['bound_poly_ratio']) * 2 if self.results['bound_poly_ratio'] else 10
+        ax6.fill_between(n, 1, ylim_max, alpha=0.1, color='red', 
                          label='Zona de contradicción (ratio > 1)')
         ax6.set_xlabel('n (variables)', fontsize=11)
         ax6.set_ylabel('Ratio: Bound / Polinomial', fontsize=11)
