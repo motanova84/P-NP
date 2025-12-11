@@ -12,11 +12,6 @@ from dataclasses import dataclass
 from typing import List, Dict, Tuple
 import sys
 
-print("="*80)
-print("VERIFICACIÓN HOLOGRÁFICA: P ≠ NP".center(80))
-print("="*80)
-print()
-
 # ============================================================================
 # PARTE 0: CONSTANTES UNIVERSALES QCAL
 # ============================================================================
@@ -26,6 +21,12 @@ KAPPA_PI = 2.5773  # Constante universal del marco QCAL
 
 # Constante de conversión volumen-tiempo
 ALPHA_HOLO = 1 / (8 * math.pi)  # De acción de Einstein-Hilbert
+
+# Scaling factor for algorithm time simulations
+ALGORITHM_SCALING_FACTOR = 10
+
+# Minimum time epsilon for numerical stability
+MIN_TIME_EPSILON = 1e-10
 
 # ============================================================================
 # PARTE 1: CONSTRUCCIÓN HOLOGRÁFICA DE INSTANCIAS TSEITIN
@@ -55,7 +56,7 @@ def construct_holographic_tseitin(n: int) -> HolographicTseitin:
     # 1. Grafo base en el boundary (expander 8-regular)
     try:
         base = nx.random_regular_graph(8, n, seed=42)
-    except:
+    except (nx.NetworkXError, ValueError):
         # Fallback: grafo circulante
         base = nx.cycle_graph(n)
         for i in range(n):
@@ -106,6 +107,7 @@ def analyze_holographic_spectrum(instance: HolographicTseitin) -> Dict:
     G = instance.boundary_graph
     
     # Matriz de adyacencia normalizada
+    # Note: Using dense array for small graphs; for larger graphs consider sparse operations
     A = nx.adjacency_matrix(G).toarray()
     degrees = np.array([d for _, d in G.degree()])
     D_inv_sqrt = np.diag(1.0 / np.sqrt(np.maximum(degrees, 1)))
@@ -190,21 +192,34 @@ def holographic_time_law(rt_volume: float, algorithm_type: str = 'classical') ->
     return math.exp(alpha * rt_volume)
 
 def simulate_algorithm_time(n: int, algorithm: str) -> float:
-    """Simula tiempo de algoritmo en el boundary."""
+    """Simula tiempo de algoritmo en el boundary.
+    
+    Args:
+        n: Problem size
+        algorithm: One of 'bruteforce', 'dpll', 'cdcl', 'quantum', 'poly'
+    
+    Returns:
+        Simulated time
+        
+    Raises:
+        ValueError: If algorithm name is not recognized
+    """
     if algorithm == 'bruteforce':
         # Búsqueda exhaustiva: O(2^n)
-        return 2 ** (n / 10)
+        return 2 ** (n / ALGORITHM_SCALING_FACTOR)
     elif algorithm == 'dpll':
         # DPLL: O(1.5^n)
-        return 1.5 ** (n / 10)
+        return 1.5 ** (n / ALGORITHM_SCALING_FACTOR)
     elif algorithm == 'cdcl':
         # CDCL moderno: O(1.3^n)
-        return 1.3 ** (n / 10)
+        return 1.3 ** (n / ALGORITHM_SCALING_FACTOR)
     elif algorithm == 'quantum':
         # Grover-like: O(2^(n/2))
-        return 2 ** (n / 20)
-    else:
+        return 2 ** (n / (2 * ALGORITHM_SCALING_FACTOR))
+    elif algorithm == 'poly':
         return n ** 3  # Polinomial hipotético
+    else:
+        raise ValueError(f"Unknown algorithm: {algorithm}. Must be one of: bruteforce, dpll, cdcl, quantum, poly")
 
 # ============================================================================
 # PARTE 5: VERIFICACIÓN COMPLETA
@@ -430,6 +445,11 @@ def holographic_theorem_statement():
 
 def main():
     """Ejecuta verificación completa."""
+    print("="*80)
+    print("VERIFICACIÓN HOLOGRÁFICA: P ≠ NP".center(80))
+    print("="*80)
+    print()
+    
     print(holographic_theorem_statement())
     print("\n" + "="*80)
     
@@ -471,7 +491,7 @@ def main():
     print("\n📈 FACTORES DE SEPARACIÓN PROMEDIO:")
     
     avg_ratio = np.mean([
-        r['time_bound_classical'] / max(r['time_cdcl'], 1e-10) 
+        r['time_bound_classical'] / max(r['time_cdcl'], MIN_TIME_EPSILON) 
         for r in results
     ])
     

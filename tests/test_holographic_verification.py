@@ -252,6 +252,11 @@ class TestAlgorithmSimulation:
         
         # All times should be positive
         assert poly > 0 and cdcl > 0 and dpll > 0 and brute > 0
+    
+    def test_unknown_algorithm_raises_error(self):
+        """Test that unknown algorithm names raise ValueError."""
+        with pytest.raises(ValueError, match="Unknown algorithm"):
+            simulate_algorithm_time(50, 'unknown_algorithm')
 
 
 class TestVerification:
