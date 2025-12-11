@@ -19,6 +19,15 @@ import time
 from dataclasses import dataclass
 
 # ══════════════════════════════════════════════════════════════
+# CONSTANTS
+# ══════════════════════════════════════════════════════════════
+
+MAX_SEPARATOR_SEARCH_LEVELS = 10  # Maximum search levels for separator finding
+MAX_CLAUSE_SIZE = 5  # Maximum clause size for structural clauses
+TIME_SCALE_FACTOR = 1e-6  # Scaling factor for time predictions (seconds)
+THEOREM_TOLERANCE = 0.5  # Tolerance factor for theorem verification (50%)
+
+# ══════════════════════════════════════════════════════════════
 # MEDICIÓN DE IC
 # ══════════════════════════════════════════════════════════════
 
@@ -61,7 +70,7 @@ def find_optimal_separator(G: nx.Graph) -> set:
     min_ic = float('inf')
     
     # Probar separadores de diferentes tamaños
-    for size in range(1, min(n // 2 + 1, 10)):  # Limit search space
+    for search_level in range(1, min(n // 2 + 1, MAX_SEPARATOR_SEARCH_LEVELS)):
         # Heurística: BFS desde nodo central
         center = max(G.nodes(), key=lambda v: G.degree(v))
         
@@ -136,7 +145,7 @@ def tseitin_encoding(G: nx.Graph) -> List[List[int]]:
     # Add some structural clauses
     if n_edge_vars > 0:
         # Ensure at least one edge is selected
-        clauses.append(list(range(1, min(n_edge_vars + 1, 5))))
+        clauses.append(list(range(1, min(n_edge_vars + 1, MAX_CLAUSE_SIZE))))
     
     return clauses if clauses else [[1], [-1]]  # Trivial UNSAT if empty
 
@@ -278,7 +287,7 @@ def verify_ic_time_theorem(n_values: List[int],
                 if (d * n) % 2 != 0:
                     d = d + 1 if d < n - 1 else d - 1
                 G = nx.random_regular_graph(d, n)
-            except:
+            except (nx.NetworkXError, ValueError) as e:
                 # Fallback to Erdos-Renyi
                 G = nx.erdos_renyi_graph(n, d / n)
             
@@ -292,15 +301,15 @@ def verify_ic_time_theorem(n_values: List[int],
             # Para grafos grandes, estimar tiempo
             if n > 20:
                 # Estimación basada en estructura
-                time_measured = 2 ** (ic / 2) * 1e-6  # Escalado
+                time_measured = 2 ** (ic / 2) * TIME_SCALE_FACTOR
             else:
                 time_measured = measure_sat_time(formula)
             
             # Predicción teórica: T ≥ 2^IC
-            time_predicted = 2 ** ic * 1e-6  # Escalado a segundos
+            time_predicted = 2 ** ic * TIME_SCALE_FACTOR
             
             ratio = time_measured / time_predicted if time_predicted > 0 else 0
-            theorem_holds = time_measured >= time_predicted * 0.5  # Tolerancia 50%
+            theorem_holds = time_measured >= time_predicted * THEOREM_TOLERANCE
             
             result = VerificationResult(
                 graph_size=n,
