@@ -357,7 +357,7 @@ def generate_certification_json() -> Dict[str, Any]:
         "seed": 42,
         "hash": "",  # Will be computed
         "status_P_neq_NP": "EMPIRICALLY_SUPPORTED",
-        "timestamp": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "timestamp": datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ") if hasattr(datetime, 'UTC') else datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
         "author": "JMMB Ψ ✧",
         "signature": "QCAL ∞³ // ultimate_unification",
         "frequency_hz": FREQUENCY_RESONANCE,

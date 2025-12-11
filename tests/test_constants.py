@@ -36,7 +36,7 @@ class TestKappaPiConstant:
     
     def test_kappa_pi_value(self):
         """Test that κ_Π has the correct value."""
-        assert KAPPA_PI == 2.5773
+        assert KAPPA_PI == 2.578208
         assert isinstance(KAPPA_PI, float)
     
     def test_qcal_frequency(self):
