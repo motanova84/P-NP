@@ -38,7 +38,7 @@ echo -e "${GREEN}✓${NC} pip actualizado"
 
 # Instalar dependencias
 echo -e "\n${BLUE}[5/6]${NC} Instalando dependencias..."
-pip install numpy scipy networkx matplotlib --quiet
+pip install numpy scipy networkx matplotlib pandas pytest seaborn --quiet
 echo -e "${GREEN}✓${NC} Dependencias instaladas"
 
 # Crear archivo de prueba
@@ -47,12 +47,16 @@ cat > test_installation.py << 'PYCODE'
 import numpy as np
 import scipy
 import networkx as nx
-import matplotlib.pyplot as plt
+import matplotlib
+import pandas as pd
+import pytest
 
 print("✅ NumPy version:", np.__version__)
 print("✅ SciPy version:", scipy.__version__)
 print("✅ NetworkX version:", nx.__version__)
-print("✅ Matplotlib version:", plt.matplotlib.__version__)
+print("✅ Matplotlib version:", matplotlib.__version__)
+print("✅ Pandas version:", pd.__version__)
+print("✅ Pytest version:", pytest.__version__)
 print("\n🎉 Todas las dependencias instaladas correctamente!")
 PYCODE
 

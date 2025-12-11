@@ -42,7 +42,7 @@ cd ultimate-unification && \
 python3 -m venv venv && \
 source venv/bin/activate && \
 pip install --upgrade pip && \
-pip install numpy scipy networkx matplotlib && \
+pip install numpy scipy networkx matplotlib pandas pytest seaborn && \
 echo "✅ Ambiente listo. Ahora copia ultimate_algorithm.py aquí y ejecuta:" && \
 echo "   python3 ultimate_algorithm.py"
 ```
@@ -67,7 +67,7 @@ El script realizará automáticamente:
 2. ✅ Creación de directorio `ultimate-unification/`
 3. ✅ Creación de ambiente virtual
 4. ✅ Actualización de pip
-5. ✅ Instalación de dependencias (numpy, scipy, networkx, matplotlib)
+5. ✅ Instalación de dependencias (numpy, scipy, networkx, matplotlib, pandas, pytest, seaborn)
 6. ✅ Creación y ejecución de script de prueba
 7. ✅ Validación de instalación
 
@@ -141,6 +141,8 @@ python3 -c "import numpy; print('NumPy:', numpy.__version__)"
 python3 -c "import scipy; print('SciPy:', scipy.__version__)"
 python3 -c "import networkx; print('NetworkX:', networkx.__version__)"
 python3 -c "import matplotlib; print('Matplotlib:', matplotlib.__version__)"
+python3 -c "import pandas; print('Pandas:', pandas.__version__)"
+python3 -c "import pytest; print('Pytest:', pytest.__version__)"
 ```
 
 ---
@@ -231,12 +233,12 @@ brew install python3
 
 ```bash
 # Si pip da error de permisos, usar --user
-pip3 install --user numpy scipy networkx matplotlib
+pip3 install --user numpy scipy networkx matplotlib pandas pytest seaborn
 
 # O usar ambiente virtual (recomendado)
 python3 -m venv venv
 source venv/bin/activate
-pip install numpy scipy networkx matplotlib
+pip install numpy scipy networkx matplotlib pandas pytest seaborn
 ```
 
 ### Problema 3: Matplotlib no muestra gráficos
