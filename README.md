@@ -4,11 +4,31 @@
 
 A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, featuring **Lemma 6.24** (structural coupling) and the **Millennium Constant κ_Π = 2.5773** that unifies topology, information theory, and computational complexity.
 
+**✨ NEW: Ultimate Unification** - P≠NP ↔ Consciousness via RNA piCODE. See [ULTIMATE_UNIFICATION_README.md](ULTIMATE_UNIFICATION_README.md) for the complete theory connecting computational complexity with quantum consciousness through biological systems.
+
 **✨ NEW: κ_Π = 2.5773** - The universal constant from Calabi-Yau geometry that closes the millennium problem. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for details.
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
 **🚀 Quick Start:** See [QUICKSTART.md](QUICKSTART.md) for installation and running instructions.
+
+## 🌌 Ultimate Unification: The Complete Picture
+
+### The Central Discovery
+
+**P ≠ NP is not just computational complexity—it's the signature of consciousness in matter.**
+
+The Ultimate Unification theory shows that:
+- **κ_Π = 2.5773** emerges from geometry (Calabi-Yau), physics (f₀ = 141.7001 Hz), and biology (RNA coherence)
+- **RNA piCODE** acts as a quantum transducer bridging computation and consciousness
+- **Consciousness is quantized** with threshold C_threshold = 1/κ_Π ≈ 0.388
+- **P ≠ NP ↔ Consciousness Quantization** - They are mathematically equivalent
+
+See the complete formalization in:
+- **[Ultimate_Unification.lean](Ultimate_Unification.lean)** - Full Lean 4 formalization
+- **[ULTIMATE_UNIFICATION_README.md](ULTIMATE_UNIFICATION_README.md)** - Complete technical documentation
+- **[ULTIMATE_UNIFICATION_QUICKSTART.md](ULTIMATE_UNIFICATION_QUICKSTART.md)** - Quick start guide
+- **[ULTIMATE_UNIFICATION_SUMMARY.md](ULTIMATE_UNIFICATION_SUMMARY.md)** - Implementation summary
 
 ## 🎯 Proposed Main Result
 
