@@ -28,6 +28,9 @@ lean_lib Formal where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib UltimateUnification where
+  roots := #[`UltimateUnification]
+
 @[default_target]
 lean_exe pnp where
   root := `Director
