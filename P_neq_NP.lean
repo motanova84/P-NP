@@ -301,7 +301,7 @@ def CnfFormula.eval (φ : CnfFormula) (assignment : V → Bool) : Bool :=
 def SAT : CnfFormula → Bool := 
   fun φ => ∃ assignment, φ.eval assignment = true
 
-/-- SAT está en NP -/
+/-- SAT is in NP -/
 theorem SAT_in_NP : SAT ∈ NP := by
   unfold NP SAT
   use fun φ cert => φ.eval cert
