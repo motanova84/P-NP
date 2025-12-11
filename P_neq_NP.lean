@@ -126,7 +126,7 @@ noncomputable def GraphIC (G : SimpleGraph V) (S : Finset V) : ℕ :=
   let total_configs := 2 ^ (Fintype.card V - S.card)
   Nat.log 2 total_configs
 
-/-! ### TEOREMAS AUXILIARES (with axioms for unproven parts) -/
+/-! ### AUXILIARY THEOREMS (with axioms for unproven parts) -/
 
 /-- Bodlaender's separator theorem -/
 axiom bodlaender_separator_theorem (G : SimpleGraph V) (k : ℕ) (h : k > 0) :
