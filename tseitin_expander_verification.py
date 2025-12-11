@@ -75,7 +75,7 @@ def expander_shifts(n: int, d: int) -> List[int]:
             # Necesitamos (d-1)/2 offsets más
             count = 0
             needed = (d - 1) // 2
-            for candidate in range(1, n // 2):
+            for candidate in range(1, (n + 1) // 2):
                 if candidate != n // 2 and count < needed:
                     shifts.append(candidate)
                     count += 1
@@ -122,7 +122,7 @@ class Literal:
     negated: bool
     
     def __str__(self):
-        return f"¬x{self.var.id}" if self.negated else f"x{self.var.id}"
+        return f"-x{self.var.id}" if self.negated else f"x{self.var.id}"
 
 Clause = List[Literal]
 CNFFormula = List[Clause]
