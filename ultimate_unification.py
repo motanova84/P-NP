@@ -43,10 +43,16 @@ class UnificationSimulator:
         Based on: κ_Π = φ × π/e × λ_CY
         where λ_CY is the Calabi-Yau correction factor
         
+        Note: This is a symbolic/theoretical calculation. The Calabi-Yau
+        correction factor λ_CY ≈ 1.0639 represents an idealized geometric
+        mean derived from topological invariants. See KAPPA_PI_MILLENNIUM_CONSTANT.md
+        for the full mathematical framework.
+        
         Returns:
             Calculated κ_Π value
         """
-        # Calabi-Yau correction factor (derived from 150 CY varieties)
+        # Calabi-Yau correction factor (symbolic constant from QCAL framework)
+        # Represents topological contribution from string theory compactifications
         lambda_cy = 1.0639
         
         kappa_geometric = self.phi * (PI / E) * lambda_cy
@@ -59,10 +65,16 @@ class UnificationSimulator:
         Based on: f₀ / h = κ_Π (in natural units)
         where h is the reduced Planck constant in appropriate units
         
+        Note: This uses QCAL framework units where the conversion factor
+        h ≈ 55 Hz·s is derived from matching f₀ = 141.7001 Hz to κ_Π.
+        This is a phenomenological relationship within the QCAL system,
+        not a fundamental physical constant in SI units.
+        
         Returns:
             Calculated κ_Π value
         """
-        # In QCAL units where h ≈ 55 Hz·s
+        # QCAL framework conversion factor (phenomenological)
+        # Derived from consistency condition: f₀ / κ_Π ≈ 55 Hz·s
         h_qcal = 55.0
         kappa_frequency = self.f0 / h_qcal
         return kappa_frequency
@@ -85,13 +97,24 @@ class UnificationSimulator:
     
     def calculate_zeta_derivative(self, s: complex = 0.5) -> complex:
         """
-        Approximate ζ′(1/2) using series expansion.
+        Approximate ζ′(1/2) using known literature values.
         
         Args:
             s: Point to evaluate (default: 0.5 on critical line)
             
         Returns:
             Approximate value of ζ′(s)
+            
+        Note: This returns a literature value for ζ′(1/2), not an actual
+        numerical calculation. Full computation requires analytic continuation
+        of the Riemann zeta function, which is beyond the scope of this
+        demonstration module.
+        
+        Reference: The value ζ′(1/2) ≈ -3.922 is well-established in the
+        literature and can be computed using specialized mathematical software
+        (e.g., Mathematica, mpmath). See:
+        - OEIS A075700: Decimal expansion of ζ′(1/2)
+        - Coffey, M. W. (2008). "On the derivatives of the Riemann zeta function"
         """
         # Note: This is a simplified approximation
         # Full calculation requires analytic continuation
@@ -99,10 +122,9 @@ class UnificationSimulator:
         # Use relationship to eta function (alternating zeta)
         # ζ(s) = η(s) / (1 - 2^(1-s))
         
-        # For s = 1/2, we approximate using known values
-        # ζ(1/2) ≈ -1.460
-        # ζ′(1/2) ≈ -3.922 (from literature)
-        
+        # For s = 1/2, we use the known literature value:
+        # ζ(1/2) ≈ -1.460...
+        # ζ′(1/2) ≈ -3.922... (from OEIS A075700)
         zeta_prime_half = -3.922
         return zeta_prime_half
     
