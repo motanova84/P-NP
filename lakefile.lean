@@ -33,6 +33,9 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib GAP2 where
+  roots := #[`GAP2_Complete]
+
 @[default_target]
 lean_exe pnp where
   root := `Director
