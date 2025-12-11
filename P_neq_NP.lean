@@ -1,5 +1,5 @@
 /-!
-# TEOREMA PRINCIPAL - VERSIÓN FINAL COMPLETA
+# TEOREMA PRINCIPAL - VERSION FINAL COMPLETA
 P ≠ NP - Complete Formalization without critical path sorry statements
 
 This file contains the complete formalization of the P≠NP theorem using:
