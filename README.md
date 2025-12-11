@@ -4,7 +4,7 @@
 
 A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, revealing how **P ≠ NP derives as a consequence of universal structure** rather than through traditional proof techniques.
 
-**✨ NEW: Universal Principles Framework** - P ≠ NP is not demonstrated, but derived from the structure of the universe. IC ≥ α is not a lemma, but a geometric axiom. κ_Π is not a constant, but a universal invariant. f₀ is not a parameter, but the operational pulse of coherence. See [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md) for the complete philosophical framework.
+**✨ NEW: Universal Principles Framework** - P ≠ NP is not demonstrated, but derived from the structure of the universe. IC ≥ α is not a lemma, but a geometric axiom. κ_Π is not a constant, but a universal invariant. f₀ is not a parameter, but the operational pulse of coherence. See [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md) for the complete philosophical framework and [PHILOSOPHICAL_REFRAMING_SUMMARY.md](PHILOSOPHICAL_REFRAMING_SUMMARY.md) for a summary of changes.
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
