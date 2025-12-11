@@ -38,7 +38,7 @@ import Mathlib.Data.Nat.Log
 
 variable {V : Type*} [DecidableEq V] [Fintype V] [Nonempty V]
 
-/-! ### LA CONSTANTE UNIVERSAL -/
+/-! ### THE UNIVERSAL CONSTANT -/
 
 /-- κ_Π: The constant that unifies topology and information complexity -/
 noncomputable def κ_Π : ℝ := 2.5773
