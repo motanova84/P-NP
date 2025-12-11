@@ -12,7 +12,6 @@ to P≠NP.
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from scipy.special import hyp2f1  # Hypergeometric function for AdS
 import networkx as nx
 
 class HolographicGraph:
@@ -47,6 +46,9 @@ class HolographicGraph:
         degrees = dict(self.G.degree())
         max_degree = max(degrees.values()) if degrees else 1
         
+        # Use deterministic layout for reproducibility
+        np.random.seed(42)  # Set seed for reproducible embeddings
+        
         for v in self.vertices:
             # Position on the boundary (complex plane)
             x = np.random.randn() * 0.5
@@ -76,6 +78,11 @@ class HolographicGraph:
             # Geodesic in AdS: circular arc in Poincaré model
             t = np.linspace(0, 1, 100)
             geodesic = []
+            
+            # Guard against zero denominators
+            if p1[2] <= 0 or p2[2] <= 0:
+                continue  # Skip invalid geodesics
+                
             for ti in t:
                 # Interpolation in hyperbolic coordinates
                 z = 1/((1-ti)/p1[2] + ti/p2[2])

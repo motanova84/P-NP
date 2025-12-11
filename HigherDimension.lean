@@ -65,11 +65,15 @@ structure ΨField (G : SimpleGraph V) where
 
 /-- Maximum eigenvalue of a graph (spectral radius) -/
 def max_eigenvalue (G : SimpleGraph V) : ℝ := 
-  sorry  -- Largest eigenvalue of adjacency matrix
+  -- TODO: Implement using adjacency matrix eigenvalue computation
+  -- Requires integration with Mathlib's linear algebra modules
+  sorry
 
 /-- Minimum eigenvalue of a graph -/
 def min_eigenvalue (G : SimpleGraph V) : ℝ := 
-  sorry  -- Smallest eigenvalue of adjacency matrix
+  -- TODO: Implement using adjacency matrix eigenvalue computation
+  -- Requires integration with Mathlib's linear algebra modules
+  sorry
 
 /-- The spectrum of the graph becomes mass in (2+1)D -/
 def mass_from_spectrum (G : SimpleGraph V) : ℝ :=
@@ -84,10 +88,15 @@ def mass_from_spectrum (G : SimpleGraph V) : ℝ :=
 /-- κ_Π is the Feynman propagator in momentum space -/
 def κ_Π_as_propagator (ψ : ΨField G) (p : ℂ) : ℂ :=
   -- p = energy-momentum (complexified frequency)
-  -- In full theory: ∫ dx dt exp(i(p·t - k·x)) Ψ(x,t) Ψ*(x,0)
-  sorry  -- Requires proper path integral formulation
+  -- TODO: Full implementation requires path integral formulation:
+  -- ∫ dx dt exp(i(p·t - k·x)) Ψ(x,t) Ψ*(x,0)
+  -- This requires integration theory from Mathlib.MeasureTheory
+  sorry
 
-/-- The value of κ_Π for reference -/
+/-- The value of κ_Π = 2.5773 for reference 
+    This constant emerges from Calabi-Yau manifold analysis and appears
+    throughout the P≠NP proof chain. See KAPPA_PI_MILLENNIUM_CONSTANT.md
+    for the complete derivation from topological data. -/
 def κ_Π_value : ℝ := 2.5773
 
 /-- High energy behavior of the propagator -/
@@ -97,7 +106,10 @@ theorem propagator_high_energy_decay :
       -- The propagator decays as 1/p for massive theory
       -- Effective mass m_eff ~ √n / log n
       Complex.abs (κ_Π_as_propagator ψ p) ≤ ε / (sqrt n * log n) := by
-  sorry  -- Feynman diagram calculation
+  -- TODO: Proof requires Feynman diagram calculation
+  -- Standard result from QFT: massive propagator ~ 1/(p² + m²)
+  -- In high energy limit |p| → ∞, this gives ~ 1/p²
+  sorry
 
 -- ══════════════════════════════════════════════════════════════
 -- PART 3: GRAPH/FIELD THEORY DUALITY
@@ -127,14 +139,20 @@ structure AdSCFT_Duality where
   
   -- Boundary correlators equal bulk correlators
   correlator_equality : ∀ v w : V,
+    -- TODO: Formalize correlation functions and boundary values
     -- ⟨O_v O_w⟩_CFT = ⟨boundary_v boundary_w⟩_AdS
-    sorry  -- Requires correlation function theory
+    -- Requires quantum field theory formalization in Lean
+    sorry
 
 /-- Tseitin graph has dual in AdS₃ -/
 theorem tseitin_dual_to_AdS3 (n : ℕ) :
     ∃ (duality : AdSCFT_Duality),
-      duality.ads_space.curvature ≈ -1 / log n := by
-  sorry  -- Holographic correspondence
+      -- Curvature scales as -1/log n for large graphs
+      ∃ (ε : ℝ), ε > 0 ∧ ε < 1 / log n ∧
+      abs (duality.ads_space.curvature + 1 / log n) < ε := by
+  -- TODO: Proof requires establishing holographic correspondence
+  -- for expander graphs via AdS/CFT dictionary
+  sorry
 
 -- ══════════════════════════════════════════════════════════════
 -- PART 4: FREQUENCY AS RADIAL DIMENSION IN AdS
@@ -190,9 +208,12 @@ theorem P_algorithms_live_at_boundary :
 theorem information_complexity_is_bulk_depth (n : ℕ) :
     ∃ (duality : AdSCFT_Duality),
       let IC := κ_Π_value * sqrt n / log n  -- Optimal IC
-      -- IC ≈ -curvature * log n = bulk action
-      IC ≈ (-duality.ads_space.curvature) * log n := by
-  sorry  -- Ryu-Takayanagi formula for entanglement entropy
+      -- IC is proportional to -curvature * log n (bulk action)
+      ∃ (c : ℝ), c > 0 ∧ c < 2 ∧
+      abs (IC - c * (-duality.ads_space.curvature) * log n) < 1 := by
+  -- TODO: Proof requires Ryu-Takayanagi formula
+  -- Relates entanglement entropy to minimal surface area in bulk
+  sorry
 
 -- ══════════════════════════════════════════════════════════════
 -- PART 6: MAIN THEOREM FROM (2+1)D PERSPECTIVE
