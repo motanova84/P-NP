@@ -72,6 +72,9 @@ Thumbs.db
 *.log
 *.iml
 
+# Installation test directory
+ultimate-unification/
+
 # ---------- OS ----------
 .DS_Store
 Thumbs.db
