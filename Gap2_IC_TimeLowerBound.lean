@@ -33,7 +33,7 @@ def component_count (G : SimpleGraph V) (S : Finset V) : ℕ :=
 /-- Complejidad de información: IC(G | S) = |S| + log₂(#componentes) -/
 def information_complexity (G : SimpleGraph V) (S : Finset V) : ℝ :=
   let c := component_count G S
-  if c = 0 then S.card else S.card + log2 c
+  if c = 0 then S.card else S.card + Real.log c / Real.log 2
 
 /-- Tiempo computacional estimado: t(G) ≥ 2 ^ IC(G | S) -/
 def time_lower_bound (G : SimpleGraph V) (S : Finset V) : ℝ :=
@@ -48,7 +48,15 @@ lemma information_complexity_lower_bound_time
   unfold time_lower_bound
   unfold information_complexity
   split_ifs with h
-  · linarith
-  · exact pow_le_pow_of_le_left zero_le_two hic
+  · -- Case: c = 0, so IC = S.card
+    simp only [Nat.cast_nonneg] at hic ⊢
+    calc 2 ^ (S.card : ℝ) ≥ 2 ^ k := by
+      apply Real.rpow_le_rpow_left
+      · norm_num
+      · exact hic
+  · -- Case: c ≠ 0, so IC = S.card + log c / log 2
+    apply Real.rpow_le_rpow_left
+    · norm_num
+    · exact hic
 
 end QCAL
