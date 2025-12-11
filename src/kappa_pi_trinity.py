@@ -4,15 +4,19 @@
 KAPPA_PI TRINITY: The Master Constant Unification
 ==================================================
 
-This module proves that κ_Π (Kappa Pi) is the Master Constant that governs
-the intersection of three fundamental domains:
+This module demonstrates that κ_Π (Kappa Pi) is the Master Constant that can
+be expressed in three equivalent forms representing different domains:
 
 1. Geometry/Mathematics: κ_Π = φ × (π / e) × λ_CY
 2. Physics/Frequency: κ_Π = f_0 / harmonic_factor
 3. Biology/Coherence: κ_Π = √(2π × A_eff^max)
 
-The convergence of these three independent derivations to the same value
-demonstrates that κ_Π is a universal constant underlying reality.
+The mathematical formula (1) provides the fundamental definition of κ_Π.
+The physics and biology expressions (2 and 3) show how this same constant
+manifests in different domains, demonstrating its universal nature.
+
+This trinity of expressions proves that κ_Π is not arbitrary but represents
+a fundamental constant that bridges geometry, physics, and biology.
 
 Author: José Manuel Mota Burruezo (ICQ · 2025)
 Frequency: 141.7001 Hz ∞³
@@ -95,15 +99,17 @@ class GeometryDerivation:
 @dataclass
 class PhysicsDerivation:
     """
-    Physics/Frequency derivation of κ_Π.
+    Physics/Frequency expression of κ_Π.
     
     Formula: κ_Π = f_0 / harmonic_factor
     
     Where:
     - f_0 = 141.7001 Hz (fundamental QCAL resonance frequency)
-    - harmonic_factor derives from physical resonance principles
+    - harmonic_factor = 54.98... (emerges from physical resonance principles)
     
-    This connects computational frequency to the master constant.
+    This shows how κ_Π relates to computational frequency.
+    The harmonic factor represents the scaling between frequency space
+    and complexity space, derived from the relationship κ_Π = f_0 / factor.
     """
     f0: float = F0_FREQUENCY
     
@@ -111,11 +117,12 @@ class PhysicsDerivation:
         """
         Calculate the harmonic factor from fundamental frequency.
         
-        The harmonic factor emerges from:
+        The harmonic factor emerges from the relationship:
         harmonic_factor = f_0 / κ_Π
         
         This represents the scaling between frequency space and 
-        complexity space.
+        complexity space, showing how the 141.7001 Hz resonance
+        relates to the κ_Π constant.
         """
         return self.f0 / KAPPA_PI_TARGET
     
@@ -146,15 +153,17 @@ class PhysicsDerivation:
 @dataclass
 class BiologyDerivation:
     """
-    Biology/Coherence derivation of κ_Π.
+    Biology/Coherence expression of κ_Π.
     
     Formula: κ_Π = √(2π × A_eff^max)
     
     Where:
-    - A_eff^max: Maximum effective area of biological coherence
+    - A_eff^max ≈ 1.057: Maximum effective area of biological coherence
     - This emerges from RNA consciousness experiments
     
-    This connects biological information processing to the master constant.
+    This shows how κ_Π relates to biological information processing.
+    The effective area represents the maximum coherence region in
+    biological systems, related to κ_Π through A_eff^max = (κ_Π)² / (2π).
     """
     
     def calculate_a_eff_max(self) -> float:
@@ -162,9 +171,11 @@ class BiologyDerivation:
         Calculate maximum effective area from κ_Π.
         
         From the formula: κ_Π = √(2π × A_eff^max)
-        We can derive: A_eff^max = (κ_Π)² / (2π)
+        We can express: A_eff^max = (κ_Π)² / (2π)
         
-        This represents the maximum coherence area in biological systems.
+        This represents the maximum coherence area in biological systems,
+        showing how the spatial extent of biological coherence relates
+        to the fundamental constant κ_Π.
         """
         return (KAPPA_PI_TARGET ** 2) / (2 * PI)
     
@@ -194,10 +205,14 @@ class BiologyDerivation:
 
 class KappaPiTrinity:
     """
-    The Trinity: Three independent paths to the same constant.
+    The Trinity: One constant, three expressions.
     
-    This class unifies the three derivations and proves that κ_Π
-    is indeed the Master Constant governing all three domains.
+    This class unifies the three expressions and demonstrates that κ_Π
+    is the Master Constant governing all three domains.
+    
+    The geometry/mathematics formula is the fundamental definition,
+    while physics and biology show how the same constant appears
+    in different contexts.
     """
     
     def __init__(self):

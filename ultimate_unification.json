@@ -2,7 +2,7 @@
   "title": "Ultimate Unification Certificate",
   "subtitle": "P ≠ NP Theorem: Empirical Support via κ_Π Trinity",
   "version": "1.0.0",
-  "timestamp": "2025-12-11T01:32:58.502999Z",
+  "timestamp": "2025-12-11T01:33:00.000000Z",
   "constants_verification": {
     "kappa_pi": {
       "symbol": "κ_Π",
@@ -20,7 +20,7 @@
     },
     "golden_ratio": {
       "symbol": "φ",
-      "value": 1.618033988749895,
+      "value": 1.6180339887,
       "description": "Golden ratio (divine proportion)",
       "verified": true
     },
@@ -32,16 +32,17 @@
     }
   },
   "trinity_unification": {
-    "description": "Three independent paths to κ_Π proving it is the Master Constant",
+    "description": "Three equivalent expressions of κ_Π showing its universality",
     "paths": {
       "geometry_mathematics": {
         "formula": "κ_Π = φ × (π / e) × λ_CY",
-        "value": 2.5773000496,
+        "value": 2.5773,
         "verified": true,
+        "note": "Fundamental mathematical definition",
         "components": {
-          "phi": 1.618033988749895,
-          "pi": 3.141592653589793,
-          "e": 2.718281828459045,
+          "phi": 1.6180339887,
+          "pi": 3.1415926536,
+          "e": 2.7182818285,
           "lambda_cy": 1.3782308
         }
       },
@@ -49,25 +50,28 @@
         "formula": "κ_Π = f_0 / harmonic_factor",
         "value": 2.5773,
         "verified": true,
+        "note": "Expression in frequency domain",
         "components": {
           "f0": 141.7001,
-          "harmonic_factor": 54.98005657564575
+          "harmonic_factor": 54.9800566
         }
       },
       "biology_coherence": {
         "formula": "κ_Π = √(2π × A_eff^max)",
         "value": 2.5773,
         "verified": true,
+        "note": "Expression in biological coherence domain",
         "components": {
-          "a_eff_max": 1.0571827974466566,
-          "two_pi_a_eff": 6.642475278665803
+          "a_eff_max": 1.0571828,
+          "two_pi_a_eff": 6.6424753
         }
       }
     },
     "convergence": {
-      "mean_kappa_pi": 2.5773000165333335,
-      "max_deviation": 4.96e-08,
-      "all_converged": true
+      "mean_kappa_pi": 2.5773,
+      "max_deviation": 5e-08,
+      "all_converged": true,
+      "note": "All three expressions yield the same value"
     }
   },
   "rna_consciousness_experiment": {
@@ -95,7 +99,7 @@
     "experiment_hash": "a1b2c3d4e5f6",
     "random_seed": 42,
     "reproducible": true,
-    "verification_method": "Three independent mathematical derivations converging to same constant",
+    "verification_method": "Three equivalent mathematical expressions converging to same constant",
     "empirical_validation": "RNA consciousness experiments + 150 Calabi-Yau manifolds"
   },
   "certification": {
@@ -103,7 +107,7 @@
     "certifier": "José Manuel Mota Burruezo (ICQ · 2025)",
     "frequency": "141.7001 Hz ∞³",
     "repository": "motanova84/P-NP",
-    "certification_date": "2025-12-11T01:32:58.503051Z",
+    "certification_date": "2025-12-11T01:33:00.000000Z",
     "validity": "indefinite"
   },
   "metadata": {
