@@ -2,7 +2,7 @@
 Test suite for the constants module (κ_Π and related constants)
 ================================================================
 
-Tests the millennium constant κ_Π = 2.5773 and its relationships
+Tests the millennium constant κ_Π = 2.578208 and its relationships
 with Calabi-Yau geometry, QCAL frequency, and computational bounds.
 
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
@@ -309,7 +309,7 @@ def test_module_imports():
 
 if __name__ == "__main__":
     print("=" * 70)
-    print("Testing κ_Π = 2.5773 (Millennium Constant)")
+    print("Testing κ_Π = 2.578208 (Millennium Constant)")
     print("=" * 70)
     print()
     

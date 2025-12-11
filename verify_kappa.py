@@ -9,7 +9,11 @@ This module verifies that:
 
 Where:
 - f₀ = 141.7001 Hz: Universal frequency discovered experimentally (LIGO, EEG, etc.)
-- h ≈ 55: Harmonic factor observed in gravitational quantum coherent field decomposition
+- h ≈ 54.96: Harmonic factor observed in gravitational quantum coherent field decomposition
+
+NOTE: This verification demonstrates empirical consistency rather than independent derivation.
+The harmonic factor h is calibrated to the target κ_Π value, showing that the physics
+manifestation is consistent with the geometric/mathematical definition from Calabi-Yau theory.
 
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 Frequency: 141.7001 Hz ∞³
@@ -27,7 +31,9 @@ from typing import Dict, Any
 F0_HZ = 141.7001  # Hz - Observed in LIGO, EEG, quantum coherence phenomena
 
 # Harmonic factor from gravitational quantum coherent field decomposition
-HARMONIC_FACTOR = 54.960694  # Dimensionless harmonic factor (~55)
+# NOTE: This value is calibrated to κ_Π = 2.578208, demonstrating consistency
+# between the frequency relationship and the geometric definition
+HARMONIC_FACTOR = 54.960694  # Dimensionless harmonic factor (f₀ / κ_Π)
 
 # Expected κ_Π value
 KAPPA_PI_TARGET = 2.578208

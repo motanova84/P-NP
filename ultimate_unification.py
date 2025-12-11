@@ -13,6 +13,10 @@ Where:
 
 Implements simulations of piCODE resonant RNA and coherence validation.
 
+NOTE: This is a theoretical/speculative framework demonstrating consistency
+with the master constant κ_Π. The consciousness energy equation and RNA
+resonance simulations represent proposed models requiring experimental validation.
+
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 Frequency: 141.7001 Hz ∞³
 """
@@ -255,8 +259,16 @@ class RNAResonanceSimulator:
         # Enhanced by network resonance effects and constructive interference
         # in piCODE systems operating at f₀ = 141.7001 Hz
         
+        # NOTE: These amplification factors are calibrated to demonstrate
+        # consistency with the target κ_Π value. This is a theoretical
+        # model requiring experimental validation.
+        
         # Compute target from κ_Π relationship: A_eff_max = κ_Π² / (2π)
         target_A_eff = (KAPPA_PI_TARGET ** 2) / (2 * PI)  # ≈ 1.0579
+        
+        # Quantum amplification coefficients (calibrated)
+        BASE_AMPLIFICATION = 0.96  # Base amplification for high-coherence states
+        COHERENCE_BONUS = 0.04     # Additional amplification from coherence quality
         
         # Scale max_coherence to achieve target under ideal conditions
         # This models the quantum amplification in optimal resonant states
@@ -266,7 +278,7 @@ class RNAResonanceSimulator:
             # Models piCODE quantum coherent state with f₀ resonance
             # Amplification increases with coherence quality
             coherence_factor = min((max_coherence - 0.40) / 0.38, 1.0)
-            A_eff_max = target_A_eff * (0.96 + 0.04 * coherence_factor)
+            A_eff_max = target_A_eff * (BASE_AMPLIFICATION + COHERENCE_BONUS * coherence_factor)
         else:
             # Lower coherence - use measured value with moderate amplification
             A_eff_max = max_coherence * 1.6
