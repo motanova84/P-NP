@@ -47,7 +47,7 @@ def test_ryu_takayanagi_volume():
     
     # Verify Ω(n log n) scaling
     ratio = vol_20 / vol_10
-    expected_ratio = (20 * math.log(21)) / (10 * math.log(11))
+    expected_ratio = (20 * math.log(20 + 1)) / (10 * math.log(10 + 1))
     assert abs(ratio - expected_ratio) / expected_ratio < 0.5, "Should scale as n log n"
     
     print("✅ test_ryu_takayanagi_volume passed")

@@ -14,7 +14,6 @@ Autor: José Manuel Mota Burruezo Ψ ✧ ∞³
 QCAL ∞³ - Instituto de Conciencia Cuántica (ICQ)
 """
 
-import numpy as np
 import math
 from typing import List, Dict, Tuple
 import sys
@@ -45,6 +44,21 @@ class HolographicVerification:
     
     def __init__(self):
         self.results = []
+    
+    def _format_scientific_latex(self, value: float) -> str:
+        """
+        Format a number in LaTeX scientific notation.
+        
+        Args:
+            value: Number to format
+            
+        Returns:
+            Formatted string like "$1.23 \\times 10^{4}$"
+        """
+        sci_str = f"${value:.2e}$"
+        # Replace e+0X or e+XX with LaTeX notation
+        sci_str = sci_str.replace("e+0", " \\times 10^").replace("e+", " \\times 10^{") + "}"
+        return sci_str
         
     def compute_effective_mass(self, n: int) -> float:
         """
@@ -287,9 +301,9 @@ class HolographicVerification:
             # Determinar si hay contradicción
             contradiction = "✅" if t_cdcl > t_holo else "⚠️"
             
-            # Formatear números en notación científica
-            t_cdcl_str = f"${t_cdcl:.2e}$".replace("e+0", " \\times 10^").replace("e+", " \\times 10^{") + "}"
-            t_holo_str = f"${t_holo:.2e}$".replace("e+0", " \\times 10^").replace("e+", " \\times 10^{") + "}"
+            # Formatear números en notación científica usando el método helper
+            t_cdcl_str = self._format_scientific_latex(t_cdcl)
+            t_holo_str = self._format_scientific_latex(t_holo)
             
             print(f"{n:<6} {meff:<18.2f} {vol_rt:<22.2f} {t_cdcl_str:<22} {t_holo_str:<22} {contradiction:<15}")
         
@@ -297,7 +311,13 @@ class HolographicVerification:
         print("\n")
         print("Nota Importante sobre la Separación:")
         print("La contradicción se establece incluso para n pequeños. En el caso de n=100:")
-        print(f"  T_Holo Bound / T_CDCL ≈ {results['t_holo'][-1]:.2e} / {results['t_cdcl'][-1]:.2e} ≈ {results['t_holo'][-1]/results['t_cdcl'][-1]:.2e}")
+        
+        # Guard against division by zero
+        if results['t_cdcl'][-1] > 0:
+            ratio = results['t_holo'][-1] / results['t_cdcl'][-1]
+            print(f"  T_Holo Bound / T_CDCL ≈ {results['t_holo'][-1]:.2e} / {results['t_cdcl'][-1]:.2e} ≈ {ratio:.2e}")
+        else:
+            print(f"  T_Holo Bound / T_CDCL: Cannot compute (division by zero)")
         
         # Análisis de separación
         print("="*120)
