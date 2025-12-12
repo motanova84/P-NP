@@ -33,6 +33,8 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib PNeqNP where
+  roots := #[`PNeqNP]
 lean_lib GAP2 where
   roots := #[`GAP2_Complete]
 lean_lib TuringMachine where
