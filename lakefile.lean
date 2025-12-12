@@ -35,6 +35,8 @@ lean_lib GraphInformationComplexity where
 
 lean_lib FinalAxiom where
   roots := #[`FinalAxiom]
+lean_lib HigherDimension where
+  roots := #[`HigherDimension]
 
 @[default_target]
 lean_exe pnp where
