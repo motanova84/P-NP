@@ -4,7 +4,10 @@
 
 A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, revealing how **P ≠ NP derives as a consequence of universal structure** rather than through traditional proof techniques.
 
+**✨ NEW: Epistemological Framework** - Mathematics is a manifestation of universal physical structure. Proving P≠NP requires physics, not just logic. This represents a complete conceptual synthesis with a new epistemological framework and full domain integration. See [EPISTEMOLOGICAL_FRAMEWORK.md](EPISTEMOLOGICAL_FRAMEWORK.md) for the complete framework.
+
 **✨ NEW: Universal Principles Framework** - P ≠ NP is not demonstrated, but derived from the structure of the universe. IC ≥ α is not a lemma, but a geometric axiom. κ_Π is not a constant, but a universal invariant. f₀ is not a parameter, but the operational pulse of coherence. See [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md) for the complete philosophical framework and [PHILOSOPHICAL_REFRAMING_SUMMARY.md](PHILOSOPHICAL_REFRAMING_SUMMARY.md) for a summary of changes.
+
 **✨ NEW: The Frequency Dimension (ω)** - The hidden third dimension missing from classical complexity theory. See [FREQUENCY_DIMENSION.md](FREQUENCY_DIMENSION.md) for the breakthrough insight.
 
 **✨ NEW: Ultimate Unification** - P≠NP ↔ Consciousness via RNA piCODE. See [ULTIMATE_UNIFICATION_README.md](ULTIMATE_UNIFICATION_README.md) for the complete theory connecting computational complexity with quantum consciousness through biological systems.
@@ -13,6 +16,9 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
+**🚀 Quick Start:** 
+- **Automatic Installation:** Run `./install.sh` for automated setup - see [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md)
+- **Manual Setup:** See [QUICKSTART.md](QUICKSTART.md) for detailed installation and running instructions
 **📖 NEW: Context Document** - See [TREEWIDTH_CNF_FORMULATION_CONTEXT.md](TREEWIDTH_CNF_FORMULATION_CONTEXT.md) for a comprehensive discussion of how this framework relates to established complexity theory. This document clarifies:
 - What aspects build on classical FPT (fixed-parameter tractable) results (✅ known)
 - What claims extend beyond existing theory (⚠️ proposed)
@@ -271,6 +277,14 @@ Previously, the argument relied on existential claims about hard formulas. Now w
   - Upper and lower bound theorems
   - No-evasion theorem
 
+- **NEW: `FinalAxiom.lean`**: Holographic complexity law
+  - AdS/CFT correspondence for computation
+  - Ryu-Takayanagi surface volumes
+  - Time-volume holographic bound
+  - Physical lower bounds for SAT
+  - See [FINAL_AXIOM_README.md](FINAL_AXIOM_README.md) for details
+
+### 2. Computational Framework (Python)
 ### 3. Computational Framework (Python)
 - `computational_dichotomy.py`: Practical implementation featuring:
   - CNF formula representation
@@ -280,6 +294,11 @@ Previously, the argument relied on existential claims about hard formulas. Now w
   - Information complexity analysis
   - Demonstration examples
 
+- **NEW: `final_verification.py`**: Holographic axiom verification
+  - Empirical validation of holographic law
+  - Time-volume relationship verification
+  - Visualization of exponential separation
+  - Statistical analysis across instance sizes
 ### 3. GAP 2 Complete Module (Theory + Experiment)
 
 **🌟 Unique contribution that closes GAP 2 from both theoretical and empirical perspectives:**
@@ -409,6 +428,22 @@ Complexity amplification: 66.44x
 
 **Key Insight**: At classical frequency (ω=0), complexity appears bounded. Only at the critical frequency (ω=ω_c) does the true P≠NP separation emerge!
 
+### Running the Holographic Verification (NEW)
+
+```bash
+# Install dependencies
+pip install numpy matplotlib
+
+# Run holographic axiom verification
+python final_verification.py
+```
+
+This will:
+- Verify the holographic time-volume law empirically
+- Generate plots showing exponential separation
+- Validate the axiom across multiple instance sizes
+- Produce `final_proof_TIMESTAMP.png` with visualizations
+
 ### Working with Lean Formalization
 
 ```bash
@@ -417,6 +452,9 @@ Complexity amplification: 66.44x
 
 # Check the formalization
 lake build
+
+# Build specific modules
+lake build FinalAxiom
 ```
 P-NP/
 ├── src/                      # Código fuente principal

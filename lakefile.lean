@@ -33,6 +33,10 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib PnPNeholographic where
+  roots := #[`PnPNeholographic]
+lean_lib FinalAxiom where
+  roots := #[`FinalAxiom]
 lean_lib UltimateUnification where
   roots := #[`UltimateUnification]
 lean_lib Gap2ICTimeLowerBound where
@@ -70,6 +74,9 @@ lean_lib HolographicComplexity where
   roots := #[`HolographicComplexity]
 lean_lib HigherDimension where
   roots := #[`HigherDimension]
+
+lean_lib PhysicalConsistency where
+  roots := #[`PhysicalConsistency]
 
 @[default_target]
 lean_exe pnp where
