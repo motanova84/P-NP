@@ -4,7 +4,10 @@
 
 A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, revealing how **P ≠ NP derives as a consequence of universal structure** rather than through traditional proof techniques.
 
+**✨ NEW: Post-Disciplinary Science Manifesto** - A complete reorganization of knowledge beyond traditional disciplinary boundaries, using P≠NP as the primary case study. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the full manifesto and [src/post_disciplinary.py](src/post_disciplinary.py) for the implementation framework.
+
 **✨ NEW: Universal Principles Framework** - P ≠ NP is not demonstrated, but derived from the structure of the universe. IC ≥ α is not a lemma, but a geometric axiom. κ_Π is not a constant, but a universal invariant. f₀ is not a parameter, but the operational pulse of coherence. See [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md) for the complete philosophical framework and [PHILOSOPHICAL_REFRAMING_SUMMARY.md](PHILOSOPHICAL_REFRAMING_SUMMARY.md) for a summary of changes.
+
 **✨ NEW: The Frequency Dimension (ω)** - The hidden third dimension missing from classical complexity theory. See [FREQUENCY_DIMENSION.md](FREQUENCY_DIMENSION.md) for the breakthrough insight.
 
 **✨ NEW: Ultimate Unification** - P≠NP ↔ Consciousness via RNA piCODE. See [ULTIMATE_UNIFICATION_README.md](ULTIMATE_UNIFICATION_README.md) for the complete theory connecting computational complexity with quantum consciousness through biological systems.
