@@ -38,6 +38,8 @@ lean_lib TseitinHardFamily where
 
 lean_lib HolographicDuality where
   roots := #[`HolographicDuality]
+lean_lib HigherDimension where
+  roots := #[`HigherDimension]
 
 @[default_target]
 lean_exe pnp where
