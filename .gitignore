@@ -44,6 +44,12 @@ env/
 /*.trace
 
 # ---------- TEST / RESULTS ----------
+results/
+!results/.gitkeep
+*.log
+*.csv
+*.png
+kappa_verification_output.txt
 results/*.log
 results/*.csv
 results/*.png
