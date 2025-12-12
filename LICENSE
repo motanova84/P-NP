@@ -1,6 +1,7 @@
 MIT License
 
 Copyright (c) 2025 José Manuel Mota Burruezo
+Copyright (c) 2025 P-NP Computational Dichotomy Framework Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +20,19 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+ACADEMIC AND RESEARCH NOTICE:
+
+This framework presents theoretical results that have not been peer-reviewed.
+The mathematical claims require rigorous verification before being accepted
+as valid contributions to computational complexity theory.
+
+Users of this framework should:
+1. Verify all mathematical claims independently
+2. Seek peer review before citing in academic work
+3. Treat this as a research proposal, not established theory
+4. Exercise appropriate skepticism and critical analysis
+
+No warranty is provided regarding the correctness of the theoretical results.

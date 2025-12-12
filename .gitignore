@@ -1,3 +1,4 @@
+# Python
 # ===============================
 #  P–NP Project — Unified .gitignore
 #  Combines Python + Lean + Build + OS
@@ -28,6 +29,13 @@ wheels/
 .installed.cfg
 *.egg
 
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
 # ---------- LEAN ----------
 /build/
 /lake-packages/
@@ -49,6 +57,20 @@ deploy/
 *.swp
 *.swo
 *~
+
+# Lean
+.lake/
+lakefile.olean
+*.olean
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+/tmp/
+*.tmp
+*.log
 *.iml
 
 # ---------- OS ----------
