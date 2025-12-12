@@ -75,6 +75,9 @@ lean_lib HolographicComplexity where
 lean_lib HigherDimension where
   roots := #[`HigherDimension]
 
+lean_lib PhysicalConsistency where
+  roots := #[`PhysicalConsistency]
+
 @[default_target]
 lean_exe pnp where
   root := `Director
