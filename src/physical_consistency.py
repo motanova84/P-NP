@@ -49,6 +49,12 @@ LIEB_ROBINSON_VELOCITY = C_LIGHT * KAPPA_PI
 # Physical time unit (inverse of resonance frequency)
 TAU_PHYSICAL = 1.0 / F_0
 
+# Maximum exponent to avoid overflow in exponential calculations
+MAX_EXPONENT = 700
+
+# Maximum IC exponent to avoid overflow in 2^IC calculations
+MAX_IC_EXPONENT = 100
+
 
 # ═══════════════════════════════════════════════════════════════
 # SPACETIME METRIC STRUCTURE
@@ -169,11 +175,11 @@ class GeometricRigidity:
             beta: Physical coupling constant (default: 0.04)
             
         Returns:
-            Minimum time bound (capped at exp(700) to avoid overflow)
+            Minimum time bound (capped at exp(MAX_EXPONENT) to avoid overflow)
         """
         exponent = beta * self.holographic_volume_bound
         # Cap exponent to avoid overflow (exp(710) ≈ max float)
-        if exponent > 700:
+        if exponent > MAX_EXPONENT:
             return float('inf')
         return math.exp(exponent)
     
@@ -188,8 +194,8 @@ class GeometricRigidity:
             Exponential time bound
         """
         ic = self.information_complexity_bound
-        # Cap at 100 to avoid overflow
-        return 2 ** min(ic, 100)
+        # Cap at MAX_IC_EXPONENT to avoid overflow
+        return 2 ** min(ic, MAX_IC_EXPONENT)
     
     def exceeds_polynomial(self, degree: int = 10) -> bool:
         """
