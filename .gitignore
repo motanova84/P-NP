@@ -46,6 +46,8 @@ env/
 # ---------- TEST / RESULTS ----------
 results/
 !results/.gitkeep
+output/
+!output/.gitkeep
 *.log
 *.csv
 *.png
