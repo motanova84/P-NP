@@ -361,7 +361,8 @@ class PostDisciplinaryUniversity:
     def _can_contribute(self, skills: Dict[str, bool], network: Dict) -> bool:
         """Check if skills match network needs."""
         # Simple heuristic: needs at least one tool from the network
-        return any(skill in str(network['tools']) for skill in skills.keys())
+        network_tools = network.get('tools', [])
+        return any(skill in network_tools for skill in skills.keys())
     
     def teach_course(self, topic: str) -> Dict[str, Any]:
         """
