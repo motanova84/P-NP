@@ -97,7 +97,7 @@ El marco impone un límite inferior a lo que puede lograr la computación cuánt
 
 **Implicación de la Prueba**: 
 
-La prueba sugiere que $\mathbf{BQP}$ no puede resolver problemas $\mathbf{NP}$-Completos en tiempo polinomial:
+El marco teórico sugiere (como conjetura ampliamente aceptada, no demostrada formalmente) que $\mathbf{BQP}$ no puede resolver problemas $\mathbf{NP}$-Completos en tiempo polinomial:
 
 ```
 NP-Completo ⊄ BQP \ \text{ (es decir, los problemas NP-Completos no están en BQP; conjetura fuerte)}
@@ -196,7 +196,7 @@ Aunque estas estrategias **no garantizan la optimalidad universal**, son la úni
 | **Optimización** | No existe algoritmo maestro; heurísticas son necesarias |
 | **IA** | Aprendizaje óptimo es intratable; aproximación es fundamental |
 | **Física** | Dureza computacional explica la flecha del tiempo |
-| **Computación Cuántica** | BQP no resuelve NP-Completo en tiempo polinomial |
+| **Computación Cuántica** | BQP no resuelve NP-Completo en tiempo polinomial (conjetura esperada) |
 | **Causalidad** | La entropía es el costo del procesamiento de información |
 | **Inteligencia** | Creatividad ≠ Búsqueda algorítmica rápida |
 | **Metafísica** | La complejidad es una ley natural, no tecnológica |
@@ -218,7 +218,7 @@ La dureza computacional no es un obstáculo temporal a superar con mejor tecnolo
 ## 📚 Referencias Técnicas
 
 - **Lemma 6.24**: [LEMA_6_24_ACOPLAMIENTO.md](LEMA_6_24_ACOPLAMIENTO.md)
-- **Constante κ_Π**: [KAPPA_PI_MILLENNIUM_CONSTANT.md](../KAPPA_PI_MILLENNIUM_CONSTANT.md)
+- **Constante $\kappa_\Pi$**: [KAPPA_PI_MILLENNIUM_CONSTANT.md](../KAPPA_PI_MILLENNIUM_CONSTANT.md)
 - **Marco Formal**: [formal_manuscript.tex](formal_manuscript.tex)
 - **Unificación Espectral**: [UNIFICACION_COMPLEJIDAD_ESPECTRAL.md](UNIFICACION_COMPLEJIDAD_ESPECTRAL.md)
 
