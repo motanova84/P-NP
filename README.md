@@ -225,7 +225,7 @@ This Zenodo repository contains the official, archived version of the demonstrat
 
 ## ✅ GAP 1 CLOSED: Explicit Hard Formulas
 
-**NEW: December 2024** - We have successfully closed GAP 1 by providing an **explicit family** of CNF formulas with **provably linear treewidth**. 
+**NEW: December 2025** - We have successfully closed GAP 1 by providing an **explicit family** of CNF formulas with **provably linear treewidth**. 
 
 ### What This Means
 
