@@ -29,7 +29,7 @@ Si nuestra prueba de $\mathbf{P} \neq \mathbf{NP}$ es correcta, se confirma form
 ∀ algoritmo clásico A: tiempo(A, factorización) ≥ 2^Ω(log n)
 ```
 
-**No existe** un algoritmo polinomial que pueda romper la mayoría de los cifrados actuales basados en dureza computacional.
+La seguridad de la mayoría de los cifrados actuales se basa en la *suposición* de que no existe un algoritmo polinomial para resolver problemas como la factorización de enteros. Sin embargo, P ≠ NP no implica formalmente la dureza de estos problemas, ya que, por ejemplo, la factorización no es conocida como NP-Completa. Por lo tanto, la resistencia de estos sistemas depende de la creencia ampliamente aceptada en la dificultad computacional de estos problemas para algoritmos clásicos.
 
 ### 1.2 Optimización y AI
 
