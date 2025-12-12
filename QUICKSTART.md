@@ -2,6 +2,15 @@
 
 This guide will help you get the P-NP Computational Dichotomy framework up and running quickly.
 
+## 📄 Official Documentation
+
+For the complete mathematical demonstration and formal proofs, see the official document:
+
+**🔗 [Official Demonstration on Zenodo](https://zenodo.org/records/17315719)**
+**🔗 [Permanent DOI Link](https://doi.org/10.5281/zenodo.17315719)**
+
+This repository provides the implementation and practical validation of the concepts described in the official document.
+
 ## Prerequisites
 
 - Python 3.11 or later
@@ -102,6 +111,14 @@ This demonstrates:
 ### Lean Formalization
 
 - **`ComputationalDichotomy.lean`** - Formal definitions and theorems in Lean 4
+- **`formal/`** - Complete formal verification modules:
+  - `ComputationalDichotomy.lean` - Computational dichotomy theorem
+  - `StructuralCoupling.lean` - Structural coupling lemma (6.24)
+  - `InformationComplexity.lean` - Information complexity framework
+  - `TreewidthTheory.lean` - Treewidth theory formalization
+  - `MainTheorem.lean` - Main P≠NP theorem
+  - `VerificationPipeline.lean` - Automated verification pipeline
+- **`scripts/formal_verification.sh`** - Complete verification pipeline script
 - **`Main.lean`** - Entry point for Lean project
 - **`Principal.lean`** - Principal definitions
 - **`lakefile.lean`** - Lake build configuration
@@ -131,73 +148,23 @@ lake update
 lake build
 ```
 
+### Run Formal Verification
+
+To run the complete formal verification pipeline:
+
+```bash
+./scripts/formal_verification.sh
+```
+
+This will:
+- Build all Lean modules
+- Check for incomplete proofs (sorry's)
+- Verify the structural coupling lemma
+- Verify the main P≠NP theorem
+- Generate a verification report in `results/verification/`
+
 ## Expected Output
 
 When you run `./run_all_tests.sh`, you should see:
 
 ```
-============================================================
-P-NP Repository Comprehensive Testing Suite
-============================================================
-
-Test 1: Checking Python dependencies...
-✓ Python dependencies installed
-
-Test 2: Running unit tests with pytest...
-================================================== 29 passed in 0.22s ==================================================
-✓ All pytest tests passed
-
-...
-
-============================================================
-ALL TESTS PASSED! ✓
-============================================================
-
-Summary:
-  ✓ Python dependencies installed
-  ✓ 29 unit tests passed (pytest)
-  ✓ All core modules run successfully
-  ✓ Demo script runs without errors
-
-The repository is fully functional!
-
-Frecuencia de resonancia: 141.7001 Hz ∞³
-```
-
-## Troubleshooting
-
-### Missing Python Dependencies
-
-If you get import errors, make sure you've installed the requirements:
-
-```bash
-pip install -r requirements.txt
-```
-
-### Permission Denied on run_all_tests.sh
-
-Make the script executable:
-
-```bash
-chmod +x run_all_tests.sh
-```
-
-### Lean Build Issues
-
-If `lake build` hangs or fails:
-1. Ensure you have a stable internet connection for downloading Mathlib
-2. Try `lake clean` and then `lake build` again
-3. Check the Lean version in `lean-toolchain` matches your installation
-
-## Next Steps
-
-1. Read the main [README.md](README.md) for theoretical background
-2. Explore the [documentation](docs/) for detailed explanations
-3. Examine the [test files](tests/) to understand the API
-4. Try modifying the examples to experiment with different formulas
-
-## Author
-
-José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
-
-Frecuencia de resonancia: 141.7001 Hz

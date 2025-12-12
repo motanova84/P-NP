@@ -1,3 +1,4 @@
+# Python
 # ===============================
 #  P–NP Project — Unified .gitignore
 #  Combines Python + Lean + Build + OS
@@ -28,6 +29,13 @@ wheels/
 .installed.cfg
 *.egg
 
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
 # ---------- LEAN ----------
 /build/
 /lake-packages/
@@ -38,9 +46,18 @@ wheels/
 # ---------- TEST / RESULTS ----------
 results/
 !results/.gitkeep
+output/
+!output/.gitkeep
 *.log
 *.csv
 *.png
+kappa_verification_output.txt
+results/*.log
+results/*.csv
+results/*.png
+
+# ---------- DEPLOYMENT ----------
+deploy/
 
 # ---------- IDE ----------
 .vscode/
@@ -48,7 +65,24 @@ results/
 *.swp
 *.swo
 *~
+
+# Lean
+.lake/
+lakefile.olean
+*.olean
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+/tmp/
+*.tmp
+*.log
 *.iml
+
+# Installation test directory
+ultimate-unification/
 
 # ---------- OS ----------
 .DS_Store
