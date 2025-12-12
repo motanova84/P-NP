@@ -100,7 +100,7 @@ El marco impone un límite inferior a lo que puede lograr la computación cuánt
 La prueba sugiere que $\mathbf{BQP}$ no puede resolver problemas $\mathbf{NP}$-Completos en tiempo polinomial:
 
 ```
-BQP ⊊ NP-Completo (conjetura fuerte)
+NP-Completo ⊄ BQP \ \text{ (es decir, los problemas NP-Completos no están en BQP; conjetura fuerte)}
 ```
 
 Esto significa que:
