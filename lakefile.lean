@@ -35,6 +35,8 @@ lean_lib GraphInformationComplexity where
 
 lean_lib HolographicVolume where
   roots := #[`HolographicVolume]
+lean_lib HigherDimension where
+  roots := #[`HigherDimension]
 
 @[default_target]
 lean_exe pnp where
