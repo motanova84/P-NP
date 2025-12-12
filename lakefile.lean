@@ -38,6 +38,22 @@ lean_lib TuringMachine where
 
 lean_lib ComplexityClasses where
   roots := #[`ComplexityClasses]
+lean_lib SAT where
+  roots := #[`SAT]
+
+lean_lib TseitinExpander where
+  roots := #[`TseitinExpander]
+lean_lib TreewidthToIC where
+  roots := #[`TreewidthToIC]
+lean_lib TseitinHardFamily where
+  roots := #[`TseitinHardFamily]
+
+lean_lib KappaSmallForIncidence where
+  roots := #[`KappaSmallForIncidence]
+lean_lib HolographicComplexity where
+  roots := #[`HolographicComplexity]
+lean_lib HigherDimension where
+  roots := #[`HigherDimension]
 
 @[default_target]
 lean_exe pnp where
