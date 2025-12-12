@@ -13,6 +13,9 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
+**🚀 Quick Start:** 
+- **Automatic Installation:** Run `./install.sh` for automated setup - see [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md)
+- **Manual Setup:** See [QUICKSTART.md](QUICKSTART.md) for detailed installation and running instructions
 **📖 NEW: Context Document** - See [TREEWIDTH_CNF_FORMULATION_CONTEXT.md](TREEWIDTH_CNF_FORMULATION_CONTEXT.md) for a comprehensive discussion of how this framework relates to established complexity theory. This document clarifies:
 - What aspects build on classical FPT (fixed-parameter tractable) results (✅ known)
 - What claims extend beyond existing theory (⚠️ proposed)
