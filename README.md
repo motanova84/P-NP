@@ -11,6 +11,8 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 
 **✨ NEW: κ_Π = 2.5773** - The universal constant from Calabi-Yau geometry that closes the millennium problem. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for details.
 
+**✨ NEW: Post-Disciplinary Science Manifesto** - Breaking artificial boundaries between disciplines to solve complex problems. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the complete framework showing how P≠NP is approached from outside traditional paradigms by integrating mathematics, physics, biology, and consciousness studies. Includes educational models and implementation code in `src/post_disciplinary.py`.
+
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
 **🚀 Quick Start:** 
@@ -831,6 +833,87 @@ See also:
 - ✅ Would apply to all algorithmic paradigms
 
 **However:** These are potential outcomes contingent on successful validation of the framework.
+
+## 🌐 Post-Disciplinary Science Framework
+
+### Breaking Artificial Boundaries
+
+This project demonstrates **post-disciplinary science** - an approach that breaks down artificial boundaries between fields to solve complex problems. P≠NP is approached not just as a mathematical problem, but as a phenomenon spanning:
+
+- **Mathematics**: Formal proofs and graph theory
+- **Geometry**: Calabi-Yau manifolds and κ_Π = 2.5773
+- **Physics**: Quantum coherence and f₀ = 141.7 Hz
+- **Biology**: RNA vibrational modes and piCODE
+- **Consciousness**: Information integration and awareness
+- **Computation**: Treewidth and complexity
+
+**See:** [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the complete manifesto on reorganizing scientific knowledge.
+
+### Implementation
+
+The post-disciplinary framework is implemented in Python:
+
+```python
+from src.post_disciplinary import PostDisciplinaryScience, PNeqNPUnifiedApproach
+
+# Create unified science framework
+science = PostDisciplinaryScience()
+
+# Demonstrate P≠NP from multiple perspectives
+unified = PNeqNPUnifiedApproach()
+integration = unified.demonstrate_integration()  # 6 domains integrated
+emergence = unified.show_emergence()             # Emergent insights
+predictions = unified.verify_predictions()       # Testable predictions
+```
+
+### Educational Models
+
+Post-disciplinary education organizes knowledge by **PROBLEMS**, not fields:
+
+```python
+from src.post_disciplinary_education import (
+    Complexity101Course,
+    PostDisciplinaryUniversity,
+    ComplexityInstitute
+)
+
+# Example course: "Complexity 101: From Atom to Mind"
+course = Complexity101Course()
+syllabus = course.get_syllabus()  # 10 weeks, multiple fields integrated
+
+# Research networks instead of departments
+university = PostDisciplinaryUniversity()
+# Networks: Complexity, Structure, Information
+```
+
+### Try It
+
+Run the interactive demonstrations:
+
+```bash
+# Main post-disciplinary framework demo
+python src/post_disciplinary.py
+
+# Educational framework demo
+python src/post_disciplinary_education.py
+
+# Complete interactive demo
+python examples/post_disciplinary_demo.py
+```
+
+### Key Insights
+
+1. **One Reality, Multiple Lenses**: Mathematics and physics are not separate - κ_Π appears in both as the same reality
+2. **Emergence from Integration**: P≠NP is not just proven, it emerges from integrating multiple domains
+3. **Cross-Validation**: Each domain provides independent verification of the others
+4. **Paradigm Shift**: Success measured by integration achieved, not papers in specific journals
+
+**Files:**
+- `src/post_disciplinary.py` - Core framework implementation
+- `src/post_disciplinary_education.py` - Educational models
+- `examples/post_disciplinary_demo.py` - Interactive demonstration
+- `tests/test_post_disciplinary.py` - Framework tests (16 tests ✓)
+- `tests/test_post_disciplinary_education.py` - Education tests (18 tests ✓)
 
 ## 🤝 Contributing
 
