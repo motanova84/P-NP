@@ -33,6 +33,9 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib TuringMachine where
+  roots := #[`TuringMachine]
+
 lean_lib TseitinHardFamily where
   roots := #[`TseitinHardFamily]
 
