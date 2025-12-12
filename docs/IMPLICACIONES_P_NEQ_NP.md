@@ -105,7 +105,7 @@ NP-Completo ⊄ BQP \ \text{ (es decir, los problemas NP-Completos no están en 
 
 Esto significa que:
 - La computación cuántica tiene límites fundamentales
-- SAT, 3-SAT, Hamiltoniano, etc. permanecen exponenciales incluso para computadoras cuánticas
+- SAT, 3-SAT, Ciclo Hamiltoniano, etc. permanecen exponenciales incluso para computadoras cuánticas
 - La dureza de $\mathbf{NP}$ trasciende el paradigma computacional
 
 ### 2.3 Principio Holográfico y Complejidad
