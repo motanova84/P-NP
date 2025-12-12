@@ -44,11 +44,12 @@ env/
 /*.trace
 
 # ---------- TEST / RESULTS ----------
-results/
-!results/.gitkeep
-*.log
-*.csv
-*.png
+results/*.log
+results/*.csv
+results/*.png
+
+# ---------- DEPLOYMENT ----------
+deploy/
 
 # ---------- IDE ----------
 .vscode/
@@ -71,6 +72,9 @@ Thumbs.db
 *.tmp
 *.log
 *.iml
+
+# Installation test directory
+ultimate-unification/
 
 # ---------- OS ----------
 .DS_Store
