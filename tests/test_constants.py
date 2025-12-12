@@ -21,6 +21,8 @@ from constants import (
     KAPPA_PI,
     QCAL_FREQUENCY_HZ,
     GOLDEN_RATIO,
+    C_0_KAPPA,
+    C_0_PHI,
     CALABI_YAU_VARIETIES_VALIDATED,
     HEPTAGON_GIZA_ANGLE,
     information_complexity_lower_bound,
@@ -49,6 +51,22 @@ class TestKappaPiConstant:
         expected = (1 + math.sqrt(5)) / 2
         assert abs(GOLDEN_RATIO - expected) < 1e-10
         assert abs(GOLDEN_RATIO - 1.618033988749) < 1e-10
+    
+    def test_c0_kappa_constant(self):
+        """Test c₀ (kappa variant) for logarithmic spiral."""
+        # c₀ = log(κ_Π) / (2π)
+        expected = math.log(KAPPA_PI) / (2 * math.pi)
+        assert abs(C_0_KAPPA - expected) < 1e-10
+        # Should be approximately 0.150
+        assert abs(C_0_KAPPA - 0.150679) < 0.001
+    
+    def test_c0_phi_constant(self):
+        """Test c₀ (phi variant) for logarithmic spiral."""
+        # c₀ = log(φ) / π
+        expected = math.log(GOLDEN_RATIO) / math.pi
+        assert abs(C_0_PHI - expected) < 1e-10
+        # Should be approximately 0.153
+        assert abs(C_0_PHI - 0.153174) < 0.001
     
     def test_calabi_yau_varieties(self):
         """Test number of validated Calabi-Yau varieties."""
@@ -298,6 +316,8 @@ def test_module_imports():
         KAPPA_PI,
         QCAL_FREQUENCY_HZ,
         GOLDEN_RATIO,
+        C_0_KAPPA,
+        C_0_PHI,
         IC_SCALING_FACTOR,
         CALABI_YAU_VARIETIES_VALIDATED
     )
@@ -305,6 +325,8 @@ def test_module_imports():
     assert KAPPA_PI is not None
     assert QCAL_FREQUENCY_HZ is not None
     assert IC_SCALING_FACTOR == KAPPA_PI
+    assert C_0_KAPPA is not None
+    assert C_0_PHI is not None
 
 
 if __name__ == "__main__":
