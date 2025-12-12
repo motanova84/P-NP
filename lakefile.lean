@@ -33,6 +33,8 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib HolographicVolume where
+  roots := #[`HolographicVolume]
 lean_lib HigherDimension where
   roots := #[`HigherDimension]
 
