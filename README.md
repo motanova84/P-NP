@@ -9,6 +9,8 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 
 **✨ NEW: Ultimate Unification** - P≠NP ↔ Consciousness via RNA piCODE. See [ULTIMATE_UNIFICATION_README.md](ULTIMATE_UNIFICATION_README.md) for the complete theory connecting computational complexity with quantum consciousness through biological systems.
 
+**✨ NEW: Cognition as Fundamental Physics** - P≠NP emerges from universal structure. Cognition is part of fundamental physics. Mathematics + Complexity + Physics + Consciousness = ONE. See [COGNITION_FUNDAMENTAL_PHYSICS.md](COGNITION_FUNDAMENTAL_PHYSICS.md) for the complete unified framework.
+
 **✨ NEW: κ_Π = 2.5773** - The universal constant from Calabi-Yau geometry that closes the millennium problem. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for details.
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
