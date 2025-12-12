@@ -6,19 +6,31 @@ Implements the Information Complexity SAT solver and validation utilities
 as described in the paper's Appendix D.
 
 Key components:
-- IC-SAT recursive algorithm
+- IC-SAT recursive algorithm with κ_Π = 2.5773
 - Simple DPLL SAT solver (no external dependencies)
 - Treewidth estimation and comparison
 - Clause simplification and unit propagation
 - Large-scale validation framework
 
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
+Frequency: 141.7001 Hz ∞³
 """
 
 import networkx as nx
 import numpy as np
 from typing import List, Tuple, Set, Dict, Optional
 import random
+import sys
+import os
+
+# Add src to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
+from constants import (
+    KAPPA_PI,
+    QCAL_FREQUENCY_HZ,
+    information_complexity_lower_bound,
+    is_in_P
+)
 
 
 def build_primal_graph(n_vars: int, clauses: List[List[int]]) -> nx.Graph:
@@ -493,6 +505,53 @@ class LargeScaleValidation:
         print("=" * 70)
         print("Validation complete!")
         print("=" * 70)
+
+
+class ICSATSolver:
+    """IC-SAT solver with information complexity estimation."""
+    
+    def __init__(self):
+        """Initialize the IC-SAT solver."""
+        pass
+    
+    def estimate_information_complexity(self, formula):
+        """
+        Estimate information complexity of a formula.
+        
+        Args:
+            formula: CNF formula object
+            
+        Returns:
+            Estimated information complexity
+        """
+        # Build incidence graph
+        if hasattr(formula, 'incidence_graph'):
+            G = formula.incidence_graph
+        else:
+            G = build_incidence_graph(formula.num_vars, formula.clauses)
+        
+        # Estimate treewidth
+        tw = estimate_treewidth(G)
+        
+        # Information complexity is related to treewidth and problem size
+        # IC ≈ treewidth * log(clauses) as a heuristic measure
+        n_clauses = len(formula.clauses)
+        ic = tw * np.log2(max(n_clauses, 1) + 1)
+        
+        return ic
+    
+    def solve(self, formula, log=False):
+        """
+        Solve formula using IC-SAT algorithm.
+        
+        Args:
+            formula: CNF formula
+            log: Whether to log intermediate steps
+            
+        Returns:
+            'SAT' or 'UNSAT'
+        """
+        return ic_sat(formula.num_vars, formula.clauses, log=log)
 
 
 if __name__ == "__main__":
