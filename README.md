@@ -251,6 +251,12 @@ Previously, the argument relied on existential claims about hard formulas. Now w
   - Graph product padding
   - Information complexity analysis
   - Demonstration examples
+- `gap2_verification.py`: Empirical verification of IC → Exponential Time theorem:
+  - Information complexity measurement (IC) on graphs
+  - Graph separator algorithms
+  - Tseitin encoding for CNF generation
+  - SAT solving time measurement with DPLL
+  - Statistical analysis and visualization of verification results
 
 ### 3. GAP 2 Complete Module (Theory + Experiment)
 
@@ -326,11 +332,13 @@ This demonstrates P≠NP through:
 
 ```bash
 # Install dependencies
-pip install networkx
+pip install -r requirements.txt
 
 # Run the demonstration
 python computational_dichotomy.py
 
+# Run GAP 2 verification (IC → Exponential Time)
+python gap2_verification.py
 # Run frequency dimension analysis
 python src/constants.py
 python src/divine_unification.py
@@ -341,6 +349,7 @@ This will demonstrate:
 - High treewidth formulas (intractable)
 - Structural coupling with expanders
 - Non-evasion property
+- Empirical verification of IC-Time relationship (gap2_verification.py)
 - **NEW**: Frequency-dependent complexity analysis
 
 ### Exploring the Frequency Dimension
