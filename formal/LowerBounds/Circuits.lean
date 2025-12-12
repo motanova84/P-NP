@@ -53,7 +53,12 @@ theorem circuit_lower_bound
   (C : Circuit)
   (h_ic : ic_bound > 0) :
   ic_bound ≥ Real.log (size C) → size C ≥ 2^(ic_bound / 2) := by
-  sorry
+  intro h
+  -- From h: ic_bound ≥ log(size C)
+  -- Therefore: e^(ic_bound) ≥ size C
+  -- Taking square root: e^(ic_bound/2) ≥ sqrt(size C)
+  -- Since 2 < e: 2^(ic_bound/2) < e^(ic_bound/2) ≤ size C (for large enough)
+  sorry  -- Requires real exponential manipulation
 
 /-- 
 Translation from protocol to circuit.
@@ -65,7 +70,11 @@ theorem protocol_to_circuit
   (π : Treewidth.Protocol) 
   (C : Circuit) :
   size C ≥ Treewidth.information_complexity π := by
-  sorry
+  -- Any communication protocol can be simulated by a Boolean circuit
+  -- The circuit has one gate for each communication step
+  -- Information complexity provides a lower bound on communication rounds
+  -- Therefore: size(C) ≥ IC(π)
+  sorry  -- Requires Karchmer-Wigderson framework
 
 /-- 
 Main Separation Theorem (P ≠ NP).
@@ -81,7 +90,15 @@ This is a stub that connects all the pieces. The full proof requires:
 -/
 theorem pnp_separation :
   ∃ (f : Bool → Bool), InNP f ∧ ¬InP f := by
-  sorry
+  -- Take f to be the SAT function (given a CNF formula, is it satisfiable?)
+  -- By standard results: SAT ∈ NP (certificate: satisfying assignment)
+  -- 
+  -- We show SAT ∉ P by combining:
+  -- 1. High-treewidth formulas exist (Tseitin over expanders)
+  -- 2. SILB: high treewidth → high information complexity
+  -- 3. Lifting: high IC → high circuit complexity
+  -- 4. Circuit lower bounds → not in P
+  sorry  -- Requires all component lemmas
 
 /-- 
 Treewidth Dichotomy.
@@ -94,7 +111,17 @@ theorem treewidth_dichotomy
   (G : Treewidth.Graph)
   (n : ℕ) :
   InP f ↔ Treewidth.treewidth G ≤ Real.log n := by
-  sorry
+  constructor
+  · -- Forward: f ∈ P → treewidth ≤ log n
+    intro h_in_p
+    -- If f can be computed in polynomial time, the associated graph
+    -- must have low treewidth (otherwise SILB gives exponential lower bound)
+    sorry  -- Requires contrapositive of SILB
+  · -- Backward: treewidth ≤ log n → f ∈ P
+    intro h_low_tw
+    -- Low treewidth enables dynamic programming FPT algorithms
+    -- Time: 2^O(tw) * poly(n) = 2^O(log n) * poly(n) = poly(n)
+    sorry  -- Requires FPT algorithm formalization
 
 /-- 
 Non-Relativization.
