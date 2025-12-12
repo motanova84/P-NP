@@ -4,6 +4,8 @@
 
 A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, revealing how **P ≠ NP derives as a consequence of universal structure** rather than through traditional proof techniques.
 
+**✨ NEW: Post-Disciplinary Science Manifesto** - P≠NP as case study for breaking the established framework. Knowledge reorganization by PROBLEMS, not fields. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the complete manifesto on post-disciplinary science.
+
 **✨ NEW: Epistemological Framework** - Mathematics is a manifestation of universal physical structure. Proving P≠NP requires physics, not just logic. This represents a complete conceptual synthesis with a new epistemological framework and full domain integration. See [EPISTEMOLOGICAL_FRAMEWORK.md](EPISTEMOLOGICAL_FRAMEWORK.md) for the complete framework.
 
 **✨ NEW: Universal Principles Framework** - P ≠ NP is not demonstrated, but derived from the structure of the universe. IC ≥ α is not a lemma, but a geometric axiom. κ_Π is not a constant, but a universal invariant. f₀ is not a parameter, but the operational pulse of coherence. See [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md) for the complete philosophical framework and [PHILOSOPHICAL_REFRAMING_SUMMARY.md](PHILOSOPHICAL_REFRAMING_SUMMARY.md) for a summary of changes.

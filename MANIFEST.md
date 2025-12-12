@@ -17,6 +17,7 @@ This document provides a comprehensive overview of all files in the P-NP reposit
 | File | Description | Status |
 |------|-------------|--------|
 | `README.md` | Main project documentation | ✅ Complete |
+| `POST_DISCIPLINARY_MANIFESTO.md` | Post-disciplinary science manifesto | ✅ Complete |
 | `QUICKSTART.md` | Quick start guide | ✅ Complete |
 | `CONTRIBUTING.md` | Contribution guidelines | ✅ Complete |
 | `MANIFEST.md` | This file - repository overview | ✅ Complete |
