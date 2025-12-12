@@ -33,6 +33,10 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib PnPNeholographic where
+  roots := #[`PnPNeholographic]
+lean_lib FinalAxiom where
+  roots := #[`FinalAxiom]
 lean_lib UltimateUnification where
   roots := #[`UltimateUnification]
 lean_lib Gap2ICTimeLowerBound where
