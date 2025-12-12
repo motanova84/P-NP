@@ -49,6 +49,13 @@ results/
 *.log
 *.csv
 *.png
+kappa_verification_output.txt
+results/*.log
+results/*.csv
+results/*.png
+
+# ---------- DEPLOYMENT ----------
+deploy/
 
 # ---------- IDE ----------
 .vscode/
@@ -71,6 +78,9 @@ Thumbs.db
 *.tmp
 *.log
 *.iml
+
+# Installation test directory
+ultimate-unification/
 
 # ---------- OS ----------
 .DS_Store
