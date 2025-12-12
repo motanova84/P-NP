@@ -5,7 +5,7 @@ Educational models that organize knowledge by PROBLEMS, not by fields.
 Demonstrates how to teach science without artificial boundaries.
 """
 
-from typing import Dict, List, Any, Set
+from typing import Dict, List, Any
 from dataclasses import dataclass, field
 from enum import Enum
 

@@ -45,7 +45,7 @@ class Tool:
 
 class PostDisciplinaryScience:
     """
-    Science without frontiers artificial between disciplines.
+    Science without artificial frontiers between disciplines.
     Ciencia sin fronteras artificiales entre disciplinas.
     """
     
