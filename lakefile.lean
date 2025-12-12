@@ -33,6 +33,8 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib UltimateUnification where
+  roots := #[`UltimateUnification]
 lean_lib Gap2ICTimeLowerBound where
   roots := #[`Gap2_IC_TimeLowerBound]
 lean_lib Gap2_IC_TimeLowerBound where
