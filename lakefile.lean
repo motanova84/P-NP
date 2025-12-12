@@ -33,6 +33,51 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib PnPNeholographic where
+  roots := #[`PnPNeholographic]
+lean_lib FinalAxiom where
+  roots := #[`FinalAxiom]
+lean_lib UltimateUnification where
+  roots := #[`UltimateUnification]
+lean_lib Gap2ICTimeLowerBound where
+  roots := #[`Gap2_IC_TimeLowerBound]
+lean_lib Gap2_IC_TimeLowerBound where
+  roots := #[`Gap2_IC_TimeLowerBound]
+lean_lib GAP2 where
+  roots := #[`GAP2_Complete]
+lean_lib TuringMachine where
+  roots := #[`TuringMachine]
+
+lean_lib TseitinHardFamily where
+  roots := #[`TseitinHardFamily]
+
+lean_lib TEOREMAJMMB where
+  roots := #[`TEOREMAJMMB]
+lean_lib TuringMachine where
+  roots := #[`TuringMachine]
+
+lean_lib ComplexityClasses where
+  roots := #[`ComplexityClasses]
+lean_lib SAT where
+  roots := #[`SAT]
+
+lean_lib TseitinExpander where
+  roots := #[`TseitinExpander]
+lean_lib TreewidthToIC where
+  roots := #[`TreewidthToIC]
+lean_lib TseitinHardFamily where
+  roots := #[`TseitinHardFamily]
+
+lean_lib KappaSmallForIncidence where
+  roots := #[`KappaSmallForIncidence]
+lean_lib HolographicComplexity where
+  roots := #[`HolographicComplexity]
+lean_lib HigherDimension where
+  roots := #[`HigherDimension]
+
+lean_lib PhysicalConsistency where
+  roots := #[`PhysicalConsistency]
+
 @[default_target]
 lean_exe pnp where
   root := `Director
