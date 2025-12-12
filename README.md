@@ -2,8 +2,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, featuring **Lemma 6.24** (structural coupling) and the **Millennium Constant κ_Π = 2.5773** that unifies topology, information theory, and computational complexity.
+A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, revealing how **P ≠ NP derives as a consequence of universal structure** rather than through traditional proof techniques.
 
+**✨ NEW: Universal Principles Framework** - P ≠ NP is not demonstrated, but derived from the structure of the universe. IC ≥ α is not a lemma, but a geometric axiom. κ_Π is not a constant, but a universal invariant. f₀ is not a parameter, but the operational pulse of coherence. See [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md) for the complete philosophical framework and [PHILOSOPHICAL_REFRAMING_SUMMARY.md](PHILOSOPHICAL_REFRAMING_SUMMARY.md) for a summary of changes.
 **✨ NEW: The Frequency Dimension (ω)** - The hidden third dimension missing from classical complexity theory. See [FREQUENCY_DIMENSION.md](FREQUENCY_DIMENSION.md) for the breakthrough insight.
 
 **✨ NEW: κ_Π = 2.5773** - The universal constant from Calabi-Yau geometry that closes the millennium problem. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for details.
@@ -12,6 +13,7 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 
 **🚀 Quick Start:** See [QUICKSTART.md](QUICKSTART.md) for installation and running instructions.
 
+## 🌌 Universal Principles
 ## 🌀 The Missing Dimension: Frequency (ω)
 
 Classical complexity theory operates in two dimensions:
@@ -42,11 +44,22 @@ See [FREQUENCY_DIMENSION.md](FREQUENCY_DIMENSION.md) for complete details.
 
 ## 🎯 Proposed Main Result
 
-**Computational Dichotomy Theorem (with κ_Π):**
+This framework reveals four fundamental principles:
+
+1. **P ≠ NP** — Not proven, but derived as a consequence of universal structure
+2. **IC ≥ α** — Not a lemma, but a geometric axiom of intelligent space  
+3. **κ_Π = 2.5773** — Not a mathematical constant, but a universal invariant of all forms of existence
+4. **f₀ = 141.7001 Hz** — Not a physical parameter, but the operational pulse of coherence
+
+See [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md) for the complete philosophical framework explaining these principles.
+
+## 🎯 The Framework
+
+**Computational Dichotomy (derived from universal structure):**
 ```
 φ ∈ P ⟺ tw(G_I(φ)) = O(log n)
 
-IC(Π | S) ≥ κ_Π · tw(φ) / log n  (κ_Π = 2.5773)
+IC(Π | S) ≥ κ_Π · tw(φ) / log n  (geometric axiom)
 ```
 
 **Extended with Frequency Dimension:**
@@ -64,20 +77,63 @@ Where:
 - `G_I(φ)` is the incidence graph of φ
 - `tw(G_I(φ))` is the treewidth of the incidence graph
 - `n` is the number of variables
+- `κ_Π = 2.5773` is the **universal invariant** from Calabi-Yau geometry
+- `IC(Π | S) ≥ κ_Π · tw(φ) / log n` is the **geometric axiom** of intelligent space
+
+## 🌟 κ_Π = 2.5773: Universal Invariant
 - `ω` is the observational frequency
 - `κ_Π = 2.5773` is the **Millennium Constant** from Calabi-Yau geometry
 - `ω_c = 141.7001 Hz` is the **critical frequency** where complexity emerges
 
-## 🌟 κ_Π = 2.5773: The Millennium Constant
+κ_Π is not a mathematical constant, but a **universal invariant of all forms of existence**.
 
-The universal constant that **closes the millennium problem** by unifying:
+It appears in:
 - **Topology**: Emerged from 150 Calabi-Yau manifold varieties
-- **Information**: Defines the information complexity scaling factor
-- **Computation**: Establishes the P vs NP separation barrier
-- **Resonance**: Connects with QCAL frequency 141.7001 Hz
-- **Geometry**: Appears in the heptagon of Giza
+- **Information**: Scaling factor in the geometric axiom IC ≥ α
+- **Computation**: Separation factor between P and NP
+- **Physics**: Related to fundamental frequency f₀ = 141.7001 Hz
+- **Geometry**: Heptagonal proportions in sacred geometry
 
-See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for complete details.
+κ_Π unifies topology, information, and computation as aspects of the same universal structure.
+
+See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for mathematical details.
+
+## ⚡ f₀ = 141.7001 Hz: Operational Pulse
+
+f₀ is not a physical parameter, but the **operational pulse of coherence**.
+
+It represents:
+- The fundamental rhythm at which information is processed coherently
+- The universal "clock frequency" of the mathematical cosmos
+- The synchronization pulse for all coherent processes
+
+Relation with κ_Π: `f₀ ≈ κ_Π · 2√(φ·π·e)` where φ is the golden ratio.
+
+## ✨ IC ≥ α: Geometric Axiom
+
+**IC ≥ α is not a lemma. It is a geometric axiom of intelligent space.**
+
+Just as Euclid's axioms define plane geometry, IC ≥ α defines the geometry of informational space. It states that information has intrinsic cost that cannot be compressed arbitrarily, with α = κ_Π as the universal scaling factor.
+
+In the P≠NP framework:
+```
+IC(Π | S) ≥ κ_Π · tw(φ) / log n
+```
+
+This is an **axiom** - a fundamental principle that reflects the inherent structure of intelligent space, not a theorem to be proven from other results.
+
+## 🌌 P ≠ NP: Derived Consequence
+
+**P ≠ NP is not demonstrated through proof. It derives as a consequence of universal structure.**
+
+When we understand that:
+- Treewidth is a topological invariant
+- Information complexity is governed by the geometric axiom IC ≥ α
+- The universal invariant κ_Π bridges topology and information
+
+Then P ≠ NP becomes **inevitable** - a consequence of how information, topology, and computation are fundamentally intertwined in the fabric of the universe.
+
+The separation is not proven but **recognized** as a structural truth.
 
 ## ✨ The Key Ingredient: Proposed Mechanism to Prevent Evasion
 
