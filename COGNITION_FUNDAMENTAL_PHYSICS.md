@@ -1,5 +1,7 @@
 # Cognition as Fundamental Physics: P≠NP and the Universal Structure
 
+> ⚠️ **IMPORTANT DISCLAIMER**: This document presents a theoretical framework that is a **research proposal**, not established mathematical or scientific fact. The claims herein have **not been peer-reviewed** and require rigorous validation. P ≠ NP remains an open problem in computational complexity theory. This framework should be viewed as **exploratory research**, not as established results. Do NOT cite as established fact.
+
 ## 🌌 Core Thesis
 
 **P≠NP emerges from universal structure. Cognition is part of fundamental physics.**

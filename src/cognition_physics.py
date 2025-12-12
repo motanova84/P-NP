@@ -4,25 +4,35 @@
 Cognition as Fundamental Physics: Mathematical Implementation
 =============================================================
 
+⚠️ IMPORTANT DISCLAIMER ⚠️
+==========================
+This module presents a THEORETICAL FRAMEWORK that is a RESEARCH PROPOSAL,
+NOT established mathematical or scientific fact. The claims herein:
+- Have NOT been peer-reviewed
+- Require rigorous validation
+- Should be viewed as EXPLORATORY RESEARCH
+- Should NOT be cited as established results
+
+P ≠ NP remains an open problem in computational complexity theory.
+
 This module implements the unified framework connecting:
 - P≠NP (computational complexity)
 - Universal structure (κ_Π, φ, f₀)
 - Consciousness (quantization, attention)
 - Physics (frequency dimension, coherence)
 
-Core Thesis:
------------
+Core Thesis (PROPOSED):
+----------------------
 P≠NP emerges from universal structure.
 Cognition is part of fundamental physics.
 Mathematics + Complexity + Physics + Consciousness = ONE.
-
-⚠️ RESEARCH FRAMEWORK - CLAIMS REQUIRE VALIDATION ⚠️
 
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 Frequency: 141.7001 Hz ∞³
 """
 
 import math
+import warnings
 from dataclasses import dataclass
 from typing import Optional, Dict, Any
 from enum import Enum
@@ -338,8 +348,18 @@ def compare_frequencies(n: int, tw: float) -> Dict[str, Any]:
     classical = FrequencyAnalysis(omega=0.0, problem_size=n, treewidth=tw)
     critical = FrequencyAnalysis(omega=F_0, problem_size=n, treewidth=tw)
     
-    kappa_ratio = classical.kappa_at_omega / critical.kappa_at_omega if critical.kappa_at_omega > 0 else float('inf')
-    ic_ratio = critical.ic / classical.ic if classical.ic > 0 else float('inf')
+    # Handle edge cases with appropriate warnings
+    if critical.kappa_at_omega <= 0:
+        warnings.warn(f"Critical frequency κ is zero or negative for n={n}, tw={tw}. Using infinity for ratio.")
+        kappa_ratio = float('inf')
+    else:
+        kappa_ratio = classical.kappa_at_omega / critical.kappa_at_omega
+    
+    if classical.ic <= 0:
+        warnings.warn(f"Classical IC is zero or negative for n={n}, tw={tw}. Using infinity for ratio.")
+        ic_ratio = float('inf')
+    else:
+        ic_ratio = critical.ic / classical.ic
     
     return {
         'problem': {'n': n, 'tw': tw},
