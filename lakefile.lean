@@ -38,6 +38,17 @@ lean_lib ComplexityClasses where
 
 lean_lib Reductions where
   roots := #[`Reductions]
+lean_lib TreewidthToIC where
+  roots := #[`TreewidthToIC]
+lean_lib TseitinHardFamily where
+  roots := #[`TseitinHardFamily]
+
+lean_lib KappaSmallForIncidence where
+  roots := #[`KappaSmallForIncidence]
+lean_lib HolographicComplexity where
+  roots := #[`HolographicComplexity]
+lean_lib HigherDimension where
+  roots := #[`HigherDimension]
 
 @[default_target]
 lean_exe pnp where
