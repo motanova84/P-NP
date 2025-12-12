@@ -33,6 +33,11 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib TseitinHardFamily where
+  roots := #[`TseitinHardFamily]
+
+lean_lib HolographicDuality where
+  roots := #[`HolographicDuality]
 lean_lib PnPNeholographic where
   roots := #[`PnPNeholographic]
 lean_lib FinalAxiom where
