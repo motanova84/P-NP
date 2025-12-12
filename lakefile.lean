@@ -25,11 +25,51 @@ lean_lib Treewidth where
 lean_lib Formal where
   roots := #[`Formal]
 
+lean_lib SpectralTheory where
+  roots := #[`SpectralTheory]
+
+lean_lib PNPSpectral where
+  roots := #[`P_neq_NP_Spectral]
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
 lean_lib UltimateUnification where
   roots := #[`UltimateUnification]
+lean_lib Gap2ICTimeLowerBound where
+  roots := #[`Gap2_IC_TimeLowerBound]
+lean_lib Gap2_IC_TimeLowerBound where
+  roots := #[`Gap2_IC_TimeLowerBound]
+lean_lib GAP2 where
+  roots := #[`GAP2_Complete]
+lean_lib TuringMachine where
+  roots := #[`TuringMachine]
+
+lean_lib TseitinHardFamily where
+  roots := #[`TseitinHardFamily]
+
+lean_lib TEOREMAJMMB where
+  roots := #[`TEOREMAJMMB]
+lean_lib TuringMachine where
+  roots := #[`TuringMachine]
+
+lean_lib ComplexityClasses where
+  roots := #[`ComplexityClasses]
+lean_lib SAT where
+  roots := #[`SAT]
+
+lean_lib TseitinExpander where
+  roots := #[`TseitinExpander]
+lean_lib TreewidthToIC where
+  roots := #[`TreewidthToIC]
+lean_lib TseitinHardFamily where
+  roots := #[`TseitinHardFamily]
+
+lean_lib KappaSmallForIncidence where
+  roots := #[`KappaSmallForIncidence]
+lean_lib HolographicComplexity where
+  roots := #[`HolographicComplexity]
+lean_lib HigherDimension where
+  roots := #[`HigherDimension]
 
 @[default_target]
 lean_exe pnp where
