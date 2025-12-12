@@ -130,6 +130,38 @@ The directory also contains Python implementations:
 
 - `demo_ic_sat.py`: Information complexity demonstration
 - `empirical_validation_n400.py`: Empirical validation with n=400
+- **`holographic_view.py`**: Holographic (AdS/CFT) visualization of P≠NP
+- **`test_holographic_view.py`**: Test suite for holographic embedding
+- **`holographic_demo_simple.py`**: Simple demonstration script
+
+### Holographic View (NEW!)
+
+The holographic examples demonstrate the **higher-dimensional perspective** on P≠NP:
+
+```bash
+# Simple demonstration
+python examples/holographic_demo_simple.py 100
+
+# Full interactive analysis
+python examples/holographic_view.py
+
+# Run tests
+python examples/test_holographic_view.py
+```
+
+**Key Features**:
+- Embeds graphs into AdS₃ (Anti-de Sitter space)
+- Visualizes the bulk/boundary structure
+- Shows why P algorithms (boundary) cannot reach NP complexity (bulk)
+- Demonstrates exponential decay of propagator κ(z)
+
+**4-Panel Visualization**:
+1. 3D view of graph in AdS bulk
+2. Boundary projection (z=0)
+3. Degree-depth relationship
+4. Propagator decay κ(z) vs depth
+
+See `../HIGHER_DIMENSION_README.md` for complete documentation.
 
 These complement the Lean formalization with computational experiments.
 
