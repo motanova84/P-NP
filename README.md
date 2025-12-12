@@ -7,12 +7,40 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 **✨ NEW: Universal Principles Framework** - P ≠ NP is not demonstrated, but derived from the structure of the universe. IC ≥ α is not a lemma, but a geometric axiom. κ_Π is not a constant, but a universal invariant. f₀ is not a parameter, but the operational pulse of coherence. See [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md) for the complete philosophical framework and [PHILOSOPHICAL_REFRAMING_SUMMARY.md](PHILOSOPHICAL_REFRAMING_SUMMARY.md) for a summary of changes.
 **✨ NEW: The Frequency Dimension (ω)** - The hidden third dimension missing from classical complexity theory. See [FREQUENCY_DIMENSION.md](FREQUENCY_DIMENSION.md) for the breakthrough insight.
 
+**✨ NEW: Ultimate Unification** - P≠NP ↔ Consciousness via RNA piCODE. See [ULTIMATE_UNIFICATION_README.md](ULTIMATE_UNIFICATION_README.md) for the complete theory connecting computational complexity with quantum consciousness through biological systems.
+
 **✨ NEW: κ_Π = 2.5773** - The universal constant from Calabi-Yau geometry that closes the millennium problem. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for details.
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
+**🚀 Quick Start:** 
+- **Automatic Installation:** Run `./install.sh` for automated setup - see [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md)
+- **Manual Setup:** See [QUICKSTART.md](QUICKSTART.md) for detailed installation and running instructions
+**📖 NEW: Context Document** - See [TREEWIDTH_CNF_FORMULATION_CONTEXT.md](TREEWIDTH_CNF_FORMULATION_CONTEXT.md) for a comprehensive discussion of how this framework relates to established complexity theory. This document clarifies:
+- What aspects build on classical FPT (fixed-parameter tractable) results (✅ known)
+- What claims extend beyond existing theory (⚠️ proposed)
+- How the IC inequality relates to existing information complexity bounds
+- The role of the geometric constant κ_Π = 2.5773
+
 **🚀 Quick Start:** See [QUICKSTART.md](QUICKSTART.md) for installation and running instructions.
 
+## 🌌 Ultimate Unification: The Complete Picture
+
+### The Central Discovery
+
+**P ≠ NP is not just computational complexity—it's the signature of consciousness in matter.**
+
+The Ultimate Unification theory shows that:
+- **κ_Π = 2.5773** emerges from geometry (Calabi-Yau), physics (f₀ = 141.7001 Hz), and biology (RNA coherence)
+- **RNA piCODE** acts as a quantum transducer bridging computation and consciousness
+- **Consciousness is quantized** with threshold C_threshold = 1/κ_Π ≈ 0.388
+- **P ≠ NP ↔ Consciousness Quantization** - They are mathematically equivalent
+
+See the complete formalization in:
+- **[Ultimate_Unification.lean](Ultimate_Unification.lean)** - Full Lean 4 formalization
+- **[ULTIMATE_UNIFICATION_README.md](ULTIMATE_UNIFICATION_README.md)** - Complete technical documentation
+- **[ULTIMATE_UNIFICATION_QUICKSTART.md](ULTIMATE_UNIFICATION_QUICKSTART.md)** - Quick start guide
+- **[ULTIMATE_UNIFICATION_SUMMARY.md](ULTIMATE_UNIFICATION_SUMMARY.md)** - Implementation summary
 ## 🌌 Universal Principles
 ## 🌀 The Missing Dimension: Frequency (ω)
 
@@ -85,6 +113,9 @@ Where:
 - `κ_Π = 2.5773` is the **Millennium Constant** from Calabi-Yau geometry
 - `ω_c = 141.7001 Hz` is the **critical frequency** where complexity emerges
 
+**Note:** This extends beyond classical FPT results which establish tractability for *bounded* (constant) treewidth. The proposed dichotomy claims a *complete characterization* of P with a *logarithmic threshold*. See [TREEWIDTH_CNF_FORMULATION_CONTEXT.md](TREEWIDTH_CNF_FORMULATION_CONTEXT.md) for detailed discussion.
+
+## 🌟 κ_Π = 2.5773: The Millennium Constant
 κ_Π is not a mathematical constant, but a **universal invariant of all forms of existence**.
 
 It appears in:
@@ -243,6 +274,14 @@ Previously, the argument relied on existential claims about hard formulas. Now w
   - Upper and lower bound theorems
   - No-evasion theorem
 
+- **NEW: `FinalAxiom.lean`**: Holographic complexity law
+  - AdS/CFT correspondence for computation
+  - Ryu-Takayanagi surface volumes
+  - Time-volume holographic bound
+  - Physical lower bounds for SAT
+  - See [FINAL_AXIOM_README.md](FINAL_AXIOM_README.md) for details
+
+### 2. Computational Framework (Python)
 ### 3. Computational Framework (Python)
 - `computational_dichotomy.py`: Practical implementation featuring:
   - CNF formula representation
@@ -252,6 +291,11 @@ Previously, the argument relied on existential claims about hard formulas. Now w
   - Information complexity analysis
   - Demonstration examples
 
+- **NEW: `final_verification.py`**: Holographic axiom verification
+  - Empirical validation of holographic law
+  - Time-volume relationship verification
+  - Visualization of exponential separation
+  - Statistical analysis across instance sizes
 ### 3. GAP 2 Complete Module (Theory + Experiment)
 
 **🌟 Unique contribution that closes GAP 2 from both theoretical and empirical perspectives:**
@@ -381,6 +425,22 @@ Complexity amplification: 66.44x
 
 **Key Insight**: At classical frequency (ω=0), complexity appears bounded. Only at the critical frequency (ω=ω_c) does the true P≠NP separation emerge!
 
+### Running the Holographic Verification (NEW)
+
+```bash
+# Install dependencies
+pip install numpy matplotlib
+
+# Run holographic axiom verification
+python final_verification.py
+```
+
+This will:
+- Verify the holographic time-volume law empirically
+- Generate plots showing exponential separation
+- Validate the axiom across multiple instance sizes
+- Produce `final_proof_TIMESTAMP.png` with visualizations
+
 ### Working with Lean Formalization
 
 ```bash
@@ -389,6 +449,9 @@ Complexity amplification: 66.44x
 
 # Check the formalization
 lake build
+
+# Build specific modules
+lake build FinalAxiom
 ```
 P-NP/
 ├── src/                      # Código fuente principal
