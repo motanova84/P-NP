@@ -34,6 +34,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 KAPPA_PI = 2.5773  # Invariante Universal de Calabi-Yau
 QCAL_FREQUENCY = 141.7001  # Frecuencia QCAL en Hz
 
+# Umbral para validación de separación significativa
+RATIO_THRESHOLD = 0.7  # Ratio mínimo exponencial/polinomial para considerar separación significativa
+
 
 class DicotomiaComputacional:
     """
@@ -41,7 +44,11 @@ class DicotomiaComputacional:
     
     La dicotomía establece que:
     - φ ∈ P ⟺ tw(G_I(φ)) = O(log n)
-    - IC(Π | S) ≥ κ_Π · tw(φ) / log n (axioma geométrico)
+    - IC(Π | S) ≥ tw / (2 * κ_Π) (límite inferior de complejidad informacional)
+    
+    Nota: La fórmula original en algunos documentos aparece como IC ≥ κ_Π · tw / log n,
+    pero la implementación usa la versión simplificada IC ≥ tw / (2 * κ_Π) basada en
+    la relación directa entre treewidth y complejidad informacional.
     """
     
     def __init__(self):
@@ -333,8 +340,8 @@ class DicotomiaComputacional:
         
         # Validar separación significativa
         ratio_final = ratios[-1] if ratios else 0
-        separacion_significativa = ratio_final > 0.7
-        print(f"  Test 2: Separación significativa (ratio > 0.7): {'✅ Sí' if separacion_significativa else '❌ No'}")
+        separacion_significativa = ratio_final > RATIO_THRESHOLD
+        print(f"  Test 2: Separación significativa (ratio > {RATIO_THRESHOLD}): {'✅ Sí' if separacion_significativa else '❌ No'}")
         
         # Validar que IC correlaciona con tw/κ_Π
         correlacion = np.corrcoef(self.resultados['tw'], 

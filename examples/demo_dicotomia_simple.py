@@ -48,7 +48,8 @@ def demo_simple():
     print(f"   IC: {ic_easy:.2f}")
     print(f"   log₂(T_exp): {t_easy:.2f}")
     print(f"   log₂(T_poly): {t_poly:.2f}")
-    print(f"   Ratio: {t_easy/t_poly:.3f}")
+    ratio_easy = t_easy / t_poly if t_poly > 0 else 0
+    print(f"   Ratio: {ratio_easy:.3f}")
     print(f"   ✅ T_exp < T_poly → Está en P")
     
     # Instancia dura: alto treewidth
@@ -63,7 +64,8 @@ def demo_simple():
     print(f"   IC: {ic_hard:.2f} ≥ ω(log n)")
     print(f"   log₂(T_exp): {t_hard:.2f}")
     print(f"   log₂(T_poly): {t_poly:.2f}")
-    print(f"   Ratio: {t_hard/t_poly:.3f}")
+    ratio_hard = t_hard / t_poly if t_poly > 0 else float('inf')
+    print(f"   Ratio: {ratio_hard:.3f}")
     print(f"   ❌ T_exp > T_poly (y crece!) → NO está en P")
     
     print("\n" + "-"*70)
