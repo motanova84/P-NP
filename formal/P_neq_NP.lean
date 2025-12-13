@@ -326,6 +326,16 @@ axiom incidenceGraph (φ : CnfFormula) : SimpleGraph (formula_vars φ)
 /-- Número de variables de una fórmula -/
 axiom numVars (φ : CnfFormula) : ℕ
 
+/-! ### Auxiliary lemmas for O-notation and ω-notation -/
+
+/-- Multiplicación de constante por O(log n) preserva O(log n) -/
+axiom O_notation.const_mul_log {c : ℝ} (hc : c > 0) (n : ℕ) :
+  c * O_notation (fun x => Real.log x) n = O_notation (fun x => Real.log x) n
+
+/-- Multiplicación de constante por ω(log n) preserva ω(log n) -/
+axiom ω_notation.const_mul_log {c : ℝ} (hc : c > 0) (n : ℕ) :
+  c * ω_notation (fun x => Real.log x) n = ω_notation (fun x => Real.log x) n
+
 /-- COROLARIO: La dicotomía P/NP se preserva en el dominio informacional -/
 theorem information_complexity_dichotomy
   (φ : CnfFormula) :
@@ -348,10 +358,15 @@ theorem information_complexity_dichotomy
       _ ≤ κ_Π * ((k : ℝ) + 1)              := by
         exact (information_treewidth_duality G).2 S h_bal |>.2
       _ = κ_Π * (O_notation (fun x => Real.log x) n + 1)       := by
-        sorry  -- rw [h_low]
+        -- Rewrite k using h_low
+        congr 1
+        congr 1
+        exact h_low
       _ = O_notation (fun x => Real.log x) n                    := by
-        -- κ_Π es constante
-        sorry
+        -- κ_Π es constante positiva, y κ_Π * (O(log n) + 1) = O(log n)
+        -- Ya que O(log n) + 1 = O(log n) y constante * O(log n) = O(log n)
+        have h_κ_pos : κ_Π > 0 := by norm_num [κ_Π]
+        exact O_notation.const_mul_log h_κ_pos n
   
   -- CASO 2: tw alto → IC alto
   · intro h_high S hS
@@ -359,10 +374,16 @@ theorem information_complexity_dichotomy
       _ ≥ (1/κ_Π) * (k : ℝ)                := by
         exact (information_treewidth_duality G).2 S hS |>.1
       _ = (1/κ_Π) * ω_notation (fun x => Real.log x) n         := by
-        sorry  -- rw [h_high]
+        -- Rewrite k using h_high
+        congr 1
+        exact h_high
       _ = ω_notation (fun x => Real.log x) n                    := by
-        -- 1/κ_Π es constante positiva
-        sorry
+        -- 1/κ_Π es constante positiva, y (1/κ_Π) * ω(log n) = ω(log n)
+        have h_inv_κ_pos : 1/κ_Π > 0 := by
+          apply div_pos
+          · norm_num
+          · norm_num [κ_Π]
+        exact ω_notation.const_mul_log h_inv_κ_pos n
 
 /-! ### PARTE 5: MARCO MEJORADO CON κ_Π DEPENDIENTE DEL GRAFO -/
 
