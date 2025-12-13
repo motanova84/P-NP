@@ -76,6 +76,8 @@ lean_lib PhysicalConsistency where
 
 lean_lib Gap2_Asymptotic where
   roots := #[`Gap2_Asymptotic]
+lean_lib SevenStairs where
+  roots := #[`SevenStairs]
 
 @[default_target]
 lean_exe pnp where

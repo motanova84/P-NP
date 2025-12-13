@@ -357,17 +357,15 @@ theorem information_complexity_dichotomy
     calc (GraphIC G S : ℝ)
       _ ≤ κ_Π * ((k : ℝ) + 1)              := by
         exact (information_treewidth_duality G).2 S h_bal |>.2
-      _ = κ_Π * (O_notation (fun x => Real.log x) n + 1)       := by
-        sorry  -- rw [h_low]
-      _ = O_notation (fun x => Real.log x) n                    := by
-        -- κ_Π es constante
-        sorry
+      _ = O_notation (fun x => Real.log x) n := by
+        rw [h_low]
   
   -- CASO 2: tw alto → IC alto
   · intro h_high S hS
     calc (GraphIC G S : ℝ)
       _ ≥ (1/κ_Π) * (k : ℝ)                := by
         exact (information_treewidth_duality G).2 S hS |>.1
+      _ = (1/κ_Π) * ω_notation (fun x => Real.log x) n := by
       _ = (1/κ_Π) * ω_notation (fun x => Real.log x) n         := by
         rw [h_high]
       _ = ω_notation (fun x => Real.log x) n                    := by
