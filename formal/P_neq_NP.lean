@@ -64,29 +64,56 @@ def InformationComplexity {X Y : Type*} (Π : CommunicationProtocol X Y)
   -- Full formalization would require: sInf { H(M) | M es distribución de mensajes condicionada a S }
   sorry  -- Requires complete measure theory formalization
 
-/-! ### PARTE 2: CONEXIÓN CON GRAFOS -/
+/-! ### PARTE 2: CONEXIÓN CON GRAFOS Y FÓRMULAS CNF -/
 
-/-- CNF Formula placeholder -/
-axiom CnfFormula : Type
+-- Variables booleanas
+abbrev Var := ℕ
 
-/-- Variables de una fórmula CNF -/
-axiom formula_vars : CnfFormula → Type*
+-- Literales: variable positiva o negada
+inductive Literal where
+  | Pos : Var → Literal
+  | Neg : Var → Literal
+  deriving DecidableEq, Repr
 
-/-- Evaluación de fórmula CNF -/
-axiom cnf_eval (φ : CnfFormula) : (formula_vars φ → Bool) → Bool
+-- Una cláusula es una disyunción de literales
+abbrev Clause := List Literal
 
-/-- Protocolo para distinguir asignaciones SAT -/
-def SATProtocol (φ : CnfFormula) : 
-  CommunicationProtocol (formula_vars φ → Bool) (formula_vars φ → Bool) := {
-  messages := Finset (formula_vars φ)  -- Alice envía subset de variables
-  alice := fun assignment => 
-    -- Alice envía las variables asignadas a true
-    -- Full implementation: { v | assignment v = true }
-    sorry  -- Requires decidable predicate construction
-  bob := fun msg assignment => 
-    -- Bob verifica si φ es satisfecha con la información combinada
-    cnf_eval φ assignment
-}
+-- Una fórmula CNF es una conjunción de cláusulas
+abbrev CnfFormula := List Clause
+
+-- Asignación booleana: cada variable toma true o false
+abbrev Assignment := Var → Bool
+
+-- Evaluación de un literal bajo una asignación
+def eval_literal (a : Assignment) : Literal → Bool
+  | Literal.Pos v => a v
+  | Literal.Neg v => ¬ a v
+
+-- Evaluación de una cláusula: al menos un literal verdadero
+def eval_clause (a : Assignment) (cl : Clause) : Bool :=
+  cl.any (eval_literal a)
+
+-- Evaluación de toda la fórmula CNF: todas las cláusulas deben ser verdaderas
+def cnf_eval (φ : CnfFormula) (a : Assignment) : Bool :=
+  φ.all (eval_clause a)
+
+-- Bob verifica si φ es satisfecha con la información combinada
+def bob (φ : CnfFormula) (a : Assignment) : Bool :=
+  cnf_eval φ a
+
+-- Extraer el conjunto de variables de una fórmula
+def formula_vars (φ : CnfFormula) : Finset Var :=
+  φ.foldl (fun acc clause => 
+    clause.foldl (fun acc2 lit => 
+      match lit with
+      | Literal.Pos v => acc2.insert v
+      | Literal.Neg v => acc2.insert v
+    ) acc
+  ) ∅
+
+-- Número de variables de una fórmula
+def numVars (φ : CnfFormula) : ℕ :=
+  (formula_vars φ).card
 
 /-- Componentes conexas de un grafo dada una separación -/
 axiom Components (G : SimpleGraph V) (S : Finset V) : Finset (Finset V)
@@ -214,7 +241,7 @@ axiom small_kappa_for_incidence_graph
   (φ : CnfFormula)
   (h_size : numVars φ > 100) :
   let I := incidenceGraph φ
-  let n := Fintype.card (formula_vars φ)
+  let n := numVars φ
   kappa_pi_for_incidence_graph I ≤ 1 / (Real.sqrt n * Real.log n)
 
 /-- Propiedad expansora de un grafo -/
@@ -321,10 +348,7 @@ axiom O_notation : (ℝ → ℝ) → ℝ → ℝ
 axiom ω_notation : (ℝ → ℝ) → ℝ → ℝ
 
 /-- Grafo de incidencia de una fórmula CNF -/
-axiom incidenceGraph (φ : CnfFormula) : SimpleGraph (formula_vars φ)
-
-/-- Número de variables de una fórmula -/
-axiom numVars (φ : CnfFormula) : ℕ
+axiom incidenceGraph (φ : CnfFormula) : SimpleGraph Var
 
 /-- COROLARIO: La dicotomía P/NP se preserva en el dominio informacional -/
 theorem information_complexity_dichotomy
@@ -372,14 +396,14 @@ theorem tseitin_information_complexity_improved
   (φ : CnfFormula)
   (h_size : numVars φ > 100) :
   let I := incidenceGraph φ
-  let n := Fintype.card (formula_vars φ)
+  let n := numVars φ
   let tw := Treewidth.treewidth I
   let κ := kappa_pi_for_incidence_graph I
   -- Con tw ≤ O(√n) y κ ≤ O(1/(√n log n))
   (tw : ℝ) ≤ Real.sqrt n * 10 →
   κ ≤ 1 / (Real.sqrt n * Real.log n) →
   -- Obtenemos IC ≥ Ω(n log n)
-  ∃ S : Finset (formula_vars φ), BalancedSeparator I S ∧
+  ∃ S : Finset Var, BalancedSeparator I S ∧
     (GraphIC I S : ℝ) ≥ n * Real.log n / 200 := by
   
   intro I n tw κ h_tw_bound h_kappa_bound
@@ -418,9 +442,9 @@ theorem tseitin_requires_superpolynomial_time
   (φ : CnfFormula)
   (h_size : numVars φ > 100) :
   let I := incidenceGraph φ
-  let n := Fintype.card (formula_vars φ)
+  let n := numVars φ
   -- Si IC ≥ Ω(n log n), entonces Time ≥ 2^(Ω(IC)) ≥ n^Ω(n)
-  ∃ S : Finset (formula_vars φ), 
+  ∃ S : Finset Var, 
     let ic := GraphIC I S
     -- Esto implica tiempo super-polinomial
     (ic : ℝ) ≥ n * Real.log n / 200 := by
