@@ -472,7 +472,7 @@ end OmegaNotation
     5. Por lo tanto: GraphIC G S ≥ ω(log n) ✓
 -/
 lemma graphic_lower_bound_case2
-    {G : SimpleGraph V} {S : Finset V} {n k : ℕ}
+    {G : SimpleGraph V} {S : Finset V} (n : ℝ) {k : ℕ}
     (h_high : (k : ℝ) = ω_notation (λ x => Real.log x) n)
     (h_κ_pos : 0 < κ_Π)
     (hS : BalancedSeparator G S)
@@ -489,6 +489,7 @@ lemma graphic_lower_bound_case2
       _ = ω_notation (λ x => Real.log x) n := by
         -- Paso 3: Aplicar mul_const_pos_eq_self
         -- Necesitamos mostrar que (1/κ_Π) * ω(log n) = ω(log n)
-        exact OmegaNotation.mul_const_pos_eq_self (div_pos (by norm_num) h_κ_pos) n
+        have h_div_pos : 0 < (1 : ℝ) / κ_Π := div_pos (by norm_num : (0 : ℝ) < 1) h_κ_pos
+        exact OmegaNotation.mul_const_pos_eq_self h_div_pos n
 
 end Formal.P_neq_NP

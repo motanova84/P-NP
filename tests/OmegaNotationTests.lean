@@ -26,15 +26,16 @@ example {f : ℝ → ℝ} {c : ℝ} (hc : c > 0) (n : ℝ) :
 
 -- Verify the lemma takes the expected parameters
 variable {V : Type*} [DecidableEq V] [Fintype V]
-variable {G : SimpleGraph V} {S : Finset V} {n k : ℕ}
+variable {G : SimpleGraph V} {S : Finset V} {k : ℕ}
 
 example 
+    (n : ℝ)
     (h_high : (k : ℝ) = ω_notation (λ x => Real.log x) n)
     (h_κ_pos : 0 < κ_Π)
     (hS : BalancedSeparator G S)
     (h_k_eq : k = Treewidth.treewidth G) :
     (GraphIC G S : ℝ) ≥ ω_notation (λ x => Real.log x) n := by
-  exact graphic_lower_bound_case2 h_high h_κ_pos hS h_k_eq
+  exact graphic_lower_bound_case2 n h_high h_κ_pos hS h_k_eq
 
 /-! ## Test 4: κ_Π is positive as required -/
 
