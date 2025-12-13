@@ -77,9 +77,9 @@ axiom Separator {V : Type*} : SimpleGraph V → Type*
 /-- Distribution over problem instances (for average-case analysis) -/
 axiom Distribution (Π : Type*) : Type*
 
-/-- Hard distribution for lower bounds -/
-axiom hard_distribution {Π : Type*} [ProblemInstance Π] : 
-  Π → ℕ → (h : 0 < ProblemInstance.κ_Π Π) → Distribution Π
+/-- Hard distribution for lower bounds (requires positive spectral gap) -/
+axiom hard_distribution {Π : Type*} [ProblemInstance Π] [h : 0 < ProblemInstance.κ_Π Π] :
+  Π → ℕ → Distribution Π
 
 /-- Communication complexity under a distribution -/
 axiom CommunicationComplexity {Π : Type*} [ProblemInstance Π] :
@@ -100,9 +100,12 @@ instance : ProblemInstance CNFFormula where
 def SAT_Language : Language Bool :=
   fun w => ∃ φ : CNFFormula, Satisfiable φ
 
-/-- SAT is NP-complete -/
+/-- SAT is NP-complete: SAT ∈ NP and all NP problems reduce to SAT -/
 axiom SAT_is_NP_complete : SAT_Language ∈ NP_Class ∧ 
-  (∀ L ∈ NP_Class, ∃ (f : List Bool → List Bool), True)
+  (∀ (L : Language Bool), L ∈ NP_Class → 
+    ∃ (f : List Bool → List Bool), 
+      (∀ w, L w ↔ SAT_Language (f w)) ∧ 
+      (∃ k, ∀ w, (f w).length ≤ w.length ^ k))
 
 -- ══════════════════════════════════════════════════════════════
 -- TSEITIN FORMULAS AND EXPANDERS
@@ -178,7 +181,7 @@ theorem exp_superlog_is_superpoly (f : ℕ → ℝ) (ε : ℝ) (hε : 0 < ε)
   have h_f_large := h_f ((Real.log C / Real.log 2 + ε) / ε)
   sorry  -- Technical: exponentiating preserves the growth
 
-/-- Lema auxiliar: 2 ^ ω(log n) = ω(nᶜ) para algún c > 0 -/
+/-- Auxiliary lemma: 2 ^ ω(log n) = ω(n^c) for some c > 0 -/
 theorem asymptotic_exponential_growth
   (π : Π) (S : Separator (incidenceGraph π))
   (h₁ : ∀ n, RuntimeLowerBound π n ≥ (2 : ℝ) ^ (GraphIC (incidenceGraph π) S n))
@@ -196,8 +199,8 @@ theorem asymptotic_exponential_growth
     _ ≥ C * ((ProblemInstance.size π : ℕ) : ℝ) ^ ε := by
         sorry  -- From h_exp and monotonicity
 
-/-- Gap 2 (versión asintótica):
-    Si IC(Π, S) ≥ ω(log n), entonces cualquier algoritmo requiere T(Π) ≥ ω(nᶜ) -/
+/-- Gap 2 (asymptotic version):
+    If IC(Π, S) ≥ ω(log n), then any algorithm requires T(Π) ≥ ω(n^c) -/
 theorem gap2_superlog_implies_superpoly
   (π : Π) (S : Separator (incidenceGraph π))
   (h_κ : 0 < ProblemInstance.κ_Π Π)
@@ -214,7 +217,7 @@ theorem gap2_superlog_implies_superpoly
   -- Apply asymptotic exponential growth
   exact asymptotic_exponential_growth π S h_gap h_ic (1/2) (by norm_num)
 
-/-- Versión más fuerte con constante explícita -/
+/-- Stronger version with explicit constant -/
 theorem gap2_superlog_implies_superpoly_explicit
   (π : Π) (S : Separator (incidenceGraph π))
   (h_κ : 0 < ProblemInstance.κ_Π Π)
@@ -258,7 +261,7 @@ theorem asymptotic_separation_poly_vs_superpoly (k : ℕ) (ε : ℝ) (hε : 0 < 
   -- Contradiction: n^k ≤ C·n^ε but also n^ε ≥ 2C·n^k
   sorry  -- Algebraic manipulation gives 1 ≤ 2C² which contradicts for large N
 
-/-- COROLARIO PRINCIPAL: Si SAT tiene instancias con IC ≥ ω(log n), entonces SAT ∉ P -/
+/-- MAIN COROLLARY: If SAT has instances with IC ≥ ω(log n), then SAT ∉ P -/
 theorem sat_not_in_p_if_superlog_ic :
   (∃ (φ : CNFFormula) (S : Separator (incidenceGraph φ)),
     (fun n => GraphIC (incidenceGraph φ) S n) = ω(fun n => Real.log n)) →
@@ -284,7 +287,7 @@ theorem sat_not_in_p_if_superlog_ic :
   -- But ω(n^ε) is incompatible with O(n^k)
   sorry  -- Technical: connect algorithm runtime to lower bounds
 
-/-- Existencia de instancias Tseitin duras -/
+/-- Existence of hard Tseitin instances -/
 theorem tseitin_hard_instances_exist :
   ∃ (φ : CNFFormula) (S : Separator (incidenceGraph φ)),
     (fun n => GraphIC (incidenceGraph φ) S n) = ω(fun n => Real.log n) := by
@@ -308,7 +311,7 @@ theorem tseitin_hard_instances_exist :
 -- MAIN THEOREM: P ≠ NP
 -- ══════════════════════════════════════════════════════════════
 
-/-- Versión final del teorema P ≠ NP -/
+/-- Final version of theorem P ≠ NP -/
 theorem P_neq_NP_final : P_Class ≠ NP_Class := by
   intro h_eq
   
@@ -336,7 +339,7 @@ theorem P_neq_NP_final : P_Class ≠ NP_Class := by
 
 section OmegaComposition
 
-/-- Composición asintótica de funciones ω -/
+/-- Asymptotic composition of ω functions -/
 theorem omega_composition_exponential
   (f g h : ℕ → ℝ) 
   (h_f_ge : ∀ n, f n ≥ g n) 
@@ -357,7 +360,7 @@ theorem omega_composition_exponential
     _ ≥ C * (n : ℝ) ^ ε := by
         sorry  -- Using h_exp and logarithm properties
 
-/-- Propiedad clave: 2^(log n) ≥ n^ε para algún ε > 0 -/
+/-- Key property: 2^(log n) ≥ n^ε for some ε > 0 -/
 theorem exp_log_ge_power (n : ℕ) (hn : n ≥ 2) : 
   ∃ ε > 0, (2 : ℝ) ^ (Real.log (n : ℝ)) ≥ (n : ℝ) ^ ε := by
   -- For n ≥ 2, take ε = log(2) / log(n) > 0
