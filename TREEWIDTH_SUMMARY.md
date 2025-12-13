@@ -99,7 +99,7 @@ Results: 9 passed, 0 failed
 |------|-------|-------------|
 | `PvsNP/TreewidthComplete.lean` | 276 | Core implementation |
 | `PvsNP/Treewidth.lean` | 33 | Public API re-exports |
-| `PvsNP/Main.lean` | 96 | P≠NP integration |
+| `PvsNP/Main.lean` | 97 | P≠NP integration |
 | `tests/TreewidthTests.lean` | 172 | Lean test suite |
 | `tests/treewidth_validation.py` | 285 | Python validation |
 | `TREEWIDTH_IMPLEMENTATION.md` | 267 | Full documentation |
