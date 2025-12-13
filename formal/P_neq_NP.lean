@@ -375,7 +375,10 @@ theorem information_complexity_dichotomy
         exact h_low
       _ = O_notation (fun x => Real.log x) n                    := by
         -- κ_Π es constante positiva, y κ_Π * (O(log n) + 1) = O(log n)
-        -- Ya que O(log n) + 1 = O(log n) y constante * O(log n) = O(log n)
+        -- Razón: En notación asintótica, agregar constantes y multiplicar por constantes
+        -- no cambia la clase de complejidad: O(c₁·f(n) + c₂) = O(f(n))
+        -- Reason: In asymptotic notation, adding and multiplying by constants
+        -- does not change the complexity class: O(c₁·f(n) + c₂) = O(f(n))
         have h_κ_pos : κ_Π > 0 := by norm_num [κ_Π]
         exact O_notation.const_mul_add_log h_κ_pos n
   
