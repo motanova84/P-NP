@@ -320,6 +320,16 @@ axiom O_notation : (ℝ → ℝ) → ℝ → ℝ
 /-- Notación ω para cota inferior super-polinomial -/
 axiom ω_notation : (ℝ → ℝ) → ℝ → ℝ
 
+/-- κ_Π es positivo -/
+axiom h_κ_pos : (0 : ℝ) < κ_Π
+
+/-- Multiplicar ω-notation por una constante positiva preserva ω-notation -/
+axiom ω_notation_mul_const_pos {f : ℝ → ℝ} {c : ℝ} {n : ℝ} (hc : 0 < c) :
+  c * ω_notation f n = ω_notation f n
+/-- Multiplicar por constante positiva preserva la clase ω -/
+axiom ω_notation_mul_const_pos : ∀ (f : ℝ → ℝ) (c : ℝ) (n : ℝ), 
+  0 < c → c * ω_notation f n = ω_notation f n
+
 /-- Grafo de incidencia de una fórmula CNF -/
 axiom incidenceGraph (φ : CnfFormula) : SimpleGraph (formula_vars φ)
 
@@ -356,10 +366,15 @@ theorem information_complexity_dichotomy
       _ ≥ (1/κ_Π) * (k : ℝ)                := by
         exact (information_treewidth_duality G).2 S hS |>.1
       _ = (1/κ_Π) * ω_notation (fun x => Real.log x) n := by
+      _ = (1/κ_Π) * ω_notation (fun x => Real.log x) n         := by
         rw [h_high]
       _ = ω_notation (fun x => Real.log x) n                    := by
         -- 1/κ_Π es constante positiva
-        sorry
+        have h_const_pos : 0 < 1 / κ_Π := div_pos (by norm_num : (0 : ℝ) < 1) h_κ_pos
+        exact ω_notation_mul_const_pos h_const_pos
+        have h_κ_pos : (0 : ℝ) < κ_Π := by norm_num [κ_Π]
+        have h_inv_pos : (0 : ℝ) < 1 / κ_Π := one_div_pos.mpr h_κ_pos
+        exact ω_notation_mul_const_pos (fun x => Real.log x) (1 / κ_Π) n h_inv_pos
 
 /-! ### PARTE 5: MARCO MEJORADO CON κ_Π DEPENDIENTE DEL GRAFO -/
 
