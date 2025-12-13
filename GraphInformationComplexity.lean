@@ -148,8 +148,11 @@ theorem graphIC_lower_bound
     satisfies phIC G S = S.card / 2. While this appears tautological, it serves
     as a foundational building block in the complexity framework, allowing phIC
     to be refined with additional entropy, treewidth, or κ_Π constraints in future
-    developments without changing the interface. -/
-lemma phIC_lower_bound (G : SimpleGraph V) [Fintype V] (S : Finset V)
+    developments without changing the interface.
+    
+    Note: The parameters G and h_sep are included for interface consistency and
+    future extensibility, even though they are not used in the current proof. -/
+lemma phIC_lower_bound (G : SimpleGraph V) (S : Finset V)
   (h_pos : S.card > 0)
   (h_sep : is_balanced_separator G ⟨S, h_pos⟩) :
   phIC G S ≥ S.card / 2 := by
