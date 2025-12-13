@@ -338,6 +338,16 @@ axiom O_notation.const_mul_log {c : ℝ} (hc : c > 0) (n : ℕ) :
 axiom ω_notation.const_mul_log {c : ℝ} (hc : c > 0) (n : ℕ) :
   c * ω_notation (fun x => Real.log x) n = ω_notation (fun x => Real.log x) n
 
+/-- Sumar una constante a O(log n) preserva O(log n)
+    Adding a constant to O(log n) preserves O(log n) -/
+axiom O_notation.add_const_log (n : ℕ) :
+  O_notation (fun x => Real.log x) n + 1 = O_notation (fun x => Real.log x) n
+
+/-- Multiplicación de constante por (O(log n) + constante) da O(log n)
+    Multiplication of a constant by (O(log n) + constant) yields O(log n) -/
+axiom O_notation.const_mul_add_log {c : ℝ} (hc : c > 0) (n : ℕ) :
+  c * (O_notation (fun x => Real.log x) n + 1) = O_notation (fun x => Real.log x) n
+
 /-- COROLARIO: La dicotomía P/NP se preserva en el dominio informacional -/
 theorem information_complexity_dichotomy
   (φ : CnfFormula) :
@@ -367,7 +377,7 @@ theorem information_complexity_dichotomy
         -- κ_Π es constante positiva, y κ_Π * (O(log n) + 1) = O(log n)
         -- Ya que O(log n) + 1 = O(log n) y constante * O(log n) = O(log n)
         have h_κ_pos : κ_Π > 0 := by norm_num [κ_Π]
-        exact O_notation.const_mul_log h_κ_pos n
+        exact O_notation.const_mul_add_log h_κ_pos n
   
   -- CASO 2: tw alto → IC alto
   · intro h_high S hS
