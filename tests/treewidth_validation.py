@@ -9,8 +9,6 @@ Corresponds to the implementation in PvsNP/TreewidthComplete.lean
 """
 
 import sys
-from typing import List, Set, Tuple
-
 try:
     import networkx as nx
 except ImportError:
