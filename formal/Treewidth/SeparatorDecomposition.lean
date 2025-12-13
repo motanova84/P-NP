@@ -61,24 +61,31 @@ def Components (G : SimpleGraph V) (S : Finset V) : Set (Finset V) :=
 
 /-! ## Tree Decomposition Construction -/
 
-/-- Construct a tree decomposition from a balanced separator (axiomatized for now) -/
+/-- Construct a tree decomposition from a balanced separator (axiomatized for now) 
+    TODO: Replace with constructive proof implementing the recursive algorithm:
+          1. Base case: |V| ≤ 3 → trivial decomposition
+          2. Recursive: Split by S, decompose components, combine
+    Issue: Track in future work for complete Lean formalization -/
 axiom tree_decomposition_from_separator_construction
   (G : SimpleGraph V) (S : BalancedSeparator G) :
   TreeDecomposition G
 
-/-- The constructed decomposition has a bag equal to the separator -/
+/-- The constructed decomposition has a bag equal to the separator 
+    TODO: Prove by showing root bag construction contains S -/
 axiom separator_appears_as_bag
   (G : SimpleGraph V) (S : BalancedSeparator G) :
   let T := tree_decomposition_from_separator_construction G S
   ∃ t : V, T.X t = S.vertices
 
-/-- All bags are bounded by |S| + 1 -/
+/-- All bags are bounded by |S| + 1 
+    TODO: Prove by structural induction on recursive construction -/
 axiom bag_size_bound_by_separator
   (G : SimpleGraph V) (S : BalancedSeparator G) :
   let T := tree_decomposition_from_separator_construction G S
   ∀ t : V, (T.X t).card ≤ S.vertices.card + 1
 
-/-- The width is bounded by |S| -/
+/-- The width is bounded by |S| 
+    TODO: Prove from bag_size_bound_by_separator -/
 axiom width_bounded_by_separator_size
   (G : SimpleGraph V) (S : BalancedSeparator G) :
   let T := tree_decomposition_from_separator_construction G S
@@ -146,7 +153,9 @@ theorem treewidth_bounded_by_min_separator
   
   -- Treewidth is the minimum width over all decompositions
   -- Since we have a decomposition with width ≤ |S|, treewidth ≤ |S|
-  sorry  -- Requires unfolding definition of treewidth and using minimality
+  sorry  -- TODO: Requires unfolding definition of treewidth and using minimality
+         -- This would follow from the definition that treewidth is the minimum
+         -- width over all valid decompositions
 
 /-- Corollary 2: For expanders, lower bound on separators -/
 axiom expander_separator_lower_bound

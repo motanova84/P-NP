@@ -24,6 +24,7 @@ example (G : SimpleGraph V) (S : BalancedSeparator G) :
   ∃ (T : TreeDecomposition G), True := by
   obtain ⟨T, _, _, _⟩ := tree_decomposition_from_separator G S
   use T
+  trivial
 
 /-- Test 2: Separator appears as bag -/
 example (G : SimpleGraph V) (S : BalancedSeparator G) :

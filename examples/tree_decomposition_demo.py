@@ -173,7 +173,8 @@ def find_balanced_separator(G: nx.Graph, max_component_size: float = None) -> Se
             
             if all(len(c) <= max_component_size for c in components):
                 best_separator = separator
-        except:
+        except (nx.NetworkXError, ValueError) as e:
+            # Handle networkx-specific errors gracefully
             pass
     
     return best_separator
