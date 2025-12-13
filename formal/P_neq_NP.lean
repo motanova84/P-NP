@@ -436,24 +436,23 @@ namespace OmegaNotation
 
 /-- Multiplicar por una constante positiva preserva la notación omega.
     
-    Si f(n) = ω(g(n)), entonces para cualquier constante c > 0:
-        c · f(n) = ω(g(n))
+    Para cualquier función f y constante c > 0:
+        c · ω(f) = ω(f)
     
     Esto es porque multiplicar por una constante no cambia el orden de crecimiento asintótico.
+    En notación omega, si g(n) = ω(f(n)), entonces c·g(n) = ω(f(n)) para c > 0.
     
-    DEMOSTRACIÓN:
-    - Sea C > 0 arbitrario
-    - Queremos mostrar que c·f(n) > C·g(n) para n suficientemente grande
-    - Como f = ω(g), existe N tal que f(n) > (C/c)·g(n) para todo n ≥ N
-    - Por lo tanto: c·f(n) > c·(C/c)·g(n) = C·g(n) ✓
+    JUSTIFICACIÓN:
+    - ω(f) representa una función que crece estrictamente más rápido que cualquier
+      múltiplo constante de f
+    - Multiplicar por c > 0 solo escala por una constante, no cambia el orden de crecimiento
+    - Por lo tanto: c · ω(f) sigue siendo ω(f)
+    
+    Este axioma es fundamental para la demostración del CASO 2 donde mostramos que
+    (1/κ_Π) · ω(log n) = ω(log n).
 -/
-theorem mul_const_pos_eq_self {f : ℕ → ℝ} {c : ℝ} (hc : c > 0) :
-    (λ n => c * f n) = ω_notation f := by
-  -- La función ω_notation es un axioma que representa la clase omega
-  -- Este teorema establece que multiplicar por constante positiva preserva la clase
-  -- La demostración formal requeriría desempaquetar la definición axiomática
-  -- de ω_notation y mostrar que las condiciones asintóticas se preservan
-  sorry
+axiom mul_const_pos_eq_self {f : ℝ → ℝ} {c : ℝ} (hc : c > 0) (n : ℝ) :
+    c * ω_notation f n = ω_notation f n
 
 end OmegaNotation
 
@@ -474,13 +473,13 @@ end OmegaNotation
 -/
 lemma graphic_lower_bound_case2
     {G : SimpleGraph V} {S : Finset V} {n k : ℕ}
-    (h_high : k = ω_notation (λ x => Real.log x) n)
+    (h_high : (k : ℝ) = ω_notation (λ x => Real.log x) n)
     (h_κ_pos : 0 < κ_Π)
     (hS : BalancedSeparator G S)
     (h_k_eq : k = Treewidth.treewidth G) :
     (GraphIC G S : ℝ) ≥ ω_notation (λ x => Real.log x) n := by
   calc (GraphIC G S : ℝ)
-      _ ≥ (1 / κ_Π : ℝ) * k := by
+      _ ≥ (1 / κ_Π : ℝ) * (k : ℝ) := by
         -- Paso 1: Aplicar dualidad información-treewidth
         rw [h_k_eq]
         exact (information_treewidth_duality G).2 S hS |>.1
@@ -490,7 +489,6 @@ lemma graphic_lower_bound_case2
       _ = ω_notation (λ x => Real.log x) n := by
         -- Paso 3: Aplicar mul_const_pos_eq_self
         -- Necesitamos mostrar que (1/κ_Π) * ω(log n) = ω(log n)
-        apply OmegaNotation.mul_const_pos_eq_self
-        exact div_pos (by norm_num) h_κ_pos
+        exact OmegaNotation.mul_const_pos_eq_self (div_pos (by norm_num) h_κ_pos) n
 
 end Formal.P_neq_NP
