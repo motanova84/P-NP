@@ -79,7 +79,10 @@ example :
 
 example (Π : ProblemInstance) : 
   ∃ (R : RuntimeLowerBound Π), R.bound 10 ≥ 0 := by
-  sorry  -- Would construct a specific lower bound
+  refine ⟨{
+    bound := fun n => (n : ℝ)
+    is_lower := fun n => by positivity
+  }, by norm_num⟩
 
 /-! ## Test 10: Omega not subset of Big-O -/
 
