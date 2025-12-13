@@ -97,7 +97,7 @@ Results: 9 passed, 0 failed
 
 | File | Lines | Description |
 |------|-------|-------------|
-| `PvsNP/TreewidthComplete.lean` | 276 | Core implementation |
+| `PvsNP/TreewidthComplete.lean` | 284 | Core implementation |
 | `PvsNP/Treewidth.lean` | 33 | Public API re-exports |
 | `PvsNP/Main.lean` | 97 | P≠NP integration |
 | `tests/TreewidthTests.lean` | 172 | Lean test suite |
