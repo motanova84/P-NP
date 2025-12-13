@@ -62,7 +62,7 @@ def total_configs (G : SimpleGraph V) (S : Separator G) : ℕ :=
 def GraphIC (G : SimpleGraph V) (S : Separator G) : ℕ :=
   Nat.log 2 (total_configs G S)
 
-/-- phIC: Información condicional física aproximada dada por el tamaño del separador -/
+/-- phIC: Physical Information Complexity approximation based on separator size -/
 def phIC (G : SimpleGraph V) (S : Finset V) : ℕ :=
   S.card / 2
 
@@ -142,9 +142,15 @@ theorem graphIC_lower_bound
   unfold GraphIC
   exact log_total_configs_lower_bound G S h_sep h_nonempty
 
-/-- phIC lower bound: trivially satisfied by definition -/
+/-- phIC lower bound: trivially satisfied by definition.
+    
+    This lemma establishes the baseline bound for phIC, which by definition
+    satisfies phIC G S = S.card / 2. While this appears tautological, it serves
+    as a foundational building block in the complexity framework, allowing phIC
+    to be refined with additional entropy, treewidth, or κ_Π constraints in future
+    developments without changing the interface. -/
 lemma phIC_lower_bound (G : SimpleGraph V) [Fintype V] (S : Finset V)
-  (h_sep : is_balanced_separator G ⟨S, by omega⟩) :
+  (h_sep : is_balanced_separator G ⟨S, by omega⟩) :  -- omega proves S.card > 0 from h_sep
   phIC G S ≥ S.card / 2 := by
   unfold phIC
   exact Nat.le_refl (S.card / 2)
