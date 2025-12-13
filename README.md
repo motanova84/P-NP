@@ -822,6 +822,7 @@ Compilation instructions in [docs/MANUSCRIPT_README.md](docs/MANUSCRIPT_README.m
 ### Additional Documentation
 
 See also:
+- [docs/IMPLICACIONES_P_NEQ_NP.md](docs/IMPLICACIONES_P_NEQ_NP.md) - Implications of P ≠ NP for technology, physics, and philosophy
 - [docs/LEMA_6_24_ACOPLAMIENTO.md](docs/LEMA_6_24_ACOPLAMIENTO.md) - Detailed explanation of Lemma 6.24
 - [docs/IC_SAT_IMPLEMENTATION.md](docs/IC_SAT_IMPLEMENTATION.md) - IC-SAT implementation details
 - [docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md](docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md) - Spectral complexity unification
