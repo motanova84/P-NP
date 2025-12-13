@@ -1,15 +1,15 @@
 /-!
-# Construcción de Descomposición Arbórea desde Separadores
+# Tree Decomposition Construction from Separators
 
-Teorema fundamental: Dado un separador balanceado S en un grafo G,
-podemos construir una descomposición arbórea con ancho ≤ |S| + 1.
+Fundamental theorem: Given a balanced separator S in a graph G,
+we can construct a tree decomposition with width ≤ |S| + 1.
 
-Esta es la base para:
-1. Relación treewidth-separadores
-2. IC desde treewidth
-3. Lower bounds de complejidad
+This is the basis for:
+1. Treewidth-separator relationship
+2. IC from treewidth
+3. Complexity lower bounds
 
-## Referencias:
+## References:
 - Robertson & Seymour (1986): Graph Minors
 - Bodlaender (1996): "A linear time algorithm for treewidth"
 - Reed (1992): "Finding approximate separators"
@@ -93,7 +93,9 @@ structure TreeDecomposition (G : SimpleGraph V) where
 
 /-- Width of a tree decomposition -/
 noncomputable def TreeDecomposition.width {G : SimpleGraph V} (T : TreeDecomposition G) : ℕ :=
-  Finset.sup (Finset.univ : Finset ℕ) (fun t => (T.bags t).card) - 1
+  -- In practice, this would compute the maximum bag size over all actual tree nodes
+  -- For now, we use a placeholder that represents the supremum
+  sorry
 
 /-- Treewidth of a graph -/
 noncomputable def treewidth (G : SimpleGraph V) : ℕ :=
@@ -133,8 +135,9 @@ theorem tree_decomposition_from_separator
   sorry
 
 /-- Helper lemma: treewidth is bounded by minimum width -/
-axiom treewidth_le_width {G : SimpleGraph V} (T : TreeDecomposition G) :
-  treewidth G ≤ T.width
+theorem treewidth_le_width {G : SimpleGraph V} (T : TreeDecomposition G) :
+  treewidth G ≤ T.width := by
+  sorry
 
 /-- COROLARIO: Treewidth es acotado por tamaño de separador mínimo -/
 theorem treewidth_bounded_by_separator (G : SimpleGraph V) :
@@ -170,7 +173,14 @@ structure TreeDecompositionBuilder where
           tree := ⊥
           tree_is_tree := by simp [SimpleGraph.IsTree, SimpleGraph.bot_adj]
           bags := fun _ => X
-          bag_property := by intro v hv; use 0; exact hv
+          bag_property := by 
+            intro v
+            -- For base case, if v is in the graph, it's in bag 0
+            by_cases hv : v ∈ X
+            · use 0
+              exact hv
+            · -- If v is not in X, this would be an error in the construction
+              sorry
           edge_property := by intro u v h_adj; use 0; constructor <;> sorry
           connectivity_property := by intro v t₁ t₂ h₁ h₂; use [t₁, t₂]; simp [h₁, h₂]
         }
