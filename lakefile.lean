@@ -45,6 +45,8 @@ lean_lib Gap2_IC_TimeLowerBound where
   roots := #[`Gap2_IC_TimeLowerBound]
 lean_lib GAP2 where
   roots := #[`GAP2_Complete]
+lean_lib Gap2Asymptotic where
+  roots := #[`Gap2_Asymptotic]
 lean_lib TuringMachine where
   roots := #[`TuringMachine]
 
