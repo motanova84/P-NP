@@ -249,6 +249,7 @@ class TreeDecompositionBuilder:
                 mst.add_edge(0, i)
         
         # Enraizar el MST en nodo 0 usando BFS
+        # Si hay componentes desconectadas, conectarlas también
         visited = {0}
         queue = [0]
         
@@ -260,6 +261,28 @@ class TreeDecompositionBuilder:
                     queue.append(neighbor)
                     decomposition[neighbor].parent = parent_idx
                     decomposition[parent_idx].children.append(neighbor)
+        
+        # Si hay nodos no visitados (MST es un forest), conectarlos inteligentemente
+        unvisited = set(range(len(decomposition))) - visited
+        if unvisited:
+            # Para cada componente no conectada, encontrar el mejor padre
+            # que maximice la intersección
+            for node_idx in unvisited:
+                best_parent = 0
+                max_intersection = 0
+                
+                # Buscar el nodo visitado con mayor intersección
+                for visited_idx in visited:
+                    intersection_size = len(decomposition[node_idx].bag & decomposition[visited_idx].bag)
+                    if intersection_size > max_intersection:
+                        max_intersection = intersection_size
+                        best_parent = visited_idx
+                
+                decomposition[node_idx].parent = best_parent
+                decomposition[best_parent].children.append(node_idx)
+                
+                # Marcar como visitado para futuros nodos desconectados
+                visited.add(node_idx)
         
         return decomposition
     
