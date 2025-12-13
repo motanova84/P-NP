@@ -243,7 +243,7 @@ lemma path_graph_treewidth (n : ℕ) (hn : n ≥ 2) :
 lemma cycle_graph_treewidth (n : ℕ) (h : n ≥ 3) :
   ∀ G : SimpleGraph (Fin n),
   (∀ i : Fin (n-1), G.Adj i i.succ) →
-  G.Adj (Fin.last (n-1)) 0 →
+  G.Adj (Fin.last n) 0 →
   treewidth G = 2 := by
   sorry  -- Needs bag of size 3 to break cycle
 
