@@ -33,6 +33,8 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib VolumeIntegral where
+  roots := #[`VolumeIntegral]
 lean_lib PnPNeholographic where
   roots := #[`PnPNeholographic]
 lean_lib FinalAxiom where
