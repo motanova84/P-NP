@@ -215,37 +215,51 @@ class TreeDecompositionBuilder:
             )
             decomposition.append(node)
         
-        # Para cada bag (excepto el primero), encontrar el último bag anterior
-        # que comparte vértices y hacerlo su padre
-        for i in range(1, len(decomposition)):
-            # Buscar hacia atrás para encontrar el último bag que comparte vértices
-            found_parent = False
-            for j in range(i - 1, -1, -1):
-                if decomposition[i].bag & decomposition[j].bag:
-                    decomposition[i].parent = j
-                    decomposition[j].children.append(i)
-                    found_parent = True
-                    break
-            
-            # Si no encontramos padre, conectar al nodo más cercano
-            # (esto puede pasar en grafos desconectados o con bags sin intersección)
-            if not found_parent:
-                # Buscar el bag con el que más vecinos comparte en el grafo original
-                best_parent = 0
-                max_shared_neighbors = 0
-                for j in range(i):
-                    # Contar vértices en bag[i] que son adyacentes a vértices en bag[j]
-                    shared_neighbors = 0
-                    for v in decomposition[i].bag:
-                        for u in decomposition[j].bag:
-                            if self.graph.has_edge(v, u):
-                                shared_neighbors += 1
-                    if shared_neighbors > max_shared_neighbors:
-                        max_shared_neighbors = shared_neighbors
-                        best_parent = j
-                
-                decomposition[i].parent = best_parent
-                decomposition[best_parent].children.append(i)
+        # Para construir un árbol válido que satisfaga la propiedad de intersección,
+        # usamos el siguiente approach: construir un grafo donde bags son nodos,
+        # las aristas tienen peso = tamaño de intersección, y tomamos el MST (max weight)
+        # Esto garantiza que el path entre dos bags maximiza la intersección
+        
+        # Crear grafo de intersección
+        intersection_graph = nx.Graph()
+        for i in range(len(bags)):
+            intersection_graph.add_node(i)
+        
+        # Añadir aristas con peso = tamaño de intersección
+        for i in range(len(bags)):
+            for j in range(i + 1, len(bags)):
+                intersection = bags[i] & bags[j]
+                if intersection:
+                    # Peso negativo porque queremos maximum spanning tree
+                    intersection_graph.add_edge(i, j, weight=-len(intersection))
+        
+        # Encontrar maximum spanning tree (usando minimum con pesos negativos)
+        if intersection_graph.number_of_edges() > 0:
+            try:
+                mst = nx.minimum_spanning_tree(intersection_graph)
+            except:
+                # Si falla, usar grafo completo
+                mst = intersection_graph
+        else:
+            # Sin aristas, crear estrella desde nodo 0
+            mst = nx.Graph()
+            for i in range(len(bags)):
+                mst.add_node(i)
+            for i in range(1, len(bags)):
+                mst.add_edge(0, i)
+        
+        # Enraizar el MST en nodo 0 usando BFS
+        visited = {0}
+        queue = [0]
+        
+        while queue:
+            parent_idx = queue.pop(0)
+            for neighbor in mst.neighbors(parent_idx):
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+                    decomposition[neighbor].parent = parent_idx
+                    decomposition[parent_idx].children.append(neighbor)
         
         return decomposition
     
