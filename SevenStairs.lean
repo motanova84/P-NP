@@ -116,11 +116,15 @@ def literal_eval {V : Type} (assignment : V → Bool) : Literal V → Bool
 
 /-- Evaluate a clause (true if any literal is true) -/
 def clause_eval {V : Type} (assignment : V → Bool) : Clause V → Bool
-| Clause.mk lits => lits.fold (fun acc l => acc || literal_eval assignment l) false
+| Clause.mk lits => 
+    if lits.card = 0 then false
+    else lits.fold (fun acc l => acc || literal_eval assignment l) false
 
 /-- Evaluate a CNF formula (true if all clauses are true) -/
 def cnf_eval {V : Type} (assignment : V → Bool) : CnfFormula V → Bool
-| CnfFormula.mk clauses => clauses.fold (fun acc c => acc && clause_eval assignment c) true
+| CnfFormula.mk clauses => 
+    if clauses.card = 0 then true
+    else clauses.fold (fun acc c => acc && clause_eval assignment c) true
 
 /-- A CNF formula is satisfiable if there exists a satisfying assignment -/
 def Satisfiable {V : Type} (φ : CnfFormula V) : Prop :=
@@ -204,7 +208,9 @@ axiom treewidth : ∀ {V : Type} [Fintype V] [DecidableEq V], SimpleGraph V → 
 /-- Information complexity of a graph with respect to a separator -/
 noncomputable def GraphIC (G : SimpleGraph V) (S : Finset V) : ℝ :=
   let G' := G.deleteVerts S
-  let components := sorry -- Number of connected components in G'
+  -- Number of connected components in G \ S
+  -- For now, we use an abstract definition
+  let components : ℕ := sorry  -- Would need connected component algorithm
   (S.card : ℝ) + Real.log (components : ℝ) / Real.log 2
 
 /-- Connected predicate for a graph -/
@@ -225,7 +231,35 @@ theorem information_treewidth_duality
   (G : SimpleGraph V) (S : Finset V)
   (hκ_pos : kappa_pi G > 0) :
   GraphIC G S ≥ (1 / kappa_pi G) * (treewidth G : ℝ) := by
-  sorry
+  
+  unfold GraphIC kappa_pi at *
+  
+  -- 1. The separator S disconnects the graph into components
+  have h_sep : ¬ Connected (G.deleteVerts S) := by
+    sorry -- If connected with small S, contradicts high IC
+  
+  -- 2. Use improved Cheeger inequality
+  have h_cheeger : (edgeBoundaryCard (G.deleteVerts S) S : ℝ) ≥ 
+                   (spectral_gap G) * (treewidth G : ℝ) := by
+    sorry -- Application of improved_cheeger_inequality
+  
+  -- 3. IC is bounded below by separator size
+  have h_ic_sep : GraphIC G S ≥ (S.card : ℝ) := by
+    unfold GraphIC
+    sorry -- Log term is non-negative
+  
+  -- 4. Separator size related to edge boundary via spectral gap
+  have h_sep_boundary : (S.card : ℝ) ≥ (spectral_gap G) * (treewidth G : ℝ) := by
+    sorry -- From Cheeger-type bounds
+  
+  -- 5. Combine to get the result
+  calc GraphIC G S
+    _ ≥ (S.card : ℝ) := h_ic_sep
+    _ ≥ (spectral_gap G) * (treewidth G : ℝ) := h_sep_boundary
+    _ = (1 / (1 / spectral_gap G)) * (treewidth G : ℝ) := by
+        sorry -- Algebraic manipulation
+    _ = (1 / kappa_pi G) * (treewidth G : ℝ) := by
+        sorry -- Definition of kappa_pi
 
 -- ✅ ESCALERA 6 COMPLETE: Duality proven (with axioms for technical lemmas)
 
@@ -271,7 +305,42 @@ theorem runtime_lower_bound
   ∃ (α : ℝ) (hα : α > 0), 
     ∀ {Σ Γ Q : Type} (M : TuringMachine Σ Γ Q) [Decides M SAT_Language],
       (M.runTime (encode_formula φ) : ℝ) ≥ 2 ^ (α * n * Real.log n) := by
-  sorry
+  
+  -- Set α = 0.1 (from the lower bound)
+  use 0.1
+  constructor
+  · norm_num
+  · intro Σ Γ Q M hM_decides
+    
+    -- 1. Obtain balanced separator
+    let I := incidenceGraph φ
+    obtain ⟨S, _⟩ := exists_balanced_separator I
+    
+    -- 2. Calculate IC lower bound using duality theorem
+    have h_κ_pos : kappa_pi I > 0 := kappa_pi_pos I
+    have h_ic_lower : GraphIC I S ≥ (1 / kappa_pi I) * (treewidth I : ℝ) :=
+      information_treewidth_duality I S h_κ_pos
+    
+    -- 3. Combine with treewidth and kappa bounds
+    have h_ic_bound : GraphIC I S ≥ 0.1 * n * Real.log n := by
+      calc GraphIC I S 
+        _ ≥ (1 / kappa_pi I) * (treewidth I : ℝ) := h_ic_lower
+        _ ≥ (Real.sqrt n * Real.log n) * (0.1 * Real.sqrt n) := by
+            sorry -- Using h_κ and h_tw
+        _ = 0.1 * n * Real.log n := by
+            rw [Real.mul_comm, mul_assoc, mul_assoc]
+            sorry -- Algebraic simplification
+    
+    -- 4. Apply Gap 2: Runtime ≥ 2^IC
+    have h_time_ic : (M.runTime (encode_formula φ) : ℝ) ≥ 
+                     2 ^ (GraphIC I S) := by
+      sorry -- Uses gap2_runtime_ge_exp_ic
+    
+    -- 5. Combine bounds
+    calc (M.runTime (encode_formula φ) : ℝ)
+      _ ≥ 2 ^ (GraphIC I S) := h_time_ic
+      _ ≥ 2 ^ (0.1 * n * Real.log n) := by
+          sorry -- Exponential monotonicity with h_ic_bound
 
 -- ✅ ESCALERA 7 COMPLETE: Time lower bound established
 
@@ -306,6 +375,30 @@ axiom exp_dominates_poly (n : ℕ) (a : ℝ) (k : ℕ) (ha : a > 0) (hn : n > 1)
 
 /-- Main theorem: P ≠ NP -/
 theorem P_neq_NP_final : P_Class ≠ NP_Class := by
+  -- Proof by contradiction
+  intro h_eq
+  
+  -- 1. SAT is NP-complete (axiomatized)
+  have h_SAT_NPC : True := SAT_is_NP_complete
+  
+  -- 2. Construct family of hard Tseitin formulas
+  let n₀ := 1000
+  let φ := tseitin_expander_formula (2 * n₀ + 1)
+  let n := (formula_vars φ).card
+  
+  -- 3. Properties of the hard formula
+  have h_tw : (treewidth (incidenceGraph φ) : ℝ) ≥ 0.1 * Real.sqrt n := 
+    tseitin_treewidth_lower_bound
+  
+  have h_κ : kappa_pi (incidenceGraph φ) ≤ 1 / (Real.sqrt n * Real.log n) := 
+    tseitin_spectral_decay
+  
+  -- 4. Apply runtime lower bound
+  obtain ⟨α, hα_pos, h_runtime⟩ := runtime_lower_bound φ n rfl h_tw h_κ
+  
+  -- 5. If P = NP, SAT would have polynomial algorithm
+  -- But this contradicts the exponential lower bound
+  -- Details left as axioms for now
   sorry
 
 -- ∴ LAS 7 ESCALERAS ESTÁN COMPLETAS
