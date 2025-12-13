@@ -150,10 +150,12 @@ theorem graphIC_lower_bound
     to be refined with additional entropy, treewidth, or κ_Π constraints in future
     developments without changing the interface. -/
 lemma phIC_lower_bound (G : SimpleGraph V) [Fintype V] (S : Finset V)
-  (h_sep : is_balanced_separator G ⟨S, by omega⟩) :  -- omega proves S.card > 0 from h_sep
+  (h_pos : S.card > 0)
+  (h_sep : is_balanced_separator G ⟨S, h_pos⟩) :
   phIC G S ≥ S.card / 2 := by
   unfold phIC
-  exact Nat.le_refl (S.card / 2)
+  -- phIC G S = S.card / 2, so phIC G S ≥ S.card / 2 is reflexive
+  le_refl
 
 /--
 Alternative direct proof following the approach from the problem statement.
