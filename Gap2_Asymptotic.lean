@@ -141,8 +141,10 @@ theorem asymptotic_exponential_growth
     exact h₂ C' hC'
   
   -- Choose appropriate constant for IC
-  rcases h_omega (log 2 * (log C + ε * log (@ProblemInstance.size Π _))) 
-    (by positivity) with ⟨N, hN⟩
+  -- This constant balances the exponential transformation
+  let ic_const := log 2 * (log C + ε * log (@ProblemInstance.size Π _))
+  have ic_const_pos : ic_const > 0 := by positivity
+  rcases h_omega ic_const ic_const_pos with ⟨N, hN⟩
   
   refine ⟨N, fun m hm => ?_⟩
   
@@ -231,13 +233,16 @@ theorem exp_log_ge_power (n : ℕ) (hn : n ≥ 2) :
 
 /-! ## SAT Language and Complexity Classes -/
 
-/-- SAT Language -/
+/-- SAT Language over CNF formulas encoded as boolean strings -/
 axiom SAT_Language : Language Bool
 
 /-- SAT is NP-complete -/
 axiom SAT_is_NP_complete : SAT_Language ∈ NP_Class ∧ 
   (∀ L ∈ NP_Class, ∃ (f : List Bool → List Bool), 
     ∀ w, L w ↔ SAT_Language (f w))
+
+/-- Connection between CNFFormula and SAT_Language -/
+axiom cnf_to_sat_language : CNFFormula → List Bool
 
 /-- Tseitin spectral constant is positive -/
 axiom tseitin_spectral_constant_pos (φ : CNFFormula) : κ_Π > 0
@@ -295,7 +300,11 @@ theorem asymptotic_separation_poly_vs_superpoly
   rcases h_ω (2 * C) (by linarith) with ⟨N₂, h_lower⟩
   
   -- Take n = max(N₁, N₂, ⌈(2C)^(1/(k-ε))⌉)
-  sorry -- Complete contradiction
+  -- At this n, we have both:
+  --   f(n) ≤ C * n^k      [from O-notation]
+  --   f(n) ≥ 2C * n^ε     [from ω-notation]
+  -- For large enough n, n^ε dominates n^k when ε > 0, leading to contradiction
+  sorry -- Complete arithmetic contradiction
 
 /-! ## Existence of Hard Instances -/
 

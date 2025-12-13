@@ -30,7 +30,8 @@ example (f g : ℕ → ℝ) (c : ℝ) (hc : c > 0)
   (h : ω_notation g 0 f) :
   ω_notation g 0 (fun n => c * f n) := by
   intro C hC
-  rcases h (C / c) (by positivity) with ⟨N, hN⟩
+  have hC_div : C / c > 0 := div_pos hC hc
+  rcases h (C / c) hC_div with ⟨N, hN⟩
   use N
   intro n hn
   calc c * f n ≥ c * (C / c * g n) := by
@@ -177,12 +178,15 @@ example {Π : Type*} [ProblemInstance Π] {S : Separator Π}
 
 /-! ## Edge Cases -/
 
-/-- Edge case: Empty problem -/
-example : ∀ n : ℕ, n = 0 → True := by
-  intro n hn
-  trivial
+/-- Edge case: Single-variable SAT formula -/
+example : ∃ φ : CNFFormula, numVars φ = 1 ∧ Satisfiable φ := by
+  use [[Literal.pos ⟨0⟩]]
+  constructor
+  · sorry -- Verify single variable
+  · use (fun _ => true)
+    sorry -- Verify satisfiability
 
-/-- Edge case: Single variable SAT -/
+/-- Edge case: Empty formula is satisfiable -/
 example : Satisfiable [] := by
   use (fun _ => true)
   exact List.all_nil _
