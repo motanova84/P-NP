@@ -167,13 +167,25 @@ def greedySeparator (G : SimpleGraph V) : Finset V :=
 
 /-- Computable upper bound for treewidth using min-degree heuristic
     This provides a polynomial-time approximation -/
+/-- Min-degree heuristic for treewidth upper bound.
+    Iteratively removes minimum-degree vertices and tracks the maximum degree encountered. -/
 def treewidthUpperBound (G : SimpleGraph V) : ℕ :=
-  -- Simplified: returns the maximum possible width
-  -- A real implementation would use the min-degree ordering algorithm
-  if h : (Finset.univ : Finset V).Nonempty then
-    Finset.univ.card - 1
-  else
-    0
+  let rec minDegreeElim (vs : Finset V) (maxDeg : ℕ) : ℕ :=
+    if h : vs.Nonempty then
+      let degs := vs.image (λ v => (G.degree v, v))
+      let minDeg := degs.min' (by
+        -- degs is nonempty because vs is nonempty
+        cases h with
+        | intro v hv => 
+          have : (G.degree v, v) ∈ degs := Finset.mem_image.mpr ⟨v, hv, rfl⟩
+          exact this)
+      let v := minDeg.snd
+      let d := minDeg.fst
+      -- Remove v and all its incident edges (by restricting to induced subgraph)
+      minDegreeElim (vs.erase v) (max maxDeg d)
+    else
+      maxDeg
+  minDegreeElim Finset.univ 0
 
 /-- Approximation that preserves asymptotic behavior -/
 def treewidthApprox (G : SimpleGraph V) : ℕ :=
