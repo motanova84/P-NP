@@ -232,7 +232,7 @@ lemma single_vertex_treewidth (v : V) :
   sorry  -- Single bag with one vertex
 
 /-- Path graphs have treewidth 1 -/
-lemma path_graph_treewidth (n : ℕ) :
+lemma path_graph_treewidth (n : ℕ) (hn : n ≥ 2) :
   ∀ G : SimpleGraph (Fin n), 
   (∀ i : Fin (n-1), G.Adj i i.succ) → 
   (∀ i j, G.Adj i j → (i.val + 1 = j.val ∨ j.val + 1 = i.val)) →
