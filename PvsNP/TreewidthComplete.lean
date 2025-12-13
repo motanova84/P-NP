@@ -45,15 +45,7 @@ variable {V : Type*} [DecidableEq V] [Fintype V]
 
 /-! ### Basic Graph Structures -/
 
-/-- A simple graph structure -/
-def SimpleGraph (V : Type*) := V → V → Prop
-
-/-- Adjacency in a graph -/
-def SimpleGraph.Adj {V : Type*} (G : SimpleGraph V) (u v : V) : Prop := G u v
-
-/-- Vertex set of a graph -/
-def SimpleGraph.V {V : Type*} [Fintype V] (G : SimpleGraph V) : Finset V := Finset.univ
-
+/-- Use Mathlib's SimpleGraph structure and its methods. -/
 /-! ### Tree Structure -/
 
 /-- A tree is a connected acyclic graph -/
