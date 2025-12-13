@@ -41,8 +41,6 @@ lean_lib FinalAxiom where
   roots := #[`FinalAxiom]
 lean_lib UltimateUnification where
   roots := #[`UltimateUnification]
-lean_lib Gap2ICTimeLowerBound where
-  roots := #[`Gap2_IC_TimeLowerBound]
 lean_lib Gap2_IC_TimeLowerBound where
   roots := #[`Gap2_IC_TimeLowerBound]
 lean_lib GAP2 where
@@ -55,8 +53,6 @@ lean_lib TseitinHardFamily where
 
 lean_lib TEOREMAJMMB where
   roots := #[`TEOREMAJMMB]
-lean_lib TuringMachine where
-  roots := #[`TuringMachine]
 
 lean_lib ComplexityClasses where
   roots := #[`ComplexityClasses]
@@ -67,8 +63,6 @@ lean_lib TseitinExpander where
   roots := #[`TseitinExpander]
 lean_lib TreewidthToIC where
   roots := #[`TreewidthToIC]
-lean_lib TseitinHardFamily where
-  roots := #[`TseitinHardFamily]
 
 lean_lib KappaSmallForIncidence where
   roots := #[`KappaSmallForIncidence]
