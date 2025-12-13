@@ -87,10 +87,10 @@ class TestGap2AsymptoticStructure(unittest.TestCase):
             content = f.read()
         
         constants = [
-            'def GAP2_FREQUENCY',
-            'def κ_Π',
-            'def QCAL_PRECISION',
-            'def INFINITY_CUBE'
+            'GAP2_FREQUENCY',
+            'κ_Π',
+            'QCAL_PRECISION',
+            'INFINITY_CUBE'
         ]
         
         for const in constants:

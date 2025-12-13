@@ -139,7 +139,7 @@ theorem qcal_gap2_omega_complete {G : SimpleGraph V} (S : Finset V) :
 
 /-- The vibrational signature encodes the information-theoretic limit -/
 theorem vibrational_signature_encoding :
-  ∃ (k : ℕ), (k : ℝ) * κ_Π ≈ GAP2_FREQUENCY ∧ k = 55 := by
+  ∃ (k : ℕ), |((k : ℝ) * κ_Π) - GAP2_FREQUENCY| < QCAL_PRECISION ∧ k = 55 := by
   use 55
   constructor
   · sorry -- This follows from frequency_kappa_relation
