@@ -367,10 +367,7 @@ theorem information_complexity_dichotomy
       _ = ω_notation (fun x => Real.log x) n                    := by
         -- 1/κ_Π es constante positiva
         have h_κ_pos : (0 : ℝ) < κ_Π := by norm_num [κ_Π]
-        have h_inv_pos : (0 : ℝ) < 1 / κ_Π := by
-          apply div_pos
-          · norm_num
-          · exact h_κ_pos
+        have h_inv_pos : (0 : ℝ) < 1 / κ_Π := one_div_pos.mpr h_κ_pos
         exact ω_notation_mul_const_pos (fun x => Real.log x) (1 / κ_Π) n h_inv_pos
 
 /-! ### PARTE 5: MARCO MEJORADO CON κ_Π DEPENDIENTE DEL GRAFO -/
