@@ -74,6 +74,11 @@ lean_lib HigherDimension where
 lean_lib PhysicalConsistency where
   roots := #[`PhysicalConsistency]
 
+lean_lib Gap2_Asymptotic where
+  roots := #[`Gap2_Asymptotic]
+lean_lib SevenStairs where
+  roots := #[`SevenStairs]
+
 @[default_target]
 lean_exe pnp where
   root := `Director
