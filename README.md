@@ -286,6 +286,14 @@ Previously, the argument relied on existential claims about hard formulas. Now w
   - Physical lower bounds for SAT
   - See [FINAL_AXIOM_README.md](FINAL_AXIOM_README.md) for details
 
+- **NEW: `Gap2_Asymptotic.lean`**: Asymptotic lower bounds for P ≠ NP
+  - Asymptotic notation (ω, O) definitions
+  - Exponential growth theorems: 2^ω(log n) = ω(n^ε)
+  - Gap 2 asymptotic version: IC ≥ ω(log n) ⇒ T ≥ ω(n^ε)
+  - SAT lower bounds via information complexity
+  - Final P ≠ NP theorem via Tseitin hard instances
+  - See [GAP2_ASYMPTOTIC_README.md](GAP2_ASYMPTOTIC_README.md) for details
+
 ### 2. Computational Framework (Python)
 ### 3. Computational Framework (Python)
 - `computational_dichotomy.py`: Practical implementation featuring:

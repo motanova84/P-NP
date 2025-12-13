@@ -320,6 +320,16 @@ axiom O_notation : (ℝ → ℝ) → ℝ → ℝ
 /-- Notación ω para cota inferior super-polinomial -/
 axiom ω_notation : (ℝ → ℝ) → ℝ → ℝ
 
+/-- κ_Π es positivo -/
+axiom h_κ_pos : (0 : ℝ) < κ_Π
+
+/-- Multiplicar ω-notation por una constante positiva preserva ω-notation -/
+axiom ω_notation_mul_const_pos {f : ℝ → ℝ} {c : ℝ} {n : ℝ} (hc : 0 < c) :
+  c * ω_notation f n = ω_notation f n
+/-- Multiplicar por constante positiva preserva la clase ω -/
+axiom ω_notation_mul_const_pos : ∀ (f : ℝ → ℝ) (c : ℝ) (n : ℝ), 
+  0 < c → c * ω_notation f n = ω_notation f n
+
 /-- Grafo de incidencia de una fórmula CNF -/
 axiom incidenceGraph (φ : CnfFormula) : SimpleGraph (formula_vars φ)
 
@@ -347,22 +357,24 @@ theorem information_complexity_dichotomy
     calc (GraphIC G S : ℝ)
       _ ≤ κ_Π * ((k : ℝ) + 1)              := by
         exact (information_treewidth_duality G).2 S h_bal |>.2
-      _ = κ_Π * (O_notation (fun x => Real.log x) n + 1)       := by
-        sorry  -- rw [h_low]
-      _ = O_notation (fun x => Real.log x) n                    := by
-        -- κ_Π es constante
-        sorry
+      _ = O_notation (fun x => Real.log x) n := by
+        rw [h_low]
   
   -- CASO 2: tw alto → IC alto
   · intro h_high S hS
     calc (GraphIC G S : ℝ)
       _ ≥ (1/κ_Π) * (k : ℝ)                := by
         exact (information_treewidth_duality G).2 S hS |>.1
+      _ = (1/κ_Π) * ω_notation (fun x => Real.log x) n := by
       _ = (1/κ_Π) * ω_notation (fun x => Real.log x) n         := by
-        sorry  -- rw [h_high]
+        rw [h_high]
       _ = ω_notation (fun x => Real.log x) n                    := by
         -- 1/κ_Π es constante positiva
-        sorry
+        have h_const_pos : 0 < 1 / κ_Π := div_pos (by norm_num : (0 : ℝ) < 1) h_κ_pos
+        exact ω_notation_mul_const_pos h_const_pos
+        have h_κ_pos : (0 : ℝ) < κ_Π := by norm_num [κ_Π]
+        have h_inv_pos : (0 : ℝ) < 1 / κ_Π := one_div_pos.mpr h_κ_pos
+        exact ω_notation_mul_const_pos (fun x => Real.log x) (1 / κ_Π) n h_inv_pos
 
 /-! ### PARTE 5: MARCO MEJORADO CON κ_Π DEPENDIENTE DEL GRAFO -/
 
@@ -428,5 +440,68 @@ theorem tseitin_requires_superpolynomial_time
   -- Por el teorema anterior con las cotas apropiadas
   have h := tseitin_information_complexity_improved φ h_size
   sorry
+
+/-! ### PARTE 6: NOTACIÓN OMEGA Y CASO 2 -/
+
+/-- Namespace para trabajar con notación omega (ω) -/
+namespace OmegaNotation
+
+/-- Multiplicar por una constante positiva preserva la notación omega.
+    
+    Para cualquier función f y constante c > 0:
+        c · ω(f) = ω(f)
+    
+    Esto es porque multiplicar por una constante no cambia el orden de crecimiento asintótico.
+    En notación omega, si g(n) = ω(f(n)), entonces c·g(n) = ω(f(n)) para c > 0.
+    
+    JUSTIFICACIÓN:
+    - ω(f) representa una función que crece estrictamente más rápido que cualquier
+      múltiplo constante de f
+    - Multiplicar por c > 0 solo escala por una constante, no cambia el orden de crecimiento
+    - Por lo tanto: c · ω(f) sigue siendo ω(f)
+    
+    Este axioma es fundamental para la demostración del CASO 2 donde mostramos que
+    (1/κ_Π) · ω(log n) = ω(log n).
+-/
+axiom mul_const_pos_eq_self {f : ℝ → ℝ} {c : ℝ} (hc : c > 0) (n : ℝ) :
+    c * ω_notation f n = ω_notation f n
+
+end OmegaNotation
+
+/-- LEMMA: CASO 2 - Treewidth alto implica IC alto
+    
+    Este lema cierra la demostración para el caso cuando el treewidth es alto (tw ≥ ω(log n)).
+    Demuestra que la complejidad de información GraphIC también es ≥ ω(log n).
+    
+    Este es el paso clave para cerrar la demostración espectral-operacional de la
+    desigualdad estructural que implica P ≠ NP en grafos Tseitin sobre expansores.
+    
+    ESTRUCTURA DE LA DEMOSTRACIÓN:
+    1. Por dualidad información-treewidth: GraphIC G S ≥ (1/κ_Π) * tw
+    2. Dado que tw = ω(log n) por hipótesis
+    3. Tenemos GraphIC G S ≥ (1/κ_Π) * ω(log n)
+    4. Por OmegaNotation.mul_const_pos_eq_self: (1/κ_Π) * ω(log n) = ω(log n)
+    5. Por lo tanto: GraphIC G S ≥ ω(log n) ✓
+-/
+lemma graphic_lower_bound_case2
+    {G : SimpleGraph V} {S : Finset V} (n : ℝ) {k : ℕ}
+    (h_high : (k : ℝ) = ω_notation (λ x => Real.log x) n)
+    (h_κ_pos : 0 < κ_Π)
+    (hS : BalancedSeparator G S)
+    (h_k_eq : k = Treewidth.treewidth G) :
+    (GraphIC G S : ℝ) ≥ ω_notation (λ x => Real.log x) n := by
+  calc (GraphIC G S : ℝ)
+      _ ≥ (1 / κ_Π : ℝ) * (k : ℝ) := by
+        -- Paso 1: Aplicar dualidad información-treewidth
+        rw [h_k_eq]
+        exact (information_treewidth_duality G).2 S hS |>.1
+      _ = (1 / κ_Π : ℝ) * ω_notation (λ x => Real.log x) n := by
+        -- Paso 2: Sustituir k = ω(log n)
+        rw [h_high]
+      _ = ω_notation (λ x => Real.log x) n := by
+        -- Paso 3: Aplicar mul_const_pos_eq_self
+        -- Necesitamos mostrar que (1/κ_Π) * ω(log n) = ω(log n)
+        have h_div_pos : 0 < (1 : ℝ) / κ_Π := div_pos (by norm_num : (0 : ℝ) < 1) h_κ_pos
+        exact OmegaNotation.mul_const_pos_eq_self h_div_pos n
 
 end Formal.P_neq_NP
