@@ -25,7 +25,8 @@ export TreewidthComplete (CnfFormula)
 export TreewidthComplete (incidenceGraph)
 
 /-- Re-export treewidth approximation -/
-export TreewidthComplete (treewidthApprox cnfTreewidth)
+export TreewidthComplete (treewidthApprox)
+export TreewidthComplete (cnfTreewidth)
 
 /-- Treewidth theory is complete -/
 theorem treewidth_theory : True := trivial
