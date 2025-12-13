@@ -328,11 +328,13 @@ axiom numVars (φ : CnfFormula) : ℕ
 
 /-! ### Auxiliary lemmas for O-notation and ω-notation -/
 
-/-- Multiplicación de constante por O(log n) preserva O(log n) -/
+/-- Multiplicación de constante por O(log n) preserva O(log n)
+    Multiplication of a constant by O(log n) preserves O(log n) -/
 axiom O_notation.const_mul_log {c : ℝ} (hc : c > 0) (n : ℕ) :
   c * O_notation (fun x => Real.log x) n = O_notation (fun x => Real.log x) n
 
-/-- Multiplicación de constante por ω(log n) preserva ω(log n) -/
+/-- Multiplicación de constante por ω(log n) preserva ω(log n)
+    Multiplication of a constant by ω(log n) preserves ω(log n) -/
 axiom ω_notation.const_mul_log {c : ℝ} (hc : c > 0) (n : ℕ) :
   c * ω_notation (fun x => Real.log x) n = ω_notation (fun x => Real.log x) n
 
@@ -359,8 +361,7 @@ theorem information_complexity_dichotomy
         exact (information_treewidth_duality G).2 S h_bal |>.2
       _ = κ_Π * (O_notation (fun x => Real.log x) n + 1)       := by
         -- Rewrite k using h_low
-        congr 1
-        congr 1
+        congr 2
         exact h_low
       _ = O_notation (fun x => Real.log x) n                    := by
         -- κ_Π es constante positiva, y κ_Π * (O(log n) + 1) = O(log n)
@@ -375,7 +376,7 @@ theorem information_complexity_dichotomy
         exact (information_treewidth_duality G).2 S hS |>.1
       _ = (1/κ_Π) * ω_notation (fun x => Real.log x) n         := by
         -- Rewrite k using h_high
-        congr 1
+        congr 2
         exact h_high
       _ = ω_notation (fun x => Real.log x) n                    := by
         -- 1/κ_Π es constante positiva, y (1/κ_Π) * ω(log n) = ω(log n)
