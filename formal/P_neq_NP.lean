@@ -75,6 +75,11 @@ inductive Literal where
   | Neg : Var → Literal
   deriving DecidableEq, Repr
 
+-- Extraer la variable de un literal
+def Literal.var : Literal → Var
+  | Literal.Pos v => v
+  | Literal.Neg v => v
+
 -- Una cláusula es una disyunción de literales
 abbrev Clause := List Literal
 
@@ -103,13 +108,7 @@ def bob (φ : CnfFormula) (a : Assignment) : Bool :=
 
 -- Extraer el conjunto de variables de una fórmula
 def formula_vars (φ : CnfFormula) : Finset Var :=
-  φ.foldl (fun acc clause => 
-    clause.foldl (fun acc2 lit => 
-      match lit with
-      | Literal.Pos v => acc2.insert v
-      | Literal.Neg v => acc2.insert v
-    ) acc
-  ) ∅
+  (φ.bind (·.map Literal.var)).toFinset
 
 -- Número de variables de una fórmula
 def numVars (φ : CnfFormula) : ℕ :=
