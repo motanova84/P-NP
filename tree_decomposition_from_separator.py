@@ -13,11 +13,17 @@ Author: José Manuel Mota Burruezo & Noēsis ∞³
 import networkx as nx
 from typing import List, Tuple, Set, Optional
 from dataclasses import dataclass
-import heapq
+from collections import deque
 
 @dataclass
 class TreeDecompositionNode:
-    """Nodo en una tree decomposition."""
+    """Node in a tree decomposition.
+    
+    Attributes:
+        bag: Set of vertices in this bag
+        children: Indices of child nodes
+        parent: Index of parent node (None for root)
+    """
     bag: Set[int]          # Conjunto de vértices
     children: List[int]    # Índices de nodos hijos
     parent: Optional[int]  # Índice del padre
@@ -26,35 +32,43 @@ class TreeDecompositionNode:
         return f"Bag: {sorted(self.bag)}"
 
 class TreeDecompositionBuilder:
-    """Constructor de tree decomposition desde separadores."""
+    """Tree decomposition builder using separator-based approach.
+    
+    Constructs tree decompositions using greedy minimum-degree elimination
+    and maximum spanning tree on bag intersection graph.
+    """
     
     def __init__(self, graph: nx.Graph):
         self.graph = graph
-        self.memo = {}
     
     def find_balanced_separator(self, vertices: Set[int]) -> Optional[Set[int]]:
-        """
-        Encuentra separador balanceado usando BFS.
+        """Find balanced separator using BFS.
         
-        Estrategia:
-        1. Comenzar desde vértice de mayor grado
-        2. Expandir por niveles hasta encontrar corte balanceado
-        3. Minimizar tamaño del separador
+        Strategy:
+        1. Start from vertex with highest degree
+        2. Expand by levels until finding balanced cut
+        3. Minimize separator size
+        
+        Args:
+            vertices: Set of vertices to find separator for
+            
+        Returns:
+            Separator set or None if not found
         """
         if len(vertices) <= 1:
             return None
         
-        # Convertir a lista para ordenamiento
+        # Convert to list for sorting
         vert_list = list(vertices)
         
-        # Ordenar por grado descendente
+        # Sort by degree (descending)
         vert_list.sort(key=lambda v: self.graph.degree(v), reverse=True)
         
         best_separator = None
         best_balance = float('inf')
         
-        # Probar diferentes vértices iniciales
-        for start in vert_list[:10]:  # Probar primeros 10
+        # Try different starting vertices
+        for start in vert_list[:10]:  # Try first 10
             separator, balance = self._bfs_separator(start, vertices)
             if separator and balance < best_balance:
                 best_separator = separator
@@ -63,30 +77,36 @@ class TreeDecompositionBuilder:
         return best_separator
     
     def _bfs_separator(self, start: int, vertices: Set[int]) -> Tuple[Optional[Set[int]], float]:
-        """
-        BFS para encontrar separador balanceado desde un vértice.
+        """BFS to find balanced separator from a vertex.
+        
+        Args:
+            start: Starting vertex
+            vertices: Set of vertices to consider
+            
+        Returns:
+            Tuple of (separator set, balance metric)
         """
         visited = {start}
-        queue = [start]
+        queue = deque([start])
         levels = {start: 0}
         
         while queue:
-            current = queue.pop(0)
+            current = queue.popleft()
             for neighbor in self.graph.neighbors(current):
                 if neighbor in vertices and neighbor not in visited:
                     visited.add(neighbor)
                     queue.append(neighbor)
                     levels[neighbor] = levels[current] + 1
         
-        # Buscar nivel que mejor separa
+        # Find level that best separates
         max_level = max(levels.values()) if levels else 0
         
         for L in range(1, max_level):
             separator = {v for v, lvl in levels.items() if lvl == L}
             
-            # Verificar si es separador
+            # Check if it's a separator
             if self._is_separator(separator, vertices):
-                # Calcular balance
+                # Calculate balance
                 components = self._connected_components(vertices - separator)
                 if not components:
                     continue
@@ -99,16 +119,24 @@ class TreeDecompositionBuilder:
         return None, float('inf')
     
     def _is_separator(self, separator: Set[int], vertices: Set[int]) -> bool:
-        """Verifica si S separa el conjunto de vértices."""
+        """Verify if S separates the vertex set.
+        
+        Args:
+            separator: Candidate separator set
+            vertices: Set of all vertices
+            
+        Returns:
+            True if separator disconnects the graph
+        """
         if not separator:
             return False
         
-        # Crear subgrafo sin separador
+        # Create subgraph without separator
         sub_vertices = vertices - separator
         if not sub_vertices:
             return True
         
-        # Extraer componente conexa
+        # Extract connected component
         visited = set()
         
         def dfs(v):
@@ -122,15 +150,22 @@ class TreeDecompositionBuilder:
                     if neighbor in sub_vertices and neighbor not in visited:
                         stack.append(neighbor)
         
-        # Comenzar DFS desde primer vértice
+        # Start DFS from first vertex
         start = next(iter(sub_vertices))
         dfs(start)
         
-        # Si no visitamos todos, es separador
+        # If we didn't visit all, it's a separator
         return len(visited) < len(sub_vertices)
     
     def _connected_components(self, vertices: Set[int]) -> List[Set[int]]:
-        """Encuentra componentes conexas en el subgrafo."""
+        """Find connected components in the subgraph.
+        
+        Args:
+            vertices: Set of vertices to consider
+            
+        Returns:
+            List of connected component sets
+        """
         if not vertices:
             return []
         
@@ -139,9 +174,9 @@ class TreeDecompositionBuilder:
         
         def bfs_component(start):
             component = set()
-            queue = [start]
+            queue = deque([start])
             while queue:
-                v = queue.pop(0)
+                v = queue.popleft()
                 if v in visited:
                     continue
                 visited.add(v)
@@ -159,9 +194,15 @@ class TreeDecompositionBuilder:
         return components
     
     def build_tree_decomposition(self, vertices: Optional[Set[int]] = None) -> List[TreeDecompositionNode]:
-        """
-        Construye tree decomposition usando eliminación greedy min-degree.
-        Este enfoque garantiza las tres propiedades de tree decomposition.
+        """Build tree decomposition using greedy minimum-degree elimination.
+        
+        This approach guarantees the three tree decomposition properties.
+        
+        Args:
+            vertices: Set of vertices to decompose (None = all vertices)
+            
+        Returns:
+            List of TreeDecompositionNode objects forming the tree decomposition
         """
         if vertices is None:
             vertices = set(self.graph.nodes())
@@ -169,31 +210,31 @@ class TreeDecompositionBuilder:
         if not vertices:
             return []
         
-        # Caso base: conjunto pequeño - una sola bolsa
+        # Base case: small set - single bag
         if len(vertices) <= 1:
             return [TreeDecompositionNode(bag=vertices, children=[], parent=None)]
         
-        # Usar algoritmo de eliminación greedy para construir tree decomposition
-        # Este enfoque garantiza las propiedades de tree decomposition
+        # Use greedy elimination algorithm to build tree decomposition
+        # This approach guarantees tree decomposition properties
         G_copy = self.graph.subgraph(vertices).copy()
         elimination_order = []
         bags = []
         
-        # Eliminar vértices en orden de grado mínimo
+        # Eliminate vertices in minimum degree order
         while G_copy.number_of_nodes() > 0:
-            # Encontrar vértice de grado mínimo
+            # Find vertex with minimum degree
             if G_copy.number_of_nodes() == 1:
                 v = list(G_copy.nodes())[0]
             else:
                 v = min(G_copy.nodes(), key=lambda x: G_copy.degree(x))
             
-            # Crear bag con v y sus vecinos
+            # Create bag with v and its neighbors
             neighbors = set(G_copy.neighbors(v))
             bag = neighbors | {v}
             bags.append(bag)
             elimination_order.append(v)
             
-            # Hacer clique de vecinos (fill edges)
+            # Make clique of neighbors (fill edges)
             neighbor_list = list(neighbors)
             for i in range(len(neighbor_list)):
                 for j in range(i+1, len(neighbor_list)):
@@ -201,11 +242,10 @@ class TreeDecompositionBuilder:
                     if not G_copy.has_edge(u1, u2):
                         G_copy.add_edge(u1, u2)
             
-            # Eliminar vértice
+            # Remove vertex
             G_copy.remove_node(v)
         
-        # Construir tree decomposition desde los bags
-        # Regla: cada bag se conecta al bag más reciente que comparte vértices
+        # Build tree decomposition from bags
         decomposition = []
         for i, bag in enumerate(bags):
             node = TreeDecompositionNode(
@@ -215,46 +255,43 @@ class TreeDecompositionBuilder:
             )
             decomposition.append(node)
         
-        # Para construir un árbol válido que satisfaga la propiedad de intersección,
-        # usamos el siguiente approach: construir un grafo donde bags son nodos,
-        # las aristas tienen peso = tamaño de intersección, y tomamos el MST (max weight)
-        # Esto garantiza que el path entre dos bags maximiza la intersección
+        # To build a valid tree satisfying the running intersection property,
+        # we use maximum spanning tree on the bag intersection graph
         
-        # Crear grafo de intersección
+        # Create intersection graph
         intersection_graph = nx.Graph()
         for i in range(len(bags)):
             intersection_graph.add_node(i)
         
-        # Añadir aristas con peso = tamaño de intersección
+        # Add edges with weight = intersection size
         for i in range(len(bags)):
             for j in range(i + 1, len(bags)):
                 intersection = bags[i] & bags[j]
                 if intersection:
-                    # Peso negativo porque queremos maximum spanning tree
+                    # Negative weight for maximum spanning tree
                     intersection_graph.add_edge(i, j, weight=-len(intersection))
         
-        # Encontrar maximum spanning tree (usando minimum con pesos negativos)
+        # Find maximum spanning tree (using minimum with negative weights)
         if intersection_graph.number_of_edges() > 0:
             try:
                 mst = nx.minimum_spanning_tree(intersection_graph)
             except:
-                # Si falla, usar grafo completo
+                # If failed, use complete graph
                 mst = intersection_graph
         else:
-            # Sin aristas, crear estrella desde nodo 0
+            # No edges, create star from node 0
             mst = nx.Graph()
             for i in range(len(bags)):
                 mst.add_node(i)
             for i in range(1, len(bags)):
                 mst.add_edge(0, i)
         
-        # Enraizar el MST en nodo 0 usando BFS
-        # Si hay componentes desconectadas, conectarlas también
+        # Root the MST at node 0 using BFS
         visited = {0}
-        queue = [0]
+        queue = deque([0])
         
         while queue:
-            parent_idx = queue.pop(0)
+            parent_idx = queue.popleft()
             for neighbor in mst.neighbors(parent_idx):
                 if neighbor not in visited:
                     visited.add(neighbor)
@@ -262,16 +299,16 @@ class TreeDecompositionBuilder:
                     decomposition[neighbor].parent = parent_idx
                     decomposition[parent_idx].children.append(neighbor)
         
-        # Si hay nodos no visitados (MST es un forest), conectarlos inteligentemente
+        # If there are unvisited nodes (MST is a forest), connect them intelligently
         unvisited = set(range(len(decomposition))) - visited
         if unvisited:
-            # Para cada componente no conectada, encontrar el mejor padre
-            # que maximice la intersección
+            # For each disconnected component, find best parent
+            # that maximizes intersection
             for node_idx in unvisited:
                 best_parent = 0
                 max_intersection = 0
                 
-                # Buscar el nodo visitado con mayor intersección
+                # Find visited node with maximum intersection
                 for visited_idx in visited:
                     intersection_size = len(decomposition[node_idx].bag & decomposition[visited_idx].bag)
                     if intersection_size > max_intersection:
@@ -281,23 +318,41 @@ class TreeDecompositionBuilder:
                 decomposition[node_idx].parent = best_parent
                 decomposition[best_parent].children.append(node_idx)
                 
-                # Marcar como visitado para futuros nodos desconectados
+                # Mark as visited for future unvisited nodes
                 visited.add(node_idx)
         
         return decomposition
     
     def compute_width(self, decomposition: List[TreeDecompositionNode]) -> int:
-        """Calcula el ancho de la tree decomposition."""
+        """Calculate width of the tree decomposition.
+        
+        Args:
+            decomposition: List of tree decomposition nodes
+            
+        Returns:
+            Treewidth (max bag size - 1)
+        """
         if not decomposition:
             return 0
         return max(len(node.bag) for node in decomposition) - 1
     
     def verify_tree_decomposition(self, decomposition: List[TreeDecompositionNode]) -> bool:
-        """Verifica las propiedades de tree decomposition."""
+        """Verify the three tree decomposition properties.
+        
+        1. Vertex coverage: Every vertex appears in at least one bag
+        2. Edge coverage: For each edge, both endpoints appear in at least one bag
+        3. Running intersection: For each vertex, bags containing it form connected subtree
+        
+        Args:
+            decomposition: List of tree decomposition nodes
+            
+        Returns:
+            True if all properties are satisfied
+        """
         if not decomposition:
             return True
         
-        # 1. Cada vértice aparece en al menos una bolsa
+        # 1. Vertex coverage
         all_vertices = set(self.graph.nodes())
         covered_vertices = set()
         
@@ -308,7 +363,7 @@ class TreeDecompositionBuilder:
             print(f"❌ Vértices no cubiertos: {all_vertices - covered_vertices}")
             return False
         
-        # 2. Para cada arista, existe bolsa que contiene ambos extremos
+        # 2. Edge coverage
         for u, v in self.graph.edges():
             found = False
             for node in decomposition:
@@ -319,30 +374,30 @@ class TreeDecompositionBuilder:
                 print(f"❌ Arista ({u},{v}) no cubierta")
                 return False
         
-        # 3. Para cada vértice, nodos que lo contienen forman subárbol conexo
+        # 3. Running intersection property
         for v in all_vertices:
-            # Encontrar índices de nodos que contienen v
+            # Find indices of nodes containing v
             containing_nodes = [i for i, node in enumerate(decomposition) if v in node.bag]
             
             if len(containing_nodes) <= 1:
-                # Un solo nodo o ninguno - trivialmente conexo
+                # Single node or none - trivially connected
                 continue
             
-            # Construir subgrafo inducido
+            # Build induced subgraph
             subgraph = nx.Graph()
             subgraph.add_nodes_from(containing_nodes)
             
-            # Añadir aristas según parentesco
+            # Add edges according to parent-child relationships
             for i in containing_nodes:
                 node = decomposition[i]
                 if node.parent is not None and node.parent in containing_nodes:
                     subgraph.add_edge(i, node.parent)
-                # También añadir aristas a hijos
+                # Also add edges to children
                 for child in node.children:
                     if child in containing_nodes:
                         subgraph.add_edge(i, child)
             
-            # Verificar conectividad
+            # Verify connectivity
             if subgraph.number_of_nodes() > 0 and not nx.is_connected(subgraph):
                 print(f"❌ Vértice {v}: nodos que lo contienen no son conexos")
                 print(f"   Nodos conteniendo {v}: {containing_nodes}")
