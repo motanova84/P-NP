@@ -97,3 +97,4 @@ pip-wheel-metadata/
 .mypy_cache/
 .pyre/
 lake-manifest.json
+tree_decomposition_example.png
