@@ -35,6 +35,11 @@ lean_lib GraphInformationComplexity where
 
 lean_lib HolographicPnpProof where
   roots := #[`HolographicPnpProof]
+lean_lib TseitinHardFamily where
+  roots := #[`TseitinHardFamily]
+
+lean_lib HolographicDuality where
+  roots := #[`HolographicDuality]
 lean_lib VolumeIntegral where
   roots := #[`VolumeIntegral]
 lean_lib PnPNeholographic where
