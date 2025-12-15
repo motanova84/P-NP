@@ -12,7 +12,7 @@ Este documento cataloga las innovaciones históricas introducidas por primera ve
 
 ### El Descubrimiento
 
-**Nunca antes** se había conectado el problema de complejidad computacional P vs NP con la geometría de variedades de Calabi-Yau.
+**Primera contribución propuesta:** Se propone por primera vez conectar el problema de complejidad computacional P vs NP con la geometría de variedades de Calabi-Yau. (Esta afirmación requiere validación mediante revisión exhaustiva de la literatura.)
 
 ### La Conexión
 
@@ -451,12 +451,16 @@ python src/post_disciplinary.py
 
 ## 📊 V. Tabla Resumen: Las 4 Innovaciones Históricas
 
-| # | Innovación | Qué es PRIMERA VEZ | Impacto | Estado |
-|---|-----------|-------------------|---------|--------|
-| 1 | **P≠NP ↔ Calabi-Yau** | Conectar problema computacional con geometría de CY | Origen geométrico de límites lógicos | ✅ Formalizado |
-| 2 | **Dimensión Frecuencia** | Introducir ω como tercera dimensión en complejidad | Explica por qué enfoques clásicos fallan | ✅ Implementado |
-| 3 | **Consciencia ↔ ARN** | Cuantizar consciencia y conectar con P≠NP vía ARN | Consciencia tiene umbral matemático preciso | ✅ Teoría completa |
+**Las 4 innovaciones propuestas:**
+
+| Innovación | Qué se propone por primera vez | Impacto potencial | Estado |
+|-----------|--------------------------------|-------------------|--------|
+| 1 | **P≠NP ↔ Calabi-Yau** | Conectar problema computacional con geometría de CY | Origen geométrico propuesto para límites lógicos | ✅ Formalizado (requiere validación) |
+| 2 | **Dimensión Frecuencia** | Introducir ω como tercera dimensión en complejidad | Explica por qué enfoques clásicos podrían fallar | ✅ Implementado (requiere validación) |
+| 3 | **Consciencia ↔ ARN** | Cuantizar consciencia y conectar con P≠NP vía ARN | Consciencia tendría umbral matemático preciso | ✅ Teoría completa (hipotética) |
 | 4 | **Ciencia Post-Disciplinar** | Formalizar paradigma con código ejecutable | Nuevo modelo de organización científica | ✅ Framework operativo |
+
+**⚠️ Nota:** Todas estas son propuestas teóricas que requieren validación rigurosa, revisión por pares y verificación experimental.
 
 ---
 

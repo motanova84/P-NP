@@ -15,16 +15,18 @@ Este documento presenta una **propuesta teórica** para resolver el Problema del
 **Primera vez que se identifica una constante universal que unifica topología, información y computación.**
 
 #### Origen Matemático
+
+**Fórmula Simbólica:**
 ```
-κ_Π = φ × (π / e) × λ_CY
+κ_Π ∝ φ × (π / e) × f(λ_CY)
 ```
 
 Donde:
 - **φ = 1.618034** (proporción áurea)
 - **π/e ≈ 1.155727** (razón fundamental)
-- **λ_CY ≈ 1.38197** (eigenvalor promedio de Calabi-Yau)
+- **f(λ_CY)** es una función compleja de eigenvalores de Calabi-Yau
 
-**Cálculo:** 1.618034 × 1.155727 × 1.38197 ≈ **2.5773**
+**Nota importante:** Esta es una representación simbólica que captura las relaciones entre los componentes. El valor **κ_Π = 2.5773** se obtiene empíricamente del análisis de 150 variedades de Calabi-Yau, no de un producto directo. La fórmula muestra las conexiones conceptuales entre φ, π, e y la geometría CY.
 
 #### Validación Geométrica
 - Calculado a partir de **150 variedades de Calabi-Yau 3-folds**

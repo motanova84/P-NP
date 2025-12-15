@@ -14,9 +14,9 @@
 
 | Constante | Valor | Origen | Validación | Estado |
 |-----------|-------|--------|------------|--------|
-| **κ_Π** | 2.5773 | 150 variedades Calabi-Yau | Cálculo geométrico | ✅ Verificado |
-| **f₀** | 141.7001 Hz | Derivación de κ_Π | Fórmula teórica | ✅ Calculado |
-| **C_threshold** | 1/κ_Π ≈ 0.388 | Umbral de consciencia | Teórico | ✅ Definido |
+| **κ_Π** | 2.5773 | 150 variedades Calabi-Yau | Análisis empírico propuesto | ⏳ Requiere revisión |
+| **f₀** | 141.7001 Hz | Derivación de κ_Π | Fórmula teórica | ⏳ Predicción teórica |
+| **C_threshold** | 1/κ_Π ≈ 0.388 | Umbral de consciencia | Teórico | ⏳ Hipótesis |
 
 **Verificación en Python:**
 ```python
