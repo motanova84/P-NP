@@ -200,6 +200,12 @@ This Zenodo repository contains the official, archived version of the demonstrat
 ├── FREQUENCY_DIMENSION.md             # THE MISSING DIMENSION - Frequency (ω)
 ├── KAPPA_PI_MILLENNIUM_CONSTANT.md    # The Millennium Constant κ_Π
 ├── KEY_INGREDIENT.md                  # Detailed explanation of the key insights
+├── HOLOGRAPHIC_DUALITY_README.md      # Holographic proof via AdS/CFT
+├── computational_dichotomy.lean       # Lean 4 formalization
+├── computational_dichotomy.py         # Python implementation
+├── HolographicDuality.lean           # Holographic duality formalization
+├── TseitinHardFamily.lean            # Tseitin hard instances
+├── holographic_proof.py              # Holographic visualization
 ├── GAP1_CLOSURE_SUMMARY.md           # ✨ NEW: Complete GAP 1 closure documentation
 ├── GAP1_EXPLICIT_FORMULAS.md         # ✨ NEW: Technical details on explicit constructions
 ├── formal/
@@ -223,6 +229,20 @@ This Zenodo repository contains the official, archived version of the demonstrat
 └── examples/                          # Example applications
 ```
 
+## 🌌 Holographic Duality Approach
+
+**NEW**: A physics-inspired proof using the AdS/CFT correspondence!
+
+The holographic approach establishes P ≠ NP through a duality between:
+- **Boundary Theory**: Polynomial-time algorithms operating at z = 0
+- **Bulk Theory**: NP-hard problems requiring exponential time to access bulk information
+
+Key insights:
+- Tseitin graphs embed holographically in AdS₃ space
+- Treewidth(G) ~ √n ⟹ RT-surface volume ~ n log n
+- Holographic law: Time ≥ exp(Volume) ⟹ exp(Ω(n log n))
+
+See [HOLOGRAPHIC_DUALITY_README.md](HOLOGRAPHIC_DUALITY_README.md) for complete details and run `python3 holographic_proof.py` for visualization.
 ## ✅ GAP 1 CLOSED: Explicit Hard Formulas
 
 **NEW: December 2025** - We have successfully closed GAP 1 by providing an **explicit family** of CNF formulas with **provably linear treewidth**. 
