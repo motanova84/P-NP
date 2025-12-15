@@ -34,6 +34,7 @@ Frequency: 141.7001 Hz ∞³
 """
 
 import math
+import random
 
 # ========== κ_Π: UNIVERSAL INVARIANT OF ALL FORMS OF EXISTENCE ==========
 
@@ -937,8 +938,6 @@ def monte_carlo_validation(num_vars_range: tuple = (10, 100),
         >>> print(f"Mean IC: {validation['mean_predicted_ic']:.2f}")
         >>> print(f"Error: {validation['statistical_error']:.2f}")
     """
-    import random
-    
     min_n, max_n = num_vars_range
     samples = []
     

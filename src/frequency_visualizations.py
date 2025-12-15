@@ -23,14 +23,25 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.cm as cm
 from typing import List, Tuple, Optional
 
-from constants import (
-    OMEGA_CRITICAL,
-    KAPPA_PI,
-    spectral_constant_at_frequency,
-    information_complexity_at_frequency,
-    spectral_sweep_analysis,
-    analyze_three_dimensional_complexity,
-)
+try:
+    from .constants import (
+        OMEGA_CRITICAL,
+        KAPPA_PI,
+        spectral_constant_at_frequency,
+        information_complexity_at_frequency,
+        spectral_sweep_analysis,
+        analyze_three_dimensional_complexity,
+    )
+except ImportError:
+    # Fallback for standalone execution
+    from constants import (
+        OMEGA_CRITICAL,
+        KAPPA_PI,
+        spectral_constant_at_frequency,
+        information_complexity_at_frequency,
+        spectral_sweep_analysis,
+        analyze_three_dimensional_complexity,
+    )
 
 
 def plot_3d_complexity_landscape(

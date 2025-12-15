@@ -21,14 +21,25 @@ import time
 from typing import Dict, List, Tuple, Optional
 import numpy as np
 
-from constants import (
-    KAPPA_PI,
-    OMEGA_CRITICAL,
-    information_complexity_at_frequency,
-    information_complexity_lower_bound,
-    minimum_time_complexity,
-    spectral_constant_at_frequency,
-)
+try:
+    from .constants import (
+        KAPPA_PI,
+        OMEGA_CRITICAL,
+        information_complexity_at_frequency,
+        information_complexity_lower_bound,
+        minimum_time_complexity,
+        spectral_constant_at_frequency,
+    )
+except ImportError:
+    # Fallback for standalone execution
+    from constants import (
+        KAPPA_PI,
+        OMEGA_CRITICAL,
+        information_complexity_at_frequency,
+        information_complexity_lower_bound,
+        minimum_time_complexity,
+        spectral_constant_at_frequency,
+    )
 
 
 class ComplexityBenchmark:

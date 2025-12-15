@@ -22,15 +22,27 @@ from typing import List, Tuple, Dict, Callable, Any, Optional
 import numpy as np
 from functools import partial
 
-from constants import (
-    OMEGA_CRITICAL,
-    information_complexity_at_frequency,
-    spectral_constant_at_frequency,
-    analyze_three_dimensional_complexity,
-    spectral_sweep_analysis,
-    monte_carlo_validation,
-    optimize_algorithm_frequency,
-)
+try:
+    from .constants import (
+        OMEGA_CRITICAL,
+        information_complexity_at_frequency,
+        spectral_constant_at_frequency,
+        analyze_three_dimensional_complexity,
+        spectral_sweep_analysis,
+        monte_carlo_validation,
+        optimize_algorithm_frequency,
+    )
+except ImportError:
+    # Fallback for standalone execution
+    from constants import (
+        OMEGA_CRITICAL,
+        information_complexity_at_frequency,
+        spectral_constant_at_frequency,
+        analyze_three_dimensional_complexity,
+        spectral_sweep_analysis,
+        monte_carlo_validation,
+        optimize_algorithm_frequency,
+    )
 
 
 class ParallelAnalyzer:
@@ -282,7 +294,10 @@ def parallel_benchmark_suite(
     Returns:
         List of comparison results
     """
-    from benchmarking import ComplexityBenchmark
+    try:
+        from .benchmarking import ComplexityBenchmark
+    except ImportError:
+        from benchmarking import ComplexityBenchmark
     
     # Create all tasks
     tasks = []
