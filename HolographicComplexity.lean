@@ -194,22 +194,6 @@ theorem simplified_time_bound (n : ℕ) (T : ℝ) (IC : ℝ)
     - Stanford & Susskind, "Complexity and Shock Wave Geometries" (2014)
     - Brown et al., "Holographic Complexity Equals Bulk Action?" (2015)
 -/
-* `Complexity_as_Volume`: Volumetric complexity in the bulk
-* `optimal_separator`: Optimal separator defining information cuts
-
-## Main Theorems
-
-* `information_complexity_is_bulk_depth`: IC ≈ Vol(W)/L equivalence
-* `required_bulk_depth_lower_bound`: Vol grows as Ω(n log n)
-
-## References
-
-* Ryu-Takayanagi: Holographic Entanglement Entropy
-* Susskind-Zhao: Complexity = Volume conjecture
-* Maldacena: AdS/CFT correspondence
-
-Author: José Manuel Mota Burruezo & Claude (Noēsis)
--/
 
 import Mathlib.Data.Nat.Basic
 import Mathlib.Data.Real.Basic
