@@ -117,10 +117,9 @@ axiom IC_lower_bound (n : ℕ) (h : n ≥ 1) :
 /-! ## Exponential Separation from Polynomial Time -/
 
 /-- With β = O(1) and IC = Ω(n log n), time is superpolynomial -/
-theorem time_is_superpolynomial (n : ℕ) (T : ℝ) 
-    (h_n : n ≥ 2)
-    (h_T : T ≥ alpha * exp (beta * InformationComplexity n)) :
-    ∀ (k : ℕ), ∃ (n₀ : ℕ), ∀ (m : ℕ), m ≥ n₀ → T > (m : ℝ) ^ k := by
+theorem time_is_superpolynomial (T : ℕ → ℝ)
+    (h_T : ∀ m : ℕ, m ≥ 2 → T m ≥ alpha * exp (beta * InformationComplexity m)) :
+    ∀ (k : ℕ), ∃ (n₀ : ℕ), ∀ (m : ℕ), m ≥ n₀ → T m > (m : ℝ) ^ k := by
   sorry
 
 /-- The exponential growth dominates all polynomial bounds -/
