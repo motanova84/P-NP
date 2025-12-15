@@ -77,7 +77,7 @@ Since α appears as a multiplicative factor and the exponential exp(β · IC) do
 
 ## The Adelic Factor Connection
 
-The problem statement mentions the "factor adélico" (adelic factor) which is the **geometric key**:
+The problem statement mentions the adelic factor which is the **geometric key**:
 
 - The adelic correction ensures that Volume = Ω(n log n)
 - Combined with β = O(1), this gives the massive separation
