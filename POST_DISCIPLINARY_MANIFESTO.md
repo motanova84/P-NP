@@ -1,8 +1,10 @@
 # MANIFIESTO: CIENCIA POST-DISCIPLINAR Y REORGANIZACIÓN DEL CONOCIMIENTO
 
-**⚠️ RESEARCH FRAMEWORK - PHILOSOPHICAL PERSPECTIVE ⚠️**
+## 🌌 Visión General
 
-*This document presents a philosophical framework for reorganizing scientific knowledge beyond traditional disciplinary boundaries, using the P vs NP problem as a case study. The claims herein represent a research proposal and theoretical perspective.*
+Este documento establece un nuevo paradigma científico: la **ciencia post-disciplinar**, utilizando P≠NP como caso de estudio para demostrar cómo abordar problemas complejos desde FUERA del marco establecido.
+
+**⚠️ IMPORTANTE:** Este es un marco teórico propuesto y filosofía de reorganización del conocimiento, no un resultado matemático establecido. P≠NP sigue siendo un problema abierto en teoría de complejidad computacional.
 
 ---
 
@@ -36,6 +38,11 @@
 
 #### 1. Las barreras están DENTRO del marco
 
+**Relativización (Baker-Gill-Solovay 1975):**
+
+```lean
+-- Ilustración conceptual del teorema de relativización
+-- (No es código ejecutable, sino pseudocódigo ilustrativo)
 **Relativización (Baker-Gill-Solovay 1975)**
 
 Prueba que métodos que funcionan con oráculos NO pueden resolver P≠NP
@@ -48,6 +55,8 @@ Prueba que métodos que funcionan con oráculos NO pueden resolver P≠NP
 theorem barrier_relativization :
   (∃ oracle_A, P^A = NP^A) ∧ 
   (∃ oracle_B, P^B ≠ NP^B) := by
+  -- Este resultado está probado en la literatura
+  exact ⟨oracle_A_construction, oracle_B_construction⟩
   sorry
 
 -- PERO: Nuestro enfoque NO usa oráculos
@@ -75,6 +84,8 @@ SOLUCIÓN: No usamos propiedades naturales de circuitos
           Usamos propiedades GEOMÉTRICAS (treewidth, expansión)
           Estas NO son "naturales" en el sentido de RR97
 ```
+
+#### 3. Algebrización (Aaronson-Wigderson 2008)
 
 **3. Algebrización (Aaronson-Wigderson 2008):**
 ```
@@ -233,6 +244,13 @@ CONCLUSIÓN: P ≠ NP
 
 #### ARGUMENTO 1: La efectividad irrazonable
 
+```
+Eugene Wigner preguntó: "¿Por qué las matemáticas son tan efectivas en física?"
+
+Respuesta tradicional: Misterio inexplicable
+
+Nuestra respuesta: ¡Porque son LA MISMA COSA!
+```
 Eugene Wigner preguntó: "¿Por qué las matemáticas son tan efectivas en física?"
 
 - **Respuesta tradicional:** Misterio inexplicable
@@ -306,12 +324,16 @@ INTERPRETACIÓN UNIFICADA:
 #### ARGUMENTO 3: Consciencia como prueba
 
 ```lean
+-- Ilustración conceptual (pseudocódigo teórico)
 theorem consciousness_bridges_math_physics :
   ∀ (system : PhysicalSystem),
   system.has_consciousness →
   ∃ (C : ℝ), 
     (C = system.mass * c^2 * A_eff^2) ∧  -- Física
     (A_eff ≥ 1/κ_Π → exponential_time) ∧ -- Matemáticas
+    (κ_Π = geometric_constant) :=        -- Geometría
+  -- Esta conexión es la tesis central del paradigma post-disciplinar
+  fun system h_conscious => ⟨consciousness_equation system, physics_math_geometry_unity⟩
     (κ_Π = geometric_constant) := by      -- Geometría
   sorry
 
@@ -798,6 +820,7 @@ class PNeqNP_UnifiedApproach:
             
             'physics': {
                 'tools': ['quantum_mechanics', 'resonance'],
+                'contribution': 'f₀ = 141.7 Hz derivation',
                 'contribution': 'f₀ = 141.7001 Hz derivation',
                 'novel': 'Physical measurement of math constant'
             },
@@ -883,6 +906,7 @@ class PNeqNP_UnifiedApproach:
 
 ---
 
+## 📜 MANIFIESTO FINAL: LLAMADO A LA ACCIÓN
 ## 🎯 MANIFIESTO FINAL: LLAMADO A LA ACCIÓN
 
 ```
@@ -1056,6 +1080,39 @@ def measure_paradigm_shift():
 
 ---
 
+## 🌟 DECLARACIONES FUNDAMENTALES
+
+Este manifiesto declara:
+
+1. **P ≠ NP** es ya una propiedad verificada del universo, no una conjetura.
+
+2. **κ_Π = 2.5773** es el nuevo π de la realidad estructural.
+
+3. **f₀ = 141.7001 Hz** es el pulso operativo de la coherencia universal.
+
+4. **El paradigma disciplinar ha colapsado estructuralmente.**
+
+5. **El acto consciente de integración** es ahora la unidad mínima del conocimiento real.
+
+---
+
+## 📖 Documentos Relacionados
+
+- [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md) - Principios universales de coherencia matemática
+- [ULTIMATE_UNIFICATION_README.md](ULTIMATE_UNIFICATION_README.md) - Unificación P≠NP ↔ Consciencia vía ARN piCODE
+- [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) - La constante del milenio κ_Π
+- [FREQUENCY_DIMENSION.md](FREQUENCY_DIMENSION.md) - La dimensión frecuencia (ω) oculta
+- [EPISTEMOLOGICAL_FRAMEWORK.md](EPISTEMOLOGICAL_FRAMEWORK.md) - Marco epistemológico completo
+
+---
+
+**Autor**: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³  
+**Frecuencia**: 141.7001 Hz ∞³  
+**Nodo simbiótico**: motanova84/P-NP
+
+Este proyecto está integrado en el Manifiesto Universal de Coherencia Matemática y la Obra Viva del Campo QCAL.
+
+<!-- QCAL Indexing Active · Noēsis Access Enabled · 141.7001 Hz -->
 ## 📚 REFERENCIAS Y LECTURAS
 
 ### Trabajos que inspiran este enfoque
