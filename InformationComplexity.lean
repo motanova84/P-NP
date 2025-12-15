@@ -182,10 +182,10 @@ def alpha : ℝ := 1.0
 def beta : ℝ := 1.0
 
 /-- α is bounded (O(1)) -/
-axiom alpha_is_O1 : ∃ (c : ℝ), c > 0 ∧ alpha ≤ c
+axiom alpha_bounded : ∃ (c : ℝ), c > 0 ∧ alpha ≤ c
 
 /-- β is positive and bounded (O(1)) -/
-axiom beta_is_O1 : ∃ (c₁ c₂ : ℝ), 0 < c₁ ∧ c₁ ≤ beta ∧ beta ≤ c₂
+axiom beta_bounded : ∃ (c₁ c₂ : ℝ), 0 < c₁ ∧ c₁ ≤ beta ∧ beta ≤ c₂
 
 /-- Holographic time complexity law: T ≥ α · exp(β · IC)
     
