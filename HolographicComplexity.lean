@@ -87,7 +87,6 @@ axiom alpha_bounded : ∃ (c₁ c₂ : ℝ), 0 < c₁ ∧ c₁ ≤ alpha ∧ alp
 axiom beta_bounded : ∃ (c₁ c₂ : ℝ), 0 < c₁ ∧ c₁ ≤ beta ∧ beta ≤ c₂
 
 /-- β is independent of problem size n -/
-axiom beta_independent (n : ℕ) : beta = beta
 
 /-! ## Holographic Time Complexity Law -/
 
