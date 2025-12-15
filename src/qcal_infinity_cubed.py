@@ -119,7 +119,8 @@ class PvsNPOperator(SpectralOperator):
             # Exponential case: exponentially growing spectrum (use log scale to avoid overflow)
             # Compute in log space then convert
             spectrum = []
-            for i in range(1, min(self.dimension + 1, 20)):  # Limit to avoid overflow
+            max_spectrum_size = min(self.dimension, 20)  # Limit to avoid overflow
+            for i in range(1, max_spectrum_size + 1):
                 exponent = (i * self.treewidth / math.log(self.num_vars + 1)) / 10.0  # Scale down
                 eigenvalue = self.kappa * (1 + exponent**2)  # Polynomial approximation
                 spectrum.append(eigenvalue)
@@ -450,10 +451,22 @@ class QCALInfinityCubed:
                 if len(spec_i) > 0 and len(spec_j) > 0:
                     # Correlation through κ_Π scaling
                     min_len = min(len(spec_i), len(spec_j))
-                    corr = abs(np.corrcoef(
-                        spec_i[:min_len],
-                        spec_j[:min_len]
-                    )[0, 1]) if min_len > 1 else 0.5
+                    
+                    # Check for constant arrays (zero variance)
+                    if min_len > 1:
+                        var_i = np.var(spec_i[:min_len])
+                        var_j = np.var(spec_j[:min_len])
+                        
+                        if var_i > 1e-10 and var_j > 1e-10:
+                            # Both arrays have variance, compute correlation
+                            corr_matrix = np.corrcoef(spec_i[:min_len], spec_j[:min_len])
+                            corr = abs(corr_matrix[0, 1])
+                        else:
+                            # At least one array is constant, use default correlation
+                            corr = 0.5
+                    else:
+                        # Too few points for meaningful correlation
+                        corr = 0.5
                     
                     total_coherence += corr
                     count += 1
