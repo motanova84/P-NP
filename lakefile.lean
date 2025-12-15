@@ -33,6 +33,8 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib VolumeIntegral where
+  roots := #[`VolumeIntegral]
 lean_lib PnPNeholographic where
   roots := #[`PnPNeholographic]
 lean_lib FinalAxiom where
@@ -43,6 +45,9 @@ lean_lib Gap2_IC_TimeLowerBound where
   roots := #[`Gap2_IC_TimeLowerBound]
 lean_lib GAP2 where
   roots := #[`GAP2_Complete]
+lean_lib Gap2Asymptotic where
+lean_lib GAP2Asymptotic where
+  roots := #[`Gap2_Asymptotic]
 lean_lib TuringMachine where
   roots := #[`TuringMachine]
 
@@ -71,6 +76,11 @@ lean_lib HigherDimension where
 
 lean_lib PhysicalConsistency where
   roots := #[`PhysicalConsistency]
+
+lean_lib Gap2_Asymptotic where
+  roots := #[`Gap2_Asymptotic]
+lean_lib SevenStairs where
+  roots := #[`SevenStairs]
 
 @[default_target]
 lean_exe pnp where
