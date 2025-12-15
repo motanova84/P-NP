@@ -62,8 +62,8 @@ open Real
 
 /-! ## Basic Definitions -/
 
-/-- Information Complexity: normalized volume in AdS geometry -/
-def InformationComplexity (n : ℕ) : ℝ := sorry
+/-- Holographic Information Complexity: normalized volume in AdS geometry -/
+def holographicIC (n : ℕ) : ℝ := sorry
 
 /-- Computational time (number of steps) -/
 def ComputationalTime : Type := ℝ
@@ -86,8 +86,6 @@ axiom alpha_bounded : ∃ (c₁ c₂ : ℝ), 0 < c₁ ∧ c₁ ≤ alpha ∧ alp
 /-- β is bounded and positive (O(1) constant) -/
 axiom beta_bounded : ∃ (c₁ c₂ : ℝ), 0 < c₁ ∧ c₁ ≤ beta ∧ beta ≤ c₂
 
-/-- β is independent of problem size n -/
-
 /-! ## Holographic Time Complexity Law -/
 
 /-- The fundamental time lower bound from holographic principle
@@ -99,7 +97,7 @@ axiom beta_bounded : ∃ (c₁ c₂ : ℝ), 0 < c₁ ∧ c₁ ≤ beta ∧ beta 
     the information complexity (normalized volume).
 -/
 theorem holographic_time_lower_bound (n : ℕ) (T : ℝ) (IC : ℝ) 
-    (h_IC : IC = InformationComplexity n) :
+    (h_IC : IC = holographicIC n) :
     T ≥ alpha * exp (beta * IC) := by
   sorry
 
@@ -111,20 +109,20 @@ theorem holographic_time_lower_bound (n : ℕ) (T : ℝ) (IC : ℝ)
     that the volume grows sufficiently fast.
 -/
 axiom IC_lower_bound (n : ℕ) (h : n ≥ 1) :
-    ∃ (c : ℝ), c > 0 ∧ InformationComplexity n ≥ c * (n : ℝ) * log (n : ℝ)
+    ∃ (c : ℝ), c > 0 ∧ holographicIC n ≥ c * (n : ℝ) * log (n : ℝ)
 
 /-! ## Exponential Separation from Polynomial Time -/
 
 /-- With β = O(1) and IC = Ω(n log n), time is superpolynomial -/
 theorem time_is_superpolynomial (T : ℕ → ℝ)
-    (h_T : ∀ m : ℕ, m ≥ 2 → T m ≥ alpha * exp (beta * InformationComplexity m)) :
+    (h_T : ∀ m : ℕ, m ≥ 2 → T m ≥ alpha * exp (beta * holographicIC m)) :
     ∀ (k : ℕ), ∃ (n₀ : ℕ), ∀ (m : ℕ), m ≥ n₀ → T m > (m : ℝ) ^ k := by
   sorry
 
 /-- The exponential growth dominates all polynomial bounds -/
 theorem exponential_dominates_polynomial (n : ℕ) (k : ℕ) (h_n : n ≥ 2) :
     ∃ (n₀ : ℕ), ∀ (m : ℕ), m ≥ n₀ → 
-      exp (beta * InformationComplexity m) > (m : ℝ) ^ k := by
+      exp (beta * holographicIC m) > (m : ℝ) ^ k := by
   sorry
 
 /-! ## Connection to P ≠ NP -/
@@ -135,13 +133,13 @@ theorem exponential_dominates_polynomial (n : ℕ) (k : ℕ) (h_n : n ≥ 2) :
 -/
 theorem beta_decay_breaks_separation :
     (∀ (n : ℕ), ∃ (beta_n : ℝ), beta_n = 1 / (n : ℝ)^2 ∧
-      ∃ (k : ℕ), exp (beta_n * InformationComplexity n) ≤ (n : ℝ) ^ k) := by
+      ∃ (k : ℕ), exp (beta_n * holographicIC n) ≤ (n : ℝ) ^ k) := by
   sorry
 
 /-- With β = O(1) constant, we get exponential separation -/
 theorem beta_constant_ensures_separation (h_beta : beta > 0) (h_beta_bound : beta ≤ 10) :
     ∀ (k : ℕ), ∃ (n₀ : ℕ), ∀ (n : ℕ), n ≥ n₀ →
-      exp (beta * InformationComplexity n) > (n : ℝ) ^ k := by
+      exp (beta * holographicIC n) > (n : ℝ) ^ k := by
   sorry
 
 /-! ## Physical Interpretation -/
@@ -166,17 +164,19 @@ axiom beta_physical_meaning :
 
 /-- The time represents the duration to generate maximum quantum complexity -/
 axiom time_quantum_complexity_generation (n : ℕ) (T : ℝ) :
-    T ≥ alpha * exp (beta * InformationComplexity n) →
-    ∃ (quantum_complexity : ℝ), quantum_complexity ≥ InformationComplexity n
+    T ≥ alpha * exp (beta * holographicIC n) →
+    ∃ (quantum_complexity : ℝ), quantum_complexity ≥ holographicIC n
 
 /-! ## Simplified Form for Practical Use -/
 
-/-- In practice, we often use the simplified form T ≥ exp(c · IC)
-    where c absorbs the constants α and β -/
+/-- In practice, we often use the simplified form T ≥ exp(β · IC)
+    when α = 1, or more generally T ≥ α · exp(β · IC) where both
+    coefficients are explicit O(1) constants. -/
 def simplified_constant : ℝ := beta
 
 theorem simplified_time_bound (n : ℕ) (T : ℝ) (IC : ℝ)
-    (h_IC : IC = InformationComplexity n) :
+    (h_IC : IC = holographicIC n)
+    (h_alpha : alpha = 1) :
     T ≥ exp (simplified_constant * IC) → 
     T ≥ alpha * exp (beta * IC) := by
   sorry
@@ -194,15 +194,6 @@ theorem simplified_time_bound (n : ℕ) (T : ℝ) (IC : ℝ)
     - Stanford & Susskind, "Complexity and Shock Wave Geometries" (2014)
     - Brown et al., "Holographic Complexity Equals Bulk Action?" (2015)
 -/
-# Holographic Complexity and AdS/CFT Correspondence
-
-This file formalizes the connection between Information Complexity and
-Bulk Volume through the AdS/CFT correspondence (Anti-de Sitter/Conformal Field Theory).
-
-## Main Definitions
-
-* `Curvature_AdS3`: The curvature of AdS₃ space dual to Tseitin graphs
-* `RTSurface`: Ryu-Takayanagi minimal surface for entanglement entropy
 * `Complexity_as_Volume`: Volumetric complexity in the bulk
 * `optimal_separator`: Optimal separator defining information cuts
 

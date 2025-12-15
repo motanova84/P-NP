@@ -12,6 +12,7 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Data.List.Basic
 import Mathlib.Data.Set.Basic
 import Mathlib.Probability.ProbabilityMassFunction.Basic
+import HolographicComplexity
 
 open Classical
 noncomputable section
@@ -167,39 +168,21 @@ theorem information_complexity_dichotomy
 
 /-! ## Holographic Complexity Law -/
 
-/-- The coefficient α: linear time factor (O(1) constant) -/
-def alpha : ℝ := 1.0
-
-/-- The coefficient β: exponential factor from AdS physics (O(1) constant)
-    
-    Physically: β = 1 / (ℏ_bulk · 8πG_bulk)
-    
-    This relates to:
-    - Planck's constant in the AdS bulk
-    - Gravitational constant in AdS₃
-    - Quantum complexity generation rate
--/
-def beta : ℝ := 1.0
-
-/-- α is bounded (O(1)) -/
-axiom alpha_bounded : ∃ (c : ℝ), c > 0 ∧ alpha ≤ c
-
-/-- β is positive and bounded (O(1)) -/
-axiom beta_bounded : ∃ (c₁ c₂ : ℝ), 0 < c₁ ∧ c₁ ≤ beta ∧ beta ≤ c₂
-
 /-- Holographic time complexity law: T ≥ α · exp(β · IC)
     
     This encodes the "Complexity equals Volume" principle from
     Susskind's holographic complexity theory. The computational time
     is lower bounded by the exponential of the information complexity
     (which corresponds to normalized volume in AdS geometry).
+    
+    Uses alpha and beta from HolographicComplexity module.
 -/
 theorem holographic_time_lower_bound 
   (π : CommunicationProtocol)
   (IC : ℝ)
   (h_IC : IC = protocolIC π)
   (h_IC_positive : IC > 0) :
-  ∃ (T : ℝ), T ≥ alpha * Real.exp (beta * IC) := by
+  ∃ (T : ℝ), T ≥ HolographicComplexity.alpha * Real.exp (HolographicComplexity.beta * IC) := by
   sorry
 
 /-- With IC = Ω(n log n) and β = O(1), time is exponential in n -/
@@ -209,7 +192,7 @@ theorem holographic_exponential_separation
   (IC : ℝ)
   (h_IC : ∃ (c : ℝ), c > 0 ∧ IC ≥ c * (n : ℝ) * Real.log (n : ℝ)) :
   ∀ (k : ℕ), ∃ (n₀ : ℕ), ∀ (m : ℕ), m ≥ n₀ →
-    alpha * Real.exp (beta * IC) > (m : ℝ) ^ k := by
+    HolographicComplexity.alpha * Real.exp (HolographicComplexity.beta * IC) > (m : ℝ) ^ k := by
   sorry
 
 /-- β must be O(1) for P ≠ NP separation
@@ -218,9 +201,9 @@ theorem holographic_exponential_separation
     to polynomial time, invalidating the P ≠ NP proof.
 -/
 theorem beta_constant_required_for_separation :
-  (∀ (n : ℕ), beta > 0 ∧ beta ≤ 10) →
+  (∀ (n : ℕ), HolographicComplexity.beta > 0 ∧ HolographicComplexity.beta ≤ 10) →
   ∀ (k : ℕ) (n : ℕ), n ≥ 100 →
-    Real.exp (beta * (n : ℝ) * Real.log (n : ℝ)) > (n : ℝ) ^ k := by
+    Real.exp (HolographicComplexity.beta * (n : ℝ) * Real.log (n : ℝ)) > (n : ℝ) ^ k := by
   sorry
 
 end InformationComplexity

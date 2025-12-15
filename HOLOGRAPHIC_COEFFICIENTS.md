@@ -23,7 +23,7 @@ Where:
 The coefficient β is **not** an arbitrary mathematical constant. It emerges from fundamental physics in the Anti-de Sitter (AdS) spacetime formulation:
 
 ```
-β = 1 / (ℏ_bulk · 8πG_bulk)
+β = 1 / (ℏ_bulk · 8π·G_bulk)
 ```
 
 Where:
