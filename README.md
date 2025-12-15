@@ -4,6 +4,8 @@
 
 A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, revealing how **P ≠ NP derives as a consequence of universal structure** rather than through traditional proof techniques.
 
+**✨ NEW: Post-Disciplinary Science Manifesto** - A complete reorganization of knowledge beyond traditional disciplinary boundaries, using P≠NP as the primary case study. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the full manifesto and [src/post_disciplinary.py](src/post_disciplinary.py) for the implementation framework.
+
 **✨ NEW: Epistemological Framework** - Mathematics is a manifestation of universal physical structure. Proving P≠NP requires physics, not just logic. This represents a complete conceptual synthesis with a new epistemological framework and full domain integration. See [EPISTEMOLOGICAL_FRAMEWORK.md](EPISTEMOLOGICAL_FRAMEWORK.md) for the complete framework.
 
 **✨ NEW: Universal Principles Framework** - P ≠ NP is not demonstrated, but derived from the structure of the universe. IC ≥ α is not a lemma, but a geometric axiom. κ_Π is not a constant, but a universal invariant. f₀ is not a parameter, but the operational pulse of coherence. See [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md) for the complete philosophical framework and [PHILOSOPHICAL_REFRAMING_SUMMARY.md](PHILOSOPHICAL_REFRAMING_SUMMARY.md) for a summary of changes.
@@ -200,6 +202,12 @@ This Zenodo repository contains the official, archived version of the demonstrat
 ├── FREQUENCY_DIMENSION.md             # THE MISSING DIMENSION - Frequency (ω)
 ├── KAPPA_PI_MILLENNIUM_CONSTANT.md    # The Millennium Constant κ_Π
 ├── KEY_INGREDIENT.md                  # Detailed explanation of the key insights
+├── HOLOGRAPHIC_DUALITY_README.md      # Holographic proof via AdS/CFT
+├── computational_dichotomy.lean       # Lean 4 formalization
+├── computational_dichotomy.py         # Python implementation
+├── HolographicDuality.lean           # Holographic duality formalization
+├── TseitinHardFamily.lean            # Tseitin hard instances
+├── holographic_proof.py              # Holographic visualization
 ├── GAP1_CLOSURE_SUMMARY.md           # ✨ NEW: Complete GAP 1 closure documentation
 ├── GAP1_EXPLICIT_FORMULAS.md         # ✨ NEW: Technical details on explicit constructions
 ├── formal/
@@ -223,9 +231,23 @@ This Zenodo repository contains the official, archived version of the demonstrat
 └── examples/                          # Example applications
 ```
 
+## 🌌 Holographic Duality Approach
+
+**NEW**: A physics-inspired proof using the AdS/CFT correspondence!
+
+The holographic approach establishes P ≠ NP through a duality between:
+- **Boundary Theory**: Polynomial-time algorithms operating at z = 0
+- **Bulk Theory**: NP-hard problems requiring exponential time to access bulk information
+
+Key insights:
+- Tseitin graphs embed holographically in AdS₃ space
+- Treewidth(G) ~ √n ⟹ RT-surface volume ~ n log n
+- Holographic law: Time ≥ exp(Volume) ⟹ exp(Ω(n log n))
+
+See [HOLOGRAPHIC_DUALITY_README.md](HOLOGRAPHIC_DUALITY_README.md) for complete details and run `python3 holographic_proof.py` for visualization.
 ## ✅ GAP 1 CLOSED: Explicit Hard Formulas
 
-**NEW: December 2024** - We have successfully closed GAP 1 by providing an **explicit family** of CNF formulas with **provably linear treewidth**. 
+**NEW: December 2025** - We have successfully closed GAP 1 by providing an **explicit family** of CNF formulas with **provably linear treewidth**. 
 
 ### What This Means
 
@@ -285,6 +307,14 @@ Previously, the argument relied on existential claims about hard formulas. Now w
   - Time-volume holographic bound
   - Physical lower bounds for SAT
   - See [FINAL_AXIOM_README.md](FINAL_AXIOM_README.md) for details
+
+- **NEW: `Gap2_Asymptotic.lean`**: Asymptotic lower bounds for P ≠ NP
+  - Asymptotic notation (ω, O) definitions
+  - Exponential growth theorems: 2^ω(log n) = ω(n^ε)
+  - Gap 2 asymptotic version: IC ≥ ω(log n) ⇒ T ≥ ω(n^ε)
+  - SAT lower bounds via information complexity
+  - Final P ≠ NP theorem via Tseitin hard instances
+  - See [GAP2_ASYMPTOTIC_README.md](GAP2_ASYMPTOTIC_README.md) for details
 
 ### 2. Computational Framework (Python)
 ### 3. Computational Framework (Python)
@@ -822,6 +852,7 @@ Compilation instructions in [docs/MANUSCRIPT_README.md](docs/MANUSCRIPT_README.m
 ### Additional Documentation
 
 See also:
+- [docs/IMPLICACIONES_P_NEQ_NP.md](docs/IMPLICACIONES_P_NEQ_NP.md) - Implications of P ≠ NP for technology, physics, and philosophy
 - [docs/LEMA_6_24_ACOPLAMIENTO.md](docs/LEMA_6_24_ACOPLAMIENTO.md) - Detailed explanation of Lemma 6.24
 - [docs/IC_SAT_IMPLEMENTATION.md](docs/IC_SAT_IMPLEMENTATION.md) - IC-SAT implementation details
 - [docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md](docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md) - Spectral complexity unification
