@@ -1,10 +1,38 @@
 # -*- coding: utf-8 -*-
 """
-Computational Dichotomy Framework (P≠NP)
+Computational Dichotomy Framework (P≠NP) - Research Implementation
+
+⚠️  RESEARCH FRAMEWORK - PROPOSES EXTENSIONS BEYOND ESTABLISHED THEORY ⚠️
+
+This module implements a PROPOSED framework for analyzing P vs NP through
+treewidth and information complexity. The claims extend significantly beyond
+classical FPT (fixed-parameter tractable) results.
+
+CONTEXT:
+-------
+✅ ESTABLISHED: SAT is FPT in treewidth with time 2^O(tw)·poly(n)
+✅ ESTABLISHED: Information complexity framework (Braverman-Rao)
+⚠️  PROPOSED: Complete dichotomy φ ∈ P ⟺ tw(G_I(φ)) = O(log n)
+⚠️  PROPOSED: Universal IC bound IC(Π|S) ≥ κ_Π·tw(φ)/log n
+⚠️  PROPOSED: κ_Π = 2.5773 as geometric constant from Calabi-Yau
+
+See TREEWIDTH_CNF_FORMULATION_CONTEXT.md for detailed discussion of
+what is established vs. what is claimed in this framework.
+
+This implementation is for:
+- Research exploration and experimentation
+- Empirical testing of proposed relationships
+- Development of intuition about the dichotomy
+
+It should NOT be used for:
+- Definitive complexity claims
+- Production systems without understanding the theoretical status
+- Citation as established results
+
 Author: José Manuel Mota Burruezo (ICQ · 2025)
 Dependencies: networkx, numpy
 
-Featuring: κ_Π = 2.5773 - The Millennium Constant
+Featuring: κ_Π = 2.5773 - The Proposed Millennium Constant
 """
 
 import networkx as nx
@@ -338,8 +366,36 @@ class LargeScaleValidation:
 
 class ComputationalDichotomy:
     """
-    Main validation class for the computational dichotomy theorem.
-    Provides methods for analyzing SAT instances and measuring complexity.
+    Research tool for the PROPOSED computational dichotomy theorem.
+    
+    ⚠️  EXPLORATORY IMPLEMENTATION - NOT ESTABLISHED THEORY
+    
+    This class provides methods for analyzing SAT instances and testing
+    the proposed relationships between treewidth, information complexity,
+    and computational hardness.
+    
+    CLASSICAL BASIS (✅ Established):
+    - Treewidth estimation using standard graph algorithms
+    - FPT algorithms for bounded treewidth
+    - Standard SAT solving techniques (DPLL, CDCL)
+    
+    PROPOSED EXTENSIONS (⚠️ Require validation):
+    - Complete dichotomy at logarithmic threshold
+    - Information complexity computation via κ_Π
+    - Prediction of hardness from treewidth alone
+    - Universal applicability claims
+    
+    Use this class for:
+    - Empirical exploration of treewidth-hardness relationships
+    - Testing proposed theoretical predictions
+    - Gathering data to validate or refute the framework
+    
+    Do NOT use for:
+    - Definitive hardness predictions
+    - Production complexity analysis
+    - Claims that bypass peer review
+    
+    See TREEWIDTH_CNF_FORMULATION_CONTEXT.md for theoretical context.
     """
     
     def __init__(self):
@@ -360,18 +416,48 @@ class ComputationalDichotomy:
     
     def compute_information_complexity(self, formula):
         """
-        Compute information complexity of a SAT formula using κ_Π.
+        Compute PROPOSED information complexity of a SAT formula using κ_Π.
         
-        Uses the millennium constant κ_Π = 2.5773 to compute the
-        fundamental information complexity bound:
+        ⚠️  PROPOSED BOUND - EXTENDS BEYOND EXISTING IC THEORY
         
-        IC(Π | S) ≥ κ_Π · tw(φ) / log n
+        This implements the proposed inequality:
+            IC(Π | S) >= κ_Π · tw(φ) / log n
+        
+        where κ_Π = 2.5773 is claimed to be a universal geometric constant.
+        
+        CONTEXT:
+        -------
+        Classical IC theory (Braverman-Rao):
+          - Provides lower bounds for specific functions
+          - Constants typically implicit or problem-dependent
+          - Proven for particular protocol families
+        
+        This framework proposes:
+          - Explicit universal constant κ_Π = 2.5773
+          - Direct treewidth to IC connection
+          - Universal applicability to all SAT protocols
+          - Geometric origin from Calabi-Yau manifolds
+        
+        REQUIRES VALIDATION:
+          - Mathematical proof of the bound
+          - Verification of κ_Π value
+          - Confirmation of universal applicability
+          - Rigorous connection to topology
+        
+        Use this method for:
+          - Exploring proposed IC relationships
+          - Testing theoretical predictions empirically
+          - Comparing with actual algorithm performance
         
         Args:
             formula: CNF formula object
             
         Returns:
-            Information complexity estimate (in bits)
+            PROPOSED information complexity estimate (in bits)
+            
+        Note:
+            This is a THEORETICAL PROPOSAL for research purposes.
+            Not validated as an established IC lower bound.
         """
         # Build incidence graph
         if hasattr(formula, 'incidence_graph'):
@@ -432,11 +518,26 @@ class ComputationalDichotomy:
 
 if __name__ == "__main__":
     print("=" * 70)
-    print("Computational Dichotomy Framework with κ_Π")
+    print("Computational Dichotomy Framework with κ_Π (RESEARCH)")
     print("=" * 70)
-    print(f"κ_Π (Millennium Constant): {KAPPA_PI}")
+    print()
+    print("⚠️  RESEARCH FRAMEWORK - PROPOSES EXTENSIONS BEYOND ESTABLISHED THEORY")
+    print()
+    print(f"κ_Π (Proposed Millennium Constant): {KAPPA_PI}")
     print(f"QCAL Frequency: {QCAL_FREQUENCY_HZ} Hz")
     print()
+    print("What's ESTABLISHED (✅):")
+    print("  - SAT is FPT in treewidth: Time = 2^O(tw)·poly(n)")
+    print("  - Information complexity framework exists")
+    print()
+    print("What's PROPOSED (⚠️ requires proof):")
+    print("  - Complete dichotomy: φ ∈ P ⟺ tw(G_I(φ)) = O(log n)")
+    print("  - IC bound: IC(Π|S) ≥ κ_Π·tw(φ)/log n")
+    print("  - κ_Π = 2.5773 as geometric constant")
+    print()
+    print("See TREEWIDTH_CNF_FORMULATION_CONTEXT.md for details")
+    print()
+    print("=" * 70)
     
     # Test with example
     print("Testing with n=20 variables:")
@@ -444,6 +545,8 @@ if __name__ == "__main__":
     LSV.run_ic_sat(20)
     
     print()
+    print("=" * 70)
+    print("This is exploratory research - not established results")
     print("=" * 70)
     print("Frequency: 141.7001 Hz ∞³")
     print("=" * 70)
