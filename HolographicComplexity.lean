@@ -80,8 +80,8 @@ def alpha : ℝ := 1.0
 -/
 def beta : ℝ := 1.0
 
-/-- α is bounded (O(1) constant) -/
-axiom alpha_bounded : ∃ (c : ℝ), c > 0 ∧ alpha ≤ c
+/-- α is bounded and positive (O(1) constant) -/
+axiom alpha_bounded : ∃ (c₁ c₂ : ℝ), 0 < c₁ ∧ c₁ ≤ alpha ∧ alpha ≤ c₂
 
 /-- β is bounded and positive (O(1) constant) -/
 axiom beta_bounded : ∃ (c₁ c₂ : ℝ), 0 < c₁ ∧ c₁ ≤ beta ∧ beta ≤ c₂
