@@ -15,6 +15,8 @@ class ResonantNexusEngine:
     SPECTRAL_ANALYSIS_FACTOR = 10  # Factor para análisis de primeros armónicos en espectro
     # Frecuencia de modulación de fase (Hz) - Usada para volatilidad coherente determinista
     PHASE_MODULATION_FREQ = 0.1  # Hz - Modulación de baja frecuencia para variación coherente
+    # Puntos de muestreo por ciclo - Define la resolución temporal de la señal
+    SAMPLING_POINTS_PER_CYCLE = 100  # Puntos por ciclo para discretización temporal
     
     def __init__(self):
         # Parámetros fundamentales verificados
@@ -39,7 +41,7 @@ class ResonantNexusEngine:
         num_cycles = int(duration_seconds * self.f0)
         
         # Tiempo discretizado
-        dt = self.tau0 / 100  # 100 puntos por ciclo
+        dt = self.tau0 / self.SAMPLING_POINTS_PER_CYCLE
         t = np.arange(0, duration_seconds, dt)
         
         # Generar señal armónica coherente

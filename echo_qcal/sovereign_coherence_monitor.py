@@ -12,6 +12,7 @@ import hashlib
 from bitcoinlib.keys import Key
 import signal
 import sys
+import ast
 
 class SovereignCoherenceMonitor:
     """
@@ -141,7 +142,8 @@ class SovereignCoherenceMonitor:
                         self.system_state['A_u_verified']
                     ])
                     
-                    self.system_state['last_verification'] = datetime.now(timezone.utc)
+                    # Guardar timestamp como ISO string para serialización JSON
+                    self.system_state['last_verification'] = datetime.now(timezone.utc).isoformat()
                     
                     # Registrar verificación
                     verification_event = {
@@ -213,34 +215,36 @@ class SovereignCoherenceMonitor:
         print("  🕰️  Verificando Capa Cosmológica (Aₜ)...")
         
         try:
-            # Bloque 9 timestamp
-            block9_timestamp = 1231511700.000000
+            # Constantes de verificación temporal
+            BLOCK9_TIMESTAMP = 1231511700.000000  # Unix timestamp del Bloque 9 de Bitcoin
+            WINDOW_SECONDS = 7200  # 2 horas - ventana de análisis estadístico
+            EPSILON_SECONDS = 0.010  # 10ms - precisión epsilon para alineación
+            DELTA_T_THRESHOLD = 0.010  # 10ms - umbral máximo de desviación
+            COHERENCE_THRESHOLD = 99.95  # % - umbral mínimo de coherencia
             
             # Calcular alineación
-            N_ideal = block9_timestamp / self.tau0
-            N_integer = round(N_ideal)
-            T_ideal = N_integer * self.tau0
-            delta_T = abs(T_ideal - block9_timestamp)
+            n_ideal = BLOCK9_TIMESTAMP / self.tau0
+            n_integer = round(n_ideal)
+            t_ideal = n_integer * self.tau0
+            delta_t = abs(t_ideal - BLOCK9_TIMESTAMP)
             
             # Calcular coherencia
-            coherence = (1 - delta_T / self.tau0) * 100
+            coherence = (1 - delta_t / self.tau0) * 100
             
             # Análisis estadístico
-            window = 7200  # 2 horas
-            epsilon = 0.010  # 10ms
-            p_value = (2 * epsilon) / window
+            p_value = (2 * EPSILON_SECONDS) / WINDOW_SECONDS
             
             # Umbrales de verificación
-            verified = (delta_T <= 0.010 and coherence >= 99.95)
+            verified = (delta_t <= DELTA_T_THRESHOLD and coherence >= COHERENCE_THRESHOLD)
             
             verification_result = {
                 'verified': verified,
-                'block9_timestamp': block9_timestamp,
-                'delta_T_ms': delta_T * 1000,
+                'block9_timestamp': BLOCK9_TIMESTAMP,
+                'delta_T_ms': delta_t * 1000,
                 'coherence_percent': coherence,
                 'p_value': p_value,
-                'bayes_factor': window / (2 * epsilon),
-                'phase': (block9_timestamp / self.tau0) % 1,
+                'bayes_factor': WINDOW_SECONDS / (2 * EPSILON_SECONDS),
+                'phase': (BLOCK9_TIMESTAMP / self.tau0) % 1,
                 'timestamp': datetime.now(timezone.utc).isoformat()
             }
             
@@ -258,8 +262,10 @@ class SovereignCoherenceMonitor:
         print("  🏗️  Verificando Capa Semántica (Aᵤ)...")
         
         try:
-            # Verificar archivo del motor resonante
-            engine_path = Path("tools/resonant_nexus_engine.py")
+            # Verificar archivo del motor resonante usando ruta absoluta
+            # Construir path relativo al directorio raíz del proyecto
+            script_dir = Path(__file__).parent.parent  # Subir dos niveles desde echo_qcal/
+            engine_path = script_dir / "tools" / "resonant_nexus_engine.py"
             
             if not engine_path.exists():
                 return {
@@ -282,8 +288,8 @@ class SovereignCoherenceMonitor:
                 '0.5, 0.3, 0.15, 0.05' in content
             ])
             
-            # Verificar que no use ruido aleatorio
-            no_random_noise = 'random' not in content.lower() and 'np.random' not in content
+            # Verificar que no use ruido aleatorio usando AST para evitar falsos positivos
+            no_random_noise = self._check_no_random_usage(content)
             
             verified = all([f0_found, sigma_found, harmonics_found, no_random_noise])
             
@@ -307,6 +313,48 @@ class SovereignCoherenceMonitor:
                 'error': str(e),
                 'timestamp': datetime.now(timezone.utc).isoformat()
             }
+    
+    def _check_no_random_usage(self, code_content):
+        """
+        Verifica que el código no use funciones random mediante análisis AST.
+        Esto evita falsos positivos de palabras 'random' en comentarios o strings.
+        
+        Returns:
+            bool: True si NO hay uso de random, False si detecta uso de random
+        """
+        try:
+            tree = ast.parse(code_content)
+            
+            # Buscar imports de random
+            for node in ast.walk(tree):
+                # Detectar: import random
+                if isinstance(node, ast.Import):
+                    for alias in node.names:
+                        if 'random' in alias.name.lower():
+                            return False
+                
+                # Detectar: from numpy import random, from random import ...
+                if isinstance(node, ast.ImportFrom):
+                    if node.module and 'random' in node.module.lower():
+                        return False
+                    for alias in node.names:
+                        if 'random' in alias.name.lower():
+                            return False
+                
+                # Detectar llamadas como: np.random.uniform, random.choice, etc.
+                if isinstance(node, ast.Attribute):
+                    if node.attr.lower() == 'random':
+                        return False
+                    # Verificar acceso a submódulos random
+                    if isinstance(node.value, ast.Attribute):
+                        if node.value.attr.lower() == 'random':
+                            return False
+            
+            return True  # No se encontró uso de random
+            
+        except SyntaxError:
+            # Si hay error de sintaxis, usar fallback simple
+            return 'random' not in code_content.lower()
     
     async def calculate_next_coherence_peak(self):
         """Calcula próximo pico de coherencia pura"""
@@ -670,7 +718,9 @@ class SovereignCoherenceMonitor:
             print(f"\n📈 ESTADÍSTICAS:")
             print(f"   • Transmisiones ejecutadas: {transmission_count}")
             if last_verification:
-                last_verif = (datetime.now(timezone.utc) - last_verification).total_seconds()
+                # Convertir ISO string a datetime para cálculo
+                last_verif_dt = datetime.fromisoformat(last_verification)
+                last_verif = (datetime.now(timezone.utc) - last_verif_dt).total_seconds()
                 print(f"   • Última verificación: hace {last_verif:.0f} segundos")
             
             # Próximas acciones
