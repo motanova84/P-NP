@@ -52,10 +52,6 @@ class QCALRealTimeMonitor:
         
         # Obtener la desviación de fase (la parte fraccionaria de N)
         delta = math.modf(N)[0] 
-        
-        # Asegurar que delta es positivo (aunque modf lo garantiza, es buena práctica)
-        if delta < 0:
-            delta += 1.0 
             
         return delta
 
@@ -63,12 +59,12 @@ class QCALRealTimeMonitor:
         """
         Bucle principal de monitoreo en tiempo real.
         """
-        print("—" * 50)
+        print("-" * 50)
         print("🛰️ Monitor QCAL ∞³: Activado")
         print(f"  Frecuencia Base f₀: {self.f0} Hz")
         print(f"  Período Base τ₀: {self.tau0:.6f} segundos")
         print(f"  Umbral de Pico Puro: < {self.COHERENCE_THRESHOLD*100}%")
-        print("—" * 50)
+        print("-" * 50)
 
         try:
             while True:
