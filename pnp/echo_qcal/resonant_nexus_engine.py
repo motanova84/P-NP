@@ -36,6 +36,9 @@ class UnitaryArchitectureConfig:
     
     # 4. Escala de Amplitud (A_max)
     MAX_AMPLITUDE = 100.0
+    
+    # 5. Factor de Modulación Lenta - Control de la velocidad de fluctuación
+    SLOW_MODULATION_FACTOR = 0.01
 
 # ============================================================================
 # MOTOR DE NEXUS RESONANTE
@@ -71,7 +74,7 @@ class ResonantNexusEngine:
         
         # Usamos una función seno simple modulada por sigma para simular
         # una fluctuación controlada (determinista).
-        oscillation = np.sin(time_point * self.config.F0 * 2 * np.pi * 0.01) # Modulación lenta
+        oscillation = np.sin(time_point * self.config.F0 * 2 * np.pi * self.config.SLOW_MODULATION_FACTOR)
         
         # El factor de coherencia varía dentro de +/- COHERENCE_VOLATILITY
         coherence_factor = 1.0 + self.config.COHERENCE_VOLATILITY * oscillation

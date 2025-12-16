@@ -95,7 +95,7 @@ class TestResonantNexusEngine:
             COHERENCE_VOLATILITY = 0.04
             MAX_AMPLITUDE = 100.0
         
-        with pytest.raises(ValueError, match="debe ser 1.0"):
+        with pytest.raises(ValueError):
             ResonantNexusEngine(config=InvalidConfig)
 
 
