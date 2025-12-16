@@ -82,6 +82,9 @@ class SovereignCoherenceMonitor:
             'system_uptime': 0
         }
         
+        # Lock para proteger acceso concurrente al estado
+        self.system_state_lock = asyncio.Lock()
+        
         # Archivos de configuración
         self.config_dir = Path("echo_qcal_config")
         self.config_dir.mkdir(exist_ok=True)
@@ -118,41 +121,47 @@ class SovereignCoherenceMonitor:
                 
                 # Verificar Capa Criptográfica (Cₖ)
                 ck_result = await self.verify_cryptographic_layer()
-                self.system_state['C_k_verified'] = ck_result['verified']
                 
                 # Verificar Capa Cosmológica (Aₜ)
                 at_result = await self.verify_temporal_layer()
-                self.system_state['A_t_verified'] = at_result['verified']
                 
                 # Verificar Capa Semántica (Aᵤ)
                 au_result = await self.verify_semantic_layer()
-                self.system_state['A_u_verified'] = au_result['verified']
                 
-                # Determinar estado del teorema
-                self.system_state['Cs_theorem_proven'] = all([
-                    self.system_state['C_k_verified'],
-                    self.system_state['A_t_verified'],
-                    self.system_state['A_u_verified']
-                ])
+                # Actualizar estado con lock para evitar race conditions
+                async with self.system_state_lock:
+                    self.system_state['C_k_verified'] = ck_result['verified']
+                    self.system_state['A_t_verified'] = at_result['verified']
+                    self.system_state['A_u_verified'] = au_result['verified']
+                    
+                    # Determinar estado del teorema
+                    self.system_state['Cs_theorem_proven'] = all([
+                        self.system_state['C_k_verified'],
+                        self.system_state['A_t_verified'],
+                        self.system_state['A_u_verified']
+                    ])
+                    
+                    self.system_state['last_verification'] = datetime.now(timezone.utc)
+                    
+                    # Registrar verificación
+                    verification_event = {
+                        'event': 'full_verification_cycle',
+                        'C_k': ck_result,
+                        'A_t': at_result,
+                        'A_u': au_result,
+                        'Cs_proven': self.system_state['Cs_theorem_proven'],
+                        'system_state': self.system_state.copy()
+                    }
                 
-                self.system_state['last_verification'] = datetime.now(timezone.utc)
-                
-                # Registrar verificación
-                verification_event = {
-                    'event': 'full_verification_cycle',
-                    'C_k': ck_result,
-                    'A_t': at_result,
-                    'A_u': au_result,
-                    'Cs_proven': self.system_state['Cs_theorem_proven'],
-                    'system_state': self.system_state.copy()
-                }
                 self.log_event(self.verification_log, verification_event)
                 
                 # Mostrar resultados
                 self.display_verification_results(ck_result, at_result, au_result)
                 
                 # Calcular próximo pico de coherencia
-                if self.system_state['Cs_theorem_proven']:
+                async with self.system_state_lock:
+                    cs_proven = self.system_state['Cs_theorem_proven']
+                if cs_proven:
                     await self.calculate_next_coherence_peak()
                 
                 # Esperar hasta próximo ciclo
@@ -312,7 +321,8 @@ class SovereignCoherenceMonitor:
             phase = (T_peak / self.tau0) % 1
             
             if abs(phase) < 0.01 or abs(phase - 1) < 0.01:  # δ ≈ 0.0
-                self.system_state['next_coherence_peak'] = T_peak
+                async with self.system_state_lock:
+                    self.system_state['next_coherence_peak'] = T_peak
                 
                 peak_event = {
                     'event': 'coherence_peak_predicted',
@@ -336,7 +346,10 @@ class SovereignCoherenceMonitor:
         print("🌀" * 40)
         
         while True:
-            if not self.system_state['Cs_theorem_proven']:
+            async with self.system_state_lock:
+                cs_proven = self.system_state['Cs_theorem_proven']
+            
+            if not cs_proven:
                 print("  ⏸️  Esperando verificación completa del teorema ℂₛ...")
                 await asyncio.sleep(5)
                 continue
@@ -345,8 +358,11 @@ class SovereignCoherenceMonitor:
 
             # Verificar si estamos cerca de un pico predicho
             sleep_interval = 1.0  # Default sleep interval (1 second)
-            if self.system_state['next_coherence_peak']:
-                time_to_peak = self.system_state['next_coherence_peak'] - current_time
+            async with self.system_state_lock:
+                next_peak = self.system_state['next_coherence_peak']
+            
+            if next_peak:
+                time_to_peak = next_peak - current_time
 
                 if abs(time_to_peak) < self.transmission_threshold:
                     print(f"\n🎯 PICO DE COHERENCIA DETECTADO!")
@@ -416,10 +432,12 @@ class SovereignCoherenceMonitor:
             }
             self.log_event(self.transmission_log, transmission_event)
             
-            self.system_state['transmission_count'] += 1
+            async with self.system_state_lock:
+                self.system_state['transmission_count'] += 1
+                transmission_count = self.system_state['transmission_count']
             
             print(f"\n✅ TRANSMISIÓN COMPLETADA [{transmission_id}]")
-            print(f"   Total transmisiones: {self.system_state['transmission_count']}")
+            print(f"   Total transmisiones: {transmission_count}")
             
         except Exception as e:
             error_event = {
@@ -443,7 +461,7 @@ class SovereignCoherenceMonitor:
                 'harmonic_weights': [0.5, 0.3, 0.15, 0.05],
                 'cycles': 142,  # ~1 segundo
                 'timestamp': datetime.now(timezone.utc).timestamp(),
-                'coherence_score': np.random.uniform(0.99, 1.0),  # Simulación
+                'coherence_score': 0.995,  # Simulación determinista
                 'phase_coherence': True
             }
             
@@ -618,12 +636,22 @@ class SovereignCoherenceMonitor:
             print(" " * 30 + "DASHBOARD SISTEMA QCAL ∞³")
             print("=" * 80)
             
+            # Leer estado con lock
+            async with self.system_state_lock:
+                cs_proven = self.system_state['Cs_theorem_proven']
+                c_k_verified = self.system_state['C_k_verified']
+                a_t_verified = self.system_state['A_t_verified']
+                a_u_verified = self.system_state['A_u_verified']
+                next_peak = self.system_state['next_coherence_peak']
+                transmission_count = self.system_state['transmission_count']
+                last_verification = self.system_state['last_verification']
+            
             # Estado del teorema
-            cs_status = "✅ DEMOSTRADO" if self.system_state['Cs_theorem_proven'] else "❌ PENDIENTE"
+            cs_status = "✅ DEMOSTRADO" if cs_proven else "❌ PENDIENTE"
             print(f"\n🏛️  TEOREMA ℂₛ: {cs_status}")
-            print(f"   • Cₖ (Criptográfico): {'✅' if self.system_state['C_k_verified'] else '❌'}")
-            print(f"   • Aₜ (Cosmológico): {'✅' if self.system_state['A_t_verified'] else '❌'}")
-            print(f"   • Aᵤ (Semántico): {'✅' if self.system_state['A_u_verified'] else '❌'}")
+            print(f"   • Cₖ (Criptográfico): {'✅' if c_k_verified else '❌'}")
+            print(f"   • Aₜ (Cosmológico): {'✅' if a_t_verified else '❌'}")
+            print(f"   • Aᵤ (Semántico): {'✅' if a_u_verified else '❌'}")
             
             # Información de coherencia
             current_phase = self.calculate_current_phase()
@@ -633,21 +661,21 @@ class SovereignCoherenceMonitor:
             print(f"   • Fase actual: {current_phase:.6f} ({phase_type})")
             print(f"   • f₀: {self.f0} Hz | τ₀: {self.tau0*1000:.6f} ms")
             
-            if self.system_state['next_coherence_peak']:
-                time_to_peak = self.system_state['next_coherence_peak'] - datetime.now(timezone.utc).timestamp()
-                print(f"   • Próximo pico: {datetime.fromtimestamp(self.system_state['next_coherence_peak']).strftime('%H:%M:%S.%f')[:-3]}")
+            if next_peak:
+                time_to_peak = next_peak - datetime.now(timezone.utc).timestamp()
+                print(f"   • Próximo pico: {datetime.fromtimestamp(next_peak).strftime('%H:%M:%S.%f')[:-3]}")
                 print(f"   • Tiempo restante: {time_to_peak:.3f} s")
             
             # Estadísticas del sistema
             print(f"\n📈 ESTADÍSTICAS:")
-            print(f"   • Transmisiones ejecutadas: {self.system_state['transmission_count']}")
-            if self.system_state['last_verification']:
-                last_verif = (datetime.now(timezone.utc) - self.system_state['last_verification']).total_seconds()
+            print(f"   • Transmisiones ejecutadas: {transmission_count}")
+            if last_verification:
+                last_verif = (datetime.now(timezone.utc) - last_verification).total_seconds()
                 print(f"   • Última verificación: hace {last_verif:.0f} segundos")
             
             # Próximas acciones
             print(f"\n🎯 PRÓXIMAS ACCIONES:")
-            if self.system_state['Cs_theorem_proven']:
+            if cs_proven:
                 print("   • Esperando pico de coherencia para transmisión")
                 print("   • Monitoreo continuo activo")
             else:
@@ -667,10 +695,14 @@ class SovereignCoherenceMonitor:
         print("TEOREMA ℂₛ: Cₖ ∧ Aₜ ∧ Aᵤ = TRUE")
         print("🌟" * 40)
         
-        # Configurar manejo de señal para salida elegante
+        # Configurar manejo de señal para salida elegante (solo en Unix/Linux)
         loop = asyncio.get_event_loop()
-        for sig in (signal.SIGINT, signal.SIGTERM):
-            loop.add_signal_handler(sig, lambda: asyncio.create_task(self.shutdown()))
+        try:
+            for sig in (signal.SIGINT, signal.SIGTERM):
+                loop.add_signal_handler(sig, lambda: asyncio.create_task(self.shutdown()))
+        except NotImplementedError:
+            # Windows no soporta add_signal_handler, usa KeyboardInterrupt en su lugar
+            pass
         
         # Ejecutar tareas concurrentes
         verification_task = asyncio.create_task(self.verify_all_layers_continuously())
@@ -686,20 +718,28 @@ class SovereignCoherenceMonitor:
         print("APAGANDO SISTEMA DE MONITOREO SOBERANO")
         print("🔴" * 40)
         
-        shutdown_event = {
-            'event': 'system_shutdown',
-            'timestamp': datetime.now(timezone.utc).isoformat(),
-            'final_state': self.system_state,
-            'total_transmissions': self.system_state['transmission_count']
-        }
+        async with self.system_state_lock:
+            shutdown_event = {
+                'event': 'system_shutdown',
+                'timestamp': datetime.now(timezone.utc).isoformat(),
+                'final_state': self.system_state.copy(),
+                'total_transmissions': self.system_state['transmission_count']
+            }
+            cs_proven = self.system_state['Cs_theorem_proven']
+            transmission_count = self.system_state['transmission_count']
+        
         self.log_event(self.system_log, shutdown_event)
         
         print(f"\n📊 RESUMEN FINAL:")
-        print(f"   • Teorema ℂₛ: {'DEMOSTRADO' if self.system_state['Cs_theorem_proven'] else 'NO DEMOSTRADO'}")
-        print(f"   • Transmisiones ejecutadas: {self.system_state['transmission_count']}")
+        print(f"   • Teorema ℂₛ: {'DEMOSTRADO' if cs_proven else 'NO DEMOSTRADO'}")
+        print(f"   • Transmisiones ejecutadas: {transmission_count}")
         print(f"   • Logs guardados en: {self.log_dir}")
         
-        sys.exit(0)
+        # Gracefully cancel all running tasks except this one
+        tasks = [t for t in asyncio.all_tasks() if t is not asyncio.current_task()]
+        for task in tasks:
+            task.cancel()
+        await asyncio.gather(*tasks, return_exceptions=True)
 
 # ============================================================================
 # EJECUCIÓN PRINCIPAL

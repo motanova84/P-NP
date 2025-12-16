@@ -11,6 +11,11 @@ from datetime import datetime, timezone
 class ResonantNexusEngine:
     """Motor de resonancia basado en parámetros QCAL ∞³"""
     
+    # Constantes para cálculo de coherencia
+    SPECTRAL_ANALYSIS_FACTOR = 10  # Factor para análisis de primeros armónicos en espectro
+    # Frecuencia de modulación de fase (Hz) - Usada para volatilidad coherente determinista
+    PHASE_MODULATION_FREQ = 0.1  # Hz - Modulación de baja frecuencia para variación coherente
+    
     def __init__(self):
         # Parámetros fundamentales verificados
         self.f0 = 141.7001  # Hz - Frecuencia fundamental
@@ -46,7 +51,7 @@ class ResonantNexusEngine:
         
         # Aplicar volatilidad coherente (no aleatoria)
         # Usa modulación determinista basada en fase
-        phase_modulation = self.volatility * np.sin(2 * np.pi * 0.1 * t)
+        phase_modulation = self.volatility * np.sin(2 * np.pi * self.PHASE_MODULATION_FREQ * t)
         signal = signal * (1 + phase_modulation)
         
         # Calcular métricas de coherencia
@@ -67,7 +72,11 @@ class ResonantNexusEngine:
     
     def _calculate_coherence(self, signal):
         """
-        Calcula puntuación de coherencia de la señal
+        Calcula puntuación de coherencia de la señal basada en análisis espectral.
+        
+        La coherencia mide qué tan bien está concentrada la energía de la señal
+        en los primeros armónicos esperados. Un valor más alto indica que la señal
+        está bien alineada con las frecuencias armónicas fundamentales.
         
         Args:
             signal: Array numpy con la señal
@@ -83,7 +92,8 @@ class ResonantNexusEngine:
         power_spectrum = power_spectrum / np.sum(power_spectrum)
         
         # Los primeros armónicos deberían dominar
-        coherence = np.sum(power_spectrum[:len(self.harmonic_weights) * 10])
+        # Usamos SPECTRAL_ANALYSIS_FACTOR para analizar suficientes componentes espectrales
+        coherence = np.sum(power_spectrum[:len(self.harmonic_weights) * self.SPECTRAL_ANALYSIS_FACTOR])
         
         return min(coherence, 1.0)
     

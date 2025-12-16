@@ -99,3 +99,7 @@ pip-wheel-metadata/
 lake-manifest.json
 tree_decomposition_example.png
 dicotomia_computacional.png
+
+# Echo QCAL generated files
+echo_qcal_logs/
+echo_qcal_config/
