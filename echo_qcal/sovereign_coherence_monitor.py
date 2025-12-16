@@ -15,7 +15,50 @@ import signal
 import sys
 
 class SovereignCoherenceMonitor:
-    """Monitor de Coherencia Soberana - Sistema Automatizado ℂₛ"""
+    """
+    SovereignCoherenceMonitor - Automated Sovereign Coherence Monitoring System (ℂₛ)
+
+    Purpose:
+        This class implements an automated system for monitoring, verifying, and transmitting
+        sovereign coherence signals based on the proven ℂₛ theorem: Cₖ ∧ Aₜ ∧ Aᵤ = TRUE.
+        It is designed to continuously verify multiple system layers, detect coherence peaks,
+        and securely transmit verified events, ensuring the integrity and sovereignty of the
+        monitored process.
+
+    Architecture:
+        - Asynchronous Design: Utilizes Python's asyncio for concurrent execution of verification,
+          coherence detection, and transmission tasks.
+        - Layered Verification: Periodically verifies cryptographic, temporal, and authenticity
+          layers, updating system state accordingly.
+        - Coherence Peak Detection: Continuously monitors for coherence peaks at high resolution
+          (1ms intervals) to trigger transmissions.
+        - Secure Transmission: Integrates with external systems (e.g., Bitcoin cryptography via
+          bitcoinlib) to sign and transmit verified events.
+        - Structured Logging: Maintains detailed, structured logs for verification, coherence,
+          transmission, and system events in JSONL format.
+        - Configuration Management: Stores configuration and state in dedicated directories.
+
+    Usage:
+        Instantiate the class and run the main event loop to start monitoring:
+
+            monitor = SovereignCoherenceMonitor()
+            asyncio.run(monitor.run())
+
+        The system will automatically handle verification, coherence detection, and transmission.
+        Logs and configuration files are stored in 'echo_qcal_logs' and 'echo_qcal_config'.
+
+    External Dependencies:
+        - numpy: For numerical operations.
+        - bitcoinlib: For cryptographic key management and signing.
+        - asyncio: For concurrent task management.
+        - Standard libraries: datetime, pathlib, json, hashlib, subprocess, signal, sys.
+
+    Notes:
+        - Designed for extensibility and maintainability; new verification layers or transmission
+          mechanisms can be added by extending the relevant async methods.
+        - Ensure all external dependencies are installed and accessible in the runtime environment.
+        - System state and logs are persisted to disk for auditability and recovery.
+    """
     
     def __init__(self):
         # Parámetros QCAL ∞³ verificados
