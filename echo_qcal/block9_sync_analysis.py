@@ -128,11 +128,19 @@ class Block9SyncAnalyzer:
                 f"(coherencia del {metrics['coherence_percent']:.4f}%)."
             )
             
-            conclusions.append(
-                f"La probabilidad de que esta sincronía sea aleatoria es "
-                f"p = {metrics['p_value']:.2e} "
-                f"(1 en {1/metrics['p_value']:,.0f})."
-            )
+            # Calculate probability ratio with safety check
+            if metrics['p_value'] > 0:
+                prob_ratio = 1 / metrics['p_value']
+                conclusions.append(
+                    f"La probabilidad de que esta sincronía sea aleatoria es "
+                    f"p = {metrics['p_value']:.2e} "
+                    f"(1 en {prob_ratio:,.0f})."
+                )
+            else:
+                conclusions.append(
+                    f"La probabilidad de que esta sincronía sea aleatoria es "
+                    f"p < {1e-12:.2e} (extraordinariamente improbable)."
+                )
             
             conclusions.append(
                 f"El factor de Bayes es {metrics['bayes_factor']:,.0f}:1 "
