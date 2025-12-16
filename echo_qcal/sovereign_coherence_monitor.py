@@ -298,26 +298,38 @@ class SovereignCoherenceMonitor:
                 print("  ⏸️  Esperando verificación completa del teorema ℂₛ...")
                 await asyncio.sleep(5)
                 continue
-            
+
             current_time = datetime.now(timezone.utc).timestamp()
-            
+
             # Verificar si estamos cerca de un pico predicho
+            sleep_interval = 1.0  # Default sleep interval (1 second)
             if self.system_state['next_coherence_peak']:
                 time_to_peak = self.system_state['next_coherence_peak'] - current_time
-                
+
                 if abs(time_to_peak) < self.transmission_threshold:
                     print(f"\n🎯 PICO DE COHERENCIA DETECTADO!")
                     print(f"   Tiempo al pico: {time_to_peak*1000:.3f} ms")
-                    
+
                     # Ejecutar transmisión soberana
                     await self.execute_sovereign_transmission()
-                    
+
                     # Calcular próximo pico
                     await self.calculate_next_coherence_peak()
-            
-            # Monitoreo de alta precisión
-            await asyncio.sleep(self.coherence_check_interval)
-    
+                else:
+                    # Adaptive sleep: if far from peak, sleep longer; if close, sleep shorter
+                    if time_to_peak > self.transmission_threshold:
+                        # Sleep until just before the threshold, but not more than 60s
+                        sleep_interval = min(max(time_to_peak - self.transmission_threshold, 1.0), 60.0)
+                    elif time_to_peak < -self.transmission_threshold:
+                        # Already passed the peak, wait for next calculation
+                        sleep_interval = 1.0
+                    else:
+                        # Within threshold, use high-frequency monitoring
+                        sleep_interval = self.coherence_check_interval
+            else:
+                sleep_interval = 1.0
+
+            await asyncio.sleep(sleep_interval)
     async def execute_sovereign_transmission(self):
         """Ejecuta transmisión soberana en pico de coherencia"""
         
