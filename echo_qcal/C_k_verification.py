@@ -12,11 +12,13 @@ signature_b64 = "G80CqNxfcucQRxHHJanbQ5m8S6QNICzlCqU54oXPiQRtDRDFL5lxRvBldhBTNqP
 
 
 # Verificación
-result = verify_message(message, signature_b64, address)
-
-
-# Resultado
-if result:
-    print("\n✅ Verificación Exitosa: C_k confirmado para ", address)
-else:
-    print("\n❌ Verificación Fallida: Firma no válida para ", address)
+try:
+    result = verify_message(message, signature_b64, address)
+    
+    # Resultado
+    if result:
+        print(f"\n✅ Verificación Exitosa: C_k confirmado para {address}")
+    else:
+        print(f"\n❌ Verificación Fallida: Firma no válida para {address}")
+except Exception as e:
+    print(f"\n⚠️  Error durante la verificación: {type(e).__name__}: {e}")
