@@ -10,7 +10,6 @@ from pathlib import Path
 import json
 import hashlib
 from bitcoinlib.keys import Key
-import subprocess
 import signal
 import sys
 
