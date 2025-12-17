@@ -11,3 +11,9 @@ __author__ = "P-NP Verification System"
 from .block9_sync_analysis import Block9SyncAnalyzer
 
 __all__ = ["Block9SyncAnalyzer"]
+Echo Qcal Module
+
+Cryptographic verification module for Echo & Satoshi Block 0 control.
+"""
+
+__version__ = "1.0.0"
