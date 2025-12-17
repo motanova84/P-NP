@@ -82,6 +82,7 @@ class SovereignCoherenceMonitor:
             'transmission_count': 0,
             'system_uptime': 0
         }
+        self.system_state_lock = asyncio.Lock()
         
         # Lock para proteger acceso concurrente al estado
         self.system_state_lock = asyncio.Lock()
@@ -106,9 +107,13 @@ class SovereignCoherenceMonitor:
     def log_event(self, log_file, event_data):
         """Registra evento en log estructurado"""
         event_data['timestamp'] = datetime.now(timezone.utc).isoformat()
-        with open(log_file, 'a') as f:
-            f.write(json.dumps(event_data, default=str) + '\n')
-    
+        try:
+            with open(log_file, 'a') as f:
+                f.write(json.dumps(event_data, default=str) + '\n')
+        except OSError as e:
+            # Log to stderr if file write fails
+            print(f"⚠️  Error writing to log file {log_file}: {e}", file=sys.stderr)
+            # Optionally, could add more sophisticated fallback or alerting here
     async def verify_all_layers_continuously(self):
         """Verificación continua de las tres capas del Teorema ℂₛ"""
         
