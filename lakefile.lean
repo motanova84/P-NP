@@ -87,6 +87,15 @@ lean_lib Gap2_Asymptotic where
 lean_lib SevenStairs where
   roots := #[`SevenStairs]
 
+lean_lib KappaPi where
+  roots := #[`Formal.KappaPi]
+
+lean_lib CalabiYauComplexity where
+  roots := #[`Formal.CalabiYauComplexity]
+
+lean_lib StructuralCouplingComplete where
+  roots := #[`Formal.StructuralCoupling]
+
 @[default_target]
 lean_exe pnp where
   root := `Director
