@@ -35,8 +35,8 @@ else
     echo "$SORRY_RESULTS"
     echo ""
     
-    # Count sorries
-    SORRY_COUNT=$(echo "$SORRY_RESULTS" | wc -l)
+    # Count sorries (grep -c gives accurate count)
+    SORRY_COUNT=$(echo "$SORRY_RESULTS" | grep -c "sorry")
     echo "Total 'sorry' statements: $SORRY_COUNT"
     echo ""
     echo "⚠️  Proofs are incomplete. Please complete all 'sorry' placeholders."

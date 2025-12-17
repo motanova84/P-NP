@@ -117,12 +117,13 @@ if [ $TOTAL -eq 0 ]; then
     echo ""
     
     # Create final report
-    cat > FINAL_REPORT.md << 'EOFR'
+    REPORT_DATE=$(date +"%Y-%m-%d %H:%M:%S")
+    cat > FINAL_REPORT.md << EOF
 # FINAL VERIFICATION REPORT - P vs NP Proof Package
 
 ## Status: VERIFIED ✅
 
-**Date**: $(date)
+**Date**: ${REPORT_DATE}
 
 ## Components Verified
 
@@ -172,8 +173,8 @@ if [ $TOTAL -eq 0 ]; then
 
 ## Verification Date
 
-$(date +"%Y-%m-%d %H:%M:%S")
-EOFR
+${REPORT_DATE}
+EOF
     
     echo "Final report created: FINAL_REPORT.md"
     echo ""

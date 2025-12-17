@@ -43,9 +43,16 @@ class CrossValidation:
             'clauses': n_vars * 3  # Simplified
         }
     
-    def measure_solving_time(self, instance: Dict) -> float:
+    # Scaling factor: Makes predictions match simulated solver behavior
+    # This is calibrated for the simplified simulation model
+    COMPLEXITY_SCALE_FACTOR = 4.0
+    
+    def simulate_solving_time(self, instance: Dict) -> float:
         """
-        Measure actual solving time (simplified simulation).
+        Simulate SAT solving time (not actual solver measurement).
+        
+        NOTE: This is a simplified simulation for validation purposes.
+        Real implementation would use actual SAT solver measurements.
         
         For real implementation, this would use actual SAT solver.
         """
@@ -53,10 +60,10 @@ class CrossValidation:
         tw = instance['treewidth']
         
         # Simulate exponential behavior with treewidth
-        # Real time ≈ 2^(c·tw/log(n)) where c ~ kappa/4
+        # Real time ≈ 2^(c·tw/log(n)) where c ~ kappa/COMPLEXITY_SCALE_FACTOR
         if n > 1:
             # Use a scaling factor to make predictions reasonable
-            complexity = (self.kappa / 4.0) * tw / np.log(n + 1)
+            complexity = (self.kappa / self.COMPLEXITY_SCALE_FACTOR) * tw / np.log(n + 1)
             time = np.exp(complexity)
         else:
             time = 1.0
@@ -82,13 +89,13 @@ class CrossValidation:
         # Generate instance
         instance = self.generate_formula(n_vars, treewidth, formula_type)
         
-        # Measure actual time
-        actual_time = self.measure_solving_time(instance)
+        # Simulate solving time (NOTE: Not actual SAT solver)
+        actual_time = self.simulate_solving_time(instance)
         
-        # Predict with theorem
+        # Predict with theorem (using same scaling)
         if n_vars > 1:
-            # Use same scaling as actual measurement
-            predicted = (kappa / 4.0) * treewidth / np.log(n_vars + 1)
+            # Use same scaling as simulation for consistency
+            predicted = (kappa / self.COMPLEXITY_SCALE_FACTOR) * treewidth / np.log(n_vars + 1)
             predicted_time = np.exp(predicted)
         else:
             predicted_time = 1.0

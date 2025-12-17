@@ -90,6 +90,9 @@ class CalabiYauComplexity:
         
         Incidence graph → CY manifold correspondence
         
+        NOTE: This mapping assumes n_vertices ≈ n_edges (balanced graphs).
+        Real SAT instances may have different clause/variable ratios.
+        
         Args:
             n_vertices: Number of vertices (clauses)
             n_edges: Number of edges (variables)
@@ -119,6 +122,9 @@ class CalabiYauComplexity:
         """
         Verify the graph-CY isomorphism for a given instance.
         
+        NOTE: Assumes n_clauses ≈ n_vars (balanced formulas).
+        This is a simplification that may not hold for all SAT instances.
+        
         Args:
             treewidth: Treewidth of formula
             n_vars: Number of variables
@@ -126,8 +132,9 @@ class CalabiYauComplexity:
         Returns:
             (is_valid, details)
         """
-        # Compute both sides
-        n_clauses = n_vars  # Simplified: assume balanced
+        # Simplified assumption: n_clauses ≈ n_vars (balanced)
+        # WARNING: Real instances may have different ratios
+        n_clauses = n_vars
         
         # Graph data
         cy_data = self.graph_to_cy_map(n_clauses, n_vars)
