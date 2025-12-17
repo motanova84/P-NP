@@ -1,0 +1,9 @@
+{
+  "timestamp": "2025-12-17T21:59:32.871782",
+  "total_instances": 45,
+  "success_rate": 1.0,
+  "mean_error": 0.10541516381416585,
+  "kappa_used": 2.5773,
+  "threshold": 0.7,
+  "passed": true
+}
