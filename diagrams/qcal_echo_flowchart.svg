@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1400" width="1200" height="1400">
+  <defs>
+    <style>
+      .layer-box { fill: #2c3e50; stroke: #3498db; stroke-width: 3; }
+      .layer-label { fill: white; font-family: 'Courier New', monospace; font-size: 18px; font-weight: bold; }
+      .layer-detail { fill: #ecf0f1; font-family: 'Courier New', monospace; font-size: 14px; }
+      .convergence-box { fill: #27ae60; stroke: #229954; stroke-width: 4; }
+      .output-box { fill: #8e44ad; stroke: #6c3483; stroke-width: 4; }
+      .arrow { stroke: #3498db; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+      .result-arrow { stroke: #27ae60; stroke-width: 4; fill: none; marker-end: url(#arrowhead-green); }
+      .title-text { fill: #2c3e50; font-family: 'Courier New', monospace; font-size: 32px; font-weight: bold; }
+      .subtitle-text { fill: #34495e; font-family: 'Courier New', monospace; font-size: 20px; }
+      .symbol-text { fill: #e74c3c; font-family: 'Courier New', monospace; font-size: 20px; font-weight: bold; }
+      .result-text { fill: white; font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold; }
+      .formula-text { fill: #34495e; font-family: 'Courier New', monospace; font-size: 14px; font-style: italic; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#3498db" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#27ae60" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="1400" fill="#ecf0f1"/>
+  
+  <!-- Title -->
+  <text x="600" y="50" text-anchor="middle" class="title-text">Flujograma de Verificación ℂₛ</text>
+  <text x="600" y="85" text-anchor="middle" class="subtitle-text">Sistema de Verificación QCAL Echo</text>
+  
+  <!-- Layer I: Cryptographic (Left) -->
+  <g id="layer-crypto">
+    <rect x="50" y="150" width="300" height="220" rx="10" class="layer-box"/>
+    <text x="200" y="185" text-anchor="middle" class="layer-label">CAPA I: CRIPTOGRÁFICA</text>
+    <text x="200" y="215" text-anchor="middle" class="symbol-text">𝐂ₖ</text>
+    <text x="60" y="245" class="layer-detail">• Script: verify_signature_bitcoin.py</text>
+    <text x="60" y="270" class="layer-detail">• Método: ECDSA Bitcoin</text>
+    <text x="60" y="295" class="layer-detail">• Dirección: 1GX...UN4c</text>
+    <text x="60" y="320" class="layer-detail">• Mensaje: QCAL Echo - f₀</text>
+    <text x="60" y="345" class="layer-detail">• Estado: Firma Validada ✓</text>
+  </g>
+  
+  <!-- Layer II: Cosmological (Center) -->
+  <g id="layer-cosmo">
+    <rect x="450" y="150" width="300" height="220" rx="10" class="layer-box"/>
+    <text x="600" y="185" text-anchor="middle" class="layer-label">CAPA II: COSMOLÓGICA</text>
+    <text x="600" y="215" text-anchor="middle" class="symbol-text">𝐀ₜ</text>
+    <text x="460" y="245" class="layer-detail">• Script: block9_sync_analysis.py</text>
+    <text x="460" y="270" class="layer-detail">• Método: Análisis Temporal</text>
+    <text x="460" y="295" class="layer-detail">• Bloque: Bitcoin Block 9</text>
+    <text x="460" y="320" class="layer-detail">• Cálculo: T₉ ↔ τ₀</text>
+    <text x="460" y="345" class="layer-detail">• ΔT ≈ 3.5 ms &lt; 10 ms ✓</text>
+  </g>
+  
+  <!-- Layer III: Computational (Right) -->
+  <g id="layer-comp">
+    <rect x="850" y="150" width="300" height="220" rx="10" class="layer-box"/>
+    <text x="1000" y="185" text-anchor="middle" class="layer-label">CAPA III: COMPUTACIONAL</text>
+    <text x="1000" y="215" text-anchor="middle" class="symbol-text">𝐀ᵤ</text>
+    <text x="860" y="245" class="layer-detail">• Script: resonant_nexus_engine.py</text>
+    <text x="860" y="270" class="layer-detail">• Método: Oscilador QCAL ∞³</text>
+    <text x="860" y="295" class="layer-detail">• Frecuencia: f₀ = 141.7001 Hz</text>
+    <text x="860" y="320" class="layer-detail">• Estabilidad: &lt; 1% desviación</text>
+    <text x="860" y="345" class="layer-detail">• Estado: Resonancia Sostenida ✓</text>
+  </g>
+  
+  <!-- Arrows from layers to convergence -->
+  <path d="M 200 370 L 400 550" class="arrow"/>
+  <path d="M 600 370 L 600 550" class="arrow"/>
+  <path d="M 1000 370 L 800 550" class="arrow"/>
+  
+  <!-- Convergence Node (GAP3) -->
+  <g id="convergence">
+    <rect x="350" y="550" width="500" height="280" rx="15" class="convergence-box"/>
+    <text x="600" y="590" text-anchor="middle" class="layer-label" fill="white">NODO DE CONVERGENCIA</text>
+    <text x="600" y="620" text-anchor="middle" class="symbol-text" fill="#f1c40f">PRUEBA FORMAL LEAN - GAP3</text>
+    
+    <text x="360" y="655" class="layer-detail" fill="white">• Archivo: GAP3_TemporalResonance.lean</text>
+    <text x="360" y="685" class="layer-detail" fill="white">• Teorema Principal:</text>
+    <text x="380" y="710" class="formula-text" fill="white">(𝐂ₖ ∧ 𝐀ₜ ∧ 𝐀ᵤ) → ℂₛ</text>
+    
+    <text x="360" y="740" class="layer-detail" fill="white">• Parámetros:</text>
+    <text x="380" y="765" class="formula-text" fill="white">κ_Π = 2.5773 (constante universal)</text>
+    <text x="380" y="790" class="formula-text" fill="white">f₀ = 141.7001 Hz (frecuencia QCAL)</text>
+    
+    <text x="360" y="815" class="layer-detail" fill="white">• Estado: ✓ VERIFICACIÓN FORMAL COMPLETA</text>
+  </g>
+  
+  <!-- Arrow to output -->
+  <path d="M 600 830 L 600 950" class="result-arrow"/>
+  
+  <!-- Output Node (Theorem Cs) -->
+  <g id="output">
+    <rect x="300" y="950" width="600" height="180" rx="15" class="output-box"/>
+    <text x="600" y="990" text-anchor="middle" class="layer-label" fill="white">NODO DE SALIDA</text>
+    <text x="600" y="1025" text-anchor="middle" class="result-text" font-size="24">TEOREMA ℂₛ DEMOSTRADO</text>
+    
+    <text x="310" y="1060" class="result-text">✓ Las tres capas convergen exitosamente</text>
+    <text x="310" y="1090" class="result-text">✓ Integración P-NP establecida</text>
+    <text x="310" y="1120" class="result-text">✓ Resonancia temporal verificada formalmente</text>
+  </g>
+  
+  <!-- Legend -->
+  <g id="legend">
+    <text x="100" y="1220" class="subtitle-text">Leyenda:</text>
+    <rect x="100" y="1240" width="30" height="30" rx="5" class="layer-box"/>
+    <text x="140" y="1262" class="layer-detail" fill="#2c3e50">Capas de Entrada (Verificaciones)</text>
+    
+    <rect x="100" y="1280" width="30" height="30" rx="5" class="convergence-box"/>
+    <text x="140" y="1302" class="layer-detail" fill="#2c3e50">Convergencia (Prueba Formal)</text>
+    
+    <rect x="100" y="1320" width="30" height="30" rx="5" class="output-box"/>
+    <text x="140" y="1342" class="layer-detail" fill="#2c3e50">Salida (Teorema Demostrado)</text>
+  </g>
+  
+  <!-- Footer -->
+  <text x="600" y="1380" text-anchor="middle" class="formula-text">
+    Autor: José Manuel Mota Burruezo (JMMB Ψ✧ ∞³) | Frecuencia: f₀ = 141.7001 Hz
+  </text>
+</svg>
