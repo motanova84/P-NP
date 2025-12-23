@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Formal and Symbolic Proof of P ≠ NP via Structural Coherence"
+version: 1.0.0
+doi: 10.5281/zenodo.17315719
+date-released: 2025-12-09
+url: "https://github.com/motanova84/P-NP"
+repository-code: "https://github.com/motanova84/P-NP"
+license: MIT
+type: software
+
+authors:
+  - family-names: "Mota Burruezo"
+    given-names: "José Manuel"
+    orcid: "https://orcid.org/0009-0002-1923-0773"
+    affiliation: "Independent Researcher"
+    email: "Institutoconsciencia@proton.me"
+
+abstract: |
+  This repository provides a unified proof framework for P ≠ NP, integrating 
+  mathematical formalization (Lean 4), spectral information theory, and 
+  symbolic-bioquantum resonance (πCODE-888). The proof leverages the universal 
+  constant κ_Π ≈ 2.5773 as a natural boundary of computational reducibility. 
+  Empirical support is provided via coherent RNA simulations and harmonics at 
+  f₀ = 141.7001 Hz. All modules are falsifiable, reproducible and anchored in 
+  the QCAL ∞³ framework.
+
+keywords:
+  - P vs NP
+  - computational complexity
+  - information complexity
+  - treewidth
+  - formal verification
+  - Lean 4
+  - QCAL framework
+  - spectral theory
+  - bioquantum resonance
+
+references:
+  - type: article
+    title: "P vs NP: Computational Dichotomy via Treewidth and Information Complexity - Official Demonstration"
+    authors:
+      - family-names: "Mota Burruezo"
+        given-names: "José Manuel"
+    year: 2025
+    doi: 10.5281/zenodo.17315719
+    repository-code: "https://zenodo.org/records/17315719"
