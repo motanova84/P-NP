@@ -36,7 +36,7 @@ Bases científicas para f₀:
 3. Conexión con transiciones cuánticas en hidrógeno
 4. Validado mediante análisis termodinámico
 
-La frecuencia f₀ NO es místical - es una cantidad física derivable.
+La frecuencia f₀ NO es mystical - es una cantidad física derivable.
 EOF
 
 echo -e "\n✅ Documentación científica verificada"
