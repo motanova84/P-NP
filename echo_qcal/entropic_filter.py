@@ -152,15 +152,16 @@ class EntropicFilter:
         # Normalizar datos
         data_norm = (data - np.min(data)) / (np.max(data) - np.min(data) + 1e-10)
         
-        # Crear histograma
-        hist, _ = np.histogram(data_norm, bins=10, density=True)
+        # Crear histograma con número de bins dinámico (regla de Sturges)
+        num_bins = int(np.log2(len(data)) + 1)
+        hist, _ = np.histogram(data_norm, bins=num_bins, density=True)
         
         # Calcular entropía de Shannon
         hist = hist + 1e-10  # Evitar log(0)
         entropy = -np.sum(hist * np.log2(hist))
         
-        # Normalizar (máxima entropía para 10 bins es log2(10))
-        max_entropy = np.log2(10)
+        # Normalizar (máxima entropía para el número de bins usado)
+        max_entropy = np.log2(len(hist))
         normalized_entropy = entropy / max_entropy
         
         # Invertir: score alto = baja entropía (coherencia alta)
