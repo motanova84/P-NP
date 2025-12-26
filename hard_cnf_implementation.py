@@ -267,6 +267,8 @@ def validate_hard_cnf():
             print(f"  ⚠️  POR DEBAJO DEL LOWER BOUND (puede mejorar)")
         
         # Verificar propiedad de expansor
+        # Solo calculamos la expansión de vértices para n >= 100 por razones de rendimiento,
+        # ya que el cálculo puede ser costoso para grafos grandes.
         # Solo calculamos la expansión para n >= 100 por razones de rendimiento,
         # ya que el cálculo puede ser costoso para grafos grandes.
         if n >= 100:
