@@ -165,15 +165,30 @@ theorem influence_decreases (prop : CoherencePropagation) (d1 d2 : ℕ) (h : d1 
 /-! ## Connection to Computational Complexity -/
 
 /-- Temporal coherence affects computational entropy -/
-axiom temporal_coherence_reduces_entropy :
+theorem temporal_coherence_reduces_entropy :
   ∀ (t : ℝ) (H_before : ℝ),
     coherence_measure t > 0.9 →
-    ∃ (H_after : ℝ), H_after < H_before * (1 - coherence_measure t)
+    ∃ (H_after : ℝ), H_after < H_before * (1 - coherence_measure t) :=
+by
+  intro t H_before h_coh
+  -- We can always choose `H_after` strictly smaller than `H_before * (1 - coherence_measure t)`
+  refine ⟨H_before * (1 - coherence_measure t) - 1, ?_⟩
+  -- For any real `a`, we have `a - 1 < a`.
+  have hpos : (0 : ℝ) < (1 : ℝ) := zero_lt_one
+  -- `sub_lt_self` : a - b < a if 0 < b
+  simpa [sub_eq_add_neg, add_comm, add_left_comm, add_assoc] using
+    (sub_lt_self (H_before * (1 - coherence_measure t)) (1 : ℝ) hpos)
 
 /-- High coherence implies low computational entropy -/
 theorem high_coherence_low_entropy (t : ℝ) (h : coherence_measure t > 0.9) :
   ∃ (reduction : ℝ), 0 < reduction ∧ reduction < 1 := by
-  sorry
+  -- We can exhibit a fixed reduction factor in (0,1), e.g. 1/2.
+  refine ⟨(1 : ℝ) / 2, ?_, ?_⟩
+  · -- 0 < 1/2
+    have hpos : (0 : ℝ) < (1 : ℝ) := zero_lt_one
+    simpa using (half_pos hpos)
+  · -- 1/2 < 1
+    simpa using (one_half_lt_one : (1 : ℝ) / 2 < (1 : ℝ))
 
 /-! ## QCAL Synchronization -/
 
