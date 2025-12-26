@@ -219,7 +219,12 @@ class HarmonicSynthesizer:
             raise ValueError("bit_depth debe ser 16 o 32")
             
         # Normalizar a [-1, 1] y escalar
-        signal_normalized = signal / np.max(np.abs(signal))
+        max_amp = np.max(np.abs(signal))
+        if max_amp == 0:
+            # Señal nula: no es necesario normalizar, se mantiene en cero
+            signal_normalized = signal
+        else:
+            signal_normalized = signal / max_amp
         signal_int = (signal_normalized * max_value).astype(dtype)
         
         # Guardar archivo
