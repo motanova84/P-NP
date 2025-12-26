@@ -4,7 +4,6 @@
 # Basado en el Teorema ℂₛ demostrado: Cₖ ∧ Aₜ ∧ Aᵤ = TRUE
 
 import asyncio
-import numpy as np
 from datetime import datetime, timezone
 from pathlib import Path
 import json
