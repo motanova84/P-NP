@@ -197,12 +197,13 @@ class HarmonicSynthesizer:
         """
         try:
             import scipy.io.wavfile as wavfile
-        except ImportError:
-            warnings.warn(
+        except ImportError as e:
+            msg = (
                 "scipy no está instalado. No se puede guardar archivo WAV. "
                 "Instalar con: pip install scipy"
             )
-            return
+            warnings.warn(msg)
+            raise ImportError(msg) from e
             
         # Sintetizar señal
         t, signal = self.synthesize(duration, harmonics=harmonics)
