@@ -100,6 +100,8 @@ lake-manifest.json
 tree_decomposition_example.png
 dicotomia_computacional.png
 
-# Echo QCAL generated files
-echo_qcal_logs/
-echo_qcal_config/
+# Generated verification files
+validation_results.csv
+validation_report.json
+OBJECTIONS_REBUTTAL.md
+FINAL_REPORT.md
