@@ -72,10 +72,12 @@ async def test_single_verification():
         print(f"  ✅ Ledger updated")
         print(f"     • Entry hash: {ledger_entry['entry_hash'][:16]}...")
         
-        await monitor.emit_transmission_certificate(
+        certificate = await monitor.emit_transmission_certificate(
             transmission_id, ledger_entry
         )
         print(f"  ✅ Certificate emitted")
+        if certificate is not None:
+            print(f"     • Certificate: {str(certificate)[:80]}...")
         
     except Exception as e:
         print(f"  ❌ Error in transmission test: {e}")
