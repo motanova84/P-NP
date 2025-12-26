@@ -2,10 +2,9 @@
 """
 Resonant Nexus Engine - QCAL ∞³ Implementation
 Motor resonante con parámetros verificados del sistema QCAL
-Basado en f₀ = 141.7001 Hz y coherencia semántica pura
+Basado en frecuencia fundamental f₀ = 141.7001 Hz con coherencia semántica soberana
 Resonant Nexus Engine - QCAL ∞³ Frequency System
 Motor de resonancia para sistema de coherencia soberana
-Basado en frecuencia fundamental f₀ = 141.7001 Hz
 """
 
 import numpy as np
