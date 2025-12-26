@@ -100,3 +100,7 @@ lake-manifest.json
 tree_decomposition_example.png
 dicotomia_computacional.png
 submission_p_vs_np_*/
+
+# Echo QCAL generated files
+echo_qcal_logs/
+echo_qcal_config/
