@@ -46,9 +46,18 @@ env/
 # ---------- TEST / RESULTS ----------
 results/
 !results/.gitkeep
+output/
+!output/.gitkeep
 *.log
 *.csv
 *.png
+kappa_verification_output.txt
+results/*.log
+results/*.csv
+results/*.png
+
+# ---------- DEPLOYMENT ----------
+deploy/
 
 # ---------- IDE ----------
 .vscode/
@@ -72,6 +81,9 @@ Thumbs.db
 *.log
 *.iml
 
+# Installation test directory
+ultimate-unification/
+
 # ---------- OS ----------
 .DS_Store
 Thumbs.db
@@ -85,3 +97,9 @@ pip-wheel-metadata/
 .mypy_cache/
 .pyre/
 lake-manifest.json
+tree_decomposition_example.png
+dicotomia_computacional.png
+
+# Echo QCAL generated files
+echo_qcal_logs/
+echo_qcal_config/
