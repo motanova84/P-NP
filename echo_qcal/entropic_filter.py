@@ -11,7 +11,7 @@ License: MIT
 """
 
 import numpy as np
-from typing import List, Dict, Optional, Tuple, Callable
+from typing import List, Optional, Tuple, Callable
 from dataclasses import dataclass
 
 
