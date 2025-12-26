@@ -405,10 +405,22 @@ def demo_entropic_filter():
         signal, sample_rate, method="combined"
     )
     
+    # Calcular SNR antes y después del filtrado (en dB)
+    signal_power = np.mean(signal_coherent ** 2)
+    noise_power_before = np.mean(signal_noise ** 2)
+    snr_before_db = 10 * np.log10(signal_power / noise_power_before) if noise_power_before > 0 else float('inf')
+    
+    noise_after = signal_filtered - signal_coherent
+    noise_power_after = np.mean(noise_after ** 2)
+    snr_after_db = 10 * np.log10(signal_power / noise_power_after) if noise_power_after > 0 else float('inf')
+    snr_improvement_db = snr_after_db - snr_before_db
+    
     print()
     print("Resultados del filtrado de señal:")
     print(f"  Coherencia de frecuencia: {signal_result.mean_coherence:.4f}")
-    print(f"  SNR mejorado: {np.std(signal_filtered) / np.std(signal_noise):.2f}")
+    print(f"  SNR antes del filtrado: {snr_before_db:.2f} dB")
+    print(f"  SNR después del filtrado: {snr_after_db:.2f} dB")
+    print(f"  Mejora de SNR: {snr_improvement_db:.2f} dB")
     print()
     
     print("✓ Filtrado entrópico completado exitosamente")
