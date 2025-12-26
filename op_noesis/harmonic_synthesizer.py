@@ -32,6 +32,14 @@ class HarmonicSynthesizer:
         Args:
             sample_rate: Frecuencia de muestreo en Hz (default: 44100 Hz)
         """
+        if sample_rate <= 0:
+            raise ValueError("sample_rate must be a positive integer (Hz).")
+        if sample_rate < 8000:
+            warnings.warn(
+                f"sample_rate={sample_rate} Hz is below typical audio rates (>= 8000 Hz). "
+                "This may cause aliasing or limited fidelity.",
+                RuntimeWarning,
+            )
         self.sample_rate = sample_rate
         self.f0 = F0
         
@@ -57,6 +65,13 @@ class HarmonicSynthesizer:
         Returns:
             Tuple (tiempo, señal): Arrays de tiempo y amplitud de la señal
         """
+        if duration <= 0:
+            raise ValueError(f"duration must be positive; got {duration!r}")
+        if duration > 3600:  # 1 hour
+            warnings.warn(
+                f"duration={duration} seconds is very large and may cause memory issues.",
+                RuntimeWarning,
+            )
         # Valores por defecto para armónicos clave
         if harmonics is None:
             harmonics = [1, 2, 11, 21]  # Armónicos clave para coherencia

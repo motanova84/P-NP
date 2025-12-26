@@ -53,6 +53,14 @@ class EntropicFilter:
             coherence_threshold: Umbral de coherencia [0, 1]
             frequency_tolerance: Tolerancia de frecuencia (fracción de f₀)
         """
+        if not 0 <= coherence_threshold <= 1:
+            raise ValueError(
+                f"coherence_threshold must be in [0, 1]; got {coherence_threshold!r}"
+            )
+        if frequency_tolerance <= 0 or frequency_tolerance > 1:
+            raise ValueError(
+                f"frequency_tolerance must be positive and <= 1; got {frequency_tolerance!r}"
+            )
         self.f0 = F0
         self.tau_0 = TAU_0
         self.coherence_threshold = coherence_threshold
@@ -150,7 +158,15 @@ class EntropicFilter:
             return 0.0
             
         # Normalizar datos
-        data_norm = (data - np.min(data)) / (np.max(data) - np.min(data) + 1e-10)
+        data_min = np.min(data)
+        data_max = np.max(data)
+        data_range = data_max - data_min
+
+        # Si todos los datos son iguales, la entropía es mínima (máxima coherencia)
+        if data_range == 0.0:
+            return 1.0
+
+        data_norm = (data - data_min) / data_range
         
         # Crear histograma con número de bins dinámico (regla de Sturges)
         num_bins = int(np.log2(len(data)) + 1)

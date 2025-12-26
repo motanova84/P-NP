@@ -160,6 +160,12 @@ noncomputable def propagation_at_distance
 /-- Influence decreases with distance -/
 theorem influence_decreases (prop : CoherencePropagation) (d1 d2 : ℕ) (h : d1 < d2) :
   propagation_at_distance prop d2 ≤ propagation_at_distance prop d1 := by
+  -- TODO: Complete proof using exponential monotonicity
+  -- The proof follows from:
+  -- 1. initial coherence is nonnegative
+  -- 2. decay_rate is positive, so -decay_rate * d2 < -decay_rate * d1
+  -- 3. exp is monotone, so exp(-decay_rate * d2) ≤ exp(-decay_rate * d1)
+  -- 4. multiplying by nonnegative initial_coherence preserves inequality
   sorry
 
 /-! ## Connection to Computational Complexity -/
@@ -225,7 +231,8 @@ theorem gap3_temporal_resonance_complete :
   · exact block_9_perfect_coherence
   constructor
   · exact prob_random_alignment
-  · exact ⟨Unit, by sorry⟩
+  · obtain ⟨system, sync, _h⟩ := block_9_qcal_synchronized
+    exact ⟨system, sync, True.intro⟩
 
 end GAP3
 

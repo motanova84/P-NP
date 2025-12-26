@@ -30,6 +30,13 @@ class CoherenceEvent:
     delta_t_before: float
     delta_t_after: float
     resonance_type: str  # "pure_peak", "harmonic", "standard"
+    
+    def __post_init__(self):
+        """Valida que delta_t_before sea positivo para evitar división por cero."""
+        if self.delta_t_before <= 0:
+            raise ValueError(
+                f"delta_t_before must be positive; got {self.delta_t_before!r}"
+            )
 
 
 class PropagationModel:
@@ -53,6 +60,14 @@ class PropagationModel:
             decay_rate: Tasa de decaimiento de la coherencia por bloque
             propagation_distance: Distancia de propagación en bloques
         """
+        if decay_rate <= 0:
+            raise ValueError(
+                f"decay_rate must be positive; got {decay_rate!r}"
+            )
+        if not isinstance(propagation_distance, int) or propagation_distance <= 0:
+            raise ValueError(
+                f"propagation_distance must be a positive integer; got {propagation_distance!r}"
+            )
         self.f0 = F0
         self.tau_0 = TAU_0
         self.decay_rate = decay_rate
