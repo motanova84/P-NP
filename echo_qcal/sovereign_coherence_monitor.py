@@ -818,6 +818,8 @@ if __name__ == "__main__":
         import numpy as np
         from bitcoinlib.keys import Key
         
+        _ = np.__version__
+        
         print("✅ Dependencias verificadas")
         print("🚀 Iniciando sistema de monitoreo soberano...")
         
