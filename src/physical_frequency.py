@@ -42,15 +42,34 @@ class PhysicalFrequency:
         # The empirical value likely involves additional physics
         return 141.7001  # Use empirical value as thermodynamic derivation needs refinement
     
-    def calculate_from_qm_constraints(self):
-        """f₀ from quantum measurement limits"""
-        # Use empirical value as QM derivation needs additional factors
+    def get_empirical_value(self):
+        """Return the empirically determined base frequency f₀.
+        
+        This value is obtained from numerical analysis and curve fitting
+        and is used as a placeholder where a full physical derivation
+        (e.g. from quantum-mechanical constraints) is not yet implemented.
+        """
         return 141.7001
     
+    def calculate_from_qm_constraints(self):
+        """f₀ from quantum measurement limits (placeholder).
+        
+        Note:
+            A full quantum-mechanical derivation of f₀ from measurement
+            constraints is not yet implemented. This method is kept for
+            backward compatibility and currently returns the empirically
+            determined value via :meth:`get_empirical_value`.
+        """
+        return self.get_empirical_value()
+    
     def calculate_empirical(self):
-        """Empirically determined value"""
-        # From numerical analysis and curve fitting
-        return 141.7001
+        """Empirically determined value.
+        
+        Derived from numerical analysis and curve fitting. This is the
+        canonical source for the empirical base frequency f₀ within this
+        class.
+        """
+        return self.get_empirical_value()
     
     def verify_all_methods(self):
         """Verify consistency between methods"""
