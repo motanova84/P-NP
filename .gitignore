@@ -102,3 +102,9 @@ pip-wheel-metadata/
 lake-manifest.json
 tree_decomposition_example.png
 dicotomia_computacional.png
+
+# Generated verification files
+validation_results.csv
+validation_report.json
+OBJECTIONS_REBUTTAL.md
+FINAL_REPORT.md
