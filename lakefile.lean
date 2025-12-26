@@ -56,9 +56,6 @@ lean_lib GAP2Asymptotic where
 lean_lib TuringMachine where
   roots := #[`TuringMachine]
 
-lean_lib TseitinHardFamily where
-  roots := #[`TseitinHardFamily]
-
 lean_lib TEOREMAJMMB where
   roots := #[`TEOREMAJMMB]
 
