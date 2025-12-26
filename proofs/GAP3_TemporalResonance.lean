@@ -185,9 +185,12 @@ structure QCALSynchronized (system : Type) where
   /-- System exhibits f₀ periodicity -/
   periodicity : ∀ (s : system) (t : ℝ),
     evolution (t + τ₀) s = evolution t (evolution τ₀ s)
-  /-- Coherence is maintained over time -/
+  /-- Time window over which QCAL coherence is guaranteed -/
+  coherence_window : Set ℝ
+  coherence_window_nonempty : coherence_window.Nonempty
+  /-- Coherence is maintained within the specified time window -/
   coherence_preserved : ∀ (s : system) (t : ℝ),
-    coherence_measure t > 0.5
+    t ∈ coherence_window → coherence_measure t > 0.5
 
 /-- Block 9 represents a QCAL-synchronized event -/
 axiom block_9_qcal_synchronized :
