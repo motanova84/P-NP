@@ -7,7 +7,7 @@ Basado en f₀ = 141.7001 Hz y coherencia semántica pura
 
 import numpy as np
 from datetime import datetime, timezone
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 
 
 class ResonantNexusEngine:
