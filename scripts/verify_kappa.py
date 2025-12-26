@@ -22,19 +22,22 @@ kappa_declared = 2.5773
 error = abs(float(kappa_direct) - kappa_declared)
 print(f"Diferencia con valor declarado: {error:.10f}")
 
-# Verify precision
+# Empirical reference value (from numerical analysis)
+kappa_empirical = 2.577319904
+
+# Verify precision of theoretical derivation against declared value
 if error < 1e-3:
-    print("✅ κ_Π verificado con precisión 10^-3")
+    print("✅ κ_Π verificado con precisión 10^-3 (cálculo teórico coherente)")
 else:
     print(f"⚠️  Error mayor que 10^-3: {error}")
-    # Use empirical value
-    kappa_direct = 2.577319904
+    print("⚠️  El valor teórico no coincide con el declarado dentro del umbral;")
+    print("    se utilizará el valor empírico solo como referencia numérica.")
 
 # Alternative derivation using information-theoretic bounds
 # κ_Π emerges from holographic entropy bounds
-kappa_info = 2.577319904  # Empirically determined from numerical analysis
+kappa_info = kappa_empirical  # Empirically determined from numerical analysis
 print(f"κ_Π (vía análisis numérico): {float(kappa_info):.6f}")
-print(f"Consistencia: {abs(kappa_direct - kappa_info) < 1e-6}")
+print(f"Consistencia (teórico vs empírico, 10^-3): {abs(kappa_direct - kappa_info) < 1e-3}")
 
 print("\n=== RESUMEN ===")
 print(f"Valor establecido: κ_Π = {kappa_info:.10f}")
