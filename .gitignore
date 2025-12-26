@@ -106,3 +106,6 @@ pnp/echo_qcal/data/firmas/*
 !pnp/echo_qcal/data/firmas/.gitkeep
 pnp/echo_qcal/data/config/*
 !pnp/echo_qcal/data/config/.gitkeep
+# Echo QCAL generated files
+echo_qcal_logs/
+echo_qcal_config/
