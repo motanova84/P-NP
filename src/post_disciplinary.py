@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 """
 Post-Disciplinary Science Framework
 
 A framework for science without artificial boundaries between disciplines.
-Demonstrates how problems like P≠NP can be approached by integrating
+Demonstrates how problems like P!=NP can be approached by integrating
 mathematics, physics, biology, computation, and consciousness studies.
 """
 
@@ -20,19 +21,6 @@ class Domain(Enum):
     COMPUTATIONAL = "computational"
     PHILOSOPHICAL = "philosophical"
     COGNITIVE = "cognitive"
-
-⚠️ RESEARCH FRAMEWORK - PHILOSOPHICAL PERSPECTIVE ⚠️
-
-Implementation of the post-disciplinary science paradigm as described in
-POST_DISCIPLINARY_MANIFESTO.md. This module provides classes and functions
-for organizing knowledge by problems rather than disciplines.
-
-Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
-Frequency: 141.7001 Hz ∞³
-"""
-
-from typing import Dict, List, Any, Set
-from dataclasses import dataclass, field
 
 
 @dataclass
@@ -74,10 +62,6 @@ class Problem:
 class PostDisciplinaryScience:
     """
     Science without artificial frontiers between disciplines.
-    Ciencia sin fronteras artificiales entre disciplinas.
-    """
-    
-    def __init__(self):
     Ciencia sin fronteras artificiales entre disciplinas.
     
     This class implements the core philosophy of post-disciplinary science:
@@ -247,8 +231,8 @@ class PostDisciplinaryScience:
     
     def get_tools_from_all_fields(self, aspect: Aspect) -> List[Tool]:
         """
-        NO preguntar "¿es esto matemáticas o física?"
-        Preguntar "¿qué herramienta funciona mejor?"
+        NO preguntar "es esto matemáticas o física?"
+        Preguntar "qué herramienta funciona mejor?"
         
         Don't ask "is this math or physics?"
         Ask "which tool works best?"
@@ -304,7 +288,7 @@ class PostDisciplinaryScience:
 
 class PNeqNPUnifiedApproach:
     """
-    Demonstrates how P≠NP is solved post-disciplinarily
+    Demonstrates how P!=NP is solved post-disciplinarily
     
     Análisis de cómo nuestro enfoque ejemplifica
     la ciencia post-disciplinar.
@@ -400,9 +384,9 @@ class UnifiedReality:
     def describe_mathematically(self, entity: str) -> str:
         """Descripción en lenguaje de números y estructuras."""
         descriptions = {
-            'kappa_pi': "φ × (π/e) × λ_CY = 2.5773",
+            'kappa_pi': "φ * (π/e) * λ_CY = 2.5773",
             'p_neq_np': "∃φ: tw(G_I(φ)) = Ω(n) → Time(φ) = 2^Ω(n)",
-            'consciousness': "C = mc² × A_eff², A_eff ≥ 1/κ_Π"
+            'consciousness': "C = mc² * A_eff², A_eff >= 1/κ_Π"
         }
         return descriptions.get(entity, f"Mathematical description of {entity}")
     
@@ -411,7 +395,7 @@ class UnifiedReality:
         descriptions = {
             'kappa_pi': "Factor de escala en resonancia @ f₀ = 141.7001 Hz",
             'p_neq_np': "Energía computacional crece exponencialmente",
-            'consciousness': "Coherencia cuántica ≥ umbral crítico"
+            'consciousness': "Coherencia cuántica >= umbral crítico"
         }
         return descriptions.get(entity, f"Physical description of {entity}")
     
@@ -456,7 +440,7 @@ class UnifiedReality:
         No importa si una descripción es "matemática" y otra "física",
         ambas describen aspectos de la misma realidad subyacente.
         """
-        return True  # ¡Son aspectos de lo mismo!
+        return True  # Son aspectos de lo mismo!
 
 
 class PostDisciplinaryUniversity:
@@ -474,7 +458,7 @@ class PostDisciplinaryUniversity:
         
         self.research_networks = {
             'Complexity Network': {
-                'core_question': "¿Qué hace que algo sea difícil?",
+                'core_question': "Qué hace que algo sea difícil?",
                 'tools': [
                     'graph_theory',
                     'quantum_mechanics', 
@@ -491,7 +475,7 @@ class PostDisciplinaryUniversity:
             },
             
             'Structure Network': {
-                'core_question': "¿Qué patrones persisten?",
+                'core_question': "Qué patrones persisten?",
                 'tools': [
                     'topology',
                     'crystallography',
@@ -508,7 +492,7 @@ class PostDisciplinaryUniversity:
             },
             
             'Information Network': {
-                'core_question': "¿Cómo se codifica y transmite?",
+                'core_question': "Cómo se codifica y transmite?",
                 'tools': [
                     'coding_theory',
                     'genetics',
@@ -685,7 +669,7 @@ class PNeqNP_UnifiedApproach:
             
             'philosophy': {
                 'tools': ['consciousness_theory', 'information'],
-                'contribution': 'C = mc² × A_eff²',
+                'contribution': 'C = mc² * A_eff²',
                 'novel': 'Consciousness as computational resource',
                 'status': '✓'
             }
@@ -712,13 +696,13 @@ class PNeqNP_UnifiedApproach:
         
         emergent_insight = f"""
         κ_Π = {self.kappa_pi} is a UNIVERSAL CONSTANT that:
-        • Appears in geometry (Calabi-Yau)
-        • Manifests in physics ({self.f0} Hz)
-        • Governs biology (RNA piCODE)
-        • Determines computation (P≠NP threshold)
-        • Defines consciousness (A_eff ≥ 1/κ_Π)
+        - Appears in geometry (Calabi-Yau)
+        - Manifests in physics ({self.f0} Hz)
+        - Governs biology (RNA piCODE)
+        - Determines computation (P!=NP threshold)
+        - Defines consciousness (A_eff >= 1/κ_Π)
         
-        Therefore: P≠NP is NOT just a mathematical theorem
+        Therefore: P!=NP is NOT just a mathematical theorem
         It is a PHYSICAL PROPERTY of the universe
         """
         
@@ -729,13 +713,13 @@ class PNeqNP_UnifiedApproach:
         }
         emergent_insight = """
         κ_Π = 2.5773 es una CONSTANTE UNIVERSAL que:
-        • Aparece en geometría (Calabi-Yau)
-        • Se manifiesta en física (141.7 Hz)
-        • Gobierna biología (ARN piCODE)
-        • Determina computación (P≠NP threshold)
-        • Define consciencia (A_eff ≥ 1/κ_Π)
+        - Aparece en geometría (Calabi-Yau)
+        - Se manifiesta en física (141.7 Hz)
+        - Gobierna biología (ARN piCODE)
+        - Determina computación (P!=NP threshold)
+        - Define consciencia (A_eff >= 1/κ_Π)
         
-        Por lo tanto: P≠NP NO es solo un teorema matemático
+        Por lo tanto: P!=NP NO es solo un teorema matemático
         Es una PROPIEDAD FÍSICA del universo
         """
         
@@ -822,7 +806,7 @@ class PNeqNP_UnifiedApproach:
         
         # CONCLUSIÓN
         conclusion = """
-        P ≠ NP
+        P != NP
         NOT because we proved it "mathematically"
         BUT because the physical universe demonstrates it
         """
@@ -857,9 +841,9 @@ class UnifiedReality:
     def describe_mathematically(self, entity: str) -> str:
         """Descripción en lenguaje de números y estructuras."""
         if entity == 'kappa_pi':
-            return "φ × (π/e) × λ_CY"
+            return "φ * (π/e) * λ_CY"
         elif entity == 'complexity':
-            return "IC(Π|S) ≥ κ_Π · tw(φ) / log n"
+            return "IC(Π|S) >= κ_Π · tw(φ) / log n"
         return f"Mathematical structure of {entity}"
     
     def describe_physically(self, entity: str) -> str:
@@ -888,7 +872,7 @@ class UnifiedReality:
     
     def are_same(self, desc1: str, desc2: str) -> bool:
         """Todas las descripciones apuntan a la MISMA realidad."""
-        return True  # ¡Son aspectos de lo mismo!
+        return True  # Son aspectos de lo mismo!
     
     def get_all_descriptions(self, entity: str) -> Dict[str, str]:
         """Get all descriptions of an entity"""
@@ -900,17 +884,17 @@ class UnifiedReality:
 
 def demonstrate_post_disciplinary_approach():
     """
-    Main demonstration of post-disciplinary science approach to P≠NP
+    Main demonstration of post-disciplinary science approach to P!=NP
     """
     print("=" * 70)
-    print("POST-DISCIPLINARY SCIENCE: P≠NP CASE STUDY")
+    print("POST-DISCIPLINARY SCIENCE: P!=NP CASE STUDY")
     print("=" * 70)
     print()
     
     # Create framework
     science = PostDisciplinaryScience()
     
-    # Define P≠NP problem aspects
+    # Define P!=NP problem aspects
     aspects = [
         Aspect("Logical separation", [Domain.MATHEMATICAL, Domain.COMPUTATIONAL],
                needs_precision=True, needs_verification=True),
@@ -939,7 +923,7 @@ def demonstrate_post_disciplinary_approach():
     print()
     print("CROSS-VALIDATION METHODS:")
     for method in solution['verification_methods']:
-        print(f"  • {method}")
+        print(f"  - {method}")
     print()
     
     # Show unified approach
@@ -997,7 +981,7 @@ if __name__ == "__main__":
 
 def measure_paradigm_shift() -> tuple:
     """
-    ¿Cómo sabemos si el cambio funciona?
+    Cómo sabemos si el cambio funciona?
     """
     
     old_metrics = {
