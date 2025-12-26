@@ -45,10 +45,10 @@ class ResonantNexusEngine:
         """
         t = np.linspace(0, duration, int(duration * sampling_rate), endpoint=False)
         
-        # Señal base fundamental
+        # Señal base fundamental (1er armónico: f₀)
         signal = np.sin(2 * np.pi * self.f0 * t)
         
-        # Agregar armónicos coherentes
+        # Agregar sobretonos / armónicos superiores coherentes (2f₀, 3f₀, ...)
         for i, weight in enumerate(self.harmonic_weights, start=2):
             harmonic = weight * np.sin(2 * np.pi * self.f0 * i * t)
             signal += harmonic
