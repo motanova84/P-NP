@@ -72,7 +72,7 @@ async def test_single_verification():
         print(f"  ✅ Ledger updated")
         print(f"     • Entry hash: {ledger_entry['entry_hash'][:16]}...")
         
-        certificate = await monitor.emit_transmission_certificate(
+        await monitor.emit_transmission_certificate(
             transmission_id, ledger_entry
         )
         print(f"  ✅ Certificate emitted")

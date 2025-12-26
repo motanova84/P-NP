@@ -230,11 +230,11 @@ class SovereignCoherenceMonitor:
                 '0.5, 0.3, 0.15, 0.05' in content
             ])
             
-            # Verificar que no use ruido aleatorio (excepto en comentarios)
-            # El motor debe tener coherencia pura sin np.random en código activo
+            # Verificar que no use ruido aleatorio (excepto en comentarios y docstrings)
+            # El motor debe tener coherencia pura sin np.random ni random en código activo
             lines = [line for line in content.split('\n') if not line.strip().startswith('#')]
             code_only = '\n'.join(lines)
-            no_random_noise = 'np.random.rand' not in code_only and 'np.random.uniform' not in code_only and 'np.random.normal' not in code_only
+            no_random_noise = 'np.random.' not in code_only and 'random.' not in code_only
             
             verified = all([f0_found, sigma_found, harmonics_found, no_random_noise])
             

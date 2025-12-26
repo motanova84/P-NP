@@ -19,6 +19,9 @@ class ResonantNexusEngine:
     Genera señales coherentes sin ruido aleatorio
     """
     
+    # Threshold for coherence detection (ratio of dominant frequency energy to total)
+    COHERENCE_THRESHOLD = 0.8
+    
     def __init__(self, f0: float = 141.7001, sigma: float = 0.04):
         """
         Inicializa motor con parámetros QCAL
@@ -33,6 +36,9 @@ class ResonantNexusEngine:
         
         # Pesos armónicos coherentes (sin ruido aleatorio)
         self.harmonic_weights = [0.5, 0.3, 0.15, 0.05]
+        
+        # Precompute normalization factor for better performance
+        self.NORMALIZATION_FACTOR = 1 + sum(self.harmonic_weights)
         
     def generate_coherent_signal(self, duration: float = 1.0, 
                                  sampling_rate: int = 1000) -> np.ndarray:
@@ -57,7 +63,7 @@ class ResonantNexusEngine:
             signal += harmonic
         
         # Normalizar
-        signal = signal / (1 + sum(self.harmonic_weights))
+        signal = signal / self.NORMALIZATION_FACTOR
         
         return signal
     
@@ -74,7 +80,8 @@ class ResonantNexusEngine:
         if timestamp is None:
             timestamp = datetime.now(timezone.utc).timestamp()
         
-        return (timestamp / self.tau0) % 1.0
+        # Use modulo on the timestamp before division to preserve precision
+        return (timestamp % self.tau0) / self.tau0
     
     def check_coherence_peak(self, timestamp: float = None, 
                             threshold: float = 0.01) -> Tuple[bool, float]:
@@ -95,19 +102,20 @@ class ResonantNexusEngine:
         
         return is_peak, phase
     
-    def analyze_coherence(self, signal: np.ndarray) -> Dict:
+    def analyze_coherence(self, signal: np.ndarray, sampling_rate: int = 1000) -> Dict:
         """
         Analiza métricas de coherencia de una señal
         
         Args:
             signal: Señal a analizar
+            sampling_rate: Tasa de muestreo de la señal (Hz)
             
         Returns:
             Diccionario con métricas de coherencia
         """
         # FFT para análisis espectral
         fft = np.fft.fft(signal)
-        freqs = np.fft.fftfreq(len(signal), 1.0 / len(signal))
+        freqs = np.fft.fftfreq(len(signal), 1.0 / sampling_rate)
         
         # Encontrar frecuencia dominante
         dominant_freq_idx = np.argmax(np.abs(fft[:len(fft)//2]))
@@ -116,7 +124,14 @@ class ResonantNexusEngine:
         # Calcular coherencia como ratio de energía en f0
         f0_energy = np.abs(fft[dominant_freq_idx]) ** 2
         total_energy = np.sum(np.abs(fft) ** 2)
-        coherence_ratio = f0_energy / total_energy
+        
+        # Handle edge case of zero or near-zero total energy
+        epsilon = 1e-12
+        if total_energy > epsilon:
+            coherence_ratio = f0_energy / total_energy
+        else:
+            # Si la energía total es cero o casi cero, definimos coherencia nula
+            coherence_ratio = 0.0
         
         # Métricas adicionales
         signal_power = np.mean(signal ** 2)
@@ -128,19 +143,23 @@ class ResonantNexusEngine:
             'signal_power': signal_power,
             'signal_std': signal_std,
             'phase': self.calculate_phase(),
-            'is_coherent': coherence_ratio > 0.8
+            'is_coherent': coherence_ratio > self.COHERENCE_THRESHOLD
         }
     
-    def generate_transmission_data(self, cycles: int = 142) -> Dict:
+    def generate_transmission_data(self, cycles: int = None) -> Dict:
         """
         Genera datos para una transmisión soberana
         
         Args:
-            cycles: Número de ciclos a generar (~1s para f0=141.7 Hz)
+            cycles: Número de ciclos a generar. If None, defaults to int(self.f0) 
+                    (~1s de duración para f0=141.7 Hz)
             
         Returns:
             Diccionario con datos de transmisión
         """
+        if cycles is None:
+            cycles = int(self.f0)
+        
         duration = cycles / self.f0
         signal = self.generate_coherent_signal(duration=duration)
         
@@ -171,7 +190,8 @@ class ResonantNexusEngine:
             max_cycles: Máximo de ciclos a buscar adelante
             
         Returns:
-            Diccionario con información del próximo pico
+            Diccionario con información del próximo pico, o None si no se 
+            encuentra ningún pico dentro del rango de búsqueda
         """
         if current_time is None:
             current_time = datetime.now(timezone.utc).timestamp()
@@ -181,7 +201,7 @@ class ResonantNexusEngine:
         # Buscar próximo pico puro
         for offset in range(1, max_cycles):
             T_peak = (N_current + offset) * self.tau0
-            phase = (T_peak / self.tau0) % 1.0
+            phase = (T_peak % self.tau0) / self.tau0
             
             # Pico puro cuando fase ≈ 0.0
             if abs(phase) < 0.01 or abs(phase - 1.0) < 0.01:
@@ -206,7 +226,7 @@ class ResonantNexusEngine:
         verification = {
             'f0_correct': abs(self.f0 - 141.7001) < 0.0001,
             'sigma_correct': abs(self.sigma - 0.04) < 0.001,
-            'tau0_correct': abs(self.tau0 - (1.0 / 141.7001)) < 0.000001,
+            'tau0_correct': abs(self.tau0 * self.f0 - 1.0) < 0.000001,
             'harmonics_correct': self.harmonic_weights == [0.5, 0.3, 0.15, 0.05],
             'no_random_noise': True  # Este motor no usa ruido aleatorio
         }
