@@ -3,7 +3,6 @@
 # Implementation of Calabi-Yau to computational complexity connection
 
 import numpy as np
-from scipy import sparse
 from scipy.sparse.csgraph import laplacian
 import networkx as nx
 
