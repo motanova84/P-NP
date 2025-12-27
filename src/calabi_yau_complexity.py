@@ -5,6 +5,7 @@
 import numpy as np
 from scipy.sparse.csgraph import laplacian
 import networkx as nx
+from networkx import NetworkXError
 
 class CalabiYauComplexity:
     def __init__(self, dimension=3):
@@ -105,7 +106,7 @@ class CalabiYauComplexity:
                 return 0
             tw, _ = nx.algorithms.approximation.treewidth_min_degree(graph)
             return tw
-        except:
+        except (NetworkXError, ValueError):
             return max(len(graph.nodes()) // 2, 1)
 
 # Example usage
@@ -116,7 +117,7 @@ if __name__ == "__main__":
         n = 50
         d = 3
         G = nx.random_regular_graph(d, n)
-    except:
+    except (NetworkXError, ValueError):
         # Fallback to simple graph
         G = nx.cycle_graph(20)
     

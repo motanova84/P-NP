@@ -19,7 +19,7 @@ fi
 
 # Show context of each sorry
 echo -e "\n=== PRIMEROS 10 SORRIES CON CONTEXTO ==="
-find . -name "*.lean" -type f ! -path "./.lake/*" ! -path "./lake-packages/*" -exec grep -B2 -A2 "sorry" {} + 2>/dev/null | head -50
+find . -name "*.lean" -type f ! -path "./.lake/*" ! -path "./lake-packages/*" -exec grep -B2 -A2 -m 10 "sorry" {} + 2>/dev/null
 
 # Create resolution plan
 echo -e "\n=== PLAN DE RESOLUCIÓN ==="
