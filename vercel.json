@@ -1,0 +1,62 @@
+{
+    "version": 2,
+    "name": "p-vs-np-treewidth-framework",
+    "builds": [
+        {
+            "src": "README.md",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/demo",
+            "dest": "examples/demo_ic_sat.py"
+        },
+        {
+            "src": "/run_all",
+            "dest": "run_all_tests.sh"
+        },
+        {
+            "src": "/simple",
+            "dest": "simple_demo.py"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "X-Project",
+                    "value": "P≠NP Structural Dichotomy"
+                },
+                {
+                    "key": "X-Theorem",
+                    "value": "Lemma 6.24"
+                },
+                {
+                    "key": "X-Framework",
+                    "value": "Treewidth + Information Complexity"
+                },
+                {
+                    "key": "X-Author",
+                    "value": "JMMB Ψ✧"
+                }
+            ]
+        }
+    ],
+    "crons": [
+        {
+            "path": "/run_all",
+            "schedule": "0 4 * * 1"
+        },
+        {
+            "path": "/demo",
+            "schedule": "15 4 * * 1"
+        }
+    ],
+    "regions": [
+        "fra1",
+        "hnd1",
+        "gru1"
+    ]
+}
