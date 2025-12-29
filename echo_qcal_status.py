@@ -58,8 +58,18 @@ def main():
     print("✨ Listo para verificación independiente")
     print("="*60)
     
-    # Verificar si todo está configurado
-    all_ready = all("✅" in v or "⏳" in v for v in estado_sistema["componentes_verificados"].values())
+    # Verificar si todo está configurado utilizando indicadores explícitos
+    component_readiness = {
+        "C_k_verification.py": (base_path / "C_k_verification.py").exists(),
+        "README.md": (base_path / "README.md").exists(),
+        "manifiesto_echo_qcal.md": (base_path / "manifiesto_echo_qcal.md").exists(),
+        "verify.sh": (base_path / "verify.sh").exists(),
+        "estructura_directorios": base_path.exists(),
+        # Mantener el comportamiento original: "⏳ REQUIERE INSTALACIÓN"
+        # se consideraba como estado aceptable para all_ready.
+        "dependencias": True,
+    }
+    all_ready = all(component_readiness.values())
     
     if all_ready:
         print("\n✅ Sistema completamente configurado!")
