@@ -602,6 +602,7 @@ echo "📦 Instalando dependencias de Python..."
 pip install bitcoinlib numpy scipy || {
     echo "❌ Error instalando dependencias"
     echo "Intenta manualmente: pip install bitcoinlib numpy scipy"
+    exit 1
 }
 
 # 4. Ejecutar verificación inicial
