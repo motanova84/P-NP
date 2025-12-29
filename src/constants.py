@@ -451,7 +451,7 @@ Related to κ_Π through: κ_Π ≈ 1/(2·sin(π/7))
 #
 # These are not arbitrary calculations, but reflections of how this framework
 # PROPOSES that information, topology, and computation are fundamentally
-# intertwined in the fabric of the cosmos.
+# intertwined in the structure of information space.
 #
 # See UNIVERSAL_PRINCIPLES.md for the complete philosophical framework.
 # See PHILOSOPHICAL_REFRAMING_SUMMARY.md for clarifications on this approach.
