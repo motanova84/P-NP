@@ -56,6 +56,9 @@ results/*.log
 results/*.csv
 results/*.png
 
+# QCAL verification results
+A_u_verification_results.json
+
 # ---------- DEPLOYMENT ----------
 deploy/
 
