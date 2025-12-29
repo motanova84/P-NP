@@ -48,13 +48,20 @@ results/
 !results/.gitkeep
 output/
 !output/.gitkeep
+data/
+!data/.gitkeep
+diagrams/
+!diagrams/.gitkeep
 *.log
 *.csv
 *.png
+*.json
 kappa_verification_output.txt
 results/*.log
 results/*.csv
 results/*.png
+data/*.json
+diagrams/*.png
 
 # QCAL verification results
 A_u_verification_results.json
