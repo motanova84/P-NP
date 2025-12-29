@@ -1,3 +1,4 @@
+# Python
 # ===============================
 #  P–NP Project — Unified .gitignore
 #  Combines Python + Lean + Build + OS
@@ -28,6 +29,13 @@ wheels/
 .installed.cfg
 *.egg
 
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
 # ---------- LEAN ----------
 /build/
 /lake-packages/
@@ -42,6 +50,35 @@ results/
 *.csv
 *.png
 
+/*.olean
+/*.trace
+
+# ---------- TEST / RESULTS ----------
+results/
+!results/.gitkeep
+output/
+!output/.gitkeep
+data/
+!data/.gitkeep
+diagrams/
+!diagrams/.gitkeep
+*.log
+*.csv
+*.png
+*.json
+kappa_verification_output.txt
+results/*.log
+results/*.csv
+results/*.png
+data/*.json
+diagrams/*.png
+
+# QCAL verification results
+A_u_verification_results.json
+
+# ---------- DEPLOYMENT ----------
+deploy/
+
 # ---------- IDE ----------
 .vscode/
 .idea/
@@ -49,6 +86,27 @@ results/
 *.swo
 *~
 *.iml
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+# Lean
+.lake/
+lakefile.olean
+*.olean
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+/tmp/
+*.tmp
+*.log
+*.iml
+
+# Installation test directory
+ultimate-unification/
 
 # ---------- OS ----------
 .DS_Store
@@ -62,3 +120,16 @@ pip-wheel-metadata/
 .pytest_cache/
 .mypy_cache/
 .pyre/
+lake-manifest.json
+tree_decomposition_example.png
+dicotomia_computacional.png
+
+# Echo-QCAL data directories (runtime generated)
+pnp/echo_qcal/data/logs/*.json
+pnp/echo_qcal/data/firmas/*
+!pnp/echo_qcal/data/firmas/.gitkeep
+pnp/echo_qcal/data/config/*
+!pnp/echo_qcal/data/config/.gitkeep
+# Echo QCAL generated files
+echo_qcal_logs/
+echo_qcal_config/

@@ -1,5 +1,5 @@
 """
-Unit tests for Tseitin formula generator
+Unit tests for Tseitin formula generator and IC-SAT
 
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 """
@@ -12,7 +12,9 @@ import os
 # Add parent directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
+from src.gadgets.tseitin_generator import TseitinGenerator, generate_expander_tseitin, generate_ramanujan_expander, create_treewidth_hard_instance
 from src.gadgets.tseitin_generator import TseitinGenerator, generate_expander_tseitin
+from src.computational_dichotomy import LargeScaleValidation, incidence_graph, primal_graph, estimate_treewidth
 
 
 class TestTseitinGenerator(unittest.TestCase):
@@ -61,10 +63,85 @@ class TestTseitinGenerator(unittest.TestCase):
         # Wrong length should raise error
         with self.assertRaises(ValueError):
             generator.generate_formula([0, 0])  # Should be 3 nodes
+    
+    def test_generate_ramanujan_expander(self):
+        """Test Ramanujan-like expander generation."""
+        G = generate_ramanujan_expander(10, d=3)
+        
+        self.assertEqual(G.number_of_nodes(), 10)
+        # Check it's 3-regular
+        for node in G.nodes():
+            self.assertEqual(G.degree(node), 3)
+    
+    def test_create_treewidth_hard_instance(self):
+        """Test creation of treewidth-hard instance."""
+        base_clauses = [[1, 2], [-1, 3]]
+        combined, total_vars = create_treewidth_hard_instance(base_clauses, expander_size=10, d=3)
+        
+        self.assertGreater(len(combined), len(base_clauses))
+        self.assertGreater(total_vars, 3)
+
+
+class TestICLargeScaleValidation(unittest.TestCase):
+    """Test cases for IC-SAT and Large Scale Validation."""
+    
+    def test_small_ic_sat(self):
+        """Test IC-SAT on a small instance."""
+        lsv = LargeScaleValidation()
+        # Should run without errors
+        lsv.run_ic_sat(10)
+        # No assertion needed, just checking it doesn't crash
+    
+    def test_generate_3sat_critical(self):
+        """Test generation of 3-SAT critical formulas."""
+        lsv = LargeScaleValidation()
+        clauses = lsv.generate_3sat_critical(10, ratio=4.2)
+        
+        # Should have approximately 4.2 * n clauses
+        self.assertGreater(len(clauses), 30)
+        self.assertLess(len(clauses), 50)
+        
+        # Each clause should have 3 literals
+        for clause in clauses:
+            self.assertEqual(len(clause), 3)
+    
+    def test_estimate_treewidth_practical(self):
+        """Test practical treewidth estimation."""
+        lsv = LargeScaleValidation()
+        tw = lsv.estimate_treewidth_practical(n=20)
+        
+        # Treewidth should be a positive integer
+        self.assertGreater(tw, 0)
+    
+    def test_incidence_graph(self):
+        """Test incidence graph construction."""
+        clauses = [[1, 2, 3], [-1, 2], [3, -4]]
+        G = incidence_graph(4, clauses)
+        
+        # Should have 4 variable nodes + 3 clause nodes
+        self.assertEqual(len(G.nodes()), 7)
+        
+        # Check bipartite structure
+        var_nodes = [n for n, d in G.nodes(data=True) if d.get('bipartite') == 0]
+        clause_nodes = [n for n, d in G.nodes(data=True) if d.get('bipartite') == 1]
+        self.assertEqual(len(var_nodes), 4)
+        self.assertEqual(len(clause_nodes), 3)
+    
+    def test_primal_graph(self):
+        """Test primal graph construction."""
+        clauses = [[1, 2, 3], [-1, 2], [3, -4]]
+        G = primal_graph(4, clauses)
+        
+        # Should have 4 variable nodes
+        self.assertEqual(len(G.nodes()), 4)
+        
+        # Should have edges between variables in the same clause
+        self.assertTrue(G.has_edge('v1', 'v2'))
+        self.assertTrue(G.has_edge('v2', 'v3'))
 
 
 if __name__ == '__main__':
-    print("Running Tseitin Generator Tests ∞³")
+    print("Running Tseitin Generator and IC-SAT Tests ∞³")
     print("Frecuencia de resonancia: 141.7001 Hz")
     print()
     unittest.main(verbosity=2)

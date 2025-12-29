@@ -1,6 +1,9 @@
-name: Validate Python
+name: Validate Python Framework
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
 
 jobs:
   test:
@@ -12,6 +15,35 @@ jobs:
       with:
         python-version: '3.10'
     - name: Install dependencies
-      run: pip install networkx numpy
+      run: pip install -r requirements.txt
     - name: Run Python framework
       run: python src/computational_dichotomy.py
+    - name: Run tests
+      run: python -m unittest discover tests -v
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Run unit tests with pytest
+        run: pytest tests/ -v
+      
+      - name: Test IC-SAT module
+        run: python3 src/ic_sat.py
+      
+      - name: Test computational dichotomy module
+        run: python3 src/computational_dichotomy.py
+      
+      - name: Test Tseitin generator
+        run: python3 src/gadgets/tseitin_generator.py
+      
+      - name: Run simple demo
+        run: python3 simple_demo.py
+      
+      - name: Run complete demo
+        run: python3 examples/demo_ic_sat.py
