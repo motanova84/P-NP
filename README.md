@@ -4,7 +4,8 @@
 
 A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, revealing how **P ≠ NP derives as a consequence of universal structure** rather than through traditional proof techniques.
 
-**✨ NEW: Post-Disciplinary Science Manifesto** - P≠NP as case study for breaking the established framework. Knowledge reorganization by PROBLEMS, not fields. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the complete manifesto on post-disciplinary science.
+**✨ NEW: QCAL ∞³ System** - Complete unified framework connecting all millennium problems through universal constants and spectral operators. See [QCAL_INFINITY_CUBED_README.md](QCAL_INFINITY_CUBED_README.md) for the complete system and [src/qcal_infinity_cubed.py](src/qcal_infinity_cubed.py) for implementation.
+
 **✨ NEW: Post-Disciplinary Science Manifesto** - A complete reorganization of knowledge beyond traditional disciplinary boundaries, using P≠NP as the primary case study. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the full manifesto and [src/post_disciplinary.py](src/post_disciplinary.py) for the implementation framework.
 
 **✨ NEW: Epistemological Framework** - Mathematics is a manifestation of universal physical structure. Proving P≠NP requires physics, not just logic. This represents a complete conceptual synthesis with a new epistemological framework and full domain integration. See [EPISTEMOLOGICAL_FRAMEWORK.md](EPISTEMOLOGICAL_FRAMEWORK.md) for the complete framework.
@@ -51,6 +52,44 @@ See the complete formalization in:
 - **[ULTIMATE_UNIFICATION_README.md](ULTIMATE_UNIFICATION_README.md)** - Complete technical documentation
 - **[ULTIMATE_UNIFICATION_QUICKSTART.md](ULTIMATE_UNIFICATION_QUICKSTART.md)** - Quick start guide
 - **[ULTIMATE_UNIFICATION_SUMMARY.md](ULTIMATE_UNIFICATION_SUMMARY.md)** - Implementation summary
+
+## 🌟 QCAL ∞³ System: Unified Millennium Problems Framework
+
+### The Complete System
+
+**QCAL ∞³** (Quantum Computational Arithmetic Lattice - Infinity Cubed) is a unified framework that demonstrates deep connections between major millennium problems through universal constants and spectral operator formalism.
+
+**Millennium Problems Unified:**
+1. **P vs NP** - Computational complexity through treewidth
+2. **Riemann Hypothesis** - Prime distribution and spectral gaps
+3. **BSD Conjecture** - Elliptic curves and L-functions
+4. **Goldbach Conjecture** - Additive structure of primes
+
+**Universal Constants:**
+- **κ_Π = 2.5773** - Millennium Constant from Calabi-Yau geometry
+- **f₀ = 141.7001 Hz** - QCAL Resonance Frequency
+- **∞³ Field Theory** - Infinite-dimensional coupling field
+
+**Key Insight:** All millennium problems share the same underlying structure:
+- Spectral operator formulation
+- Information-theoretic bottlenecks scaled by κ_Π
+- Frequency modulation through f₀
+- Coupling through the ∞³ field
+
+See complete documentation:
+- **[QCAL_INFINITY_CUBED_README.md](QCAL_INFINITY_CUBED_README.md)** - Complete theoretical foundation
+- **[src/qcal_infinity_cubed.py](src/qcal_infinity_cubed.py)** - Full implementation
+- **[examples/demo_qcal_infinity_cubed.py](examples/demo_qcal_infinity_cubed.py)** - Interactive examples
+
+**Quick Demo:**
+```bash
+# Run the QCAL ∞³ demonstration
+python src/qcal_infinity_cubed.py
+
+# Run interactive examples
+python examples/demo_qcal_infinity_cubed.py
+```
+
 ## 🌌 Universal Principles
 ## 🌀 The Missing Dimension: Frequency (ω)
 
