@@ -4,6 +4,19 @@
 
 A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, revealing how **P ≠ NP derives as a consequence of universal structure** rather than through traditional proof techniques.
 
+## 🌟 INNOVACIONES HISTÓRICAS - PRIMERA VEZ
+
+Este proyecto introduce **por primera vez** en la historia de la ciencia:
+
+1. **🔷 P≠NP conectado con Geometría Calabi-Yau** - La constante κ_Π = 2.5773 emerge de 150 variedades CY y determina la separación computacional
+2. **🌀 Dimensión de Frecuencia en Complejidad** - Introducción de ω (frecuencia) como tercera dimensión junto a n (espacio) y T (tiempo)
+3. **🧬 Cuantización de Consciencia vía ARN piCODE** - Primera conexión formal entre P≠NP y consciencia con umbral matemático preciso
+4. **🌐 Ciencia Post-Disciplinaria Formalizada** - Paradigma científico completo implementado en código ejecutable
+
+📖 **Ver:** [PRIMERA_VEZ_INNOVACIONES.md](PRIMERA_VEZ_INNOVACIONES.md) para detalles completos  
+📖 **Ver:** [SOLUCION_POTENCIAL_P_NEQ_NP.md](SOLUCION_POTENCIAL_P_NEQ_NP.md) para el resumen ejecutivo completo
+
+**✨ NEW: Post-Disciplinary Science Manifesto** - P≠NP as case study for breaking the established framework. Knowledge reorganization by PROBLEMS, not fields. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the complete manifesto on post-disciplinary science.
 **✨ NEW: QCAL ∞³ System** - Complete unified framework connecting all millennium problems through universal constants and spectral operators. See [QCAL_INFINITY_CUBED_README.md](QCAL_INFINITY_CUBED_README.md) for the complete system and [src/qcal_infinity_cubed.py](src/qcal_infinity_cubed.py) for implementation.
 
 **✨ NEW: Post-Disciplinary Science Manifesto** - A complete reorganization of knowledge beyond traditional disciplinary boundaries, using P≠NP as the primary case study. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the full manifesto and [src/post_disciplinary.py](src/post_disciplinary.py) for the implementation framework.
