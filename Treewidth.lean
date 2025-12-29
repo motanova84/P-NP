@@ -46,6 +46,10 @@ Where:
 * **Non-Evasion Theorem**: No algorithmic technique can circumvent the structural
   complexity imposed by high treewidth.
 
+* **Tree Decomposition from Separator**: Given a balanced separator S, there exists
+  a tree decomposition with width ≤ |S|, establishing tw(G) = Θ(min_separator_size).
+  This eliminates axioms about the separator-treewidth connection.
+
 ## QCAL ∞³ Metadata
 
 * Module: Treewidth.lean
@@ -69,6 +73,7 @@ Coherence from the Instituto de Conciencia Cuántica.
 import Formal.Treewidth.Treewidth
 import Formal.Treewidth.SeparatorInfo
 import Formal.Treewidth.ExpanderSeparators
+import Formal.Treewidth.SeparatorDecomposition
 import Formal.TreewidthTheory
 
 -- Re-export main definitions for easy access
@@ -86,6 +91,11 @@ export Treewidth.ExpanderSeparators (κ_Π IsKappaExpander BalancedSeparator Opt
                                      kappa_expander_large_separator
                                      α_optimal separator_treewidth_relation
                                      separator_potential optimal_separator_minimizes_potential)
+
+-- Export separator decomposition theorem (tree decomposition from separator)
+export Treewidth.SeparatorDecomposition (tree_decomposition_from_separator
+                                         treewidth_bounded_by_min_separator
+                                         expander_treewidth_matches_separator)
 
 end Treewidth
 
