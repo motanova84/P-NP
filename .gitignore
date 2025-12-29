@@ -56,6 +56,9 @@ results/*.log
 results/*.csv
 results/*.png
 
+# QCAL verification results
+A_u_verification_results.json
+
 # ---------- DEPLOYMENT ----------
 deploy/
 
@@ -97,3 +100,15 @@ pip-wheel-metadata/
 .mypy_cache/
 .pyre/
 lake-manifest.json
+tree_decomposition_example.png
+dicotomia_computacional.png
+
+# Echo-QCAL data directories (runtime generated)
+pnp/echo_qcal/data/logs/*.json
+pnp/echo_qcal/data/firmas/*
+!pnp/echo_qcal/data/firmas/.gitkeep
+pnp/echo_qcal/data/config/*
+!pnp/echo_qcal/data/config/.gitkeep
+# Echo QCAL generated files
+echo_qcal_logs/
+echo_qcal_config/

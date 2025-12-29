@@ -41,6 +41,7 @@ import Formal.StructuralCoupling
 import Formal.InformationComplexity
 import Formal.TreewidthTheory
 import Formal.Treewidth.Treewidth
+import Formal.Treewidth.TreeDecompositionFromSeparator
 import Formal.TreewidthIntegration
 import Formal.P_neq_NP
 import Formal.MainTheorem
