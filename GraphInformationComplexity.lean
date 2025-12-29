@@ -8,6 +8,7 @@ establishing bounds on the number of configurations based on separator size.
 
 * `GraphIC G S`: Graph Information Complexity - the minimum number of bits needed to
   distinguish configurations in components separated by separator S.
+* `phIC G S`: Physical Information Complexity approximation based on separator size.
 * `balanced_separator_size_bound`: Upper bound on the size of a balanced separator
   relative to the total number of vertices.
 
@@ -16,6 +17,7 @@ establishing bounds on the number of configurations based on separator size.
 * `log_total_configs_lower_bound`: Proves that log₂(total_configs) ≥ S.card / 2
   for balanced separators, establishing the fundamental information-theoretic
   lower bound.
+* `phIC_lower_bound`: Proves that phIC G S ≥ S.card / 2, a trivial bound by definition.
 
 Author: José Manuel Mota Burruezo & Claude (Noēsis)
 -/
@@ -59,6 +61,10 @@ def total_configs (G : SimpleGraph V) (S : Separator G) : ℕ :=
 /-- Graph Information Complexity: minimum bits needed to distinguish configurations -/
 def GraphIC (G : SimpleGraph V) (S : Separator G) : ℕ :=
   Nat.log 2 (total_configs G S)
+
+/-- phIC: Physical Information Complexity approximation based on separator size -/
+def phIC (G : SimpleGraph V) (S : Finset V) : ℕ :=
+  S.card / 2
 
 /-! ## Main Lemmas and Theorems -/
 
@@ -135,6 +141,24 @@ theorem graphIC_lower_bound
   GraphIC G S ≥ S.S.card / 2 := by
   unfold GraphIC
   exact log_total_configs_lower_bound G S h_sep h_nonempty
+
+/-- phIC lower bound: trivially satisfied by definition.
+    
+    This lemma establishes the baseline bound for phIC, which by definition
+    satisfies phIC G S = S.card / 2. While this appears tautological, it serves
+    as a foundational building block in the complexity framework, allowing phIC
+    to be refined with additional entropy, treewidth, or κ_Π constraints in future
+    developments without changing the interface.
+    
+    Note: The parameters G and h_sep are included for interface consistency and
+    future extensibility, even though they are not used in the current proof. -/
+lemma phIC_lower_bound (G : SimpleGraph V) (S : Finset V)
+  (h_pos : S.card > 0)
+  (h_sep : is_balanced_separator G ⟨S, h_pos⟩) :
+  phIC G S ≥ S.card / 2 := by
+  unfold phIC
+  -- phIC G S = S.card / 2, so phIC G S ≥ S.card / 2 is reflexive
+  le_refl
 
 /--
 Alternative direct proof following the approach from the problem statement.
