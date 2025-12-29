@@ -10,7 +10,6 @@ implementation-dependent. This module provides the framework for verification.
 
 import argparse
 from typing import Tuple, Optional
-import sys
 
 from .qcal_constants import GENESIS_ADDRESS, GENESIS_MESSAGE, GENESIS_SIGNATURE
 
