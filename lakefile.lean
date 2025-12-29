@@ -37,6 +37,8 @@ lean_lib GraphInformationComplexity where
 
 lean_lib HolographicPnP where
   roots := #[`HolographicPnP]
+lean_lib HolographicVolume where
+  roots := #[`HolographicVolume]
 lean_lib TseitinHardFamily where
   roots := #[`TseitinHardFamily]
 
@@ -91,4 +93,5 @@ lean_lib SevenStairs where
 
 @[default_target]
 lean_exe pnp where
+  root := `Principal
   root := `Director

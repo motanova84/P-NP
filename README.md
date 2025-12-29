@@ -399,6 +399,12 @@ Previously, the argument relied on existential claims about hard formulas. Now w
   - Upper and lower bound theorems
   - No-evasion theorem
 
+- `HolographicVolume.lean`: **NEW** - AdS/CFT holographic formalization:
+  - Anti-de Sitter space volume integrals
+  - Connection between bulk geometry and boundary complexity
+  - Geometric manifestation of P≠NP via Ω(n log n) volume bound
+  - Holographic complexity principle for Tseitin formulas
+  - See [HOLOGRAPHIC_VOLUME_README.md](HOLOGRAPHIC_VOLUME_README.md) for details
 - **NEW: `FinalAxiom.lean`**: Holographic complexity law
   - AdS/CFT correspondence for computation
   - Ryu-Takayanagi surface volumes
@@ -595,6 +601,7 @@ P-NP/
 ├── ComputationalDichotomy.lean  # Formalización matemática en Lean
 ├── InformationComplexity.lean  # Teoría de complejidad informacional
 ├── TreewidthTheory.lean      # Teoría de treewidth y grafos
+├── HolographicVolume.lean    # NEW: Integrales de volumen AdS/CFT
 ├── Main.lean                 # Punto de entrada Lean
 ├── Principal.lean            # Definiciones principales
 ├── lakefile.lean            # Configuración del proyecto Lean
@@ -886,21 +893,29 @@ curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf 
 For Python validation scripts (if present):
 ```bash
 # Install dependencies
-pip install networkx numpy
+pip install -r requirements.txt
 ```
 
-### Running the Python Framework (if present)
+### Running the Python Framework
 
 ```bash
-# Run the demonstration
-python computational_dichotomy.py
+# Run the main demonstration
+python src/computational_dichotomy.py
+
+# Run the feature demo
+python examples/demo.py
+
+# Run all tests
+python -m unittest discover tests -v
 ```
 
-This would demonstrate:
+This demonstrates:
 - Low treewidth formulas (tractable)
 - High treewidth formulas (intractable)
+- IC-SAT algorithm implementation
 - Structural coupling with expanders
-- Non-evasion property
+- Large-scale validation framework
+- Treewidth estimation and comparison
 
 ### Working with Lean Formalization (if present)
 
@@ -918,6 +933,56 @@ lake build
 2. **Review Pull Requests**: Check closed and open PRs for detailed implementation notes
 3. **Examine Code**: Look at Lean files for formal specifications
 4. **Run Examples**: Execute any provided example scripts to see the framework in action
+
+## 🔧 Implementation Features
+
+This repository includes a complete Python implementation of the computational dichotomy framework with the following features:
+
+### Core Components
+
+**1. IC-SAT Algorithm** (`src/computational_dichotomy.py`)
+- Complete Information Complexity SAT solver implementation
+- Treewidth-aware branching strategy
+- Spectral advantage prediction
+- Configurable depth limits for exploration
+
+**2. Helper Functions**
+- `incidence_graph()`: Build bipartite incidence graphs
+- `primal_graph()`: Build primal variable-clause graphs
+- `estimate_treewidth()`: Approximate treewidth using min-degree heuristic
+- `predict_advantages()`: Spectral-based branching advantage prediction
+- `simplify_clauses()`: Clause simplification by variable assignment
+- `compare_treewidths()`: Compare primal vs incidence treewidth
+
+**3. Large-Scale Validation Framework**
+- Critical 3-SAT instance generation at phase transition (ratio ≈ 4.2)
+- Treewidth estimation for generated instances
+- Performance comparison framework (IC-SAT vs traditional solvers)
+- Coherence metric calculation: C = 1/(1 + tw)
+
+**4. Tseitin Formula Generator** (`src/gadgets/tseitin_generator.py`)
+- Generate Tseitin formulas over arbitrary graphs
+- Ramanujan-like expander graph generation
+- Treewidth-hard instance creation via expander coupling
+- XOR constraint encoding to CNF
+
+### Test Suite
+
+Comprehensive test coverage with 16+ tests:
+- `tests/test_computational_dichotomy.py`: Core framework tests
+- `tests/test_tseitin.py`: Tseitin generator tests
+
+### Demo Scripts
+
+- `examples/demo.py`: Comprehensive feature demonstration
+- Shows all major components in action
+
+### Dependencies
+
+All dependencies explicitly specified in `requirements.txt`:
+- networkx >= 3.0
+- numpy >= 1.21
+- scipy >= 1.7
 
 ## 📖 Key Concepts
 
