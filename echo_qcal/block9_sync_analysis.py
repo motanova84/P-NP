@@ -43,8 +43,8 @@ def calculate_synchrony() -> Dict[str, float]:
     delta_T = abs(T_ideal - T_BLOCK9)
     delta_T_ms = delta_T * 1000  # Convert to milliseconds
     
-    # Calculate coherence (percentage)
-    coherence = (1 - delta_T / TAU0) * 100
+    # Calculate coherence (percentage), clamped to [0, 100]
+    coherence = float(np.clip((1 - delta_T / TAU0) * 100, 0.0, 100.0))
     
     # Statistical analysis
     # P(random|H₀) = (2 × ε) / window
