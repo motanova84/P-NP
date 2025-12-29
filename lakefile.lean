@@ -78,6 +78,10 @@ lean_lib HigherDimension where
 lean_lib PhysicalConsistency where
   roots := #[`PhysicalConsistency]
 
+lean_lib RuntimeLowerBounds where
+  roots := #[`RuntimeLowerBounds]
+lean_lib Gap2_Asymptotic where
+  roots := #[`Gap2_Asymptotic]
 lean_lib SevenStairs where
   roots := #[`SevenStairs]
 
