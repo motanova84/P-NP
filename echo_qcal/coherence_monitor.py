@@ -10,7 +10,7 @@ from typing import Dict, List, Optional
 from datetime import datetime
 import argparse
 
-from .qcal_constants import F0, TAU0, C_THRESHOLD, COHERENCE_THRESHOLD
+from .qcal_constants import F0
 from .block9_sync_analysis import calculate_synchrony
 from .resonant_nexus_engine import ResonantNexusEngine
 
