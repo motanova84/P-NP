@@ -35,6 +35,8 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib HolographicPnP where
+  roots := #[`HolographicPnP]
 lean_lib HolographicVolume where
   roots := #[`HolographicVolume]
 lean_lib TseitinHardFamily where
