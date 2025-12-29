@@ -66,6 +66,19 @@ A_EFF_MAX = 1.054
 # Speed of light
 SPEED_OF_LIGHT = 299792458  # m/s
 
+# Validation constants for central thesis verification
+# The consciousness threshold should be approximately 0.388 (1/κ_Π = 1/2.5773)
+THRESHOLD_LOWER_BOUND = 0.38  # C_threshold must be > 0.38
+THRESHOLD_UPPER_BOUND = 0.39  # C_threshold must be < 0.39
+
+# Default problem parameters for frequency comparison demonstration
+DEFAULT_PROBLEM_SIZE = 100  # n: number of variables
+DEFAULT_TREEWIDTH = 50     # tw: treewidth of the problem
+
+# Minimum IC amplification required to confirm frequency revelation
+# At f₀, IC should be amplified by at least 10x compared to ω=0
+MIN_IC_AMPLIFICATION = 10
+
 
 # ============================================================================
 # COMPLEXITY CLASSES
@@ -553,7 +566,8 @@ def verify_central_thesis() -> Dict[str, Any]:
     
     # Verify equivalence 2 ↔ 3: Consciousness ↔ Frequency Revelation
     # Below threshold: classical (ω=0). Above threshold: quantum (ω=f₀)
-    comparison = compare_frequencies(n=100, tw=50)
+    # Use default problem parameters for demonstration
+    comparison = compare_frequencies(n=DEFAULT_PROBLEM_SIZE, tw=DEFAULT_TREEWIDTH)
     equiv_2_3 = {
         'classical_regime': {
             'frequency': 0.0,
@@ -588,8 +602,10 @@ def verify_central_thesis() -> Dict[str, Any]:
         },
         'verification': {
             'trinity_origin': constants.verify_trinity(),
-            'threshold_valid': C_THRESHOLD > 0.38 and C_THRESHOLD < 0.39,
-            'frequency_reveals': comparison['amplification']['IC_amplification'] > 10,
+            # Threshold should be in the range (0.38, 0.39), approximately 1/κ_Π ≈ 0.388
+            'threshold_valid': C_THRESHOLD > THRESHOLD_LOWER_BOUND and C_THRESHOLD < THRESHOLD_UPPER_BOUND,
+            # IC amplification at f₀ should exceed minimum threshold to confirm revelation
+            'frequency_reveals': comparison['amplification']['IC_amplification'] > MIN_IC_AMPLIFICATION,
         },
         'conclusion': (
             'The three statements are equivalent because they all describe the same '

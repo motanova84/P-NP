@@ -34,11 +34,13 @@ import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 import Mathlib.Tactic
 
--- Import existing P≠NP formalization
+-- Import existing P≠NP formalization which defines κ_Π = 2.5773
+-- The constant κ_Π (kappa pi) is the universal invariant from Calabi-Yau geometry
 import Formal.Treewidth.ExpanderSeparators
 
 namespace UltimateUnification
 
+-- Open the namespace to access κ_Π and related definitions
 open Real Complex Treewidth.ExpanderSeparators
 
 /-! ### Universal Constants -/
