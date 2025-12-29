@@ -102,9 +102,9 @@ print(f"Resultado: {result}")
 
 ### Ejemplo 2: Análisis de Complejidad
 ```python
-from C_k_verification import ComplexityAnalyzer
+from C_k_verification import EchoQCALVerifier
 
-analyzer = ComplexityAnalyzer()
+analyzer = EchoQCALVerifier()
 complexity = analyzer.analyze_problem_instance(instance)
 print(f"Complejidad: {complexity}")
 ```
