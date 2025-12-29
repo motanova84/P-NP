@@ -227,13 +227,21 @@ theorem P_implies_coherent (tw : ℕ) (h : is_in_domain_P tw) : is_coherent tw :
   calc coherence_constant tw ≥ 1 / 2 := h_coh
     _ > 1 / 137.036 := by norm_num
 
+/-- Problemas con tw muy alto pierden coherencia 
+
+    El umbral se deriva de: C = 1/(1 + tw/tw_critico) = 1/κ_Π
+    Despejando: tw = tw_critico × (κ_Π - 1) ≈ 18,778 × 136.036 ≈ 2,554,388
+    
+    Usamos 2,600,000 como umbral conservador donde C < C_min se garantiza. -/
+def tw_coherence_threshold : ℕ := 2600000
+
 /-- Problemas con tw muy alto pierden coherencia -/
 theorem high_tw_loses_coherence :
     ∃ (tw_threshold : ℕ), ∀ tw, tw > tw_threshold → ¬is_coherent tw := by
   -- Para tw muy grande, C → 0, eventualmente C < C_min
   -- El umbral aproximado es cuando 1/(1 + tw/tw_critico) = 1/κ_Π
   -- Esto da tw ≈ tw_critico · (κ_Π - 1) ≈ 18778 · 136 ≈ 2.5M
-  use 2600000  -- Umbral donde C < C_min
+  use tw_coherence_threshold  -- Umbral donde C < C_min (≈ 2.6M)
   intro tw htw
   unfold is_coherent C_min κ_Π coherence_constant tw_critico
   push_neg

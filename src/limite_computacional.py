@@ -270,7 +270,8 @@ def compute_quantum_barrier(treewidth: int) -> Dict[str, float]:
         - distance_to_boundary: Distancia al umbral tw_critico
         - resonance_required: Si requiere resonancia con f₀
     """
-    c = coherence_constant(treewidth, 1)  # num_vars no afecta el cálculo principal
+    # num_vars parameter is kept for API compatibility but doesn't affect coherence calculation
+    c = coherence_constant(treewidth, 1)
     domain = "P" if treewidth <= TW_CRITICO else "NP"
     
     return {

@@ -207,7 +207,7 @@ class TestResonanceCondition:
     
     def test_close_frequency_resonant(self):
         """Test that frequencies close to f₀ are resonant."""
-        # Within 0.01% tolerance
+        # Within 0.01% relative tolerance (absolute value ≈ 0.014 Hz for f₀ = 141.7001)
         assert resonance_condition(F_0 + 0.01) == True
         assert resonance_condition(F_0 - 0.01) == True
     
