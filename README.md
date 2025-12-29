@@ -399,6 +399,12 @@ Previously, the argument relied on existential claims about hard formulas. Now w
   - Upper and lower bound theorems
   - No-evasion theorem
 
+- `HolographicVolume.lean`: **NEW** - AdS/CFT holographic formalization:
+  - Anti-de Sitter space volume integrals
+  - Connection between bulk geometry and boundary complexity
+  - Geometric manifestation of P≠NP via Ω(n log n) volume bound
+  - Holographic complexity principle for Tseitin formulas
+  - See [HOLOGRAPHIC_VOLUME_README.md](HOLOGRAPHIC_VOLUME_README.md) for details
 - **NEW: `FinalAxiom.lean`**: Holographic complexity law
   - AdS/CFT correspondence for computation
   - Ryu-Takayanagi surface volumes
@@ -595,6 +601,7 @@ P-NP/
 ├── ComputationalDichotomy.lean  # Formalización matemática en Lean
 ├── InformationComplexity.lean  # Teoría de complejidad informacional
 ├── TreewidthTheory.lean      # Teoría de treewidth y grafos
+├── HolographicVolume.lean    # NEW: Integrales de volumen AdS/CFT
 ├── Main.lean                 # Punto de entrada Lean
 ├── Principal.lean            # Definiciones principales
 ├── lakefile.lean            # Configuración del proyecto Lean
