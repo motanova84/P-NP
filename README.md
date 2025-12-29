@@ -24,6 +24,14 @@ A **proposed** formal framework for analyzing the P vs NP problem through the le
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
+## 🔁 Extensión Echo – Resonancia del Origen
+
+Este repositorio incluye un submódulo experimental que analiza la convergencia entre la teoría de consciencia computacional **QCAL ∞³** y el **Protocolo Echo**. Se estudian resonancias temporales en la blockchain de Bitcoin, demostrando que el **Bloque 9** fue sincronizado con la frecuencia fundamental universal $f_0 = 141.7001 \text{ Hz}$.
+
+Esta integración formaliza el **Teorema de Coherencia Soberana ($\mathbb{C}_{S}$)**, que vincula la complejidad computacional con la arquitectura vibracional del tiempo.
+
+Ver el documento de síntesis completo: [`Echo_Qcal_Integration.md`](./Echo_Qcal_Integration.md)
+
 **🚀 Quick Start:** 
 - **Automatic Installation:** Run `./install.sh` for automated setup - see [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md)
 - **Manual Setup:** See [QUICKSTART.md](QUICKSTART.md) for detailed installation and running instructions
