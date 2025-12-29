@@ -89,4 +89,5 @@ lean_lib SevenStairs where
 
 @[default_target]
 lean_exe pnp where
+  root := `Principal
   root := `Director
