@@ -11,7 +11,7 @@ frequency structure predicted by QCAL ∞³ theory.
 
 import numpy as np
 import argparse
-from typing import Optional, List, Dict
+from typing import Optional, Dict
 import sys
 
 from .qcal_constants import F0, SIGMA, HARMONIC_WEIGHTS, DEFAULT_CYCLES
