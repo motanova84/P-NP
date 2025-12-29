@@ -11,7 +11,7 @@ import time
 import argparse
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple, Any
+from typing import Dict, Any
 import sys
 
 try:
