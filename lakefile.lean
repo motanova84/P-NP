@@ -25,6 +25,8 @@ lean_lib Treewidth where
 lean_lib Formal where
   roots := #[`Formal]
 
+lean_lib P_neq_NP where
+  roots := #[`P_neq_NP]
 lean_lib SpectralTheory where
   roots := #[`SpectralTheory]
 
@@ -50,14 +52,10 @@ lean_lib Gap2_IC_TimeLowerBound where
   roots := #[`Gap2_IC_TimeLowerBound]
 lean_lib GAP2 where
   roots := #[`GAP2_Complete]
-lean_lib Gap2Asymptotic where
 lean_lib GAP2Asymptotic where
   roots := #[`Gap2_Asymptotic]
 lean_lib TuringMachine where
   roots := #[`TuringMachine]
-
-lean_lib TseitinHardFamily where
-  roots := #[`TseitinHardFamily]
 
 lean_lib TEOREMAJMMB where
   roots := #[`TEOREMAJMMB]
@@ -82,6 +80,8 @@ lean_lib HigherDimension where
 lean_lib PhysicalConsistency where
   roots := #[`PhysicalConsistency]
 
+lean_lib RuntimeLowerBounds where
+  roots := #[`RuntimeLowerBounds]
 lean_lib Gap2_Asymptotic where
   roots := #[`Gap2_Asymptotic]
 lean_lib SevenStairs where
