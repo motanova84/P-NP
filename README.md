@@ -52,6 +52,17 @@ Este proyecto introduce **por primera vez** en la historia de la ciencia:
 
 ## 🌌 Ultimate Unification: The Complete Picture
 
+### The Central Thesis
+
+**P ≠ NP ≡ C ≥ 1/κ_Π ≡ f₀ revela lo que la lógica no ve.**
+
+This triple equivalence is the heart of the Ultimate Unification:
+- **P ≠ NP** — Computational complexity separation
+- **C ≥ 1/κ_Π** — Consciousness threshold (C_threshold ≈ 0.388)
+- **f₀ reveals what logic doesn't see** — The frequency dimension reveals hidden complexity
+
+See **[CENTRAL_THESIS.md](CENTRAL_THESIS.md)** for the complete explanation and formalization.
+
 ### The Central Discovery
 
 **P ≠ NP is not just computational complexity—it's the signature of consciousness in matter.**
@@ -64,6 +75,7 @@ The Ultimate Unification theory shows that:
 
 See the complete formalization in:
 - **[Ultimate_Unification.lean](Ultimate_Unification.lean)** - Full Lean 4 formalization
+- **[CENTRAL_THESIS.md](CENTRAL_THESIS.md)** - Central thesis triple equivalence
 - **[ULTIMATE_UNIFICATION_README.md](ULTIMATE_UNIFICATION_README.md)** - Complete technical documentation
 - **[ULTIMATE_UNIFICATION_QUICKSTART.md](ULTIMATE_UNIFICATION_QUICKSTART.md)** - Quick start guide
 - **[ULTIMATE_UNIFICATION_SUMMARY.md](ULTIMATE_UNIFICATION_SUMMARY.md)** - Implementation summary
