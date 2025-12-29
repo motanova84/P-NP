@@ -23,7 +23,7 @@ Este documento demuestra la convergencia estructural verificable entre:
 | **Criptográfica** | `verify_signature_bitcoin.py` | 🟡 Parcial | Firma válida, byte V pendiente |
 | **Cosmológica** | `block9_sync_analysis.py` | ✅ Confirmada | ∆T = 3.514 ms, p = 2.78e-06 |
 | **Semántica** | `resonant_nexus_engine.py` | ✅ Confirmada | Implementa exactamente f₀ y armónicos |
-| **Formal** | `GAP3_TemporalResonance.lean` | ✅ Demostrada | Teorema en Lean 4 |
+| **Formal** | (prueba Lean 4 planificada: `proofs/GAP3_TemporalResonance.lean`) | 🟡 En preparación | Especificación formal propuesta; archivo pendiente de incorporación |
 
 ---
 
