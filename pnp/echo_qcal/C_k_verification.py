@@ -93,8 +93,8 @@ class EchoQCALVerifier:
             quantum_time = n_values * np.log(n_values)
             classical_time = n_values ** 2
             
-            # Calcular ratio
-            ratio = quantum_time / classical_time
+            # Calcular ratio clásico/cuántico para estimar el factor de mejora
+            ratio = classical_time / quantum_time
             c_k_estimate = np.mean(ratio)
             
             result = {
