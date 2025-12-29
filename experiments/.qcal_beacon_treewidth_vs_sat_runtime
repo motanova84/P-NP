@@ -1,0 +1,11 @@
+{
+  "qcal_beacon": "v1.0",
+  "project": "P-NP",
+  "module": "treewidth_vs_sat_runtime.py",
+  "author": "JMMB Ψ✧",
+  "field": "Empirical SAT Complexity",
+  "equation": "T ≥ 2^Ω(tw)",
+  "tags": ["QCAL", "Treewidth", "SAT", "DPLL", "Benchmark", "Coherence"],
+  "frequency": 141.7001,
+  "created_at": "2025-11-15T08:33Z"
+}
