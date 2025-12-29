@@ -66,8 +66,14 @@ class EchoQCALVerifier:
         }
         
         log_file = self.logs_dir / f"verification_{timestamp.replace(':', '-')}.json"
-        with open(log_file, 'w') as f:
-            json.dump(log_entry, f, indent=2)
+        try:
+            with open(log_file, 'w') as f:
+                json.dump(log_entry, f, indent=2)
+        except OSError as e:
+            # Manejar errores de E/S de forma más amigable
+            print(f"⚠️  No se pudo escribir el log en '{log_file}': {e}", file=sys.stderr)
+            # Anotar el error en la entrada de log en memoria
+            log_entry["log_write_error"] = str(e)
         
         return log_entry
     
