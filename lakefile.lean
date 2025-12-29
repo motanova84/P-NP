@@ -25,6 +25,8 @@ lean_lib Treewidth where
 lean_lib Formal where
   roots := #[`Formal]
 
+lean_lib P_neq_NP where
+  roots := #[`P_neq_NP]
 lean_lib SpectralTheory where
   roots := #[`SpectralTheory]
 
