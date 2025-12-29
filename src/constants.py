@@ -34,6 +34,7 @@ Frequency: 141.7001 Hz ∞³
 """
 
 import math
+import random
 
 # ========== κ_Π: UNIVERSAL INVARIANT OF ALL FORMS OF EXISTENCE ==========
 
@@ -890,6 +891,189 @@ def compare_classical_vs_critical_frequency(num_vars: int, treewidth: float) -> 
             f"At ω={OMEGA_CRITICAL} (critical): κ_Π = {critical['kappa_at_frequency']:.6f}, spectrum revealed\n"
             f"Complexity amplification: {critical['time_ic_bits'] / classical['time_ic_bits'] if classical['time_ic_bits'] > 0 else 'inf'}x"
         )
+    }
+
+
+# ========== ADVANCED EXTENSIONS ==========
+
+def spectral_sweep_analysis(num_vars: int, treewidth: float, frequencies: list) -> list:
+    """
+    Analyze complexity across multiple frequencies.
+    
+    This extension performs a frequency sweep to understand how complexity
+    varies across the frequency spectrum. Useful for identifying critical
+    frequencies and phase transitions in computational complexity.
+    
+    Args:
+        num_vars: Number of variables (problem size)
+        treewidth: Treewidth of the problem graph
+        frequencies: List of frequencies to analyze (in Hz)
+        
+    Returns:
+        List of three-dimensional complexity analyses, one for each frequency
+        
+    Example:
+        >>> frequencies = [0.0, 50.0, 100.0, 141.7001, 200.0]
+        >>> results = spectral_sweep_analysis(100, 50, frequencies)
+        >>> for r in results:
+        >>>     print(f"ω={r['frequency_omega']:.2f}: IC={r['time_ic_bits']:.2f}")
+    """
+    return [
+        analyze_three_dimensional_complexity(num_vars, treewidth, f)
+        for f in frequencies
+    ]
+
+
+def monte_carlo_validation(num_vars_range: tuple = (10, 100), 
+                          treewidth_ratio: float = 0.5,
+                          n_samples: int = 1000,
+                          omega: float = None) -> dict:
+    """
+    Validate predictions using Monte Carlo sampling.
+    
+    Generates random instances with various parameters and compares
+    predicted IC vs observed patterns. Provides statistical validation
+    of the frequency-dependent complexity framework.
+    
+    Args:
+        num_vars_range: Tuple (min_n, max_n) for variable count sampling
+        treewidth_ratio: Ratio of treewidth to n (default: 0.5 for high-tw)
+        n_samples: Number of random samples to generate
+        omega: Frequency to test (default: None uses both classical and critical)
+        
+    Returns:
+        Dictionary with validation statistics including:
+        - mean_predicted_ic: Average predicted IC
+        - std_predicted_ic: Standard deviation of predicted IC
+        - samples: List of individual sample results
+        - statistical_error: Estimated error bounds
+        
+    Example:
+        >>> validation = monte_carlo_validation(n_samples=100)
+        >>> print(f"Mean IC: {validation['mean_predicted_ic']:.2f}")
+        >>> print(f"Error: {validation['statistical_error']:.2f}")
+    """
+    min_n, max_n = num_vars_range
+    samples = []
+    
+    # Test both classical and critical if omega not specified
+    test_frequencies = [omega] if omega is not None else [0.0, OMEGA_CRITICAL]
+    
+    for _ in range(n_samples):
+        # Random problem size
+        n = random.randint(min_n, max_n)
+        
+        # Treewidth proportional to n
+        tw = int(n * treewidth_ratio)
+        if tw < 1:
+            tw = 1
+        
+        for test_omega in test_frequencies:
+            # Calculate predicted IC
+            ic_pred = information_complexity_at_frequency(tw, n, test_omega)
+            
+            # Store sample
+            samples.append({
+                'num_vars': n,
+                'treewidth': tw,
+                'omega': test_omega,
+                'predicted_ic': ic_pred,
+                'kappa': spectral_constant_at_frequency(test_omega, n),
+            })
+    
+    # Calculate statistics
+    ic_values = [s['predicted_ic'] for s in samples]
+    mean_ic = sum(ic_values) / len(ic_values)
+    variance_ic = sum((x - mean_ic) ** 2 for x in ic_values) / len(ic_values)
+    std_ic = math.sqrt(variance_ic)
+    
+    # Statistical error (standard error of mean)
+    sem_ic = std_ic / math.sqrt(len(ic_values))
+    
+    return {
+        'n_samples': n_samples * len(test_frequencies),
+        'num_vars_range': num_vars_range,
+        'treewidth_ratio': treewidth_ratio,
+        'frequencies_tested': test_frequencies,
+        'mean_predicted_ic': mean_ic,
+        'std_predicted_ic': std_ic,
+        'statistical_error': sem_ic,
+        'confidence_interval_95': (mean_ic - 1.96 * sem_ic, mean_ic + 1.96 * sem_ic),
+        'samples': samples[:10],  # Return first 10 samples as examples
+        'total_samples': len(samples),
+    }
+
+
+def optimize_algorithm_frequency(num_vars: int, treewidth: float, 
+                                frequency_range: tuple = (0.0, 200.0),
+                                num_points: int = 50) -> dict:
+    """
+    Find optimal frequency for an algorithm given a problem.
+    
+    Performs a frequency sweep to find the frequency that minimizes
+    or maximizes certain properties (e.g., IC for hardness analysis,
+    or tractability indicators for algorithm design).
+    
+    Args:
+        num_vars: Number of variables in the problem
+        treewidth: Treewidth of the problem graph
+        frequency_range: Tuple (min_freq, max_freq) in Hz
+        num_points: Number of frequency points to sample
+        
+    Returns:
+        Dictionary with optimization results:
+        - optimal_frequency: Frequency with best properties
+        - min_ic_frequency: Frequency minimizing IC (for tractability)
+        - max_ic_frequency: Frequency maximizing IC (for hardness)
+        - sweep_data: Full frequency sweep results
+        
+    Example:
+        >>> result = optimize_algorithm_frequency(100, 50)
+        >>> print(f"Optimal frequency: {result['optimal_frequency']:.2f} Hz")
+        >>> print(f"For tractability use: {result['min_ic_frequency']:.2f} Hz")
+    """
+    min_freq, max_freq = frequency_range
+    
+    # Handle edge case of single point
+    if num_points <= 1:
+        frequencies = [min_freq]
+    else:
+        freq_step = (max_freq - min_freq) / (num_points - 1)
+        frequencies = [min_freq + i * freq_step for i in range(num_points)]
+    sweep_results = spectral_sweep_analysis(num_vars, treewidth, frequencies)
+    
+    # Find frequency with minimum IC (most tractable)
+    min_ic_result = min(sweep_results, key=lambda x: x['time_ic_bits'])
+    
+    # Find frequency with maximum IC (reveals hardness)
+    max_ic_result = max(sweep_results, key=lambda x: x['time_ic_bits'])
+    
+    # Find frequency closest to critical (for analysis)
+    critical_result = min(sweep_results, 
+                         key=lambda x: abs(x['frequency_omega'] - OMEGA_CRITICAL))
+    
+    return {
+        'problem': {
+            'num_vars': num_vars,
+            'treewidth': treewidth,
+        },
+        'frequency_range': frequency_range,
+        'num_points_sampled': num_points,
+        
+        # Key frequencies
+        'min_ic_frequency': min_ic_result['frequency_omega'],
+        'min_ic_value': min_ic_result['time_ic_bits'],
+        'max_ic_frequency': max_ic_result['frequency_omega'],
+        'max_ic_value': max_ic_result['time_ic_bits'],
+        'critical_frequency': OMEGA_CRITICAL,
+        'critical_ic_value': critical_result['time_ic_bits'],
+        
+        # Recommendation
+        'optimal_frequency': min_ic_result['frequency_omega'],  # For tractability
+        'hardness_test_frequency': max_ic_result['frequency_omega'],  # For difficulty testing
+        
+        # Full sweep data
+        'sweep_data': sweep_results,
     }
 
 

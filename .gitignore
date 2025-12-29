@@ -40,6 +40,16 @@ env/
 /build/
 /lake-packages/
 /.lake/
+*.olean
+*.trace
+
+# ---------- TEST / RESULTS ----------
+results/
+!results/.gitkeep
+*.log
+*.csv
+*.png
+
 /*.olean
 /*.trace
 
@@ -75,7 +85,11 @@ deploy/
 *.swp
 *.swo
 *~
+*.iml
 
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
 # Lean
 .lake/
 lakefile.olean
