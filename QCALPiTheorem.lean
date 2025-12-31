@@ -87,15 +87,19 @@ def SpectralDensity (cy : CalabiYauManifold) (coeff : HolonomyCoefficients cy) :
     let β := coeff.beta
     (1 + α * cos (n * θ) + β * sin (m * θ))^2
 
-/-- Constante de normalización Z para la densidad espectral -/
+/-- Constante de normalización Z para la densidad espectral 
+    TODO: Implementar usando Mathlib.MeasureTheory.Integral.IntervalIntegral
+    Z = ∫_{-π}^{π} ρ_Π(θ) dθ -/
 def NormalizationConstant (cy : CalabiYauManifold) (coeff : HolonomyCoefficients cy) : ℝ :=
-  sorry  -- ∫_{-π}^{π} ρ_Π(θ) dθ
+  sorry  -- Requiere: intervalIntegral (SpectralDensity cy coeff) (-π) π volume
 
-/-- Funcional de entropía espectral (entropía de Shannon diferencial) -/
+/-- Funcional de entropía espectral (entropía de Shannon diferencial) 
+    TODO: Implementar usando Mathlib.MeasureTheory.Integral.IntervalIntegral
+    H(ρ) = -∫_{-π}^{π} (ρ(θ)/Z) log(ρ(θ)/Z) dθ -/
 def SpectralEntropy (cy : CalabiYauManifold) (coeff : HolonomyCoefficients cy) : ℝ :=
   let ρ := SpectralDensity cy coeff
   let Z := NormalizationConstant cy coeff
-  sorry  -- -∫_{-π}^{π} (ρ(θ)/Z) log(ρ(θ)/Z) dθ
+  sorry  -- Requiere: intervalIntegral (fun θ => -(ρ θ/Z) * log (ρ θ/Z)) (-π) π volume
 
 -- ══════════════════════════════════════════════════════════════
 -- III. ESPACIO FUNCIONAL F_CY
