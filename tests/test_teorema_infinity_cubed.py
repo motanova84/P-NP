@@ -75,7 +75,7 @@ class TestKappaPiCalculation:
     def test_kappa_pi_various_values(self):
         """Test κ_Π for various N values."""
         test_cases = [
-            (1, math.log(1) / LN_PHI_SQUARED),  # Should be 0
+            (1, 0.0),  # log(1) = 0, so κ_Π(1) = 0
             (10, math.log(10) / LN_PHI_SQUARED),
             (12, math.log(12) / LN_PHI_SQUARED),
             (13, KAPPA_PI_13),
@@ -86,6 +86,10 @@ class TestKappaPiCalculation:
         for N, expected in test_cases:
             kappa = self.theorem.kappa_pi(N)
             assert abs(kappa - expected) < 1e-10
+            
+            # Special case: verify κ_Π(1) = 0 explicitly
+            if N == 1:
+                assert abs(kappa) < 1e-15, "κ_Π(1) should be exactly 0"
     
     def test_kappa_pi_phi_squared(self):
         """Test that κ_Π(φ²) = 1."""
@@ -111,6 +115,11 @@ class TestKappaPiCalculation:
 class TestInverseKappaPi:
     """Test inverse κ_Π calculation."""
     
+    # Test constants for millennium constant
+    MILLENNIUM_CONSTANT = 2.5773
+    N_FOR_MILLENNIUM = 11.947  # Expected N for κ = 2.5773
+    TOLERANCE = 0.01  # Tolerance for floating point comparison
+    
     def setup_method(self):
         """Set up test instance."""
         self.theorem = TeoremaInfinityCubed()
@@ -133,8 +142,8 @@ class TestInverseKappaPi:
     def test_inverse_kappa_pi_millennium_constant(self):
         """Test inverse for millennium constant."""
         # For κ = 2.5773, should get N ≈ 11.947
-        N = self.theorem.inverse_kappa_pi(2.5773)
-        assert abs(N - 11.947) < 0.01
+        N = self.theorem.inverse_kappa_pi(self.MILLENNIUM_CONSTANT)
+        assert abs(N - self.N_FOR_MILLENNIUM) < self.TOLERANCE
 
 
 class TestUniquenessValidation:

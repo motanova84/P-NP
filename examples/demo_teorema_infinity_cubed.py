@@ -278,6 +278,10 @@ def demo_comparison_table():
 
 def main():
     """Run all demonstrations."""
+    # Check if running in non-interactive mode
+    import sys
+    non_interactive = '--non-interactive' in sys.argv or not sys.stdin.isatty()
+    
     print()
     print("╔" + "═" * 78 + "╗")
     print("║" + " " * 78 + "║")
@@ -290,7 +294,8 @@ def main():
     print_theorem_statement()
     print()
     
-    input("Press Enter to start demonstrations...")
+    if not non_interactive:
+        input("Press Enter to start demonstrations...")
     
     # Run all demos
     demos = [
@@ -308,16 +313,20 @@ def main():
         print()
         demo_func()
         
-        if i < len(demos):
+        if i < len(demos) and not non_interactive:
             input("Press Enter to continue to next demo...")
     
     # Offer complete analysis
-    print()
-    print("=" * 80)
-    print("Would you like to run the complete formal analysis?")
-    print("This will execute all components of Teorema ∞³.")
-    print("=" * 80)
-    response = input("Run complete analysis? (y/n): ").strip().lower()
+    if not non_interactive:
+        print()
+        print("=" * 80)
+        print("Would you like to run the complete formal analysis?")
+        print("This will execute all components of Teorema ∞³.")
+        print("=" * 80)
+        response = input("Run complete analysis? (y/n): ").strip().lower()
+    else:
+        # Auto-run in non-interactive mode
+        response = 'y'
     
     if response == 'y':
         print()
