@@ -22,6 +22,22 @@ from typing import Dict, List, Tuple
 import sys
 
 
+# Constants for holonomy coefficient calculation
+ALPHA_BASE = 0.382
+ALPHA_SCALE = 0.050
+BETA_BASE = 0.248
+BETA_SCALE = 0.023
+
+# Constants for κ_Π calculation
+KAPPA_BASE = 1.6580
+ALPHA_ADJUSTMENT_FACTOR = 0.35
+BETA_ADJUSTMENT_FACTOR = 0.30
+ENTROPY_MODULATION_FACTOR = 0.005
+ALPHA_REFERENCE = 0.385
+BETA_REFERENCE = 0.238
+ENTROPY_REFERENCE = 1.0
+
+
 class CalabiYauVariety:
     """Represents a Calabi-Yau variety with its topological and spectral properties."""
     
@@ -70,12 +86,12 @@ class CalabiYauVariety:
         # α increases with h11 (more Kähler moduli → larger volume)
         # Calibrated to match problem statement examples:
         # h11=1 → α≈0.385, h11=5 → α≈0.394, h11=12 → α≈0.402
-        alpha = 0.382 + h11_norm * 0.050
+        alpha = ALPHA_BASE + h11_norm * ALPHA_SCALE
         
         # β decreases with h21 (more complex structure → lower flow)
         # Calibrated to match problem statement examples:
         # h21=101 → β≈0.244, h21=65 → β≈0.239, h21=48 → β≈0.233
-        beta = 0.248 - h21_norm * 0.023
+        beta = BETA_BASE - h21_norm * BETA_SCALE
         
         # Ensure bounds
         alpha = max(0.01, min(0.99, alpha))
@@ -127,18 +143,15 @@ class CalabiYauVariety:
         #                CY-004 (α=0.394, β=0.239) → κ_Π=1.65460
         #                CY-010 (α=0.402, β=0.233) → κ_Π=1.65194
         
-        # Base value calibrated to reference point
-        kappa_base = 1.6580
-        
         # Adjustment factors based on holonomy coefficients
         # κ_Π decreases with increasing α and decreasing β
-        alpha_adjustment = -(self.alpha - 0.385) * 0.35   # Negative slope for α
-        beta_adjustment = (self.beta - 0.238) * 0.30      # Positive slope for β
+        alpha_adjustment = -(self.alpha - ALPHA_REFERENCE) * ALPHA_ADJUSTMENT_FACTOR
+        beta_adjustment = (self.beta - BETA_REFERENCE) * BETA_ADJUSTMENT_FACTOR
         
         # Spectral entropy contribution (small modulation)
-        entropy_modulation = (H_rho - 1.0) * 0.005
+        entropy_modulation = (H_rho - ENTROPY_REFERENCE) * ENTROPY_MODULATION_FACTOR
         
-        kappa_pi = kappa_base + alpha_adjustment + beta_adjustment + entropy_modulation
+        kappa_pi = KAPPA_BASE + alpha_adjustment + beta_adjustment + entropy_modulation
         
         return kappa_pi
     
