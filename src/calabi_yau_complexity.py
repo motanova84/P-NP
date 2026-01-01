@@ -83,8 +83,14 @@ class CalabiYauComplexity:
         log_vol_k = h_11 * np.log(h_11) - h_11 if h_11 > 0 else 0
         log_vol_c = h_21 * np.log(h_21) - h_21 if h_21 > 0 else 0
         
-        # Return exp(log(Vol_K) + log(Vol_C))
-        return np.exp(log_vol_k + log_vol_c)
+        # Compute total log-volume and guard against overflow in exp
+        log_vol_total = log_vol_k + log_vol_c
+        max_log = np.log(np.finfo(float).max)
+        if log_vol_total >= max_log:
+            # Result would overflow float64; represent as infinity explicitly
+            return np.inf
+        # Return exp(log(Vol_K) + log(Vol_C)) when within safe range
+        return float(np.exp(log_vol_total))
     
     def compute_psi_cy(self, h_11: int, h_21: int, 
                        use_stirling: bool = True) -> float:
@@ -115,6 +121,10 @@ class CalabiYauComplexity:
         
         if use_stirling:
             # Direct formula from Stirling approximation
+            # Note: for h = 0 we define the contribution as 0, and for h = 1 we also
+            # get 0 since log(1) = 0, so h * log(h) = 0. This is mathematically
+            # consistent with the n log n term but can look like the single modulus
+            # is "ignored" in the numerator when only one of h_11 or h_21 equals 1.
             term1 = h_11 * np.log(h_11) if h_11 > 0 else 0
             term2 = h_21 * np.log(h_21) if h_21 > 0 else 0
             psi_cy = (term1 + term2) / N - 1.0
