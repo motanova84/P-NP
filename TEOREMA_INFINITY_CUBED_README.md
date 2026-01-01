@@ -13,7 +13,7 @@ Definimos la **constante espectral topológica κ_Π** de una variedad Calabi–
 ```
 
 donde:
-- **h^{1,1}**: número de Hodge correspondiente a (1,1)-formas (moduli de Kähler)
+- **h^{1,1}**: número de Hodge correspondiente a (1,1)-formas, es decir, formas diferenciales de tipo (1,1) sobre la variedad Calabi–Yau que codifican información geométrica (moduli de Kähler)
 - **h^{2,1}**: número de Hodge correspondiente a (2,1)-formas (moduli de estructura compleja)
 - **N = h^{1,1} + h^{2,1}**: dimensión total del espacio de módulos
 
