@@ -33,6 +33,7 @@ PHI = (1 + math.sqrt(5)) / 2  # Golden ratio ≈ 1.618
 PHI_SQUARED = PHI ** 2  # φ² ≈ 2.618 - Pure Beauty
 E = math.e  # e ≈ 2.718 - Natural Order
 KAPPA_PI = 2.5773  # The Millennium Constant
+NOMINAL_DIMENSION = 13  # h^{1,1} + h^{2,1} for typical Calabi-Yau
 
 
 # ========== EMERGENT BASE CALCULATION ==========
@@ -54,7 +55,7 @@ def calculate_emergent_base() -> float:
     Returns:
         Emergent base b ≈ 2.7069
     """
-    N = 13  # h^{1,1} + h^{2,1} for typical Calabi-Yau
+    N = NOMINAL_DIMENSION
     b = N ** (1 / KAPPA_PI)
     return b
 
@@ -118,7 +119,7 @@ def analyze_transition_space() -> Dict:
 
 # ========== EFFECTIVE DIMENSION ANALYSIS ==========
 
-def calculate_effective_dimension(nominal_dimension: int = 13) -> Dict:
+def calculate_effective_dimension(nominal_dimension: int = NOMINAL_DIMENSION) -> Dict:
     """
     Calculate effective dimension with corrections.
     
@@ -186,7 +187,7 @@ def analyze_steady_state() -> Dict:
     stability_analysis = []
     for kappa in test_kappas:
         # Calculate implied base for this kappa
-        b_test = 13 ** (1 / kappa)
+        b_test = NOMINAL_DIMENSION ** (1 / kappa)
         
         # Measure distance from ideal configuration
         geometric_distance = abs(b_test - PHI_SQUARED)

@@ -40,11 +40,12 @@ PHI = (1 + math.sqrt(5)) / 2  # Golden ratio ≈ 1.618
 PHI_SQUARED = PHI ** 2  # φ² ≈ 2.618
 E = math.e  # e ≈ 2.718
 KAPPA_PI = 2.5773  # Observed κ_Π
+NOMINAL_DIMENSION = 13  # h^{1,1} + h^{2,1} for typical Calabi-Yau
 
 
 # ========== HYPOTHESIS 1: DIMENSION-BASED CORRECTION ==========
 
-def hypothesis_dimension_correction(N: int = 13) -> Dict:
+def hypothesis_dimension_correction(N: int = NOMINAL_DIMENSION) -> Dict:
     """
     Hypothesis: δφ ≈ 1/N represents a dimension-dependent correction.
     
@@ -92,7 +93,7 @@ def find_optimal_N_for_correction() -> Dict:
         Dictionary with optimal N and related values
     """
     # Try different N values
-    best_N = 13
+    best_N = NOMINAL_DIMENSION
     best_error = float('inf')
     
     results = []
@@ -120,7 +121,7 @@ def find_optimal_N_for_correction() -> Dict:
 
 # ========== HYPOTHESIS 2: BASE FROM OBSERVATION ==========
 
-def calculate_base_from_kappa(kappa: float = KAPPA_PI, N: int = 13) -> float:
+def calculate_base_from_kappa(kappa: float = KAPPA_PI, N: int = NOMINAL_DIMENSION) -> float:
     """
     Calculate the base b from the observed κ_Π.
     
@@ -152,7 +153,7 @@ def analyze_correction_from_observed_base() -> Dict:
     Returns:
         Analysis of the correction
     """
-    b_observed = calculate_base_from_kappa(KAPPA_PI, 13)
+    b_observed = calculate_base_from_kappa(KAPPA_PI, NOMINAL_DIMENSION)
     delta_phi_observed = b_observed - PHI_SQUARED
     
     # Find which fraction 1/N is closest
@@ -160,12 +161,17 @@ def analyze_correction_from_observed_base() -> Dict:
     for N in range(5, 30):
         frac = 1 / N
         error = abs(frac - delta_phi_observed)
+        # Avoid division by very small numbers
+        if delta_phi_observed > 1e-10:
+            relative_error = error / delta_phi_observed * 100
+        else:
+            relative_error = 0.0
         fractions.append({
             'N': N,
             'fraction': frac,
             'fraction_str': f"1/{N}",
             'error': error,
-            'relative_error': error / delta_phi_observed * 100,
+            'relative_error': relative_error,
         })
     
     # Find best match
@@ -226,7 +232,7 @@ def explore_effective_dimensions() -> Dict:
     })
     
     # Scenario 3: N_eff for observed b
-    b_observed = calculate_base_from_kappa(KAPPA_PI, 13)
+    b_observed = calculate_base_from_kappa(KAPPA_PI, NOMINAL_DIMENSION)
     N_eff_observed = b_observed ** KAPPA_PI
     scenarios.append({
         'name': 'Observed (b ≈ 2.7053)',
@@ -264,7 +270,7 @@ def analyze_coupling_hypothesis() -> Dict:
     Returns:
         Coupling analysis
     """
-    b_observed = calculate_base_from_kappa(KAPPA_PI, 13)
+    b_observed = calculate_base_from_kappa(KAPPA_PI, NOMINAL_DIMENSION)
     
     # Coupling interpretation: b = φ² × (1 + coupling)
     coupling_strength = (b_observed / PHI_SQUARED) - 1
@@ -319,7 +325,7 @@ def print_hypothesis_analysis():
     print()
     
     # Observed base
-    b_obs = calculate_base_from_kappa(KAPPA_PI, 13)
+    b_obs = calculate_base_from_kappa(KAPPA_PI, NOMINAL_DIMENSION)
     delta_obs = b_obs - PHI_SQUARED
     
     print("OBSERVED VALUES")
