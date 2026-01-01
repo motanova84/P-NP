@@ -31,14 +31,14 @@ This constant represents a **universal invariant** that bridges:
 Where:
 - **φ = (1 + √5)/2** = 1.618033... (Golden Ratio)
 - **π/e** = 1.155727... (Natural curvature in logarithmic spiral)
-- **λ_CY** = 1.378556 (Calabi-Yau harmonic parameter)
+- **λ_CY** = 1.378556 (Calabi-Yau harmonic parameter, currently taken as a fixed numerical input)
 
-**Origin:** This expression emerges from the spectrum of the **Hodge-de Rham Laplacian** applied to CP⁴ (complex projective 4-space). It has been verified computationally across 150 different Calabi-Yau manifold topologies.
+**Origin (conjectured):** This expression is hypothesized to emerge from the spectrum of the **Hodge-de Rham Laplacian** applied to CP⁴ (complex projective 4-space) and, more generally, from families of Calabi-Yau manifolds. A large-scale scan across ~150 different Calabi-Yau manifold topologies is proposed, but is not implemented in the current codebase.
 
-**Verification:** `cy_spectrum.sage`
-- Computes eigenvalue spectrum of Laplacian on CP⁴
-- Extracts harmonic parameter λ_CY from spectral gap
-- Validates κ_Π = φ · (π/e) · λ_CY with error < 10⁻⁴
+**Current computational status:** `cy_spectrum.sage`
+- Implements a prototype computation of the eigenvalue spectrum of the Laplacian on CP⁴ (and a small set of related Calabi-Yau families)
+- Uses a fixed value λ_CY = 1.378556 rather than deriving λ_CY dynamically from a 150-variety spectral analysis
+- Is intended as a starting point for numerically testing κ_Π = φ · (π/e) · λ_CY; a full "150 varieties" validation with quantified error bounds is planned future work and is **not** yet part of this PR
 
 **Mathematical Significance:**
 - Connects string theory compactifications to computational complexity
