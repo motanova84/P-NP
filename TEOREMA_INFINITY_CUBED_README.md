@@ -72,7 +72,7 @@ Es decir, **13 es la única dimensión de moduli totales** donde se cumple esta 
 Entre todas las variedades Calabi–Yau con número total de moduli N = h^{1,1} + h^{2,1}, la **complejidad topológica efectiva** (o espectral) es **mínima** cuando:
 
 ```
-κ_Π(N) = ln(N) / ln(φ²) ≈ 2.5773  ⟺  N = 13
+κ_Π(N) = ln(N) / ln(φ²) ≈ 2.6651  ⟺  N = 13
 ```
 
 Es decir, **13 representa el mínimo natural de entropía estructurada**, o punto de resonancia discreta entre geometría y coherencia.
