@@ -91,6 +91,9 @@ lean_lib Gap2_Asymptotic where
 lean_lib SevenStairs where
   roots := #[`SevenStairs]
 
+lean_lib QCALPiTheorem where
+  roots := #[`QCALPiTheorem]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal
