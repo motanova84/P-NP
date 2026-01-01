@@ -331,7 +331,7 @@ def verify_biology_coherence() -> Dict[str, Any]:
         'coherence_max': sim_results['max_coherence'],
         'absolute_error': error,
         'relative_error': relative_error,
-        'verified': relative_error < 0.02 or sim_results['max_coherence'] > 0.60,  # Allow 2% error for biological simulation
+        'verified': (relative_error < 0.02) and (sim_results['max_coherence'] > 0.60),  # Require ≤2% error within coherent regime
         'simulation': sim_results,
         'formula': 'κ_Π = √(2π · A_eff_max)',
         'consciousness_equation': 'C = mc² · A_eff²'
