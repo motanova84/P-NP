@@ -72,15 +72,17 @@ def demo_uniqueness_validation():
     uniqueness = theorem.validate_uniqueness_below_100()
     
     print(f"Special Value: N = {uniqueness['N_special']}")
-    print(f"κ_Π({uniqueness['N_special']}) = {uniqueness['kappa_special']:.6f}")
+    kappa_at_special = theorem.kappa_pi(uniqueness['N_special'])
+    print(f"κ_Π({uniqueness['N_special']}) = {kappa_at_special:.6f}")
     print()
     print(f"Is N={uniqueness['N_special']} unique among N < 100? {uniqueness['is_unique']}")
     print(f"Explanation: {uniqueness['explanation']}")
     print()
     
-    if uniqueness['candidates']:
+    candidates = uniqueness.get('candidates') or []
+    if candidates:
         print("Candidates found within tolerance:")
-        for cand in uniqueness['candidates']:
+        for cand in candidates:
             print(f"  N = {cand['N']:2d}: κ_Π = {cand['kappa']:.6f}, "
                   f"distance to target = {cand['distance_to_target']:.6f}")
     print()
