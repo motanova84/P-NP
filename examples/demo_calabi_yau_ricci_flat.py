@@ -104,7 +104,7 @@ def demo_spectral_barrier():
     problem = CYRFConstruct(manifold)
     
     print(f"Critical Manifold: h^{{1,1}} = 8, h^{{2,1}} = 5")
-    print(f"κ_Π = log(13) ≈ {manifold.spectral_constant():.4f}")
+    print(f"κ_Π = ln(13) ≈ {manifold.spectral_constant():.4f}")
     print()
     
     barrier = problem.spectral_barrier_analysis()
@@ -332,10 +332,10 @@ def main():
     print("=" * 80)
     print()
     print("✅ Calabi-Yau manifolds characterized by Hodge numbers (h^{1,1}, h^{2,1})")
-    print("✅ Spectral constant κ_Π = log(h^{1,1} + h^{2,1}) measures barrier")
+    print("✅ Spectral constant κ_Π = ln(h^{1,1} + h^{2,1}) measures barrier")
     print("✅ Ricci-flat verification is polynomial time (NP membership)")
     print("✅ Construction has exponential search space |M_X| ~ exp(κ_Π)")
-    print("✅ Critical case: κ_Π ≈ 2.5649 indicates NP-hard characteristics")
+    print("✅ Critical case: κ_Π = ln(13) ≈ 2.5649 indicates NP-hard characteristics")
     print("✅ Proposed reduction: SAT ≤_p CY-RF-CONSTRUCT (conjectural)")
     print("✅ Conditional theorem: CY-RF-CONSTRUCT ∈ P ⟹ P = NP")
     print()

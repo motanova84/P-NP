@@ -46,17 +46,19 @@ class CalabiYauManifold:
         """
         Calculate the spectral constant κ_Π for this manifold.
         
-        κ_Π(X) := log(h^{1,1} + h^{2,1}) = log(N)
+        κ_Π(X) := ln(h^{1,1} + h^{2,1}) = ln(N)
+        
+        Note: Uses natural logarithm (base e). For N=13: κ_Π = ln(13) ≈ 2.5649
         
         This measures the "spectral barrier" that prevents direct access
         to the Ricci-flat metric solution.
         
         Returns:
-            Spectral constant κ_Π
+            Spectral constant κ_Π (natural logarithm)
         """
         if self.N == 0:
             return 0.0
-        return math.log(self.N)
+        return math.log(self.N)  # natural log (base e)
     
     def moduli_space_size(self) -> float:
         """
@@ -297,12 +299,12 @@ def demonstrate_spectral_complexity():
     print("=" * 80)
     print()
     
-    # Example manifolds with different κ_Π values
+    # Example manifolds with different κ_Π values (using natural log ln)
     manifolds = [
-        CalabiYauManifold(1, 1),    # κ_Π = log(2) ≈ 0.693
-        CalabiYauManifold(3, 3),    # κ_Π = log(6) ≈ 1.792
-        CalabiYauManifold(8, 5),    # κ_Π = log(13) ≈ 2.565
-        CalabiYauManifold(25, 25),  # κ_Π = log(50) ≈ 3.912
+        CalabiYauManifold(1, 1),    # κ_Π = ln(2) ≈ 0.693
+        CalabiYauManifold(3, 3),    # κ_Π = ln(6) ≈ 1.792
+        CalabiYauManifold(8, 5),    # κ_Π = ln(13) ≈ 2.5649 (critical)
+        CalabiYauManifold(25, 25),  # κ_Π = ln(50) ≈ 3.912
     ]
     
     print("1. SPECTRAL CONSTANT κ_Π FOR DIFFERENT MANIFOLDS")
@@ -321,8 +323,8 @@ def demonstrate_spectral_complexity():
             print(f"   ⚠️  Excess structure: {kappa - circle_entropy:.4f} (indicates non-randomness)")
         print()
     
-    # Detailed analysis for the critical case (κ_Π ≈ 2.5773)
-    print("\n2. CRITICAL MANIFOLD (κ_Π ≈ 2.5773)")
+    # Detailed analysis for the critical case (κ_Π ≈ 2.5649)
+    print("\n2. CRITICAL MANIFOLD (κ_Π = ln(13) ≈ 2.5649)")
     print("-" * 80)
     critical_manifold = manifolds[2]  # h^{1,1}=8, h^{2,1}=5
     problem = CYRFConstruct(critical_manifold, epsilon=1e-6)

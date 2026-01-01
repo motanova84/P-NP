@@ -335,17 +335,17 @@ class TestIntegration(unittest.TestCase):
         self.assertAlmostEqual(kappa_manifold, kappa_problem, places=10)
     
     def test_critical_kappa_value(self):
-        """Test the critical κ_Π ≈ 2.5773 case from problem statement."""
-        # The problem statement mentions κ_Π = log(13) ≈ 2.5773
-        # (Note: Actually log(13) ≈ 2.5649, but the statement might use a different base)
+        """Test the critical κ_Π = ln(13) ≈ 2.5649 case from problem statement."""
+        # Uses natural logarithm (base e): ln(13) ≈ 2.5649493
         manifold = CalabiYauManifold(8, 5)
         kappa = manifold.spectral_constant()
         
-        # Check it's in the range of the critical value
-        self.assertGreater(kappa, 2.5)
-        self.assertLess(kappa, 2.7)
+        # Check it matches ln(13)
+        expected = math.log(13)
+        self.assertAlmostEqual(kappa, expected, places=6)
+        self.assertAlmostEqual(kappa, 2.5649493, places=6)
         
-        # Verify it exceeds circle entropy
+        # Verify it exceeds circle entropy (ln(2π) ≈ 1.8379)
         circle_entropy = math.log(2 * math.pi)
         self.assertGreater(kappa, circle_entropy)
 
