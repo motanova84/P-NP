@@ -249,9 +249,12 @@ def kappa_Pi_as_spectral_operator(
     else:
         # Partial coherence: interpolate between spectral and golden
         phi2_golden = golden_frequency_squared(N)
-        # Smooth transition as coherence increases
-        transition_factor = (psi_coherence - 0.95) / (0.999 - 0.95)
-        transition_factor = max(0.0, min(1.0, transition_factor))
+        # Smooth transition as coherence increases; values below 0.95 remain pure spectral
+        if psi_coherence <= 0.95:
+            transition_factor = 0.0
+        else:
+            transition_factor = (psi_coherence - 0.95) / (0.999 - 0.95)
+            transition_factor = min(1.0, transition_factor)
         lambda_star = lambda_star * (1 - transition_factor) + phi2_golden * transition_factor
     
     # κ_Π = log(λ*)
