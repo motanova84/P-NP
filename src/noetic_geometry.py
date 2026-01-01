@@ -238,8 +238,8 @@ def kappa_Pi_as_spectral_operator(
     N = cy_variety.complexity
     
     # Compute Weil-Petersson Laplacian spectrum
-    delta_wp = weil_petersson_laplacian(cy_variety)
-    lambda_spectrum = compute_spectrum(delta_wp)
+    wp_laplacian = weil_petersson_laplacian(cy_variety)
+    lambda_spectrum = compute_spectrum(wp_laplacian)
     lambda_star = first_non_trivial_eigenvalue(lambda_spectrum)
     
     # Noetic transition: coherence modulates eigenvalue
