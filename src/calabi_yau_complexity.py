@@ -7,6 +7,8 @@ and computational complexity through holographic duality.
 
 For the pure mathematical derivation of κ_Π from Hodge numbers, see:
     src/calabi_yau_kappa_derivation.py
+For structural analysis of κ_Π in Calabi-Yau geometry, see:
+    src/calabi_yau_kappa_pi_analysis.py
 
 © JMMB | P vs NP Verification System
 """
@@ -211,4 +213,7 @@ def main():
     return verify_cy_connection()
 
 if __name__ == "__main__":
+    print("NOTE: For detailed κ_Π structural analysis in Calabi-Yau geometry,")
+    print("      run: python src/calabi_yau_kappa_pi_analysis.py")
+    print()
     sys.exit(main())
