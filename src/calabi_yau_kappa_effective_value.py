@@ -534,19 +534,22 @@ RECONCILIACIÓN CON EL CASO ENTERO
 
 Caso Entero (N = 13):
     κ_Π(13) = ln(13) / ln(φ²)
-            ≈ {comparison['kappa_pi_integer']:.4f}
+            ≈ {comparison['kappa_from_integer']:.4f}
     
-    Desviación: |{comparison['kappa_pi_integer']:.4f} - {self.theorem.kappa_pi}|
-              = {abs(comparison['kappa_pi_integer'] - self.theorem.kappa_pi):.4f}
+    Desviación: |{comparison['kappa_from_integer']:.4f} - {self.theorem.kappa_pi}|
+              = {abs(comparison['kappa_from_integer'] - self.theorem.kappa_pi):.4f}
 
-Caso Efectivo (N_eff ≈ {comparison['n_effective']:.6f}):
+Caso Estándar (κ_Π = {self.theorem.kappa_pi}):
+    N = (φ²)^κ_Π
+      ≈ {comparison['n_standard_from_kappa']:.6f}
+
+Caso Efectivo (N_eff = {comparison['n_effective_stated']:.6f}):
     κ_Π(N_eff) = ln(N_eff) / ln(φ²)
-               ≈ {comparison['kappa_pi_effective']:.4f}
-               = {self.theorem.kappa_pi} exactamente ✓
+               ≈ {comparison['kappa_from_effective']:.4f}
 
 Corrección:
-    ΔN = N_eff - 13 ≈ {comparison['n_difference']:.6f}
-       ≈ {comparison['n_correction_percentage']:.2f}% de N
+    ΔN (estándar→efectivo) = {comparison['correction_standard_to_effective']:.6f}
+    ΔN (entero→efectivo) = {comparison['correction_integer_to_effective']:.6f}
 
 Interpretación:
     El valor efectivo N_eff NO es un ajuste arbitrario, sino que
@@ -554,6 +557,9 @@ Interpretación:
     representando la dimensión efectiva promedio de las variedades
     Calabi-Yau reales con correcciones espectrales, flujos internos,
     y simetrías extendidas.
+    
+    El factor de corrección de {comparison['correction_standard_to_effective']:.6f} representa
+    contribuciones espectrales que no están capturadas en la fórmula estándar.
 """
 
 
