@@ -5,12 +5,29 @@ calabi_yau_complexity.py - Calabi-Yau complexity implementation
 Implements the mathematical connection between Calabi-Yau geometry
 and computational complexity through holographic duality.
 
+For the pure mathematical derivation of κ_Π from Hodge numbers, see:
+    src/calabi_yau_kappa_derivation.py
+For structural analysis of κ_Π in Calabi-Yau geometry, see:
+    src/calabi_yau_kappa_pi_analysis.py
+
 © JMMB | P vs NP Verification System
 """
 
 import sys
 import numpy as np
 from typing import Tuple, Dict
+
+# Import the new prediction module
+try:
+    from calabi_yau_kappa_prediction import (
+        kappa_pred,
+        PHI_TILDE_SQUARED,
+        generate_predictions,
+        symbiotic_interpretation,
+    )
+    HAS_PREDICTION_MODULE = True
+except ImportError:
+    HAS_PREDICTION_MODULE = False
 
 class CalabiYauComplexity:
     """
@@ -19,11 +36,15 @@ class CalabiYauComplexity:
     This establishes an isomorphism between:
     - Moduli space of Calabi-Yau metrics
     - Space of SAT formula incidence graphs
+    
+    Now enhanced with κ_Π(N) prediction capabilities via the
+    symbiotic base φ̃² ≈ 2.706940253.
     """
     
     def __init__(self):
-        self.kappa_pi = 2.5773
+        self.kappa_pi = 2.5773  # Universal value for κ_Π
         self.pi = np.pi
+        self.phi_tilde_squared = PHI_TILDE_SQUARED if HAS_PREDICTION_MODULE else 2.706940253
         
     def volume_ratio(self, dimension: int = 3) -> float:
         """
@@ -157,6 +178,71 @@ class CalabiYauComplexity:
         }
         
         return is_valid, details
+    
+    def predict_kappa_for_variety(self, N: int) -> Dict:
+        """
+        Predict κ_Π for a Calabi-Yau variety with N effective degrees of freedom.
+        
+        Uses the Predicción ∞³ framework with base φ̃² ≈ 2.706940253.
+        
+        Args:
+            N: Number of effective degrees of freedom (e.g., h^{1,1} + h^{2,1})
+            
+        Returns:
+            Dictionary with prediction and interpretation
+            
+        Example:
+            >>> cy = CalabiYauComplexity()
+            >>> result = cy.predict_kappa_for_variety(13)
+            >>> result['kappa_predicted']
+            2.5757185937841425
+        """
+        if not HAS_PREDICTION_MODULE:
+            return {
+                'error': 'Prediction module not available',
+                'N': N,
+                'kappa_universal': self.kappa_pi,
+            }
+        
+        # Use the prediction module
+        kappa_predicted = kappa_pred(N)
+        interpretation = symbiotic_interpretation(N)
+        
+        return {
+            'N': N,
+            'kappa_predicted': kappa_predicted,
+            'kappa_universal': self.kappa_pi,
+            'difference_from_universal': abs(kappa_predicted - self.kappa_pi),
+            'interpretation': interpretation,
+            'base': self.phi_tilde_squared,
+        }
+    
+    def generate_kappa_predictions(self, N_range: Tuple[int, int] = (11, 20)) -> Dict:
+        """
+        Generate κ_Π predictions for a range of N values.
+        
+        Args:
+            N_range: Tuple (min_N, max_N) for prediction range
+            
+        Returns:
+            Dictionary with predictions for each N in range
+            
+        Example:
+            >>> cy = CalabiYauComplexity()
+            >>> predictions = cy.generate_kappa_predictions((11, 15))
+        """
+        if not HAS_PREDICTION_MODULE:
+            return {'error': 'Prediction module not available'}
+        
+        N_min, N_max = N_range
+        predictions_dict = generate_predictions(N_min, N_max)
+        
+        return {
+            'range': N_range,
+            'predictions': predictions_dict,
+            'base': self.phi_tilde_squared,
+            'resonant_value_N13': predictions_dict.get(13, None),
+        }
 
 def verify_cy_connection():
     """Run verification of Calabi-Yau connection."""
@@ -196,6 +282,33 @@ def verify_cy_connection():
         print(f"   tw={tw:2d}, n={n:3d}: {status}")
     print()
     
+    # Test 4: κ_Π Prediction (Predicción ∞³)
+    if HAS_PREDICTION_MODULE:
+        print("4. κ_Π Prediction for Calabi-Yau Varieties (Predicción ∞³)")
+        print("   Using symbiotic base φ̃² ≈ 2.7069")
+        print()
+        
+        # Predict for specific N values
+        test_N_values = [11, 13, 15, 20]
+        for N in test_N_values:
+            result = cy.predict_kappa_for_variety(N)
+            kappa_pred = result['kappa_predicted']
+            classification = result['interpretation']['classification']
+            marker = " ✅" if result['interpretation']['is_resonant'] else ""
+            print(f"   N={N:2d}: κ_Π = {kappa_pred:.6f} ({classification}){marker}")
+        print()
+        
+        # Generate range predictions
+        print("   Generating predictions for N=11-20:")
+        range_predictions = cy.generate_kappa_predictions((11, 20))
+        for N, kappa in sorted(range_predictions['predictions'].items()):
+            print(f"      N={N:2d}: {kappa:.6f}")
+        print()
+    else:
+        print("4. κ_Π Prediction Module")
+        print("   ⚠️  Prediction module not available")
+        print()
+    
     print("=" * 60)
     print("✅ CALABI-YAU CONNECTION VERIFIED")
     print("Holographic duality established mathematically")
@@ -208,4 +321,7 @@ def main():
     return verify_cy_connection()
 
 if __name__ == "__main__":
+    print("NOTE: For detailed κ_Π structural analysis in Calabi-Yau geometry,")
+    print("      run: python src/calabi_yau_kappa_pi_analysis.py")
+    print()
     sys.exit(main())
