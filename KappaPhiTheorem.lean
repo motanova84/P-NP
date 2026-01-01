@@ -83,7 +83,7 @@ theorem kappa_pi_millennium_constant :
   norm_num
   sorry
 
-/-- Precisión: error menor que 10⁻¹⁰ -/
+/-- Precisión: error menor que 10⁻⁴ -/
 theorem kappa_pi_precision : 
     abs (kappa_pi N_effective - 2.5773) < 1e-4 := by
   exact kappa_pi_millennium_constant
