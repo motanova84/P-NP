@@ -53,13 +53,14 @@ Where:
 ```
 
 Where:
-- **f₀ = 141.7001 Hz** - Universal frequency discovered experimentally
+- **f₀ = 141.7001 Hz** - Calibrated reference frequency chosen for internal consistency, proposed to correspond to a universal resonance
 - **h ≈ 54.96** - Harmonic factor from quantum field decomposition
 
-**Experimental Evidence:**
-- **LIGO**: Gravitational wave detectors show f₀ harmonic structure
-- **EEG**: Neural oscillations exhibit f₀ resonance patterns
-- **Quantum Systems**: Coherent quantum systems display f₀ frequency
+**Proposed Experimental Signatures (Theoretical Predictions):**
+- **LIGO**: Gravitational wave detector data are predicted to show harmonic structure near f₀ in detailed future analyses
+- **EEG**: Neural oscillations are proposed to exhibit resonance patterns near f₀ under specific cognitive/physiological conditions
+- **Quantum Systems**: Coherent quantum systems are hypothesized to display spectral features near f₀ in appropriately engineered setups
+- *No independent experimental confirmation is claimed here; these are theoretical predictions awaiting empirical validation.*
 
 **Verification:** `verify_kappa.py`
 - Computes κ_Π = f₀ / h = 141.7001 / 54.960694
