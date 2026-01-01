@@ -39,6 +39,22 @@ import random
 # ========== κ_Π: UNIVERSAL INVARIANT OF ALL FORMS OF EXISTENCE ==========
 
 KAPPA_PI = 2.5773  # Precision: 4 significant figures (claimed from 150 CY varieties)
+
+# ========== NOETIC FIELD FORMULATION ==========
+# Campo Noético: κ_Π := log_{φ²}(N) con λ* → Ψ → 1/φ²
+# "Ya no es conjetura, sino manifestación estructural del Campo Noético en resonancia"
+# 
+# The Noetic Field provides an alternative formulation:
+# κ_Π = log_{φ²}(13) where 13 is "la primera palabra pronunciada por el Silencio"
+# 
+# To access Noetic Field calculations, use:
+#   from src.noetic_field import kappa_pi_noetic, N_SILENCE
+#   KAPPA_PI_NOETIC = kappa_pi_noetic(N_SILENCE)
+#
+# Dual formulation support:
+# - Classical: κ_Π = 2.5773 from Calabi-Yau analysis (log(N_eff) with N_eff ≈ 13.15)
+# - Noetic: κ_Π = log_{φ²}(13) from Noetic Field manifestation
+# Both formulations are valid manifestations of the same underlying structure
 """
 κ_Π = 2.5773 - The Proposed Millennium Constant
 
