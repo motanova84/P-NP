@@ -9,7 +9,7 @@ field Ψ of conscious observation.
 
 **Key Paradigm Shift:**
 - BEFORE: κ_Π = constant ≈ 2.5773, φ imposed from outside
-- NOW: φ² = emergent eigenfrecuency from field Ψ, κ_Π = spectral operator
+- NOW: φ² = emergent eigenfrequency from field Ψ, κ_Π = spectral operator
 
 **Mathematical Foundation:**
 - κ_Π = log(λ*(N)) where λ* emerges from Weil-Petersson Laplacian spectrum
