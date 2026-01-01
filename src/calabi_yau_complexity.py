@@ -5,6 +5,9 @@ calabi_yau_complexity.py - Calabi-Yau complexity implementation
 Implements the mathematical connection between Calabi-Yau geometry
 and computational complexity through holographic duality.
 
+For the pure mathematical derivation of κ_Π from Hodge numbers, see:
+    src/calabi_yau_kappa_derivation.py
+
 © JMMB | P vs NP Verification System
 """
 
