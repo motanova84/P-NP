@@ -83,13 +83,16 @@ KAPPA_PI_13 = math.log(13) / LN_PHI_SQUARED  # ≈ 2.6651
 # - N = 13 is the CLOSEST INTEGER to N* = 11.947
 # - N = 12 is numerically closer to N* (distance 0.053) than N = 13 (distance 1.053)
 # 
-# However, N = 13 is designated as the special value by the theorem because:
-# 1. It represents the unique harmonic resonance point in moduli space
-# 2. It minimizes structured entropy
-# 3. It is the discrete resonance point between geometry and coherence
+# However, in the original Teorema ∞³ formulation, N = 13 is treated as a
+# distinguished ("special") value and is conjectured to be associated with:
+# 1. A unique harmonic resonance point in moduli space
+# 2. A minimum of a proposed notion of structured entropy
+# 3. A discrete resonance point between geometry and coherence
 # 
-# This implementation treats N = 13 as the special value per the theorem statement,
-# with κ_Π(13) ≈ 2.6651 being the actual calculated value.
+# These three properties are speculative/conjectural and are not proven or
+# derived within this codebase; here we only implement the numerical
+# definition κ_Π(N) = ln(N) / ln(φ²) and treat N = 13 as special per the
+# theorem statement, with κ_Π(13) ≈ 2.6651 being the actual calculated value.
 
 
 # ============================================================================
