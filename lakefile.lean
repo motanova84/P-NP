@@ -94,6 +94,15 @@ lean_lib Gap2_Asymptotic where
 lean_lib SevenStairs where
   roots := #[`SevenStairs]
 
+lean_lib QCALPiTheorem where
+  roots := #[`QCALPiTheorem]
+
+lean_lib CY_RF_Construct where
+  roots := #[`CY_RF_Construct]
+
+lean_lib KappaPhiTheorem where
+  roots := #[`KappaPhiTheorem]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal
