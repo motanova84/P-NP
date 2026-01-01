@@ -16,9 +16,7 @@ from calabi_yau_varieties import (
     CalabiYauVariety,
     get_calabi_yau_varieties_with_total_moduli,
     get_known_calabi_yau_varieties_N13,
-    calculate_refined_kappa_pi,
     verify_kappa_pi_target,
-    display_variety_table,
     analyze_spectral_entropy,
 )
 import math
