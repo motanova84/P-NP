@@ -17,6 +17,10 @@ import os
 import sys
 
 
+# Modern properties that conflict with legacy 'routes'
+MODERN_PROPERTIES = ['rewrites', 'redirects', 'headers', 'cleanUrls', 'trailingSlash']
+
+
 def validate_vercel_config(config_path='vercel.json'):
     """
     Validate that vercel.json does not use the legacy 'routes' property
@@ -26,30 +30,27 @@ def validate_vercel_config(config_path='vercel.json'):
         config_path: Path to the vercel.json file
         
     Returns:
-        tuple: (is_valid, error_message)
+        tuple: (is_valid, error_message, config_dict)
     """
     # Check if file exists
     if not os.path.exists(config_path):
-        return False, f"Configuration file not found: {config_path}"
+        return False, f"Configuration file not found: {config_path}", None
     
     # Load vercel.json
     try:
         with open(config_path, 'r') as f:
             config = json.load(f)
     except json.JSONDecodeError as e:
-        return False, f"Invalid JSON in {config_path}: {e}"
+        return False, f"Invalid JSON in {config_path}: {e}", None
     except Exception as e:
-        return False, f"Error reading {config_path}: {e}"
+        return False, f"Error reading {config_path}: {e}", None
     
     # Verify it's a dictionary
     if not isinstance(config, dict):
-        return False, "Configuration must be a JSON object"
-    
-    # Modern properties that conflict with legacy 'routes'
-    modern_properties = ['rewrites', 'redirects', 'headers', 'cleanUrls', 'trailingSlash']
+        return False, "Configuration must be a JSON object", None
     
     # Check if any modern properties are present
-    present_modern_properties = [prop for prop in modern_properties if prop in config]
+    present_modern_properties = [prop for prop in MODERN_PROPERTIES if prop in config]
     
     # Check if legacy routes is present
     has_routes = 'routes' in config
@@ -60,9 +61,9 @@ def validate_vercel_config(config_path='vercel.json'):
             f"Configuration error: 'routes' property cannot be used with modern "
             f"properties. Found 'routes' together with: {', '.join(present_modern_properties)}. "
             f"Please remove 'routes' and use the modern routing properties instead."
-        )
+        ), config
     
-    return True, "Configuration is valid"
+    return True, "Configuration is valid", config
 
 
 def main():
@@ -80,8 +81,8 @@ def main():
     print(f"Validating: {config_path}")
     print()
     
-    # Run validation
-    is_valid, message = validate_vercel_config(config_path)
+    # Run validation (returns config to avoid re-reading)
+    is_valid, message, config = validate_vercel_config(config_path)
     
     if is_valid:
         print("✓ SUCCESS")
@@ -89,16 +90,12 @@ def main():
         print(message)
         print()
         
-        # Load and display config summary
-        with open(config_path, 'r') as f:
-            config = json.load(f)
-        
+        # Display config summary (config already loaded from validation)
         print("Configuration Summary:")
         print("-" * 80)
         
         # List present properties
-        modern_properties = ['rewrites', 'redirects', 'headers', 'cleanUrls', 'trailingSlash']
-        present_props = [prop for prop in modern_properties if prop in config]
+        present_props = [prop for prop in MODERN_PROPERTIES if prop in config]
         
         if present_props:
             print(f"Modern properties in use: {', '.join(present_props)}")

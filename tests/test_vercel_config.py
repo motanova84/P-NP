@@ -9,7 +9,12 @@ This test ensures that the Vercel configuration follows the rules:
 
 import json
 import os
+import sys
 import unittest
+
+# Import the constant from the validation module
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+from validate_vercel_config import MODERN_PROPERTIES
 
 
 class TestVercelConfig(unittest.TestCase):
@@ -36,11 +41,8 @@ class TestVercelConfig(unittest.TestCase):
         Verify that vercel.json does not use the legacy 'routes' property
         when modern properties like 'headers', 'rewrites', etc. are present.
         """
-        # Modern properties that conflict with legacy 'routes'
-        modern_properties = ['rewrites', 'redirects', 'headers', 'cleanUrls', 'trailingSlash']
-        
         # Check if any modern properties are present
-        has_modern_properties = any(prop in self.config for prop in modern_properties)
+        has_modern_properties = any(prop in self.config for prop in MODERN_PROPERTIES)
         
         # Check if legacy routes is present
         has_routes = 'routes' in self.config
