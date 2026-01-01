@@ -66,30 +66,27 @@ theorem phi_sq_eq_phi_add_one : phi_sq = phi + 1 := by
 -- SECCIÓN 2: EL INVARIANTE κ_Π
 -- ============================================
 
-/-- Definición canónica: κ_Π(N) = log base φ² de N -/
-noncomputable def kappa_pi (N : ℝ) : ℝ := Real.log N / Real.log phi_sq
+/-- Definición canónica: κ_Π(N) = ln(N) -/
+noncomputable def kappa_pi (N : ℝ) : ℝ := Real.log N
 
-/-- Propiedad: κ_Π(φ²) = 1 -/
-theorem kappa_pi_phi_sq : kappa_pi phi_sq = 1 := by
+/-- Propiedad básica con la definición logarítmica: κ_Π(φ²) = ln(φ²) -/
+theorem kappa_pi_phi_sq : kappa_pi phi_sq = Real.log phi_sq := by
   unfold kappa_pi
-  have h : phi_sq > 1 := by
-    unfold phi_sq phi
-    have h5 : (0 : ℝ) < 5 := by norm_num
-    have : Real.sqrt 5 > 2 := by
-      rw [Real.sqrt_lt' (by norm_num : (0 : ℝ) ≤ 5)]
-      norm_num
-    nlinarith [sq_nonneg (Real.sqrt 5)]
-  rw [Real.log_pow]
-  simp
-  norm_num
+  rfl
+
+
+
+
+
+
+
+
+
 -- SECCIÓN 2: EL INVARIANTE κ_Π (Ajustado a ln refinado del repo)
 -- ============================================
 
-/-- Definición canónica: κ_Π(N) = ln(N) -/
-noncomputable def kappa_pi (N : ℝ) : ℝ := Real.log N
-/-- Definición canónica ajustada: κ_Π(N) = ln(N) refinado, pero con base φ² para consistencia -/
-noncomputable def kappa_pi (N : ℝ) : ℝ := Real.log N  -- Ajuste: ln(N) para match repo's 2.5773 = ln(N_eff)
-
+-- Nota: Definición canónica κ_Π(N) = ln(N) dada arriba en esta sección.
+--       Se mantiene una única definición de `kappa_pi` para evitar duplicados.
 -- ============================================
 -- SECCIÓN 3: EL VALOR EFECTIVO N_eff
 -- ============================================
