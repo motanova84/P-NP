@@ -1,4 +1,6 @@
 """
+pnp - P vs NP Echo-QCAL ∞³ Protocol Package
+"""
 pnp - P vs NP Protocol Package
 
 Este paquete contiene los módulos relacionados con el Protocolo de 

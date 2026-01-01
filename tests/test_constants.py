@@ -29,7 +29,9 @@ from constants import (
     p_np_dichotomy_threshold,
     minimum_time_complexity,
     is_in_P,
-    validate_kappa_pi
+    validate_kappa_pi,
+    kappa_pi_hodge,
+    effective_hodge_numbers
 )
 
 
@@ -39,7 +41,59 @@ class TestKappaPiConstant:
     def test_kappa_pi_value(self):
         """Test that κ_Π has the correct value."""
         assert KAPPA_PI == 2.578208
+        assert abs(KAPPA_PI - 2.5773) < 0.0001
         assert isinstance(KAPPA_PI, float)
+    
+    def test_kappa_pi_from_hodge(self):
+        """Test κ_Π calculation from Hodge numbers (NEW 2026)."""
+        # Test the new formula: κ_Π = ln(h^{1,1} + h^{2,1})
+        h11, h21 = effective_hodge_numbers()
+        
+        # Verify effective Hodge numbers sum to exp(2.5773)
+        total_complexity = h11 + h21
+        expected_total = math.exp(2.5773)
+        assert abs(total_complexity - expected_total) < 0.01
+        
+        # Verify κ_Π from Hodge numbers equals expected value
+        kappa_from_hodge = kappa_pi_hodge(h11, h21)
+        assert abs(kappa_from_hodge - 2.5773) < 0.0001
+        
+        # Verify KAPPA_PI constant equals formula result
+        assert abs(KAPPA_PI - kappa_from_hodge) < 1e-10
+    
+    def test_kappa_pi_hodge_formula(self):
+        """Test κ_Π formula with different Hodge numbers."""
+        # Test that formula works correctly
+        # ln(13) ≈ 2.565
+        kappa_13 = kappa_pi_hodge(10, 3)
+        assert abs(kappa_13 - math.log(13)) < 1e-10
+        
+        # ln(20) ≈ 2.996
+        kappa_20 = kappa_pi_hodge(15, 5)
+        assert abs(kappa_20 - math.log(20)) < 1e-10
+        
+        # Verify the relationship: exp(κ_Π) = h^{1,1} + h^{2,1}
+        h11, h21 = 8, 5
+        kappa = kappa_pi_hodge(h11, h21)
+        assert abs(math.exp(kappa) - (h11 + h21)) < 1e-10
+    
+    def test_kappa_pi_hodge_errors(self):
+        """Test that κ_Π formula rejects invalid inputs."""
+        import pytest
+        
+        # Should reject negative Hodge numbers
+        with pytest.raises(ValueError):
+            kappa_pi_hodge(-1, 5)
+        
+        with pytest.raises(ValueError):
+            kappa_pi_hodge(5, -1)
+        
+        # Should reject zero Hodge numbers
+        with pytest.raises(ValueError):
+            kappa_pi_hodge(0, 5)
+        
+        with pytest.raises(ValueError):
+            kappa_pi_hodge(5, 0)
     
     def test_qcal_frequency(self):
         """Test QCAL frequency value."""
