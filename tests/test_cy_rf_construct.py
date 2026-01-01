@@ -141,7 +141,7 @@ class TestCYRFConstructProblem:
         
         is_np, explanation = problem.is_in_np()
         
-        assert is_np == True
+        assert is_np
         assert "NP" in explanation
         assert "Certificate" in explanation
         assert "polynomial" in explanation

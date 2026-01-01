@@ -75,7 +75,7 @@ class SpectralComplexityMeasure:
             κ_Π(X) = log₂(h^{1,1} + h^{2,1})
         """
         total_moduli = manifold.total_moduli
-        if total_moduli <= 0:
+        if total_moduli == 0:
             return 0.0
         return math.log2(total_moduli)
     
@@ -90,10 +90,11 @@ class SpectralComplexityMeasure:
             manifold: A Calabi-Yau manifold
             
         Returns:
-            Minimum moduli space size
+            Minimum moduli space size (integer approximation)
         """
         kappa = SpectralComplexityMeasure.kappa_pi(manifold)
-        return 2 ** int(kappa)
+        # Use floor to get conservative lower bound as integer
+        return 2 ** math.floor(kappa)
     
     @staticmethod
     def is_monotone(manifold1: CalabiYauManifold, 
@@ -198,6 +199,16 @@ class ConditionalHardness:
         """
         Analyze hypothetical SAT to CY-RF-CONSTRUCT reduction.
         
+        This is a PROPOSED reduction scheme (Conjecture 6.1) that would map
+        SAT instances to CY manifolds. The concrete encoding strategy is:
+        
+        1. Each SAT variable corresponds to a moduli space dimension
+        2. Satisfying assignments map to geometric structures in moduli space
+        3. The Ricci-flat metric existence corresponds to SAT satisfiability
+        
+        NOTE: This is a conjecture requiring rigorous proof. The mapping
+        h^{1,1} + h^{2,1} ~ n_vars is a simplification for analysis.
+        
         Args:
             sat_formula_vars: Number of variables in SAT formula
             
@@ -207,7 +218,7 @@ class ConditionalHardness:
         # For a SAT formula with n variables, we hypothetically map to
         # a CY manifold where the moduli space encodes the search space
         
-        # Hypothetical: h^{1,1} + h^{2,1} ~ n (encoding variable space)
+        # Hypothetical encoding: h^{1,1} + h^{2,1} ~ n (one dimension per variable)
         hypothetical_moduli = sat_formula_vars
         
         # Create hypothetical manifold
