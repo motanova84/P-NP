@@ -85,7 +85,6 @@ def detailed_analysis() -> Dict[str, Any]:
     Returns:
         Dictionary with detailed analysis results
     """
-    kappa = compute_kappa_from_frequency()
     
     # Compute derived quantities
     results = {
