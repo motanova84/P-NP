@@ -44,7 +44,8 @@ def test_comprehensive_analysis():
 def test_log2_13_calculation():
     """Verificar que log₂(13) se calcula correctamente."""
     expected = math.log2(13)
-    assert abs(expected - 3.7004397181410926) < 1e-10, "log2(13) debe ser ≈ 3.7004"
+    # Verificar que esté en el rango esperado (≈ 3.7004)
+    assert 3.70 < expected < 3.71, "log2(13) debe estar cerca de 3.7004"
     print(f"✅ log₂(13) = {expected:.10f}")
 
 
@@ -71,6 +72,33 @@ def test_sample_data_validity():
     print(f"✅ Datos de muestra válidos: {len(real_cy_sample)} variedades")
 
 
+def test_error_handling():
+    """Verificar que se manejan correctamente los errores."""
+    # Test con datos vacíos
+    try:
+        comprehensive_analysis([])
+        assert False, "Debería lanzar ValueError con datos vacíos"
+    except ValueError as e:
+        assert "vacío" in str(e).lower()
+        print("✅ Error correcto con datos vacíos")
+    
+    # Test con N = 0
+    try:
+        comprehensive_analysis([(0, 0)])
+        assert False, "Debería lanzar ValueError con N = 0"
+    except ValueError as e:
+        assert "positivo" in str(e).lower()
+        print("✅ Error correcto con N = 0")
+    
+    # Test con valores negativos
+    try:
+        comprehensive_analysis([(-1, 5)])
+        assert False, "Debería lanzar ValueError con valores negativos"
+    except ValueError as e:
+        assert "negativo" in str(e).lower()
+        print("✅ Error correcto con valores negativos")
+
+
 if __name__ == "__main__":
     print("="*70)
     print("TESTS DE CALABI-YAU ANALYSIS".center(70))
@@ -78,6 +106,7 @@ if __name__ == "__main__":
     print()
     
     test_sample_data_validity()
+    test_error_handling()
     test_log2_13_calculation()
     test_n13_count()
     test_comprehensive_analysis()

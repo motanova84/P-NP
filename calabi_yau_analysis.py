@@ -33,12 +33,22 @@ def comprehensive_analysis(cy_data):
         
     Returns:
         Tupla (kappas, N_values, stats) con los valores calculados y estadísticas
+        
+    Raises:
+        ValueError: Si cy_data está vacío o contiene valores inválidos (N <= 0)
     """
+    if not cy_data:
+        raise ValueError("cy_data no puede estar vacío")
+    
     kappas = []
     N_values = []
 
-    for h11, h21 in cy_data:
+    for i, (h11, h21) in enumerate(cy_data):
+        if h11 < 0 or h21 < 0:
+            raise ValueError(f"h11 y h21 deben ser no negativos en la entrada {i}: h11={h11}, h21={h21}")
         N = h11 + h21
+        if N <= 0:
+            raise ValueError(f"N = h11 + h21 debe ser positivo en la entrada {i}: h11={h11}, h21={h21}")
         N_values.append(N)
         kappas.append(math.log2(N))
 
@@ -56,7 +66,7 @@ def comprehensive_analysis(cy_data):
         'n13_count': N_values.count(13),
         'n13_fraction': N_values.count(13) / len(N_values),
         'log2_13_value': kappa_13,
-        'log2_13_percentile': np.percentile(kappas, 100 * np.mean(np.array(kappas) < kappa_13)),
+        'log2_13_percentile': (np.sum(np.array(kappas) < kappa_13) / len(kappas)) * 100,
     }
 
     # Test de normalidad de Shapiro-Wilk
@@ -234,5 +244,6 @@ if __name__ == "__main__":
     # Mostrar gráfica si estamos en un entorno interactivo
     try:
         plt.show()
-    except:
+    except Exception:
+        # En caso de que no haya display disponible (headless), no hacer nada
         pass
