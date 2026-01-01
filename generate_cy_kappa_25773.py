@@ -29,12 +29,14 @@ def generate_cy_varieties_n13():
     cy_kappa_25773 = []
     target_N = 13
     
+    # Calculate kappa_pi once (log(13) is constant for all varieties)
+    kappa_pi = round(np.log(target_N), 6)  # log(13) ≈ 2.564949
+    
     # Filter CY varieties with h11 + h21 = 13
     # h11 ranges from 1 to 12 (h21 must be at least 1)
     for h11 in range(1, target_N):
         h21 = target_N - h11
         chi = 2 * (h11 - h21)
-        kappa_pi = round(np.log(h11 + h21), 6)  # log(13)
         
         cy_kappa_25773.append({
             "ID": f"CY_{h11}_{h21}",
@@ -94,8 +96,8 @@ def main():
         print(f"  ... ({len(cy_varieties) - 3} más)")
     print()
     
-    # Export to JSON
-    output_dir = "/home/runner/work/P-NP/P-NP/results"
+    # Export to JSON (use relative path for portability)
+    output_dir = "results"
     json_path = export_to_json(cy_varieties, output_dir=output_dir)
     
     print(f"✓ Archivo JSON generado: {json_path}")
