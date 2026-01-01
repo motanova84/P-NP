@@ -39,6 +39,8 @@ Este proyecto introduce **por primera vez** en la historia de la ciencia:
 
 **✨ NEW: Post-Disciplinary Science Manifesto** - Breaking artificial boundaries between disciplines to solve complex problems. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the complete framework showing how P≠NP is approached from outside traditional paradigms by integrating mathematics, physics, biology, and consciousness studies. Includes educational models and implementation code in `src/post_disciplinary.py`.
 
+**✨ NEW: Calabi-Yau Ricci-Flat Metric Construction** - Spectral Complexity of Calabi–Yau Manifolds as a Barrier to Efficient Ricci-Flat Metric Construction: A Conditional Approach to P ≠ NP. The CY-RF-CONSTRUCT problem demonstrates how geometric barriers in moduli space create computational hardness through the spectral constant κ_Π = log(h^{1,1} + h^{2,1}). See [CALABI_YAU_RICCI_FLAT_README.md](CALABI_YAU_RICCI_FLAT_README.md) for the complete framework and [src/calabi_yau_ricci_flat.py](src/calabi_yau_ricci_flat.py) for implementation. Run `python examples/demo_calabi_yau_ricci_flat.py` for interactive demonstration.
+
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
 **🚀 Quick Start:** 
