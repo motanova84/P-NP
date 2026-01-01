@@ -205,9 +205,12 @@ class TestCalabiYauKappaAnalysis(unittest.TestCase):
         for key in required_keys:
             self.assertIn(key, hypothesis)
         
-        # Check values (log_φ² formula gives N* ≈ 12, not 13)
+        # Check values
         self.assertEqual(hypothesis['constant'], KAPPA_PI_TARGET)
-        self.assertEqual(hypothesis['nearest_integer'], 13)  # Based on implementation
+        # The implementation uses N=13 as nearest integer in emergent_hypothesis
+        # even though the log_φ² formula gives N* ≈ 11.95 (closer to 12)
+        # This reflects the documented discrepancy between formulas
+        self.assertEqual(hypothesis['nearest_integer'], 13)
         self.assertIsInstance(hypothesis['statements'], list)
         self.assertGreater(len(hypothesis['statements']), 0)
     
@@ -290,15 +293,18 @@ class TestIntegrationWithExistingModule(unittest.TestCase):
         analyzer = CalabiYauKappaAnalysis()
         
         # For log_φ² formula: N_eff ≈ 11.947
-        self.assertAlmostEqual(N_EFF_KAPPA_PI_LOG_PHI2, 11.946693, places=5)
+        # Verify the constant matches the expected calculated value
+        expected_log_phi2 = analyzer.phi_squared ** KAPPA_PI_TARGET
+        self.assertAlmostEqual(N_EFF_KAPPA_PI_LOG_PHI2, expected_log_phi2, places=5)
         kappa_log_phi2 = analyzer.kappa_pi(N_EFF_KAPPA_PI_LOG_PHI2)
         self.assertAlmostEqual(kappa_log_phi2, KAPPA_PI_TARGET, places=4,
                               msg="log_φ² formula should give exact κ_Π")
         
         # For simple ln formula: N_eff ≈ 13.162
-        self.assertAlmostEqual(N_EFF_KAPPA_PI_SIMPLE_LN, 13.161554, places=5)
-        # Simple ln would be: math.log(N_EFF_KAPPA_PI_SIMPLE_LN) ≈ 2.5773
+        # Verify the constant matches the expected calculated value
         import math
+        expected_simple_ln = math.exp(KAPPA_PI_TARGET)
+        self.assertAlmostEqual(N_EFF_KAPPA_PI_SIMPLE_LN, expected_simple_ln, places=5)
         kappa_simple_ln = math.log(N_EFF_KAPPA_PI_SIMPLE_LN)
         self.assertAlmostEqual(kappa_simple_ln, KAPPA_PI_TARGET, places=4,
                               msg="Simple ln formula should give exact κ_Π")

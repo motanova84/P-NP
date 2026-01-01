@@ -57,8 +57,8 @@ KAPPA_PI = 2.5773  # Precision: 4 significant figures (claimed from 150 CY varie
 # If κ_Π = 2.5773 comes from 150 CY varieties with N ≈ 13, then
 # the simple ln(N) formula is more appropriate.
 
-N_EFF_KAPPA_PI_SIMPLE_LN = 13.161554  # For κ_Π = ln(N)
-N_EFF_KAPPA_PI_LOG_PHI2 = 11.946693   # For κ_Π = ln(N)/ln(φ²)
+N_EFF_KAPPA_PI_SIMPLE_LN = 13.161554  # Precision: 6 decimal places. For κ_Π = ln(N)
+N_EFF_KAPPA_PI_LOG_PHI2 = 11.946693   # Precision: 6 decimal places. For κ_Π = ln(N)/ln(φ²)
 
 """
 N_eff - Effective Moduli Dimension

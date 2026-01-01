@@ -33,6 +33,21 @@ PHI = (1 + math.sqrt(5)) / 2  # ≈ 1.618033988749895
 # Target κ_Π value from Calabi-Yau analysis
 KAPPA_PI_TARGET = 2.5773
 
+# Spectral correction constants for effective dimension calculation
+# These represent contributions to N_eff beyond the base integer value
+SPECTRAL_CORRECTION_DEGENERATE_MODULI = 0.05  # Moduli with multiplicities > 1
+SPECTRAL_CORRECTION_DUAL_CYCLES = 0.05  # Non-trivial dual cycles in geometry
+SPECTRAL_CORRECTION_SYMMETRY = 0.03  # Group of automorphisms effects
+SPECTRAL_CORRECTION_FLUX = 0.02  # Flux contributions in string compactifications
+
+# Total spectral correction: ΔN ≈ 0.15
+SPECTRAL_CORRECTION_TOTAL = (
+    SPECTRAL_CORRECTION_DEGENERATE_MODULI +
+    SPECTRAL_CORRECTION_DUAL_CYCLES +
+    SPECTRAL_CORRECTION_SYMMETRY +
+    SPECTRAL_CORRECTION_FLUX
+)  # ≈ 0.15
+
 
 class CalabiYauKappaAnalysis:
     """
@@ -193,17 +208,17 @@ class CalabiYauKappaAnalysis:
             'constant': self.kappa_target,
             'threshold_value': N_star,
             'nearest_integer': 13,
-            'N_effective': N_star,  # N_eff ≈ 13.15
+            'N_effective': N_star,  # N_eff for log_φ² formula
             'statements': [
                 f"κ_Π = {self.kappa_target} is a critical spectral constant",
                 f"Emerges from studying κ_Π(N) in log-φ-structured domains",
                 f"N* ≈ {N_star:.3f} (effective dimension with spectral corrections)",
                 f"Proximity to integer N = 13 suggests resonance with effective corrections",
-                f"Varieties with N = 13 have N_eff ≈ 13.15 accounting for:",
-                f"  • Degenerate moduli (contribution: ~0.05)",
-                f"  • Non-trivial dual cycles (contribution: ~0.05)",
-                f"  • Symmetry corrections (contribution: ~0.03)",
-                f"  • Flux contributions (contribution: ~0.02)"
+                f"Varieties with N = 13 have N_eff accounting for:",
+                f"  • Degenerate moduli (contribution: ~{SPECTRAL_CORRECTION_DEGENERATE_MODULI})",
+                f"  • Non-trivial dual cycles (contribution: ~{SPECTRAL_CORRECTION_DUAL_CYCLES})",
+                f"  • Symmetry corrections (contribution: ~{SPECTRAL_CORRECTION_SYMMETRY})",
+                f"  • Flux contributions (contribution: ~{SPECTRAL_CORRECTION_FLUX})"
             ],
             'mathematical_form': 'κ_Π(N) = ln(N) / ln(φ²)',
             'critical_property': 'log_φ²(N*) = κ_Π = 2.5773',
