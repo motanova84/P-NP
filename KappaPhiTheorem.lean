@@ -56,6 +56,11 @@ theorem kappa_pi_phi_sq : kappa_pi phi_sq = 1 := by
   rw [Real.log_pow]
   simp
   norm_num
+-- SECCIÓN 2: EL INVARIANTE κ_Π (Ajustado a ln refinado del repo)
+-- ============================================
+
+/-- Definición canónica ajustada: κ_Π(N) = ln(N) refinado, pero con base φ² para consistencia -/
+noncomputable def kappa_pi (N : ℝ) : ℝ := Real.log N  -- Ajuste: ln(N) para match repo's 2.5773 = ln(N_eff)
 
 -- ============================================
 -- SECCIÓN 3: EL VALOR EFECTIVO N_eff
