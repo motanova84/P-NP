@@ -46,10 +46,15 @@ import math
 import numpy as np
 from typing import Dict, List
 import matplotlib
-# Note: Backend is set globally to 'Agg' for non-interactive plotting
-# This can be overridden by calling matplotlib.use() before importing this module
-if matplotlib.get_backend() != 'Agg':
-    matplotlib.use('Agg')  # Non-interactive backend (only if not already set)
+# Note: Backend is set globally to 'Agg' for non-interactive plotting.
+# This can be overridden by calling matplotlib.use() before importing this module.
+# We attempt to set the backend here; if it's already locked by a prior import,
+# we silently fall back to the existing backend.
+try:
+    matplotlib.use('Agg')
+except Exception:
+    # Backend could not be changed (e.g., already in use); proceed with current backend.
+    pass
 import matplotlib.pyplot as plt
 
 
