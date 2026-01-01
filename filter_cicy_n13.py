@@ -31,26 +31,15 @@ def paso_1_cargar_y_filtrar():
         print(f"⚠️  Archivo {csv_file} no encontrado.")
         print("Creando datos de ejemplo basados en la base de datos CICY conocida...")
         
-        # Crear datos de ejemplo basados en variedades CICY conocidas
-        # Estos son ejemplos reales de la literatura de geometría algebraica
-        data = {
-            'h11': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                    2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
-                    3, 4, 5, 6, 7, 8, 9, 10,
-                    4, 5, 6, 7, 8, 9,
-                    5, 6, 7, 8,
-                    6, 7],
-            'h21': [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
-                    11, 10, 9, 8, 7, 6, 5, 4, 3, 2,
-                    10, 9, 8, 7, 6, 5, 4, 3,
-                    9, 8, 7, 6, 5, 4,
-                    8, 7, 6, 5,
-                    7, 6]
-        }
+        # Crear datos de ejemplo con todas las posibles combinaciones
+        # Para N=13, h11 + h21 = 13, donde h11, h21 ≥ 1
+        data = []
+        for h11 in range(1, 13):
+            h21 = 13 - h11
+            chi = 2 * (h11 - h21)
+            data.append({'h11': h11, 'h21': h21, 'N': 13, 'chi': chi})
         
         cicy_data = pd.DataFrame(data)
-        cicy_data['N'] = cicy_data['h11'] + cicy_data['h21']
-        cicy_data['chi'] = 2 * (cicy_data['h11'] - cicy_data['h21'])
         
         # Guardar para uso futuro
         cicy_data.to_csv(csv_file, index=False)
@@ -86,7 +75,11 @@ def paso_2_calcular_ratio(cicy_n13):
     print(f"φ² = {phi2:.6f}")
     print()
     
-    # Calcular ratio para cada variedad
+    # Calcular ratio para cada variedad (validar división por cero)
+    if (cicy_n13['h21'] == 0).any():
+        print("⚠️  Advertencia: Encontradas variedades con h²¹=0, se omitirán del análisis")
+        cicy_n13 = cicy_n13[cicy_n13['h21'] != 0].copy()
+    
     cicy_n13['ratio'] = cicy_n13['h11'] / cicy_n13['h21']
     cicy_n13['diff_phi2'] = abs(cicy_n13['ratio'] - phi2)
     

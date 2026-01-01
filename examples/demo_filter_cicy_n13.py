@@ -86,7 +86,11 @@ def demo_paso_2(cicy_n13):
     print(f"📐 φ² = {phi2:.6f}")
     print()
     
-    # Calcular ratio para cada variedad
+    # Calcular ratio para cada variedad (validar división por cero)
+    if (cicy_n13['h21'] == 0).any():
+        print("⚠️  Advertencia: Encontradas variedades con h²¹=0, se omitirán del análisis")
+        cicy_n13 = cicy_n13[cicy_n13['h21'] != 0].copy()
+    
     cicy_n13['ratio'] = cicy_n13['h11'] / cicy_n13['h21']
     cicy_n13['diff_phi2'] = abs(cicy_n13['ratio'] - phi2)
     
