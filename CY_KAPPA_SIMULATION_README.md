@@ -159,7 +159,7 @@ This mimics real CY variety distributions while ensuring reproducibility.
 
 **JMMB Ψ✧ ∞³**  
 P vs NP Verification System  
-2026-01-02
+2026-01-01
 
 ## License
 

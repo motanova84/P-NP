@@ -2,15 +2,14 @@
 """
 SIMULACIÓN: Distribución de κ_Π = log_φ²(N) sobre CY reales
 Autor: JMMB Ψ✧ ∞³
-Fecha: 2026-01-02
+Fecha: 2026-01-01
 """
 
+import datetime
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import stats
-from scipy.special import zeta
-from scipy.optimize import curve_fit
 import seaborn as sns
 
 # Configuración estética
@@ -142,15 +141,15 @@ def fractal_analysis(κ_vals):
     q_values = np.linspace(-5, 5, 21)
     τ_q = []
     
+    # Compute histogram once
+    hist, _ = np.histogram(κ_vals, bins=50)
+    p = hist / np.sum(hist)
+    
     for q in q_values:
         if abs(q - 1) < 1e-10:
             # Caso especial q=1
-            hist, _ = np.histogram(κ_vals, bins=50)
-            p = hist / np.sum(hist)
             τ_q.append(-np.sum(p * np.log(p + 1e-10)))
         else:
-            hist, _ = np.histogram(κ_vals, bins=50)
-            p = hist / np.sum(hist)
             τ_q.append(np.log(np.sum(p**q + 1e-10)) / (1 - q))
     
     results['multifractal_spectrum'] = τ_q
@@ -247,7 +246,7 @@ def plot_analysis(N_vals, κ_vals, stats_dict, fractal_dict, comparisons, closes
     
     CLUSTERING κ_Π ≈ 2.5773:
     • Fracción en [2.4, 2.7]: {stats_dict['cluster_fraction']*100:.1f}%
-    • Media del cluster: {stats_dict['cluster_mean'] if stats_dict['cluster_mean'] else 'N/A':.6f}
+    • Media del cluster: {f"{stats_dict['cluster_mean']:.6f}" if stats_dict['cluster_mean'] else 'N/A'}
     • Distancia a 2.5773: {stats_dict['dist_to_target']:.6f}
     • ¿2.5773 en 95% CI? {'SÍ' if stats_dict['target_in_ci'] else 'NO'}
     
@@ -390,7 +389,7 @@ def main():
     fig = plot_analysis(N_vals, κ_vals, stats_dict, fractal_dict, comparisons, closest)
     
     # Guardar resultados
-    timestamp = pd.Timestamp.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     fig.savefig(f'cy_kappa_analysis_{timestamp}.png', dpi=300, bbox_inches='tight')
     
     # Guardar datos

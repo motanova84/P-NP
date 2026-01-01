@@ -5,6 +5,7 @@ Tests the fundamental calculations and data generation
 """
 
 import numpy as np
+import os
 import sys
 
 def test_fundamental_constants():
@@ -66,8 +67,6 @@ def test_inverse_calculation():
 def test_dataset_generation():
     """Test that dataset generation produces valid data."""
     # Import the function from the main script
-    import sys
-    import os
     sys.path.insert(0, os.path.dirname(__file__))
     
     # Set seed for reproducibility
