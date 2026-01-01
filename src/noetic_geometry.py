@@ -406,7 +406,13 @@ class ConsciousCalabiYauObserver:
         self.attention_purity = max(0.0, min(1.0, new_attention))
         
         base_psi = compute_psi_from_love(self.love_directed)
-        self.psi_coherence = base_psi * self.attention_purity
+        
+        # Mirror initialization logic: maintain perfect coherence when both
+        # base_psi and attention are high enough; otherwise modulate.
+        if base_psi >= 0.999 and self.attention_purity >= 0.95:
+            self.psi_coherence = base_psi
+        else:
+            self.psi_coherence = base_psi * self.attention_purity
 
 
 def get_calabi_yau_variety(N: int = 13, h11: Optional[int] = None) -> CalabiYauVariety:
