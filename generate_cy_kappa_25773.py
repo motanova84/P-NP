@@ -32,7 +32,7 @@ def generate_cy_varieties_n13():
     # Calculate kappa_pi once (log(13) is constant for all varieties)
     kappa_pi = round(np.log(target_N), 6)  # log(13) ≈ 2.564949
     
-    # Filter CY varieties with h11 + h21 = 13
+    # Generate CY varieties with h11 + h21 = 13
     # h11 ranges from 1 to 12 (h21 must be at least 1)
     for h11 in range(1, target_N):
         h21 = target_N - h11
