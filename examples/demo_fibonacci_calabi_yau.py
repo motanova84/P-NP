@@ -14,6 +14,7 @@ Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 
 import sys
 import os
+import tempfile
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
@@ -299,22 +300,22 @@ def main():
         print()
         demo_func()
         if i < len(demos):
-            input("Presiona Enter para continuar al siguiente paso...")
+            input("Press Enter to continue to next step...")
     
     print()
     print("=" * 80)
-    print("¿Deseas ejecutar el análisis completo integrado?")
+    print("Would you like to run the complete integrated analysis?")
     print("=" * 80)
-    response = input("Ejecutar análisis completo? (s/n): ").strip().lower()
+    response = input("Run complete analysis? (y/n): ").strip().lower()
     
     if response == 's' or response == 'y':
         print()
         print()
         results = run_complete_fibonacci_analysis()
         print()
-        print("✓ Análisis completo finalizado!")
-        print(f"✓ Reporte guardado en: /tmp/fibonacci_cy_report.txt")
-        print(f"✓ Gráfico guardado en: /tmp/fibonacci_cy_analysis.png")
+        print("✓ Complete analysis finished!")
+        print(f"✓ Report saved to: {os.path.join(tempfile.gettempdir(), 'fibonacci_cy_report.txt')}")
+        print(f"✓ Plot saved to: {os.path.join(tempfile.gettempdir(), 'fibonacci_cy_analysis.png')}")
     
     print()
     print("=" * 80)

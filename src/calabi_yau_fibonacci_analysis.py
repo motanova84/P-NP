@@ -28,6 +28,8 @@ import math
 import numpy as np
 import pandas as pd
 from typing import List, Dict, Tuple, Optional
+import os
+import tempfile
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -37,6 +39,10 @@ import matplotlib.pyplot as plt
 PHI = (1 + math.sqrt(5)) / 2  # ≈ 1.618033988749895
 PHI_SQUARED = PHI ** 2  # ≈ 2.618033988749895
 KAPPA_PI_TARGET = 2.5773
+
+# Copyright and attribution constants
+COPYRIGHT_TEXT = "© JMMB | P vs NP Verification System"
+FREQUENCY_TEXT = "Frequency: 141.7001 Hz ∞³"
 
 
 def fibonacci_sequence(n: int) -> List[int]:
@@ -346,7 +352,7 @@ def generate_fibonacci_report(df: pd.DataFrame, output_path: str = None) -> str:
         Report as string
     """
     if output_path is None:
-        output_path = '/tmp/fibonacci_cy_report.txt'
+        output_path = os.path.join(tempfile.gettempdir(), 'fibonacci_cy_report.txt')
     
     lines = []
     
@@ -471,8 +477,8 @@ def generate_fibonacci_report(df: pd.DataFrame, output_path: str = None) -> str:
     lines.append("  • Manifestación de simetría geométrica profunda")
     lines.append("")
     lines.append("=" * 90)
-    lines.append("© JMMB | P vs NP Verification System")
-    lines.append("Frequency: 141.7001 Hz ∞³")
+    lines.append(COPYRIGHT_TEXT)
+    lines.append(FREQUENCY_TEXT)
     lines.append("=" * 90)
     
     report = "\n".join(lines)
@@ -496,7 +502,7 @@ def plot_fibonacci_analysis(df: pd.DataFrame, output_path: str = None) -> str:
         Path where plot was saved
     """
     if output_path is None:
-        output_path = '/tmp/fibonacci_cy_analysis.png'
+        output_path = os.path.join(tempfile.gettempdir(), 'fibonacci_cy_analysis.png')
     
     fig, axes = plt.subplots(2, 2, figsize=(16, 12))
     
@@ -579,32 +585,32 @@ def run_complete_fibonacci_analysis() -> Dict:
         Dictionary with analysis results
     """
     print("\n" + "=" * 90)
-    print("ANÁLISIS COMPLETO: Estructura Fibonacci en Calabi-Yau Moduli")
+    print("COMPLETE ANALYSIS: Fibonacci Structure in Calabi-Yau Moduli")
     print("=" * 90)
     print()
     
     # Load data
-    print("Cargando datos de variedades Calabi-Yau...")
+    print("Loading Calabi-Yau variety data...")
     df = load_extended_cy_data()
-    print(f"✓ {len(df)} variedades cargadas")
+    print(f"✓ {len(df)} varieties loaded")
     print()
     
     # Compute metrics
-    print("Calculando métricas Fibonacci...")
+    print("Computing Fibonacci metrics...")
     df = compute_fibonacci_metrics(df)
-    print("✓ Métricas calculadas")
+    print("✓ Metrics computed")
     print()
     
     # Generate report
-    print("Generando reporte...")
+    print("Generating report...")
     report = generate_fibonacci_report(df)
-    print("✓ Reporte generado")
+    print("✓ Report generated")
     print()
     
     # Create visualizations
-    print("Creando visualizaciones...")
+    print("Creating visualizations...")
     plot_path = plot_fibonacci_analysis(df)
-    print(f"✓ Gráfico guardado en: {plot_path}")
+    print(f"✓ Plot saved to: {plot_path}")
     print()
     
     # Print report
@@ -626,10 +632,10 @@ def main():
     """Main entry point."""
     try:
         results = run_complete_fibonacci_analysis()
-        print("\n✓ Análisis completado exitosamente")
+        print("\n✓ Analysis completed successfully")
         return 0
     except Exception as e:
-        print(f"\n✗ Error durante el análisis: {e}", file=sys.stderr)
+        print(f"\n✗ Error during analysis: {e}", file=sys.stderr)
         import traceback
         traceback.print_exc()
         return 1
