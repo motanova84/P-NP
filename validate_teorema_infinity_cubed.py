@@ -4,8 +4,8 @@ validate_teorema_infinity_cubed.py - Quick validation of Teorema ∞³
 
 This script provides a quick validation of the key results from Teorema ∞³.
 
-Note: The closing statements use Spanish as they are direct quotes from the
-theorem statement, preserving the original language of the mathematical work.
+Note: The closing statements use Spanish to preserve the original language of
+the mathematical work.
 
 Usage:
     python validate_teorema_infinity_cubed.py
