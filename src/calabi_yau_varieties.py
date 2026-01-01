@@ -81,7 +81,7 @@ def get_calabi_yau_varieties_with_total_moduli(N: int) -> List[CalabiYauVariety]
             # Determine the most likely source based on Hodge numbers
             if h11 == h21:
                 reference = "CICY / Self-mirror"
-                name = f"Self-mirror CY with h¹'¹=h²'¹={h11}"
+                name = f"Self-mirror CY with h^{1,1}=h^{2,1}={h11}"
             elif h11 < h21:
                 reference = "CICY / Kreuzer-Skarke"
                 name = f"Complex structure dominated CY"
