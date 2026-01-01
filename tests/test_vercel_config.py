@@ -82,7 +82,11 @@ class TestValidateVercelConfigFunction(unittest.TestCase):
     
     def test_validate_missing_file(self):
         """Test validation with a non-existent file."""
-        is_valid, message, config = validate_vercel_config('/tmp/nonexistent_vercel.json')
+        # Use tempfile to get a non-existent path that's guaranteed to be portable
+        temp_dir = tempfile.gettempdir()
+        nonexistent_file = os.path.join(temp_dir, 'nonexistent_vercel_12345.json')
+        
+        is_valid, message, config = validate_vercel_config(nonexistent_file)
         self.assertFalse(is_valid)
         self.assertIn("not found", message)
         self.assertIsNone(config)
