@@ -102,15 +102,12 @@ def compute_cy_harmonic_parameter(eigenvalues):
     first_nonzero = nonzero_eigs[0]
     geometric_mean = float(prod(nonzero_eigs[:5])) ** (1.0/5.0) if len(nonzero_eigs) >= 5 else first_nonzero
     
-    # Normalized spectral parameter
+    # Normalized spectral parameter derived directly from the spectrum
     lambda_cy = (first_nonzero / geometric_mean) ** (1.0/3.0)
     
-    # Scale to match target (this calibration comes from 150 CY varieties analysis)
-    lambda_cy *= 1.378556 / lambda_cy  # Normalize to target
-    
     return float(lambda_cy)
-
-
+    
+    
 def compute_kappa_pi_from_geometry(lambda_cy):
     """
     Compute κ_Π from geometric formula:
