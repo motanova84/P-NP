@@ -91,7 +91,12 @@ Verificación: ln(13.148698354) ≈ 2.576322769... ≈ 2.5773
 theorem kappa_pi_millennium_constant : 
     abs (kappa_pi N_effective - 2.5773) < 0.002 := by
   unfold kappa_pi N_effective
-  -- ln(13.148698354) ≈ 2.576322769... which is within 0.002 of 2.5773
+  -- Numerical verification: ln(13.148698354) ≈ 2.576322769...
+  -- |2.576322769... - 2.5773| ≈ 0.000977 < 0.002 ✓
+  -- Proof strategy: Use norm_num with logarithm bounds
+  -- have h1 : (2.574 : ℝ) < Real.log 13.148698354 := by norm_num
+  -- have h2 : Real.log 13.148698354 < (2.579 : ℝ) := by norm_num
+  -- linarith
   norm_num
   sorry
 
@@ -150,11 +155,13 @@ theorem fixed_point_property :
     let f : ℝ → ℝ := fun _ => 13 + Real.log (phi_sq) / (2 * π)
     abs (f N_effective - N_effective) < 0.01 := by
   intro f
-  unfold N_effective phi_sq phi
-  -- f(anything) = 13 + 0.15317... ≈ 13.15317
-  -- |13.15317 - 13.148698354| ≈ 0.00448 < 0.01
-  norm_num
-  sorry
+  -- This follows directly from N_effective_decomposition
+  -- f(anything) = 13 + spectral_correction by definition
+  have h_eq : f N_effective = 13 + spectral_correction := by
+    unfold f spectral_correction phi_sq
+    rfl
+  rw [h_eq]
+  exact N_effective_decomposition
 
 -- ============================================
 -- SECCIÓN 6: CONEXIÓN CON VARIEDADES CALABI-YAU
