@@ -7,18 +7,18 @@
             "use": "@vercel/static"
         }
     ],
-    "routes": [
+    "rewrites": [
         {
-            "src": "/demo",
-            "dest": "examples/demo_ic_sat.py"
+            "source": "/demo",
+            "destination": "examples/demo_ic_sat.py"
         },
         {
-            "src": "/run_all",
-            "dest": "run_all_tests.sh"
+            "source": "/run_all",
+            "destination": "run_all_tests.sh"
         },
         {
-            "src": "/simple",
-            "dest": "simple_demo.py"
+            "source": "/simple",
+            "destination": "simple_demo.py"
         }
     ],
     "headers": [

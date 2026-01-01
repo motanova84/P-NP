@@ -30,6 +30,9 @@ lean_lib P_neq_NP where
 lean_lib SpectralTheory where
   roots := #[`SpectralTheory]
 
+lean_lib SpectralEntropy where
+  roots := #[`SpectralEntropy]
+
 lean_lib PNPSpectral where
   roots := #[`P_neq_NP_Spectral]
 lean_lib GraphInformationComplexity where
@@ -93,6 +96,12 @@ lean_lib SevenStairs where
 
 lean_lib QCALPiTheorem where
   roots := #[`QCALPiTheorem]
+
+lean_lib CY_RF_Construct where
+  roots := #[`CY_RF_Construct]
+
+lean_lib KappaPhiTheorem where
+  roots := #[`KappaPhiTheorem]
 
 @[default_target]
 lean_exe pnp where
