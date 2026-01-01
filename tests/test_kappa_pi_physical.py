@@ -16,14 +16,19 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 from kappa_pi_physical import PhysicalKappaPi
 
 
+# Test constants
+TEST_TOLERANCE_PERCENT = 0.01  # 1% relative error tolerance
+TEST_TARGET_KAPPA = 2.5773
+
+
 class TestPhysicalKappaPi(unittest.TestCase):
     """Test cases for PhysicalKappaPi class."""
     
     def setUp(self):
         """Set up test fixtures."""
         self.kappa = PhysicalKappaPi()
-        self.target_kappa = 2.5773
-        self.tolerance = 0.01  # 1% tolerance
+        self.target_kappa = TEST_TARGET_KAPPA
+        self.tolerance = TEST_TOLERANCE_PERCENT
     
     def test_alpha_coupling(self):
         """Test α coupling computation."""

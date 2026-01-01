@@ -31,6 +31,9 @@ except ImportError:
     except ImportError:
         HAS_PHYSICAL_KAPPA = False
 
+# Validation tolerance for physical κ_Π computation
+KAPPA_VALIDATION_TOLERANCE = 0.01
+
 class CalabiYauComplexity:
     """
     Implementation of Calabi-Yau / Computational Complexity connection.
@@ -63,7 +66,7 @@ class CalabiYauComplexity:
             # Verify physical computation
             standard = self.physical_kappa.standard_cy3_example()
             computed_kappa = standard['kappa_pi']
-            if abs(computed_kappa - self.kappa_pi) > 0.01:
+            if abs(computed_kappa - self.kappa_pi) > KAPPA_VALIDATION_TOLERANCE:
                 print(f"Warning: Physical κ_Π = {computed_kappa:.6f} differs from target {self.kappa_pi}")
             else:
                 self.kappa_pi = computed_kappa  # Use physically computed value
