@@ -10,11 +10,12 @@ This test ensures that the Vercel configuration follows the rules:
 import json
 import os
 import sys
+import tempfile
 import unittest
 
-# Import the constant from the validation module
+# Import the constant and function from the validation module
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-from validate_vercel_config import MODERN_PROPERTIES
+from validate_vercel_config import MODERN_PROPERTIES, validate_vercel_config
 
 
 class TestVercelConfig(unittest.TestCase):
@@ -74,3 +75,166 @@ class TestVercelConfig(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class TestValidateVercelConfigFunction(unittest.TestCase):
+    """Test cases for the validate_vercel_config function itself."""
+    
+    def test_validate_missing_file(self):
+        """Test validation with a non-existent file."""
+        is_valid, message, config = validate_vercel_config('/tmp/nonexistent_vercel.json')
+        self.assertFalse(is_valid)
+        self.assertIn("not found", message)
+        self.assertIsNone(config)
+    
+    def test_validate_invalid_json(self):
+        """Test validation with invalid JSON."""
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            f.write("{ invalid json }")
+            temp_file = f.name
+        
+        try:
+            is_valid, message, config = validate_vercel_config(temp_file)
+            self.assertFalse(is_valid)
+            self.assertIn("Invalid JSON", message)
+            self.assertIsNone(config)
+        finally:
+            os.unlink(temp_file)
+    
+    def test_validate_non_object_json(self):
+        """Test validation with JSON that's not an object."""
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            json.dump(["array", "not", "object"], f)
+            temp_file = f.name
+        
+        try:
+            is_valid, message, config = validate_vercel_config(temp_file)
+            self.assertFalse(is_valid)
+            self.assertIn("must be a JSON object", message)
+            self.assertIsNone(config)
+        finally:
+            os.unlink(temp_file)
+    
+    def test_validate_routes_with_rewrites(self):
+        """Test validation fails when routes is used with rewrites."""
+        config_data = {
+            "version": 2,
+            "routes": [{"src": "/old", "dest": "/new"}],
+            "rewrites": [{"source": "/test", "destination": "/index.html"}]
+        }
+        
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            json.dump(config_data, f)
+            temp_file = f.name
+        
+        try:
+            is_valid, message, config = validate_vercel_config(temp_file)
+            self.assertFalse(is_valid)
+            self.assertIn("routes", message)
+            self.assertIn("rewrites", message)
+            self.assertIsNotNone(config)
+        finally:
+            os.unlink(temp_file)
+    
+    def test_validate_routes_with_headers(self):
+        """Test validation fails when routes is used with headers."""
+        config_data = {
+            "version": 2,
+            "routes": [{"src": "/old", "dest": "/new"}],
+            "headers": [{"source": "/(.*)", "headers": [{"key": "X-Test", "value": "test"}]}]
+        }
+        
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            json.dump(config_data, f)
+            temp_file = f.name
+        
+        try:
+            is_valid, message, config = validate_vercel_config(temp_file)
+            self.assertFalse(is_valid)
+            self.assertIn("routes", message)
+            self.assertIn("headers", message)
+        finally:
+            os.unlink(temp_file)
+    
+    def test_validate_routes_only(self):
+        """Test validation succeeds with only routes (legacy)."""
+        config_data = {
+            "version": 2,
+            "routes": [{"src": "/old", "dest": "/new"}]
+        }
+        
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            json.dump(config_data, f)
+            temp_file = f.name
+        
+        try:
+            is_valid, message, config = validate_vercel_config(temp_file)
+            self.assertTrue(is_valid)
+            self.assertIn("valid", message.lower())
+            self.assertIsNotNone(config)
+        finally:
+            os.unlink(temp_file)
+    
+    def test_validate_modern_properties_only(self):
+        """Test validation succeeds with only modern properties."""
+        config_data = {
+            "version": 2,
+            "rewrites": [{"source": "/test", "destination": "/index.html"}],
+            "headers": [{"source": "/(.*)", "headers": [{"key": "X-Test", "value": "test"}]}]
+        }
+        
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            json.dump(config_data, f)
+            temp_file = f.name
+        
+        try:
+            is_valid, message, config = validate_vercel_config(temp_file)
+            self.assertTrue(is_valid)
+            self.assertIn("valid", message.lower())
+            self.assertIsNotNone(config)
+        finally:
+            os.unlink(temp_file)
+    
+    def test_validate_no_routing_properties(self):
+        """Test validation succeeds with no routing properties."""
+        config_data = {
+            "version": 2,
+            "name": "test-project"
+        }
+        
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            json.dump(config_data, f)
+            temp_file = f.name
+        
+        try:
+            is_valid, message, config = validate_vercel_config(temp_file)
+            self.assertTrue(is_valid)
+            self.assertIsNotNone(config)
+        finally:
+            os.unlink(temp_file)
+    
+    def test_validate_all_modern_properties_with_routes(self):
+        """Test validation fails when routes is used with all modern properties."""
+        config_data = {
+            "version": 2,
+            "routes": [{"src": "/old", "dest": "/new"}],
+            "rewrites": [{"source": "/test", "destination": "/index.html"}],
+            "redirects": [{"source": "/old", "destination": "/new"}],
+            "headers": [{"source": "/(.*)", "headers": []}],
+            "cleanUrls": True,
+            "trailingSlash": False
+        }
+        
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            json.dump(config_data, f)
+            temp_file = f.name
+        
+        try:
+            is_valid, message, config = validate_vercel_config(temp_file)
+            self.assertFalse(is_valid)
+            self.assertIn("routes", message)
+            # Should mention at least some of the modern properties
+            modern_props_found = sum(1 for prop in MODERN_PROPERTIES if prop in message)
+            self.assertGreater(modern_props_found, 0)
+        finally:
+            os.unlink(temp_file)
