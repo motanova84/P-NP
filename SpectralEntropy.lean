@@ -123,19 +123,23 @@ theorem kappa_pi_12_value :
   -- The numerical error bound
   norm_num
 
-/-- General bound: κ_Π(d) is positive for d ≥ 3 -/
+/-- General bound: κ_Π(d) is positive for d ≥ 3 
+    TODO: Complete proof requires spectral gap positivity for d-regular graphs
+-/
 theorem kappa_pi_positive (d : ℕ) (hd : d ≥ 3) :
     kappa_pi d > 0 := by
   unfold kappa_pi expectedICPerVertex
   split_ifs with h
   · norm_num  -- d = 12 case
   · -- General case: d/(2·spectral_gap) > 0 for d ≥ 3
-    sorry  -- Requires spectral gap positivity
+    sorry  -- TODO: Requires spectral gap positivity
 
-/-- κ_Π grows with degree for expanders -/
+/-- κ_Π grows with degree for expanders 
+    TODO: Complete proof requires detailed spectral gap analysis
+-/
 theorem kappa_pi_monotone (d₁ d₂ : ℕ) (hd₁ : d₁ ≥ 3) (hd₂ : d₂ ≥ d₁) :
     kappa_pi d₁ ≤ kappa_pi d₂ := by
-  sorry  -- Requires spectral gap analysis
+  sorry  -- TODO: Requires spectral gap analysis
 
 /-! ## Calabi-Yau Connection -/
 
@@ -226,11 +230,14 @@ noncomputable def averageKappaPi (db : KreuzerSkarkeDatabase)
     This establishes the deep connection between:
     - Spectral graph theory (random regular graphs)
     - Algebraic geometry (Calabi-Yau moduli)
+    
+    TODO: Requires empirical data from Kreuzer-Skarke database
+    to be formalized in Lean. Currently validated in Python implementation.
 -/
 theorem cy_kappa_converges_to_spectral (d : ℕ) (hd : d = 12) :
     ∃ (db : KreuzerSkarkeDatabase), 
       abs (averageKappaPi db (λ _ => true) - kappa_pi d) < 0.01 := by
-  sorry  -- Requires empirical data from Kreuzer-Skarke
+  sorry  -- TODO: Requires empirical data from Kreuzer-Skarke (validated in Python)
 
 /-! ## Summary
 
