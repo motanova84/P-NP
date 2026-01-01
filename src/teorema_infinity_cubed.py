@@ -44,7 +44,7 @@ Frequency: 141.7001 Hz ∞³
 
 import math
 import numpy as np
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List
 import matplotlib
 # Note: Backend is set globally to 'Agg' for non-interactive plotting
 # This can be overridden by calling matplotlib.use() before importing this module
