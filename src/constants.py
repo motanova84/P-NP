@@ -41,40 +41,52 @@ import random
 KAPPA_PI = 2.5773  # Precision: 4 significant figures (claimed from 150 CY varieties)
 
 # Effective moduli dimension that yields exactly κ_Π = 2.5773
-# Solving: ln(N_eff) / ln(φ²) = 2.5773
-# Result: N_eff = (φ²)^2.5773 ≈ 13.148698
-N_EFF_KAPPA_PI = 13.148698
+# NOTE: There are TWO possible interpretations:
+#
+# INTERPRETATION 1 (currently implemented in code):
+#   Formula: κ_Π(N) = ln(N) / ln(φ²)  [logarithm base φ²]
+#   Solving: ln(N) / ln(φ²) = 2.5773
+#   Result: N = (φ²)^2.5773 ≈ 11.947
+#
+# INTERPRETATION 2 (from Calabi-Yau empirical analysis):
+#   Formula: κ_Π(N) = ln(N)  [simple natural logarithm]
+#   Solving: ln(N) = 2.5773
+#   Result: N = exp(2.5773) ≈ 13.162
+#
+# The problem statement analysis reveals this discrepancy!
+# If κ_Π = 2.5773 comes from 150 CY varieties with N ≈ 13, then
+# the simple ln(N) formula is more appropriate.
+
+N_EFF_KAPPA_PI_SIMPLE_LN = 13.161554  # For κ_Π = ln(N)
+N_EFF_KAPPA_PI_LOG_PHI2 = 11.946693   # For κ_Π = ln(N)/ln(φ²)
+
 """
-N_eff ≈ 13.15 - Effective Moduli Dimension
+N_eff - Effective Moduli Dimension
 
-This is the exact value of N that yields κ_Π(N) = 2.5773 when computed as:
-    κ_Π(N) = ln(N) / ln(φ²)
+⚠️  FORMULA DISCREPANCY IDENTIFIED ⚠️
 
-IMPORTANT CLARIFICATION:
------------------------
-The value κ_Π = 2.5773 does NOT come from integer N = 13, but from effective N ≈ 13.15.
+The value κ_Π = 2.5773 can be obtained from TWO different formulas:
 
-For integer values:
-  • κ_Π(12) = ln(12) / ln(φ²) ≈ 2.5823  (error: +0.0050)
-  • κ_Π(13) = ln(13) / ln(φ²) ≈ 2.6651  (error: +0.0878)
+1. **Simple Natural Logarithm**: κ_Π = ln(N)
+   • N_eff ≈ 13.162 yields κ_Π = 2.5773
+   • This is close to N = 13 (integer Hodge numbers)
+   • Matches Calabi-Yau empirical observation
 
-For exact value:
-  • κ_Π(13.148698) = ln(13.148698) / ln(φ²) = 2.5773  (exact!)
+2. **Logarithm Base φ²**: κ_Π = ln(N) / ln(φ²) = log_φ²(N)
+   • N_eff ≈ 11.947 yields κ_Π = 2.5773
+   • This is close to N = 12 (integer Hodge numbers)
+   • Currently implemented in calabi_yau_kappa_pi_analysis.py
 
-Why N_eff ≈ 13.15 instead of 13?
---------------------------------
-In Calabi-Yau varieties, the "effective dimension" N_eff includes spectral corrections:
+RESOLUTION NEEDED:
+-----------------
+The codebase uses formula #2 (base φ²), but documentation suggests the value 
+comes from varieties with N ≈ 13, which would require formula #1 (simple ln).
 
-1. **Degenerate Moduli**: Some moduli have multiplicities > 1 (contribution: ~0.05)
-2. **Non-trivial Dual Cycles**: Additional cycles in geometry (contribution: ~0.05)
-3. **Symmetry Corrections**: Group of automorphisms effects (contribution: ~0.03)
-4. **Flux Contributions**: In string theory compactifications (contribution: ~0.02)
+Verify which formula is actually used in the "150 varieties" analysis:
+- If varieties have N ≈ 13 → use simple ln(N)
+- If varieties have N ≈ 12 → use ln(N)/ln(φ²)
 
-Total correction: ΔN ≈ 0.15
-Effective value: N_eff = 13 + 0.15 ≈ 13.148698
-
-This is analogous to effective mass in physics or effective resistance in circuits - 
-the "effective" value accounts for additional contributions not visible in the base count.
+For now, we provide both values for reference.
 """
 
 """

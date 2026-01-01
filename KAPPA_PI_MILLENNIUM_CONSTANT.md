@@ -8,48 +8,88 @@
 
 ## ⚠️ ACLARACIÓN IMPORTANTE SOBRE EL CÁLCULO
 
-### La Diferencia Entre N = 13 y N_eff ≈ 13.15
+### Formula Discrepancy Identified
 
-El valor κ_Π = 2.5773 **NO** proviene directamente de N = 13, sino de un valor efectivo N_eff ≈ 13.148698.
+El valor κ_Π = 2.5773 puede obtenerse mediante DOS fórmulas diferentes:
 
-**Cálculo Correcto:**
+**FÓRMULA 1: Logaritmo Natural Simple**
+```python
+κ_Π(N) = ln(N)
+
+# Resolviendo para κ_Π = 2.5773:
+N = exp(2.5773) ≈ 13.162
+```
+
+**FÓRMULA 2: Logaritmo Base φ²**
+```python
+κ_Π(N) = log_φ²(N) = ln(N) / ln(φ²)
+
+# Donde φ = (1 + √5)/2 ≈ 1.618 (proporción áurea)
+# Resolviendo para κ_Π = 2.5773:
+N = (φ²)^{2.5773} ≈ 11.947
+```
+
+### Cálculos Verificados
+
+**Con Fórmula 1 (ln simple):**
 ```python
 import math
 
-phi = (1 + math.sqrt(5)) / 2  # φ ≈ 1.618
-phi_squared = phi ** 2         # φ² ≈ 2.618
-ln_phi_sq = math.log(phi_squared)  # ln(φ²) ≈ 0.9624
-
 # Para N = 13 (entero):
-kappa_13 = math.log(13) / ln_phi_sq  # ≈ 2.6651 ❌ (NO coincide con 2.5773)
+kappa_13 = math.log(13)  # ≈ 2.5649 (error: -0.0124)
 
 # Para N = 12 (entero):
-kappa_12 = math.log(12) / ln_phi_sq  # ≈ 2.5823 (más cercano pero aún con error)
+kappa_12 = math.log(12)  # ≈ 2.4849 (error: -0.0924)
 
-# Resolviendo para el valor exacto:
-# ln(N) = 2.5773 × ln(φ²)
-# N = exp(2.5773 × 0.9624) = exp(2.4800...)
-N_star = phi_squared ** 2.5773  # ≈ 13.148698 ✓ (valor exacto)
-kappa_N_star = math.log(N_star) / ln_phi_sq  # = 2.5773 exactamente
+# Para valor exacto:
+N_exact = math.exp(2.5773)  # ≈ 13.162
+kappa_check = math.log(N_exact)  # = 2.5773 ✓
 ```
 
-**Resultado:**
-- κ_Π(13) ≈ 2.6651 (error: +0.0878)
-- κ_Π(12) ≈ 2.5823 (error: +0.0050)
-- κ_Π(13.148698) = 2.5773 ✓ (exacto)
+**Con Fórmula 2 (log base φ²):**
+```python
+import math
 
-### ¿Por Qué N_eff ≈ 13.15 en Lugar de 13 Entero?
+phi = (1 + math.sqrt(5)) / 2
+phi_squared = phi ** 2  # ≈ 2.618
+ln_phi_sq = math.log(phi_squared)  # ≈ 0.9624
 
-En variedades Calabi-Yau reales, la "dimensión efectiva" incluye correcciones espectrales:
+# Para N = 13 (entero):
+kappa_13 = math.log(13) / ln_phi_sq  # ≈ 2.6651 (error: +0.0878)
 
-1. **Moduli Degenerados** (~0.05): Algunos moduli tienen multiplicidades > 1
-2. **Ciclos Duales No Triviales** (~0.05): Contribuciones de ciclos adicionales
-3. **Correcciones de Simetría** (~0.03): Efectos del grupo de automorfismos
-4. **Flujos y Deformaciones** (~0.02): En compactificaciones con flujos
+# Para N = 12 (entero):
+kappa_12 = math.log(12) / ln_phi_sq  # ≈ 2.5823 (error: +0.0050)
 
-**Total:** N_eff = 13 + 0.15 ≈ 13.148698
+# Para valor exacto:
+N_exact = phi_squared ** 2.5773  # ≈ 11.947
+kappa_check = math.log(N_exact) / ln_phi_sq  # = 2.5773 ✓
+```
 
-Esto es análogo a conceptos como "masa efectiva" en física o "resistencia efectiva" en circuitos - el valor "efectivo" incluye contribuciones que no son visibles en el conteo base.
+### ¿Cuál Fórmula es la Correcta?
+
+**Evidencia para Fórmula 1 (ln simple):**
+- N ≈ 13 es común en variedades Calabi-Yau
+- La documentación menciona variedades con N ≈ 13
+- N = 13 da κ_Π ≈ 2.565 (cercano a 2.5773)
+
+**Evidencia para Fórmula 2 (base φ²):**
+- Conexión con la proporción áurea φ
+- N ≈ 12 también es común en variedades Calabi-Yau
+- Implementado actualmente en `calabi_yau_kappa_pi_analysis.py`
+- N = 12 da κ_Π ≈ 2.582 (cercano a 2.5773)
+
+### Resolución
+
+**AMBAS fórmulas son válidas** dependiendo del contexto:
+
+1. Si las "150 variedades" tienen N base ≈ 13 → usar **Fórmula 1** (ln simple)
+   - Requiere N_eff ≈ 13.16 con pequeñas correcciones espectrales (~0.16)
+
+2. Si las "150 variedades" tienen N base ≈ 12 → usar **Fórmula 2** (base φ²)
+   - Requiere N_eff ≈ 11.95 con pequeñas correcciones espectrales (~-0.05)
+
+**RECOMENDACIÓN:** Verificar las 150 variedades Calabi-Yau originales para determinar
+cuál valor de N es más común y cuál fórmula se utilizó originalmente.
 
 ---
 

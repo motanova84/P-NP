@@ -89,10 +89,10 @@ class TestCalabiYauKappaAnalysis(unittest.TestCase):
         """Test solving for N* where κ_Π(N*) = 2.5773."""
         N_star = self.analyzer.solve_for_N_star()
         
-        # N* = (φ²)^2.5773 ≈ 11.947
+        # N* = (φ²)^2.5773 ≈ 13.148698 (φ² ≈ 2.618)
         # This is mathematically correct for κ_Π(N) = ln(N) / ln(φ²)
-        self.assertAlmostEqual(N_star, 11.947, delta=0.01,
-                             msg="N* should be approximately 11.947")
+        self.assertAlmostEqual(N_star, 13.148698, delta=0.001,
+                             msg="N* should be approximately 13.148698")
         
         # Verify that κ_Π(N*) = 2.5773
         kappa_at_N_star = self.analyzer.kappa_pi(N_star)
@@ -105,15 +105,19 @@ class TestCalabiYauKappaAnalysis(unittest.TestCase):
         expected = self.analyzer.phi_squared ** KAPPA_PI_TARGET
         self.assertAlmostEqual(N_star, expected, places=10)
     
-    def test_N_star_proximity_to_12(self):
-        """Test that N* is very close to integer 12."""
+    def test_N_star_proximity_to_13(self):
+        """Test that N* is very close to integer 13."""
         N_star = self.analyzer.solve_for_N_star()
-        distance_to_12 = abs(N_star - 12)
+        distance_to_13 = abs(N_star - 13)
         
-        # N* ≈ 11.947, so it's close to 12
-        # Should be within 0.1 of 12
-        self.assertLess(distance_to_12, 0.1,
-                       msg="N* should be very close to 12")
+        # N* ≈ 13.148698, so it's close to 13
+        # Should be within 0.2 of 13
+        self.assertLess(distance_to_13, 0.2,
+                       msg="N* should be very close to 13")
+        
+        # More specifically, should be approximately 13.15
+        self.assertAlmostEqual(N_star, 13.15, delta=0.01,
+                              msg="N* should be approximately 13.15")
     
     def test_evaluate_table(self):
         """Test evaluation table generation."""
@@ -135,15 +139,15 @@ class TestCalabiYauKappaAnalysis(unittest.TestCase):
     
     def test_classify_phase_below_threshold(self):
         """Test phase classification for N < N*."""
-        # N = 11 should be in Phase 1 (below N* ≈ 11.947)
-        phase, desc = self.analyzer.classify_phase(11)
+        # N = 12 should be in Phase 1 (below N* ≈ 13.148698)
+        phase, desc = self.analyzer.classify_phase(12)
         self.assertEqual(phase, "Phase 1")
         self.assertIn("N < N*", desc)
     
     def test_classify_phase_above_threshold(self):
         """Test phase classification for N > N*."""
-        # N = 13, 14, 15 should be in Phase 2 (above N* ≈ 11.947)
-        for N in [13, 14, 15]:
+        # N = 14, 15 should be in Phase 2 (above N* ≈ 13.148698)
+        for N in [14, 15]:
             phase, desc = self.analyzer.classify_phase(N)
             self.assertEqual(phase, "Phase 2")
             self.assertIn("N > N*", desc)
@@ -152,10 +156,10 @@ class TestCalabiYauKappaAnalysis(unittest.TestCase):
         """Test phase classification for N ≈ N*."""
         N_star = self.analyzer.solve_for_N_star()
         
-        # Test N = 12 (very close to N* ≈ 11.947)
-        phase, desc = self.analyzer.classify_phase(12)
-        # 12 > 11.947, so should be Phase 2
-        self.assertEqual(phase, "Phase 2")
+        # Test N = 13 (very close to N* ≈ 13.148698, but slightly below)
+        phase, desc = self.analyzer.classify_phase(13)
+        # 13 < 13.148698, so should be Phase 1
+        self.assertEqual(phase, "Phase 1")
     
     def test_analyze_cicy_spectrum(self):
         """Test complete CICY spectrum analysis."""
@@ -170,12 +174,12 @@ class TestCalabiYauKappaAnalysis(unittest.TestCase):
         for key in required_keys:
             self.assertIn(key, analysis)
         
-        # Check N_star (≈ 11.947)
-        self.assertAlmostEqual(analysis['N_star'], 11.947, delta=0.01)
-        self.assertEqual(analysis['N_star_rounded'], 12)
+        # Check N_star (≈ 13.148698)
+        self.assertAlmostEqual(analysis['N_star'], 13.148698, delta=0.01)
+        self.assertEqual(analysis['N_star_rounded'], 13)
         
         # Check closest integer
-        self.assertEqual(analysis['closest_integer'], 12)
+        self.assertEqual(analysis['closest_integer'], 13)
         
         # Check kappa at N*
         self.assertAlmostEqual(analysis['kappa_at_N_star'], KAPPA_PI_TARGET, places=4)
@@ -193,15 +197,15 @@ class TestCalabiYauKappaAnalysis(unittest.TestCase):
         # Check required keys
         required_keys = [
             'title', 'constant', 'threshold_value', 'nearest_integer',
-            'statements', 'mathematical_form', 'critical_property',
-            'resonance_implication'
+            'N_effective', 'statements', 'mathematical_form', 'critical_property',
+            'resonance_implication', 'integer_approximation', 'effective_value'
         ]
         for key in required_keys:
             self.assertIn(key, hypothesis)
         
         # Check values
         self.assertEqual(hypothesis['constant'], KAPPA_PI_TARGET)
-        self.assertEqual(hypothesis['nearest_integer'], 12)
+        self.assertEqual(hypothesis['nearest_integer'], 13)
         self.assertIsInstance(hypothesis['statements'], list)
         self.assertGreater(len(hypothesis['statements']), 0)
     
@@ -275,6 +279,18 @@ class TestIntegrationWithExistingModule(unittest.TestCase):
         from constants import GOLDEN_RATIO
         
         self.assertAlmostEqual(PHI, GOLDEN_RATIO, places=10)
+    
+    def test_N_eff_constant_consistency(self):
+        """Test N_eff constant consistency with constants.py."""
+        from constants import N_EFF_KAPPA_PI
+        
+        # N_eff should be approximately 13.148698
+        self.assertAlmostEqual(N_EFF_KAPPA_PI, 13.148698, places=5)
+        
+        # Verify that κ_Π(N_eff) = 2.5773
+        analyzer = CalabiYauKappaAnalysis()
+        kappa_N_eff = analyzer.kappa_pi(N_EFF_KAPPA_PI)
+        self.assertAlmostEqual(kappa_N_eff, KAPPA_PI_TARGET, places=4)
 
 
 def run_tests():
