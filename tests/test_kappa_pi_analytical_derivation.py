@@ -10,6 +10,7 @@ Autor: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 
 import pytest
 import math
+import os
 import numpy as np
 from src.kappa_pi_analytical_derivation import KappaPiAnalyticalDerivation
 
@@ -279,8 +280,8 @@ class TestSectionVI_SpecialCaseN13:
         assert abs(kappa_13 - 2.5773) > 0.05
     
     def test_N_star_for_2_5773(self, analyzer):
-        """Verificar N* tal que κ_Π(N*) = 2.5773."""
-        target = 2.5773
+        """Verificar N* tal que κ_Π(N*) = KAPPA_TARGET."""
+        target = analyzer.KAPPA_TARGET
         N_star = analyzer.inverse_function(target)
         
         # Verificar que κ_Π(N*) = 2.5773
@@ -296,7 +297,7 @@ class TestSectionVI_SpecialCaseN13:
         
         assert special['N'] == 13
         assert 'kappa_13' in special
-        assert special['not_equal_to_2_5773'] is True
+        assert special['not_equal_to_target'] is True
         assert 'analysis' in special
         assert special['analysis']['no_ad_hoc_adjustments'] is True
         assert 'geometric_significance' in special
@@ -374,8 +375,6 @@ class TestVisualization:
     
     def test_plot_generation(self, analyzer, tmp_path):
         """Verificar que la visualización se genera correctamente."""
-        import os
-        
         save_path = str(tmp_path / "test_plot.png")
         result_path = analyzer.plot_complete_analysis(save_path=save_path)
         

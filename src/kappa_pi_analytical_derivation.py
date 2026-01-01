@@ -32,6 +32,7 @@ from decimal import Decimal, getcontext
 
 
 # Configurar precisión decimal alta para análisis de residuos
+# NOTA: Esto afecta globalmente el módulo decimal
 getcontext().prec = 50
 
 
@@ -42,6 +43,12 @@ class KappaPiAnalyticalDerivation:
     Implementa todas las propiedades matemáticas derivadas formalmente
     según el problema planteado en Paso 1.
     """
+    
+    # Constante de referencia para análisis comparativo
+    KAPPA_TARGET = 2.5773  # Valor que aparece en el framework P≠NP
+    
+    # Longitud de expansión decimal para análisis de residuos
+    DECIMAL_EXPANSION_LENGTH = 52  # 50 dígitos + "0."
     
     def __init__(self):
         """Inicializar con constantes fundamentales de alta precisión."""
@@ -321,7 +328,7 @@ class KappaPiAnalyticalDerivation:
         ln_N_decimal = N_decimal.ln()
         kappa_N_decimal = ln_N_decimal / ln_phi2_decimal
         
-        decimal_expansion = str(kappa_N_decimal)[:52]  # 50 dígitos + "0."
+        decimal_expansion = str(kappa_N_decimal)[:self.DECIMAL_EXPANSION_LENGTH]
         
         return {
             'N': N,
@@ -370,11 +377,11 @@ class KappaPiAnalyticalDerivation:
         ln_13 = math.log(13)
         ln_phi2 = self.ln_phi_squared
         
-        # Comparación con 2.5773 (valor que aparece en algunos contextos)
-        target_value = 2.5773
+        # Comparación con valor de referencia del framework
+        target_value = self.KAPPA_TARGET
         
-        # Encontrar N* tal que κ_Π(N*) = 2.5773
-        N_star_for_2_5773 = self.inverse_function(target_value)
+        # Encontrar N* tal que κ_Π(N*) = KAPPA_TARGET
+        N_star_for_target = self.inverse_function(target_value)
         
         # Análisis de por qué κ_Π(13) tiene ese valor específico
         # Usando ÚNICAMENTE φ² como base fundamental
@@ -385,12 +392,12 @@ class KappaPiAnalyticalDerivation:
             'ln_13': ln_13,
             'ln_phi2': ln_phi2,
             'calculation': f'{ln_13:.6f} / {ln_phi2:.6f} = {kappa_13:.6f}',
-            'not_equal_to_2_5773': True,
+            'not_equal_to_target': True,
             'actual_value': kappa_13,
             'comparison_value': target_value,
             'difference': abs(kappa_13 - target_value),
-            'N_star_for_2_5773': N_star_for_2_5773,
-            'distance_to_N13': abs(N_star_for_2_5773 - 13),
+            'N_star_for_target': N_star_for_target,
+            'distance_to_N13': abs(N_star_for_target - 13),
             'analysis': {
                 'base_used': 'φ² (fundamental)',
                 'value_origin': 'Rigorous calculation from definition',
@@ -583,15 +590,15 @@ Pero si nos mantenemos rigurosamente en φ² como base fundamental:
     ✓ κ_Π(13) = {self.kappa_pi(13):.6f} (valor riguroso)
     
 Si buscamos N* tal que κ_Π(N*) = 2.5773:
-    N* = (φ²)^2.5773 ≈ {self.inverse_function(2.5773):.6f}
-    |N* - 13| ≈ {abs(self.inverse_function(2.5773) - 13):.6f}
+    N* = (φ²)^{self.KAPPA_TARGET} ≈ {self.inverse_function(self.KAPPA_TARGET):.6f}
+    |N* - 13| ≈ {abs(self.inverse_function(self.KAPPA_TARGET) - 13):.6f}
 
 Entonces cualquier especialidad debe surgir desde el análisis del espectro
 κ_Π(N), no desde ajustes ad hoc.
 
 Significado geométrico:
   • N = 13 aparece en variedades Calabi-Yau con h^{{1,1}} + h^{{2,1}} = 13
-  • La proximidad a N* ≈ {self.inverse_function(2.5773):.3f} puede sugerir propiedades resonantes
+  • La proximidad a N* ≈ {self.inverse_function(self.KAPPA_TARGET):.3f} puede sugerir propiedades resonantes
   • Tiene significado geométrico si φ² aparece en la estructura de las CY
 
 🔹 VII. CONCLUSIÓN ANALÍTICA
