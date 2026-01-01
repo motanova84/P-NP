@@ -33,7 +33,6 @@ from noetic_geometry import (
     analyze_resonance_at_N13,
     PHI, PHI_SQUARED
 )
-import numpy as np
 
 
 def demo_paradigm_shift():
