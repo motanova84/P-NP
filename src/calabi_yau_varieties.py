@@ -17,7 +17,7 @@ Date: January 1, 2026
 """
 
 import math
-from typing import List, Tuple, Dict, Optional
+from typing import List, Dict, Optional
 from dataclasses import dataclass
 
 
