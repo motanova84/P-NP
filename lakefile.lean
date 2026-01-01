@@ -94,6 +94,9 @@ lean_lib SevenStairs where
 lean_lib QCALPiTheorem where
   roots := #[`QCALPiTheorem]
 
+lean_lib CY_RF_Construct where
+  roots := #[`CY_RF_Construct]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal

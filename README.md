@@ -35,6 +35,8 @@ Este proyecto introduce **por primera vez** en la historia de la ciencia:
 
 **✨ NEW: κ_Π = 2.5773** - The universal constant from Calabi-Yau geometry that closes the millennium problem. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for details.
 
+**✨ NEW: CY Complexity Framework** - Spectral Complexity Barrier in Calabi-Yau Ricci-Flat Metric Construction: A Conditional Approach to P vs NP. Implements the CY-RF-CONSTRUCT problem showing how geometric complexity κ_Π(X) = log₂(h^{1,1} + h^{2,1}) creates an exponential barrier for constructing Ricci-flat metrics. Includes conditional hardness theorem (CY-RF-CONSTRUCT ∈ P ⟹ P = NP) and experimental validation on Kreuzer-Skarke database. See [CY_COMPLEXITY_README.md](CY_COMPLEXITY_README.md) for complete details, [src/cy_rf_construct.py](src/cy_rf_construct.py) for implementation, and [examples/demo_cy_complexity.py](examples/demo_cy_complexity.py) for interactive demonstration.
+
 **✨ NEW: Post-Disciplinary Science Manifesto** - Breaking artificial boundaries between disciplines to solve complex problems. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the complete framework showing how P≠NP is approached from outside traditional paradigms by integrating mathematics, physics, biology, and consciousness studies. Includes educational models and implementation code in `src/post_disciplinary.py`.
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
