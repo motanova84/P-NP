@@ -10,7 +10,6 @@ to compute κ_Π values and perform statistical analysis.
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from typing import Dict, Any
 
 

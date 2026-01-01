@@ -13,6 +13,7 @@ appears as a structural point in the distribution of Calabi-Yau Hodge numbers.
 
 import sys
 import os
+import numpy as np
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
@@ -94,8 +95,6 @@ def demo_n13_analysis():
 
 def main():
     """Run all demonstrations."""
-    import numpy as np
-    
     # Demo 1: Basic analysis
     df, stats = demo_basic_analysis()
     
@@ -113,5 +112,4 @@ def main():
 
 
 if __name__ == "__main__":
-    import numpy as np
     sys.exit(main())
