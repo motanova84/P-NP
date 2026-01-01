@@ -76,7 +76,7 @@ def kappa_pi(N: float) -> float:
         2.5773...
     """
     if N <= 0:
-        raise ValueError("N debe ser positivo")
+        raise ValueError("N must be positive")
     
     return math.log(N) / math.log(PHI_SQUARED)
 
@@ -116,7 +116,7 @@ def find_phi_exponent(N: float, tolerance: float = 1e-6) -> float:
         5.154...
     """
     if N <= 0:
-        raise ValueError("N debe ser positivo")
+        raise ValueError("N must be positive")
     
     n = math.log(N) / math.log(PHI)
     

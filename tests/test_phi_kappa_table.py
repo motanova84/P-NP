@@ -125,7 +125,8 @@ class TestFindPhiExponent(unittest.TestCase):
     def test_find_exponent_13(self):
         """Verifica el exponente n para N=13."""
         n = find_phi_exponent(13)
-        # Para N=13, el exponente es aproximadamente 5.33
+        # Para N=13, el exponente real es log(13)/log(φ) ≈ 5.33
+        # (no 5.154, que da φ^5.154 ≈ 11.94)
         self.assertAlmostEqual(n, 5.33, places=1)
         
         # Verificar que φⁿ ≈ 13
