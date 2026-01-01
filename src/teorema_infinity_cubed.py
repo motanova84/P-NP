@@ -250,7 +250,6 @@ class TeoremaInfinityCubed:
         """
         # Calculate key values
         kappa_13 = self.kappa_pi(13)
-        N_from_kappa = self.inverse_kappa_pi(kappa_13)
         
         interpretation = {
             'kappa_pi_definition': (
