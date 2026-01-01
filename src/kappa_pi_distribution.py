@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 from typing import List, Tuple, Dict, Optional
 
 
-def compute_kappa_distribution(cy_list: List[Tuple[int, int]], base: int = 2) -> Tuple[List[float], List[int], Dict]:
+def compute_kappa_distribution(cy_list: List[Tuple[int, int]], base: float = 2) -> Tuple[List[float], List[int], Dict]:
     """
     Calcula la distribución de κ_Π para todas las variedades CY.
     
@@ -42,6 +42,10 @@ def compute_kappa_distribution(cy_list: List[Tuple[int, int]], base: int = 2) ->
     Ns = []
     
     for h11, h21 in cy_list:
+        # Validate positive Hodge numbers
+        if h11 <= 0 or h21 <= 0:
+            raise ValueError(f"Hodge numbers must be positive: h11={h11}, h21={h21}")
+        
         N = h11 + h21
         kappa = math.log(N) / math.log(base)
         kappas.append(kappa)
@@ -227,8 +231,8 @@ def generate_scientific_report(kappas: List[float], Ns: List[int], stats: Dict) 
 {'─' * 76}
   
   1. ¿La distribución de κ_Π es suave o hay clustering?
-     {'→ Se observa clustering' if stats['std'] < stats['mean'] * 0.3 else '→ Distribución relativamente suave'}
-     (Coef. Variación: {stats['std']/stats['mean']:.4f})
+     {'→ Se observa clustering' if stats['std'] < stats['mean'] * 0.3 and stats['mean'] > 0 else '→ Distribución relativamente suave'}
+     (Coef. Variación: {stats['std']/stats['mean'] if stats['mean'] > 0 else float('inf'):.4f})
   
   2. ¿Existe anomalía cerca de log₂(13) ≈ 3.700?
      → {'SÍ - Anomalía estadística detectada' if density_analysis['is_anomalous'] else 'NO - Densidad dentro de lo esperado'}
@@ -267,16 +271,23 @@ def compare_with_theoretical_distribution(Ns: List[int], model: str = 'exponenti
         mean_N = np.mean(N_array)
         alpha = 1.0 / mean_N if mean_N > 0 else 1.0
         
-        # Generar distribución teórica
-        N_range = np.arange(1, max(Ns) + 1)
+        # Generar distribución teórica (limitar rango para eficiencia)
+        max_N = min(max(Ns), 1000)  # Limitar a 1000 para eficiencia
+        N_range = np.arange(1, max_N + 1)
         theoretical = np.exp(-alpha * N_range)
         theoretical = theoretical / np.sum(theoretical)  # Normalizar
         
-        # Calcular histograma observado
-        hist, bins = np.histogram(N_array, bins=N_range, density=True)
+        # Calcular histograma observado con los mismos bins
+        hist, bins = np.histogram(N_array, bins=np.arange(1, max_N + 2), density=False)
+        hist = hist / np.sum(hist)  # Normalizar
+        
+        # Asegurar que ambos arrays tengan la misma longitud
+        min_len = min(len(hist), len(theoretical))
+        hist = hist[:min_len]
+        theoretical = theoretical[:min_len]
         
         # Comparar (χ² test simplificado)
-        chi_squared = np.sum((hist - theoretical[:-1])**2 / (theoretical[:-1] + 1e-10))
+        chi_squared = np.sum((hist - theoretical)**2 / (theoretical + 1e-10))
         
         return {
             'model': 'exponential',

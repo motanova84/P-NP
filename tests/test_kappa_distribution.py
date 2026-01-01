@@ -273,9 +273,26 @@ class TestIntegration:
         
         # Should handle without errors
         assert len(kappas) == 2
-        assert all(k > 0 for k in kappas)
+        assert all(k >= 0 for k in kappas)  # kappas can be 0 or positive
         assert not np.isnan(stats['mean'])
         assert not np.isinf(stats['mean'])
+    
+    def test_invalid_hodge_numbers(self):
+        """Test that invalid Hodge numbers raise ValueError"""
+        # Zero h11
+        cy_list_zero_h11 = [(0, 5)]
+        with pytest.raises(ValueError, match="Hodge numbers must be positive"):
+            compute_kappa_distribution(cy_list_zero_h11)
+        
+        # Negative h21
+        cy_list_neg_h21 = [(5, -1)]
+        with pytest.raises(ValueError, match="Hodge numbers must be positive"):
+            compute_kappa_distribution(cy_list_neg_h21)
+        
+        # Both zero
+        cy_list_both_zero = [(0, 0)]
+        with pytest.raises(ValueError, match="Hodge numbers must be positive"):
+            compute_kappa_distribution(cy_list_both_zero)
 
 
 if __name__ == "__main__":

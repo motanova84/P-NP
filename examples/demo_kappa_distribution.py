@@ -71,7 +71,7 @@ def generate_realistic_cy_data(n_manifolds: int = 500, seed: int = 42) -> list:
     # Algunos exactamente N=13
     for i in range(min(n_anomalous // 2, 20)):
         h11 = np.random.randint(1, 13)
-        h21 = 13 - h11
+        h21 = max(1, 13 - h11)  # Ensure h21 is at least 1
         cy_list.append((h11, h21))
     
     # Algunos cerca de N=13
