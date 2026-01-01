@@ -19,7 +19,6 @@ Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 Frequency: 141.7001 Hz ∞³
 """
 
-import math
 from typing import Dict, Any
 
 
