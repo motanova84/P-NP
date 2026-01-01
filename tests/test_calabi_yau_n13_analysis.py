@@ -78,7 +78,7 @@ class TestPASO2_ObserverEncoding(unittest.TestCase):
             self.assertAlmostEqual(kappa, kappa_values[0], places=10)
     
     def test_compute_kappa_phi_target_value(self):
-        """Test that κ_Π(13) ≈ 2.5773."""
+        """Test that κ_Π(13) ≈ 2.6651."""
         kappa_13 = compute_kappa_phi(1, 12)
         self.assertAlmostEqual(kappa_13, KAPPA_TARGET, places=4)
     
@@ -233,7 +233,7 @@ class TestPASO5_Predictions(unittest.TestCase):
     
     def test_find_exact_n_inverse(self):
         """Test that finding N and computing κ_Π are inverses."""
-        # Start with κ_Π = 2.5773
+        # Start with κ_Π(13) ≈ 2.6651
         N_exact = find_exact_n_for_kappa(KAPPA_TARGET)
         
         # Compute κ_Π back from N_exact
@@ -357,7 +357,7 @@ class TestMathematicalProperties(unittest.TestCase):
             self.assertAlmostEqual(N, N_recovered, places=8)
     
     def test_uniqueness_of_n13(self):
-        """Test that N=13 is unique in having κ_Π ≈ 2.5773."""
+        """Test that N=13 is unique in having κ_Π(13) ≈ 2.6651."""
         tolerance = 0.001
         
         # Check integers from 1 to 100
