@@ -412,7 +412,7 @@ def main():
             print()
     
     print("=" * 90)
-    print("✓ VERIFICACIÓN COMPLETADA")
+    print("✓ VERIFICATION COMPLETED")
     print("=" * 90)
     print()
 
