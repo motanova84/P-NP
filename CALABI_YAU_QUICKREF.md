@@ -4,7 +4,7 @@
 
 **Question:** ¿Existe una variedad Calabi-Yau con κ_Π = log(h^{1,1} + h^{2,1}) = 2.5773?
 
-**Answer:** ✅ **YES!** 12 varieties exist with N = 13, giving κ_Π ≈ 2.5649 (base) or 2.5773 (with spectral corrections).
+**Answer:** ✅ **YES!** 12 varieties exist with N = 13, giving κ_Π ≈ 2.5649 (base) or ≈ 2.5764 (with spectral corrections, close to 2.5773).
 
 ---
 
