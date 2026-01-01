@@ -89,10 +89,10 @@ class TestCalabiYauKappaAnalysis(unittest.TestCase):
         """Test solving for N* where κ_Π(N*) = 2.5773."""
         N_star = self.analyzer.solve_for_N_star()
         
-        # With log_φ² formula: N* = (φ²)^2.5773 ≈ 11.947
-        # This is what the code implements
-        self.assertAlmostEqual(N_star, 11.946693, delta=0.001,
-                             msg="N* should be approximately 11.947 for log_φ² formula")
+        # With log_φ² formula: N* = (φ²)^2.5773
+        expected_N_star = self.analyzer.phi_squared ** KAPPA_PI_TARGET
+        self.assertAlmostEqual(N_star, expected_N_star, places=10,
+                             msg="N* should equal (φ²)^KAPPA_PI for log_φ² formula")
         
         # Verify that κ_Π(N*) = 2.5773
         kappa_at_N_star = self.analyzer.kappa_pi(N_star)
@@ -176,8 +176,10 @@ class TestCalabiYauKappaAnalysis(unittest.TestCase):
         for key in required_keys:
             self.assertIn(key, analysis)
         
-        # Check N_star (≈ 11.947 with log_φ² formula)
-        self.assertAlmostEqual(analysis['N_star'], 11.946693, delta=0.01)
+        # Check N_star using calculated value
+        expected_N_star = self.analyzer.phi_squared ** KAPPA_PI_TARGET
+        self.assertAlmostEqual(analysis['N_star'], expected_N_star, delta=0.01,
+                              msg="N* should match calculated (φ²)^KAPPA_PI")
         self.assertEqual(analysis['N_star_rounded'], 12)
         
         # Check closest integer
