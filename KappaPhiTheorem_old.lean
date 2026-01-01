@@ -500,10 +500,6 @@ theorem P_vs_NP_geometric_barrier :
         -- For large enough c and n, this requires additional constraints
         -- This is a framework theorem showing the structure
         sorry
-    -- Entonces el algoritmo es polinomial efectivo (placeholder)
-    True := by
-  intro κ algorithm_time h
-  trivial  -- Placeholder para la demostración completa
 
 -- ============================================
 -- SECCIÓN 10: VERIFICACIÓN NUMÉRICA COMPLETA
