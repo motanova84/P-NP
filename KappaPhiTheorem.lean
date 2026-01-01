@@ -321,8 +321,6 @@ theorem kappa_phi_unification_theorem :
     (∀ cy : CalabiYauVariety, 
       let N := total_dimension cy
       abs (N - 13) < 1 → abs (kappa_pi N - 2.5773) < 0.2) ∧
-      |N - 13| < 1 → |kappa_pi N - 2.5773| < 0.2) ∧
-      |N - 13| < 1 → |kappa_pi N - 2.5773| < 0.1) ∧
     
     -- 5. Punto fijo espectral
     (let f : ℝ → ℝ := fun _ => 13 + Real.log phi_sq / (2 * π)
