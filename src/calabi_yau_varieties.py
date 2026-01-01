@@ -407,7 +407,7 @@ def main():
         
         # Check mirror pair
         if cy1.is_mirror_pair_of(cy3):
-            print("  ⚠️ Nota: Los ejemplos 1 y 3 forman un par espejo (mirror pair)")
+            print("  Los ejemplos 1 y 3 forman un par espejo (mirror pair)")
             print(f"      h¹'¹ ↔ h²'¹: ({cy1.h11}, {cy1.h21}) ↔ ({cy3.h11}, {cy3.h21})")
             print()
     
