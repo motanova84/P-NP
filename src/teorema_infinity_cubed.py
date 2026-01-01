@@ -70,8 +70,8 @@ class TeoremaInfinityCubed:
         # This is the empirical value from 150 CY manifolds
         self.kappa_pi_millennium = 2.5773
         
-        # The value we expect to get from N=13 using the φ² formula
-        # This is what makes 13 special - it produces the millennium constant!
+        # The value we get from N=13 using the φ² formula
+        # This produces a value CLOSE to the millennium constant!
         self.kappa_pi_from_13 = self.calculate_kappa_pi(13)
         
     def calculate_kappa_pi(self, N: int) -> float:
@@ -128,7 +128,7 @@ class TeoremaInfinityCubed:
             'relationship_verified': accuracy < 1e-10
         }
     
-    def find_unique_numbers(self, max_N: int = 100) -> List[Tuple[int, float]]:
+    def find_unique_numbers(self, max_N: int = 100) -> List[Tuple[int, float, float]]:
         """
         Find all N < max_N where κ_Π(N) is close to the millennium constant 2.5773.
         
@@ -250,8 +250,9 @@ class TeoremaInfinityCubed:
         
         # Harmonic coupling strength (inverse of error)
         # Perfect resonance when error → 0
+        # Cap at a large finite value to avoid infinity issues
         if resonance_error < 1e-10:
-            coupling_strength = float('inf')  # Perfect coupling
+            coupling_strength = 1e10  # Very strong coupling (finite)
         else:
             coupling_strength = 1.0 / resonance_error
         

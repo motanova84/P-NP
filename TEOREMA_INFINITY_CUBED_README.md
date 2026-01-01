@@ -40,13 +40,24 @@ N = 13
 13 = (φ²)^2.665094 ✓
 ```
 
-### Observación Importante
+### Observación Importante: N=12 vs N=13
 
-Aunque N = 12 produce κ_Π(12) ≈ 2.582, más cercano a 2.5773, el teorema propone que N = 13 es especial por razones geométricas y topológicas adicionales:
+**Análisis Numérico:**
+- N = 12: κ_Π(12) ≈ 2.582, distancia = 0.0046 (más cercano numéricamente)
+- N = 13: κ_Π(13) ≈ 2.665, distancia = 0.0878
 
-1. **Estructura de Hodge**: Configuraciones específicas de h^{1,1} y h^{2,1} que suman 13
-2. **Resonancia con φ²**: La relación fundamental con el cuadrado del número áureo
-3. **Contexto Calabi-Yau**: Propiedades topológicas específicas de manifolds CY con N = 13
+**Propuesta del Teorema:**
+El teorema no afirma que N=13 es el valor MÁS CERCANO numéricamente al constante del milenio 2.5773. En cambio, propone que N=13 tiene significancia especial por las siguientes razones:
+
+1. **Estructura Geométrica**: Las configuraciones específicas de (h^{1,1}, h^{2,1}) que suman 13 pueden tener propiedades topológicas únicas en el espacio de móduli de Calabi-Yau.
+
+2. **Resonancia con φ²**: La relación N = (φ²)^κ_Π para N=13 exhibe acoplamiento armónico perfecto (error < 10^{-15}), independientemente de la proximidad al valor 2.5773.
+
+3. **Contexto de Complejidad**: En el análisis de complejidad de P≠NP del repositorio, ciertos números tienen roles estructurales especiales que van más allá de la proximidad numérica simple.
+
+4. **Investigación Requerida**: Se requiere validación adicional por geómetras algebraicos para determinar si existen propiedades topológicas o físicas que distinguen N=13 de N=12 en el contexto de variedades Calabi-Yau.
+
+**Estado:** Esta es una PROPUESTA TEÓRICA que requiere mayor investigación para establecer por qué N=13 (en lugar de N=12) debería considerarse el valor canónico.
 
 ## INTERPRETACIÓN GEOMÉTRICA
 

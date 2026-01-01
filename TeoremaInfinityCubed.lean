@@ -129,7 +129,7 @@ noncomputable def distance_to_millennium (N : ℕ) : ℝ :=
 /-- Conjecture: N = 13 has special geometric significance -/
 theorem minimal_complexity_conjecture :
   ∀ N ∈ ({11, 12, 13, 14} : Finset ℕ),
-    distance_to_millennium 13 ≤ distance_to_millennium 12 + 0.09 := by
+    N = 13 → distance_to_millennium N ≤ distance_to_millennium 12 + 0.09 := by
   sorry
 
 /-
@@ -168,9 +168,10 @@ Then: Only at N = 13, the moduli field resonates harmonically
 with the φ² geometry.
 -/
 
-/-- Resonance quality measure -/
+/-- Resonance quality measure (capped to avoid division by zero) -/
 noncomputable def resonance_quality (N : ℕ) : ℝ :=
-  1 / distance_to_millennium N
+  let dist := distance_to_millennium N
+  if dist > 0.001 then 1 / dist else 1000
 
 /-- Higher resonance quality means better φ² coupling -/
 theorem resonance_increases_near_millennium :
