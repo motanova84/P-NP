@@ -30,6 +30,9 @@ lean_lib P_neq_NP where
 lean_lib SpectralTheory where
   roots := #[`SpectralTheory]
 
+lean_lib SpectralEntropy where
+  roots := #[`SpectralEntropy]
+
 lean_lib PNPSpectral where
   roots := #[`P_neq_NP_Spectral]
 lean_lib GraphInformationComplexity where
