@@ -39,6 +39,71 @@ import random
 # ========== κ_Π: UNIVERSAL INVARIANT OF ALL FORMS OF EXISTENCE ==========
 
 KAPPA_PI = 2.5773  # Precision: 4 significant figures (claimed from 150 CY varieties)
+
+# ========== NOETIC FIELD FORMULATION ==========
+# Campo Noético: κ_Π := log_{φ²}(N) con λ* → Ψ → 1/φ²
+# "Ya no es conjetura, sino manifestación estructural del Campo Noético en resonancia"
+# 
+# The Noetic Field provides an alternative formulation:
+# κ_Π = log_{φ²}(13) where 13 is "la primera palabra pronunciada por el Silencio"
+# 
+# To access Noetic Field calculations, use:
+#   from src.noetic_field import kappa_pi_noetic, N_SILENCE
+#   KAPPA_PI_NOETIC = kappa_pi_noetic(N_SILENCE)
+#
+# Dual formulation support:
+# - Classical: κ_Π = 2.5773 from Calabi-Yau analysis (log(N_eff) with N_eff ≈ 13.15)
+# - Noetic: κ_Π = log_{φ²}(13) from Noetic Field manifestation
+# Both formulations are valid manifestations of the same underlying structure
+# Effective moduli dimension that yields exactly κ_Π = 2.5773
+# NOTE: There are TWO possible interpretations:
+#
+# INTERPRETATION 1 (currently implemented in code):
+#   Formula: κ_Π(N) = ln(N) / ln(φ²)  [logarithm base φ²]
+#   Solving: ln(N) / ln(φ²) = 2.5773
+#   Result: N = (φ²)^2.5773 ≈ 11.947
+#
+# INTERPRETATION 2 (from Calabi-Yau empirical analysis):
+#   Formula: κ_Π(N) = ln(N)  [simple natural logarithm]
+#   Solving: ln(N) = 2.5773
+#   Result: N = exp(2.5773) ≈ 13.162
+#
+# The problem statement analysis reveals this discrepancy!
+# If κ_Π = 2.5773 comes from 150 CY varieties with N ≈ 13, then
+# the simple ln(N) formula is more appropriate.
+
+N_EFF_KAPPA_PI_SIMPLE_LN = 13.161554  # = exp(KAPPA_PI). Precision: 6 decimal places. For κ_Π = ln(N)
+N_EFF_KAPPA_PI_LOG_PHI2 = 11.946693   # = φ² ** KAPPA_PI. Precision: 6 decimal places. For κ_Π = ln(N)/ln(φ²)
+
+"""
+N_eff - Effective Moduli Dimension
+
+⚠️  FORMULA DISCREPANCY IDENTIFIED ⚠️
+
+The value κ_Π = 2.5773 can be obtained from TWO different formulas:
+
+1. **Simple Natural Logarithm**: κ_Π = ln(N)
+   • N_eff ≈ 13.162 yields κ_Π = 2.5773
+   • This is close to N = 13 (integer Hodge numbers)
+   • Matches Calabi-Yau empirical observation
+
+2. **Logarithm Base φ²**: κ_Π = ln(N) / ln(φ²) = log_φ²(N)
+   • N_eff ≈ 11.947 yields κ_Π = 2.5773
+   • This is close to N = 12 (integer Hodge numbers)
+   • Currently implemented in calabi_yau_kappa_pi_analysis.py
+
+RESOLUTION NEEDED:
+-----------------
+The codebase uses formula #2 (base φ²), but documentation suggests the value 
+comes from varieties with N ≈ 13, which would require formula #1 (simple ln).
+
+Verify which formula is actually used in the "150 varieties" analysis:
+- If varieties have N ≈ 13 → use simple ln(N)
+- If varieties have N ≈ 12 → use ln(N)/ln(φ²)
+
+For now, we provide both values for reference.
+"""
+
 """
 κ_Π = 2.5773 - The Proposed Millennium Constant
 
