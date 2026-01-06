@@ -24,8 +24,13 @@ fi
 
 echo -e "${GREEN}✓${NC} ENV.lock encontrado"
 
-# Verificar versión de Python
-PYTHON_VERSION=$(python --version 2>&1 | awk '{print $2}')
+# Verificar versión de Python (usar python3 explícitamente)
+PYTHON_CMD="python3"
+if ! command -v python3 &> /dev/null; then
+    PYTHON_CMD="python"
+fi
+
+PYTHON_VERSION=$($PYTHON_CMD --version 2>&1 | awk '{print $2}')
 echo -e "${GREEN}✓${NC} Python version: $PYTHON_VERSION"
 
 # Verificar que Python 3.10+ está instalado
@@ -40,7 +45,7 @@ fi
 # Generar snapshot del entorno actual
 echo ""
 echo "Generando snapshot del entorno actual..."
-python -m pip freeze > /tmp/env_current_snapshot.txt
+$PYTHON_CMD -m pip freeze > /tmp/env_current_snapshot.txt
 
 # Contar paquetes
 ENV_LOCK_COUNT=$(wc -l < ENV.lock)
@@ -88,11 +93,11 @@ fi
 # Verificar conflictos de dependencias
 echo ""
 echo "Verificando conflictos de dependencias..."
-if python -m pip check > /dev/null 2>&1; then
+if $PYTHON_CMD -m pip check > /dev/null 2>&1; then
     echo -e "${GREEN}✓${NC} No hay conflictos de dependencias"
 else
     echo -e "${RED}✗${NC} Conflictos de dependencias detectados:"
-    python -m pip check
+    $PYTHON_CMD -m pip check
     RESULT=1
 fi
 

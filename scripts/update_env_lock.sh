@@ -42,7 +42,12 @@ fi
 
 # Generar nuevo ENV.lock
 echo "Generando nuevo ENV.lock desde el entorno actual..."
-python -m pip freeze > ENV.lock
+PYTHON_CMD="python3"
+if ! command -v python3 &> /dev/null; then
+    PYTHON_CMD="python"
+fi
+
+$PYTHON_CMD -m pip freeze > ENV.lock
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✓${NC} ENV.lock actualizado exitosamente"
@@ -105,25 +110,39 @@ fi
 
 # Verificar que no hay conflictos
 echo "Verificando conflictos de dependencias..."
-if python -m pip check > /dev/null 2>&1; then
+if $PYTHON_CMD -m pip check > /dev/null 2>&1; then
     echo -e "${GREEN}✓${NC} No hay conflictos de dependencias"
     echo ""
 else
     echo -e "${RED}✗ ADVERTENCIA: Conflictos de dependencias detectados${NC}"
-    python -m pip check
+    $PYTHON_CMD -m pip check
     echo ""
     echo "Se recomienda resolver estos conflictos antes de continuar."
     echo ""
 fi
 
-# Generar hash completo
+# Generar hash completo con compatibilidad cross-platform
 echo "Generando hash de verificación completo..."
-FULL_HASH=$(sha256sum ENV.lock | awk '{print $1}')
-echo "$FULL_HASH  ENV.lock" > ENV.lock.sha256
-echo -e "${GREEN}✓${NC} Hash guardado en ENV.lock.sha256"
-echo ""
-echo "  SHA-256: $FULL_HASH"
-echo ""
+if command -v sha256sum &> /dev/null; then
+    FULL_HASH=$(sha256sum ENV.lock | awk '{print $1}')
+    echo "$FULL_HASH  ENV.lock" > ENV.lock.sha256
+    echo -e "${GREEN}✓${NC} Hash guardado en ENV.lock.sha256"
+    echo ""
+    echo "  SHA-256: $FULL_HASH"
+    echo ""
+elif command -v shasum &> /dev/null; then
+    FULL_HASH=$(shasum -a 256 ENV.lock | awk '{print $1}')
+    echo "$FULL_HASH  ENV.lock" > ENV.lock.sha256
+    echo -e "${GREEN}✓${NC} Hash guardado en ENV.lock.sha256"
+    echo ""
+    echo "  SHA-256: $FULL_HASH"
+    echo ""
+else
+    echo -e "${YELLOW}⚠${NC} sha256sum/shasum no disponible, no se puede generar hash"
+    echo "  En macOS: shasum debería estar disponible por defecto"
+    echo "  En Linux: instala coreutils"
+    echo ""
+fi
 
 # Instrucciones para commit
 echo "================================================"

@@ -229,7 +229,7 @@ El proyecto implementa varias medidas para asegurar resultados reproducibles:
 pip install -r requirements.txt
 
 # Opción 2: Usando ENV.lock (versiones exactas)
-pip install $(cat ENV.lock | awk '{print $1}')
+pip install -r ENV.lock
 
 # Verificar instalación
 python -m pip freeze | diff - ENV.lock

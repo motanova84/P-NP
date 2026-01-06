@@ -187,9 +187,8 @@ source venv/bin/activate  # En Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # 3. Opción B: Replicar entorno exacto (para debugging)
-# Extraer solo nombres de paquetes de ENV.lock
-cat ENV.lock | awk -F'==' '{print $1"=="$2}' > /tmp/exact_deps.txt
-pip install -r /tmp/exact_deps.txt
+# ENV.lock ya contiene versiones exactas, usarlo directamente
+pip install -r ENV.lock
 
 # 4. Verificar instalación
 bash scripts/verify_env_integrity.sh
