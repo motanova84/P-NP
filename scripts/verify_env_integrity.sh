@@ -45,11 +45,12 @@ fi
 # Generar snapshot del entorno actual
 echo ""
 echo "Generando snapshot del entorno actual..."
-$PYTHON_CMD -m pip freeze > /tmp/env_current_snapshot.txt
+TEMP_SNAPSHOT=$(mktemp)
+$PYTHON_CMD -m pip freeze > "$TEMP_SNAPSHOT"
 
 # Contar paquetes
 ENV_LOCK_COUNT=$(wc -l < ENV.lock)
-CURRENT_COUNT=$(wc -l < /tmp/env_current_snapshot.txt)
+CURRENT_COUNT=$(wc -l < "$TEMP_SNAPSHOT")
 
 echo -e "${GREEN}✓${NC} Paquetes en ENV.lock: $ENV_LOCK_COUNT"
 echo -e "${GREEN}✓${NC} Paquetes en entorno actual: $CURRENT_COUNT"
@@ -58,7 +59,7 @@ echo -e "${GREEN}✓${NC} Paquetes en entorno actual: $CURRENT_COUNT"
 echo ""
 echo "Comparando ENV.lock con el entorno actual..."
 
-if diff -q ENV.lock /tmp/env_current_snapshot.txt > /dev/null 2>&1; then
+if diff -q ENV.lock "$TEMP_SNAPSHOT" > /dev/null 2>&1; then
     echo -e "${GREEN}✓✓✓ PERFECTO: El entorno actual coincide exactamente con ENV.lock${NC}"
     echo ""
     echo "El entorno es 100% reproducible."
@@ -71,11 +72,11 @@ else
     
     # Mostrar diferencias de manera clara
     echo "--- Paquetes solo en ENV.lock (faltantes en entorno actual) ---"
-    diff ENV.lock /tmp/env_current_snapshot.txt | grep "^<" | sed 's/^< /  - /' || echo "  (ninguno)"
+    diff ENV.lock "$TEMP_SNAPSHOT" | grep "^<" | sed 's/^< /  - /' || echo "  (ninguno)"
     
     echo ""
     echo "--- Paquetes solo en entorno actual (no en ENV.lock) ---"
-    diff ENV.lock /tmp/env_current_snapshot.txt | grep "^>" | sed 's/^> /  + /' || echo "  (ninguno)"
+    diff ENV.lock "$TEMP_SNAPSHOT" | grep "^>" | sed 's/^> /  + /' || echo "  (ninguno)"
     
     echo ""
     echo -e "${YELLOW}Recomendaciones:${NC}"
@@ -171,6 +172,6 @@ echo "Para documentación completa, ver: SEGURIDAD.md"
 echo ""
 
 # Limpiar archivo temporal
-rm -f /tmp/env_current_snapshot.txt
+rm -f "$TEMP_SNAPSHOT"
 
 exit $RESULT
