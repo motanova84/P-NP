@@ -2,7 +2,48 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, revealing how **P ≠ NP derives as a consequence of universal structure** rather than through traditional proof techniques.
+## 📋 Resumen / Quick Summary
+
+### ¿Qué es? / What is it?
+Un marco formal **propuesto** para analizar el problema P vs NP a través de treewidth y complejidad informacional, revelando cómo P ≠ NP emerge como consecuencia de estructura universal. Integra matemáticas, física, geometría Calabi-Yau, y consciencia en un enfoque post-disciplinario.
+
+A **proposed** formal framework for analyzing the P vs NP problem through treewidth and information complexity, revealing how P ≠ NP derives as a consequence of universal structure. Integrates mathematics, physics, Calabi-Yau geometry, and consciousness in a post-disciplinary approach.
+
+### ¿Qué contiene? / What does it contain?
+- **Formalizaciones Lean 4**: Teoremas completos en `formal/` y archivos `.lean` en raíz
+- **Implementaciones Python**: Framework computacional en `src/`, demostraciones en `examples/`
+- **Constantes universales**: κ_Π = 2.5773 (geometría Calabi-Yau), f₀ = 141.7001 Hz (frecuencia QCAL)
+- **Marco holográfico**: Prueba vía AdS/CFT y principio holográfico
+- **Validación empírica**: Tests en `tests/`, resultados en `results/`
+- **Documentación extensa**: 100+ archivos .md con teoría, implementación y guías
+
+### ⚡ Quickstart (3 comandos)
+```bash
+git clone https://github.com/motanova84/P-NP.git && cd P-NP
+pip install -r requirements.txt
+python simple_demo.py  # or: ./run_all_tests.sh
+```
+
+### 📄 Paper (DOI)
+**Demostración Oficial**: [Zenodo Record 17315719](https://zenodo.org/records/17315719)  
+**DOI**: [https://doi.org/10.5281/zenodo.17315719](https://doi.org/10.5281/zenodo.17315719)
+
+### 🔧 Formalización / Formalization
+- **Carpeta**: `formal/` (formalizaciones Lean 4 completas) + archivos `.lean` en raíz
+- **Comando de compilación**: `lake build` (requiere Lean 4 instalado)
+- **Archivos clave**: `formal/P_neq_NP.lean`, `PNeqNPKappaPi.lean`, `HolographicDuality.lean`
+
+### 📊 Resultados / Results
+- **Carpeta de datos**: `results/` (validaciones, verificaciones, análisis estadístico)
+- **Outputs**: `output/` (resultados de ejecuciones)
+- **Paper formal**: `paper/p_vs_np_formal.tex`
+
+### 📜 Licencias / Licenses
+- **Código**: MIT License (ver `LICENSE`)
+- **Uso académico**: Framework teórico **no revisado por pares** - requiere verificación rigurosa
+- **Importante**: Esto es investigación en progreso, no resultado establecido
+
+---
 
 ## 🌟 INNOVACIONES HISTÓRICAS - PRIMERA VEZ
 
