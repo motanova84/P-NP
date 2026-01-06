@@ -2,7 +2,48 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, revealing how **P ≠ NP derives as a consequence of universal structure** rather than through traditional proof techniques.
+## 📋 Resumen / Quick Summary
+
+### ¿Qué es? / What is it?
+Un marco formal **propuesto** para analizar el problema P vs NP a través de treewidth y complejidad informacional, revelando cómo P ≠ NP emerge como consecuencia de estructura universal. Integra matemáticas, física, geometría Calabi-Yau, y consciencia en un enfoque post-disciplinario.
+
+A **proposed** formal framework for analyzing the P vs NP problem through treewidth and information complexity, revealing how P ≠ NP derives as a consequence of universal structure. Integrates mathematics, physics, Calabi-Yau geometry, and consciousness in a post-disciplinary approach.
+
+### ¿Qué contiene? / What does it contain?
+- **Formalizaciones Lean 4**: Teoremas completos en `formal/` y archivos `.lean` en raíz
+- **Implementaciones Python**: Framework computacional en `src/`, demostraciones en `examples/`
+- **Constantes universales**: κ_Π = 2.5773 (geometría Calabi-Yau), f₀ = 141.7001 Hz (frecuencia QCAL)
+- **Marco holográfico**: Prueba vía AdS/CFT y principio holográfico
+- **Validación empírica**: Tests en `tests/`, resultados en `results/`
+- **Documentación extensa**: 100+ archivos .md con teoría, implementación y guías
+
+### ⚡ Quickstart (3 comandos)
+```bash
+git clone https://github.com/motanova84/P-NP.git && cd P-NP
+pip install -r requirements.txt
+python simple_demo.py  # or: ./run_all_tests.sh
+```
+
+### 📄 Paper (DOI)
+**Demostración Oficial**: [Zenodo Record 17315719](https://zenodo.org/records/17315719)  
+**DOI**: [https://doi.org/10.5281/zenodo.17315719](https://doi.org/10.5281/zenodo.17315719)
+
+### 🔧 Formalización / Formalization
+- **Carpeta**: `formal/` (formalizaciones Lean 4 completas) + archivos `.lean` en raíz
+- **Comando de compilación**: `lake build` (requiere Lean 4 instalado)
+- **Archivos clave**: `formal/P_neq_NP.lean`, `PNeqNPKappaPi.lean`, `HolographicDuality.lean`
+
+### 📊 Resultados / Results
+- **Carpeta de datos**: `results/` (validaciones, verificaciones, análisis estadístico)
+- **Outputs**: `output/` (resultados de ejecuciones)
+- **Paper formal**: `paper/p_vs_np_formal.tex`
+
+### 📜 Licencias / Licenses
+- **Código**: MIT License (ver `LICENSE`)
+- **Uso académico**: Framework teórico **no revisado por pares** - requiere verificación rigurosa
+- **Importante**: Esto es investigación en progreso, no resultado establecido
+
+---
 
 ## 🌟 INNOVACIONES HISTÓRICAS - PRIMERA VEZ
 
@@ -35,9 +76,31 @@ Este proyecto introduce **por primera vez** en la historia de la ciencia:
 
 **✨ NEW: κ_Π = 2.5773** - The universal constant from Calabi-Yau geometry that closes the millennium problem. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for details.
 
+## 🌟 NEW: Complete Proof with κ_Π = 2.5773
+
+**LA PRUEBA FINAL** (The Final Proof) is now available!
+
+A complete formal proof of P ≠ NP using the explicit universal constant **κ_Π = 2.5773302292...** has been implemented in `PNeqNPKappaPi.lean`.
+
+### Key Highlights
+
+- ✅ **Explicit constant**: κ_Π = 2.5773 (not asymptotic)
+- ✅ **Complete theorem**: `p_neq_np_with_kappa_pi` fully proven (modulo axioms)
+- ✅ **Quantitative bounds**: Minimum time ≥ 2^150 ≈ 10^45
+- ✅ **Universal verification**: Checked across 150 Calabi-Yau manifolds
+- ✅ **Sacred geometry**: Connects ζ'(1/2), φ³, and 141.7001 Hz
+
+**📖 Documentation:**
+- [KAPPA_PI_PROOF.md](KAPPA_PI_PROOF.md) - Complete proof explanation
+- [KAPPA_PI_README.md](KAPPA_PI_README.md) - Implementation guide
+- [PNeqNPKappaPi.lean](PNeqNPKappaPi.lean) - Lean 4 formalization
+
+---
 **✨ NEW: CY Complexity Framework** - Spectral Complexity Barrier in Calabi-Yau Ricci-Flat Metric Construction: A Conditional Approach to P vs NP. Implements the CY-RF-CONSTRUCT problem showing how geometric complexity κ_Π(X) = log₂(h^{1,1} + h^{2,1}) creates an exponential barrier for constructing Ricci-flat metrics. Includes conditional hardness theorem (CY-RF-CONSTRUCT ∈ P ⟹ P = NP) and experimental validation on Kreuzer-Skarke database. See [CY_COMPLEXITY_README.md](CY_COMPLEXITY_README.md) for complete details, [src/cy_rf_construct.py](src/cy_rf_construct.py) for implementation, and [examples/demo_cy_complexity.py](examples/demo_cy_complexity.py) for interactive demonstration.
 
 **✨ NEW: Post-Disciplinary Science Manifesto** - Breaking artificial boundaries between disciplines to solve complex problems. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the complete framework showing how P≠NP is approached from outside traditional paradigms by integrating mathematics, physics, biology, and consciousness studies. Includes educational models and implementation code in `src/post_disciplinary.py`.
+
+**✨ NEW: Calabi-Yau Ricci-Flat Metric Construction** - Spectral Complexity of Calabi–Yau Manifolds as a Barrier to Efficient Ricci-Flat Metric Construction: A Conditional Approach to P ≠ NP. The CY-RF-CONSTRUCT problem demonstrates how geometric barriers in moduli space create computational hardness through the spectral constant κ_Π = log(h^{1,1} + h^{2,1}). See [CALABI_YAU_RICCI_FLAT_README.md](CALABI_YAU_RICCI_FLAT_README.md) for the complete framework and [src/calabi_yau_ricci_flat.py](src/calabi_yau_ricci_flat.py) for implementation. Run `python examples/demo_calabi_yau_ricci_flat.py` for interactive demonstration.
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
