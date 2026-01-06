@@ -19,6 +19,10 @@ import sys
 from typing import List, Tuple
 
 
+# Golden ratio constants
+PHI = (1 + sp.sqrt(5)) / 2  # φ ≈ 1.6180339887
+PHI_SQUARED = PHI ** 2  # φ² ≈ 2.6180339887
+
 # Distance bins for statistical analysis
 DISTANCE_BINS = [0.01, 0.05, 0.1, 0.2, 0.5, 1.0]
 
@@ -37,16 +41,12 @@ def calculate_pairs_close_to_phi_squared(max_n: int = 50) -> List[Tuple]:
     Returns:
         List of tuples (N, h11, h21, ratio, distance) sorted by distance
     """
-    # Define golden ratio phi and its square
-    phi = (1 + sp.sqrt(5)) / 2
-    phi_sq = phi**2
-    
     print("=" * 80)
     print("Cálculo de Pares de Hodge Cercanos a φ²")
     print("=" * 80)
     print()
-    print(f"φ (razón áurea) = (1 + √5)/2 = {float(phi):.10f}")
-    print(f"φ² = φ + 1 = {float(phi_sq):.10f}")
+    print(f"φ (razón áurea) = (1 + √5)/2 = {float(PHI):.10f}")
+    print(f"φ² = φ + 1 = {float(PHI_SQUARED):.10f}")
     print()
     print(f"Generando todos los pares (h¹¹, h²¹) con N = h¹¹ + h²¹ ≤ {max_n}")
     print()
@@ -63,7 +63,7 @@ def calculate_pairs_close_to_phi_squared(max_n: int = 50) -> List[Tuple]:
             ratio = sp.Rational(h11, h21)
             
             # Calculate distance to φ²
-            diff = abs(ratio - phi_sq)
+            diff = abs(ratio - PHI_SQUARED)
             
             results.append((N, h11, h21, float(ratio), float(diff)))
     
@@ -120,8 +120,10 @@ def analyze_fibonacci_structure(top10: List[Tuple]):
     print("Observaciones:")
     print()
     
-    # Check for Fibonacci numbers (starting from F1=1, F2=2 to avoid duplicate 1s)
-    fibonacci = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+    # Fibonacci numbers (standard sequence, avoiding duplicate at start)
+    # F₁=1, F₂=1, F₃=2, F₄=3, F₅=5, F₆=8, F₇=13, F₈=21, F₉=34, F₁₀=55, F₁₁=89
+    # We include both 1s for completeness but check logic handles it
+    fibonacci = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
     
     print("1. Presencia de Números de Fibonacci:")
     for N, h11, h21, ratio, diff in top10:
@@ -153,8 +155,9 @@ def analyze_fibonacci_structure(top10: List[Tuple]):
         fib_ratios.append((fibonacci[i+1], fibonacci[i], fibonacci[i+1] / fibonacci[i]))
     
     print("4. Ratios de Fibonacci Consecutivos:")
-    # Skip early ratios that are far from phi
-    for h11, h21, ratio in fib_ratios[SKIP_EARLY_RATIOS:10]:
+    # Skip early ratios that are far from phi, and limit to available ratios
+    end_idx = min(10, len(fib_ratios))
+    for h11, h21, ratio in fib_ratios[SKIP_EARLY_RATIOS:end_idx]:
         print(f"   {h11}/{h21} = {ratio:.10f}")
     
     print()
@@ -248,9 +251,8 @@ def main():
     # Calculate all pairs and sort by distance to φ²
     results_sorted = calculate_pairs_close_to_phi_squared(max_n=50)
     
-    # Get φ² value
-    phi = (1 + sp.sqrt(5)) / 2
-    phi_sq = float(phi**2)
+    # Use module-level constants
+    phi_sq = float(PHI_SQUARED)
     
     # Display top 10
     top10 = display_top_10_pairs(results_sorted, phi_sq)
