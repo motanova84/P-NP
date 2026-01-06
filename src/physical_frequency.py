@@ -112,15 +112,7 @@ class PhysicalFrequency:
         print("4. Conexión con transiciones hiperfinas del hidrógeno")
         print("\nNO es una 'frecuencia mística' - es física derivable.")
 
-if __name__ == "__main__":
-    pf = PhysicalFrequency()
-    f0_mean = pf.verify_all_methods()
-    pf.physical_interpretation()
-    
-    print(f"\n=== RESUMEN ===")
-    print(f"f₀ establecido: 141.7001 Hz")
-    print(f"Base física: temperatura CMB y constantes fundamentales")
-    print(f"Verificación: Método termodinámico da {f0_mean:.4f} Hz")
+
 """
 Physical Frequency Module - Connecting f₀ to Real Physical Systems
 
