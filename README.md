@@ -21,7 +21,7 @@ A **proposed** formal framework for analyzing the P vs NP problem through treewi
 ```bash
 git clone https://github.com/motanova84/P-NP.git && cd P-NP
 pip install -r requirements.txt
-python simple_demo.py  # o ./run_all_tests.sh para suite completa
+python simple_demo.py  # or: ./run_all_tests.sh
 ```
 
 ### 📄 Paper (DOI)
@@ -44,8 +44,6 @@ python simple_demo.py  # o ./run_all_tests.sh para suite completa
 - **Importante**: Esto es investigación en progreso, no resultado establecido
 
 ---
-
-A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, revealing how **P ≠ NP derives as a consequence of universal structure** rather than through traditional proof techniques.
 
 ## 🌟 INNOVACIONES HISTÓRICAS - PRIMERA VEZ
 
