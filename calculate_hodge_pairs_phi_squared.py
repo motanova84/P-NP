@@ -19,6 +19,13 @@ import sys
 from typing import List, Tuple
 
 
+# Distance bins for statistical analysis
+DISTANCE_BINS = [0.01, 0.05, 0.1, 0.2, 0.5, 1.0]
+
+# Number of early Fibonacci ratios to skip (they're far from phi)
+SKIP_EARLY_RATIOS = 3
+
+
 def calculate_pairs_close_to_phi_squared(max_n: int = 50) -> List[Tuple]:
     """
     Calculate all pairs (h11, h21) with N = h11 + h21 ≤ max_n
@@ -113,8 +120,8 @@ def analyze_fibonacci_structure(top10: List[Tuple]):
     print("Observaciones:")
     print()
     
-    # Check for Fibonacci numbers
-    fibonacci = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+    # Check for Fibonacci numbers (starting from F1=1, F2=2 to avoid duplicate 1s)
+    fibonacci = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
     
     print("1. Presencia de Números de Fibonacci:")
     for N, h11, h21, ratio, diff in top10:
@@ -143,11 +150,11 @@ def analyze_fibonacci_structure(top10: List[Tuple]):
     # Check if ratios of consecutive Fibonacci numbers appear
     fib_ratios = []
     for i in range(len(fibonacci) - 1):
-        if fibonacci[i+1] > 0:
-            fib_ratios.append((fibonacci[i+1], fibonacci[i], fibonacci[i+1] / fibonacci[i]))
+        fib_ratios.append((fibonacci[i+1], fibonacci[i], fibonacci[i+1] / fibonacci[i]))
     
     print("4. Ratios de Fibonacci Consecutivos:")
-    for h11, h21, ratio in fib_ratios[3:10]:  # Skip first few that are far from phi
+    # Skip early ratios that are far from phi
+    for h11, h21, ratio in fib_ratios[SKIP_EARLY_RATIOS:10]:
         print(f"   {h11}/{h21} = {ratio:.10f}")
     
     print()
@@ -175,19 +182,18 @@ def statistical_analysis(results: List[Tuple], phi_sq: float):
     print(f"Total de pares analizados: {len(results)}")
     print()
     
-    # Bins for clustering analysis
-    bins = [0.01, 0.05, 0.1, 0.2, 0.5, 1.0]
+    # Use predefined distance bins for clustering analysis
     print("Distribución por Cercanía a φ²:")
-    for i in range(len(bins)):
+    for i in range(len(DISTANCE_BINS)):
         if i == 0:
-            count = np.sum(distances < bins[i])
-            print(f"  |h¹¹/h²¹ − φ²| < {bins[i]:<5.2f}: {count:4d} pares")
+            count = np.sum(distances < DISTANCE_BINS[i])
+            print(f"  |h¹¹/h²¹ − φ²| < {DISTANCE_BINS[i]:<5.2f}: {count:4d} pares")
         else:
-            count = np.sum((distances >= bins[i-1]) & (distances < bins[i]))
-            print(f"  {bins[i-1]:<5.2f} ≤ |h¹¹/h²¹ − φ²| < {bins[i]:<5.2f}: {count:4d} pares")
+            count = np.sum((distances >= DISTANCE_BINS[i-1]) & (distances < DISTANCE_BINS[i]))
+            print(f"  {DISTANCE_BINS[i-1]:<5.2f} ≤ |h¹¹/h²¹ − φ²| < {DISTANCE_BINS[i]:<5.2f}: {count:4d} pares")
     
-    count_far = np.sum(distances >= bins[-1])
-    print(f"  |h¹¹/h²¹ − φ²| ≥ {bins[-1]:<5.2f}: {count_far:4d} pares")
+    count_far = np.sum(distances >= DISTANCE_BINS[-1])
+    print(f"  |h¹¹/h²¹ − φ²| ≥ {DISTANCE_BINS[-1]:<5.2f}: {count_far:4d} pares")
     print()
     
     # Statistics
