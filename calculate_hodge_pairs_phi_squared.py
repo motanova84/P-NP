@@ -23,6 +23,10 @@ from typing import List, Tuple
 PHI = (1 + sp.sqrt(5)) / 2  # φ ≈ 1.6180339887
 PHI_SQUARED = PHI ** 2  # φ² ≈ 2.6180339887
 
+# Fibonacci sequence (first 11 terms)
+# F₁=1, F₂=1, F₃=2, F₄=3, F₅=5, F₆=8, F₇=13, F₈=21, F₉=34, F₁₀=55, F₁₁=89
+FIBONACCI = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+
 # Distance bins for statistical analysis
 DISTANCE_BINS = [0.01, 0.05, 0.1, 0.2, 0.5, 1.0]
 
@@ -120,15 +124,10 @@ def analyze_fibonacci_structure(top10: List[Tuple]):
     print("Observaciones:")
     print()
     
-    # Fibonacci numbers (standard sequence, avoiding duplicate at start)
-    # F₁=1, F₂=1, F₃=2, F₄=3, F₅=5, F₆=8, F₇=13, F₈=21, F₉=34, F₁₀=55, F₁₁=89
-    # We include both 1s for completeness but check logic handles it
-    fibonacci = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
-    
     print("1. Presencia de Números de Fibonacci:")
     for N, h11, h21, ratio, diff in top10:
-        fib_in_h11 = "✓" if h11 in fibonacci else " "
-        fib_in_h21 = "✓" if h21 in fibonacci else " "
+        fib_in_h11 = "✓" if h11 in FIBONACCI else " "
+        fib_in_h21 = "✓" if h21 in FIBONACCI else " "
         if fib_in_h11 or fib_in_h21:
             print(f"   N={N:2d}: h¹¹={h11:2d} [{fib_in_h11}], h²¹={h21:2d} [{fib_in_h21}]  "
                   f"→  ratio = {ratio:.10f}")
@@ -140,7 +139,7 @@ def analyze_fibonacci_structure(top10: List[Tuple]):
     print(f"   Ratio h¹¹/h²¹ = {ratio:.10f}")
     print(f"   Distancia a φ² = {diff:.10f}")
     
-    if h11 in fibonacci and h21 in fibonacci:
+    if h11 in FIBONACCI and h21 in FIBONACCI:
         print(f"   ✓ Ambos {h11} y {h21} son números de Fibonacci!")
     
     print()
@@ -151,14 +150,15 @@ def analyze_fibonacci_structure(top10: List[Tuple]):
     
     # Check if ratios of consecutive Fibonacci numbers appear
     fib_ratios = []
-    for i in range(len(fibonacci) - 1):
-        fib_ratios.append((fibonacci[i+1], fibonacci[i], fibonacci[i+1] / fibonacci[i]))
+    for i in range(len(FIBONACCI) - 1):
+        fib_ratios.append((FIBONACCI[i+1], FIBONACCI[i], FIBONACCI[i+1] / FIBONACCI[i]))
     
     print("4. Ratios de Fibonacci Consecutivos:")
     # Skip early ratios that are far from phi, and limit to available ratios
     end_idx = min(10, len(fib_ratios))
-    for h11, h21, ratio in fib_ratios[SKIP_EARLY_RATIOS:end_idx]:
-        print(f"   {h11}/{h21} = {ratio:.10f}")
+    if SKIP_EARLY_RATIOS < end_idx:
+        for h11, h21, ratio in fib_ratios[SKIP_EARLY_RATIOS:end_idx]:
+            print(f"   {h11}/{h21} = {ratio:.10f}")
     
     print()
     print("=" * 80)
