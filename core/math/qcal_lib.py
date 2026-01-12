@@ -85,5 +85,5 @@ class QCALMathLibrary:
             Fracción normalizada del pulsar
         """
         if index < 0 or index >= QCALMathLibrary.CONSTANTS["MAX_PULSARS"]:
-            raise ValueError(f"Index must be between 0 and {QCALMathLibrary.CONSTANTS['MAX_PULSARS']-1}")
+            raise ValueError(f"Index must be in range [0, {QCALMathLibrary.CONSTANTS['MAX_PULSARS']}) (0 to {QCALMathLibrary.CONSTANTS['MAX_PULSARS']-1} inclusive)")
         return index / QCALMathLibrary.CONSTANTS["MAX_PULSARS"]

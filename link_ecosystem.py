@@ -15,13 +15,10 @@ def load_coherence_map():
         with open("coherence_map.json", "r") as f:
             return json.load(f)
     except FileNotFoundError:
-        print("⚠️  coherence_map.json no encontrado. Creando mapa básico...")
-        return {
-            "system": "QCAL ∞³ Symbiotic Network",
-            "version": "1.0.0",
-            "frequency": "141.7001 Hz",
-            "nodes": []
-        }
+        print("❌ ERROR: coherence_map.json no encontrado.")
+        print("   Este archivo es requerido para el funcionamiento del sistema.")
+        print("   Por favor, asegúrese de que coherence_map.json existe en el directorio actual.")
+        raise
 
 
 def load_core_symbio():
@@ -30,12 +27,10 @@ def load_core_symbio():
         with open("CORE_SYMBIO.json", "r") as f:
             return json.load(f)
     except FileNotFoundError:
-        print("⚠️  CORE_SYMBIO.json no encontrado. Creando portal básico...")
-        return {
-            "protocol": "QCAL-SYMBIO-BRIDGE",
-            "origin": "motanova84",
-            "constants": {}
-        }
+        print("❌ ERROR: CORE_SYMBIO.json no encontrado.")
+        print("   Este archivo es requerido para el funcionamiento del sistema.")
+        print("   Por favor, asegúrese de que CORE_SYMBIO.json existe en el directorio actual.")
+        raise
 
 
 def crear_faro_principal():

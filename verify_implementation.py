@@ -31,7 +31,8 @@ def check_json_valid(filepath):
 def check_python_module(module_name):
     """Check if Python module can be imported"""
     try:
-        __import__(module_name)
+        import importlib
+        importlib.import_module(module_name)
         print(f"  ✓ Module '{module_name}' imports successfully")
         return True
     except Exception as e:
