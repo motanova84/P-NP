@@ -92,6 +92,17 @@ class CoherenceOperator:
         Generate imaginary parts of Riemann zeta zeros on critical line
         
         These are approximations of the first n zeros of ζ(1/2 + it)
+        
+        Notes
+        -----
+        The first 10 zeros are exact known values. Additional zeros are
+        approximated using average spacing based on the Riemann-von Mangoldt
+        formula: N(T) ~ (T/2π) log(T/2πe), which gives average spacing
+        Δt ~ 2π/log(T).
+        
+        This approximation is valid for demonstration purposes but should
+        be replaced with more accurate methods (e.g., mpmath.zetazero) for
+        production use requiring high precision.
         """
         # First 10 known zeros (imaginary parts)
         known_zeros = np.array([
@@ -199,21 +210,40 @@ class NavierStokesOperator:
         """
         Evolve velocity field by dt
         
+        Parameters
+        ----------
+        v : ndarray
+            Current velocity field (1D array)
+        dt : float
+            Time step
+        
         Returns
         -------
         v_new : ndarray
             Updated velocity field
         metrics : dict
             Evolution metrics (energy, coherence, etc.)
+            
+        Notes
+        -----
+        This is a simplified 1D implementation for demonstration.
+        The Laplacian is computed using finite differences with:
+        - Neumann boundary conditions (zero gradient) at edges
+        - Second-order centered differences in the interior
+        
+        For production use, replace with proper CFD solver with
+        appropriate boundary conditions for your physical domain.
         """
         t = 0.0
         if self.quantum_clock:
             t = self.quantum_clock.get_status()['uptime']
             
         # Classical Navier-Stokes evolution (simplified 1D)
-        # Viscous term: ν∇²v
+        # Viscous term: ν∇²v with Neumann BCs (∂v/∂x = 0 at boundaries)
         laplacian = np.zeros_like(v)
-        laplacian[1:-1] = (v[2:] - 2*v[1:-1] + v[:-2])
+        laplacian[1:-1] = (v[2:] - 2*v[1:-1] + v[:-2])  # Interior points
+        # Boundary points: zero gradient (Neumann BC)
+        # laplacian[0] = laplacian[-1] = 0 (already zero from initialization)
         
         v_classical = v + dt * self.nu * laplacian
         
