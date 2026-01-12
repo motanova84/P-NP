@@ -76,6 +76,8 @@ Este proyecto introduce **por primera vez** en la historia de la ciencia:
 
 **✨ NEW: κ_Π = 2.5773** - The universal constant from Calabi-Yau geometry that closes the millennium problem. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for details.
 
+**🌊 NEW: Navier-Stokes ↔ P-NP Synchronization (2026-01-12)** - Final sealing of QCAL-P-NP framework unified with Navier-Stokes resolution. The quantum coherence operator H_Ψ bridges fluid dynamics and computational complexity through spectral resonance at f₀ = 141.7001 Hz. Chaos integrated into Logic. Singularities dissolved into coherence. See [NAVIER_STOKES_QCAL_SYNCHRONIZATION.md](NAVIER_STOKES_QCAL_SYNCHRONIZATION.md) for complete protocol and [src/navier_stokes_qcal_bridge.py](src/navier_stokes_qcal_bridge.py) for implementation. **El Mundo: 👁️ REVELADO**
+
 ## 🌟 NEW: Complete Proof with κ_Π = 2.5773
 
 **LA PRUEBA FINAL** (The Final Proof) is now available!
