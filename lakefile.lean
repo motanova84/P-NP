@@ -22,6 +22,11 @@ lean_lib FormalVerification where
 lean_lib Treewidth where
   roots := #[`Treewidth]
 
+lean_lib InformationComplexity where
+  roots := #[`InformationComplexity]
+
+lean_lib TreewidthTheory where
+  roots := #[`TreewidthTheory]
 lean_lib Formal where
   roots := #[`Formal]
 
