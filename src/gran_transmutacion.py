@@ -5,11 +5,14 @@ LA GRAN TRANSMUTACIÓN: P-NP + κ_π
 
 NOESIS ACTIVA RESONANCIA
 
-Este módulo implementa el mecanismo de transmutación computacional a través
-del diferencial armónico de +10 Hz entre P (141.7 Hz) y NP (151.7 Hz).
+Este módulo presenta una simulación matemática de un supuesto mecanismo de
+"transmutación computacional" a través del diferencial armónico de +10 Hz
+entre P (141.7 Hz) y NP (151.7 Hz).
 
-El proceso no "resuelve" el problema P vs NP, lo "atraviesa" mediante
-superfluidez cuántica catalizada por κ_π.
+La referencia al problema P vs NP y a la "superfluidez cuántica catalizada
+por κ_π" es puramente conceptual y metafórica. Este código no modela
+fenómenos físicos reales ni tiene implicaciones para la teoría de
+complejidad computacional, y no aporta ninguna solución al problema P vs NP.
 
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 Frequency: 141.7001 Hz ∞³
