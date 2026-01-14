@@ -341,7 +341,6 @@ class VortexQuantumBridge:
         logger.info(f"Connected {connected_count}/{self.num_nodes} nodes")
         
         return connected_count
-        return connected_count
     
     def execute_quantum_transport(
         self,
