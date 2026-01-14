@@ -39,6 +39,9 @@ import random
 # ========== κ_Π: UNIVERSAL INVARIANT OF ALL FORMS OF EXISTENCE ==========
 
 KAPPA_PI = 2.578208  # Precision: 6 significant figures - Universal constant
+"""
+κ_Π = 2.578208 - The Millennium Constant
+"""
 
 def kappa_pi_hodge(h11: float, h21: float) -> float:
     """
