@@ -30,8 +30,8 @@ F_P = 141.7001  # Hz
 # NP (La Expansión) - Frecuencia expandida
 F_NP = 151.7  # Hz
 
-# El Diferencial Armónico
-DELTA_F = F_NP - F_P  # +10 Hz (aproximadamente)
+# El Diferencial Armónico (≈10 Hz: 151.7 Hz - 141.7001 Hz)
+DELTA_F = F_NP - F_P
 
 # κ_π - El Nexo Universal
 KAPPA_PI = 2.5773302292
