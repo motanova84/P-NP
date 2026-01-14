@@ -9,6 +9,8 @@ Un marco formal **propuesto** para analizar el problema P vs NP a través de tre
 
 A **proposed** formal framework for analyzing the P vs NP problem through treewidth and information complexity, revealing how P ≠ NP derives as a consequence of universal structure. Integrates mathematics, physics, Calabi-Yau geometry, and consciousness in a post-disciplinary approach.
 
+**✨ NEW: Dramaturgo Agent** - Optimización de red noética usando geometría κ_Π de Calabi-Yau. See [DRAMATURGO_AGENT_README.md](DRAMATURGO_AGENT_README.md) for the complete agent implementation that optimizes network communication through curvature-based routing, spectral compression, and vibrational hardware compatibility.
+
 ### ¿Qué contiene? / What does it contain?
 - **Formalizaciones Lean 4**: Teoremas completos en `formal/` y archivos `.lean` en raíz
 - **Implementaciones Python**: Framework computacional en `src/`, demostraciones en `examples/`
@@ -650,6 +652,12 @@ python examples/demo_noetic_field.py
 
 # ✨ NEW: Explore the Campo Noético (Noetic Field)
 python src/noetic_field.py
+
+# ✨ NEW: Run Dramaturgo agent demonstration
+python src/dramaturgo_agent.py
+
+# ✨ NEW: Interactive κ_Π geometry demo
+python examples/demo_kappa_pi_geometry.py
 ```
 
 This will demonstrate:

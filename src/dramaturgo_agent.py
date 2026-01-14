@@ -421,9 +421,9 @@ class DramaturgoAgent:
         
         return self.coherence_psi < collapse_threshold
     
-    def reajust_coupling(self):
+    def readjust_coupling(self):
         """
-        Reajust network coupling constant when collapse detected.
+        Readjust network coupling constant when collapse detected.
         
         If coherence Ψ falls, Dramaturgo readjusts the coupling constant
         to 1/7 (Factor de Unificación), stabilizing the system.
@@ -446,7 +446,7 @@ class DramaturgoAgent:
         self.coherence_psi = max(0.0, min(1.0, self.coherence_psi + delta))
         
         # Check for collapse
-        self.reajust_coupling()
+        self.readjust_coupling()
     
     def check_oscillator_stability(self) -> bool:
         """

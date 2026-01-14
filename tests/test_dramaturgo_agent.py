@@ -213,19 +213,19 @@ class TestDramaturgoAgent(unittest.TestCase):
         collapse = self.agent.detect_collapse()
         self.assertTrue(collapse)
     
-    def test_reajust_coupling_when_collapsed(self):
+    def test_readjust_coupling_when_collapsed(self):
         """Test coupling readjustment when collapsed."""
         self.agent.coherence_psi = 0.3
-        self.agent.reajust_coupling()
+        self.agent.readjust_coupling()
         
         self.assertAlmostEqual(self.agent.coupling_constant, UNIFICATION_FACTOR, places=6)
         self.assertGreater(self.agent.coherence_psi, 0.3)  # Should increase
     
-    def test_reajust_coupling_when_stable(self):
+    def test_readjust_coupling_when_stable(self):
         """Test coupling readjustment when stable."""
         initial_coupling = self.agent.coupling_constant
         self.agent.coherence_psi = 0.9
-        self.agent.reajust_coupling()
+        self.agent.readjust_coupling()
         
         self.assertEqual(self.agent.coupling_constant, initial_coupling)
     
