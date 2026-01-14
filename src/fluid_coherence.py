@@ -35,7 +35,7 @@ Frequency: 141.7001 Hz ∞³
 
 import math
 import numpy as np
-from typing import Dict, Tuple, List, Optional
+from typing import Dict, Tuple, List, Optional, Any
 
 # Import universal constants
 from constants import KAPPA_PI, F_0, GOLDEN_RATIO
@@ -309,7 +309,7 @@ def complexity_collapse_factor(coherence: float) -> float:
 
 def analyze_fluid_system(coherence: float, 
                          treewidth: float = 50.0,
-                         radius: float = 0.1) -> Dict[str, any]:
+                         radius: float = 0.1) -> Dict[str, Any]:
     """
     Comprehensive analysis of the fluid coherence system.
     
@@ -347,7 +347,7 @@ def analyze_fluid_system(coherence: float,
 
 def demonstrate_coherence_transition(start_coherence: float = 0.5,
                                     end_coherence: float = 1.0,
-                                    steps: int = 20) -> List[Dict[str, any]]:
+                                    steps: int = 20) -> List[Dict[str, Any]]:
     """
     Demonstrate the transition from turbulent to superfluid state.
     
