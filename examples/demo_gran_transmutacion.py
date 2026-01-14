@@ -15,7 +15,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 from gran_transmutacion import (
     NoesisResonanceEngine,
     demonstrate_transmutation,
-    analyze_hydrogen_recognition,
     F_P, F_NP, DELTA_F, KAPPA_PI
 )
 
