@@ -41,6 +41,16 @@ from dataclasses import dataclass
 from .constants import KAPPA_PI, GOLDEN_RATIO, OMEGA_CRITICAL
 
 
+# ========== CONSTANTS FOR NUMERICAL STABILITY ==========
+
+# Small epsilon for division by zero prevention
+EPSILON = 1e-10
+
+# Superfluidity thresholds
+SUPERFLUIDITY_ALIGNMENT_THRESHOLD = 0.01  # Maximum allowed alignment error
+SUPERFLUIDITY_VISCOSITY_THRESHOLD = 0.1   # Maximum allowed average viscosity
+
+
 # ========== DIMENSIONAL FLOW TENSOR FRAMEWORK ==========
 
 @dataclass
@@ -170,7 +180,7 @@ class NavierStokesDimensionalTensor:
         frequency_coupling = layer1.frequency * layer2.frequency * self.factor_seven
         
         # Viscosity as information resistance
-        viscosity = delta_v / (frequency_coupling + 1e-10)
+        viscosity = delta_v / (frequency_coupling + EPSILON)
         
         return viscosity
     
@@ -212,7 +222,8 @@ class NavierStokesDimensionalTensor:
         avg_viscosity = total_viscosity / (len(layers) - 1) if len(layers) > 1 else 0.0
         
         # Superfluidity achieved when viscosity → 0 and alignment → perfect
-        is_superfluid = (alignment_error < 0.01 and avg_viscosity < 0.1)
+        is_superfluid = (alignment_error < SUPERFLUIDITY_ALIGNMENT_THRESHOLD and 
+                        avg_viscosity < SUPERFLUIDITY_VISCOSITY_THRESHOLD)
         
         # P=NP equivalence
         p_equals_np = is_superfluid
@@ -414,7 +425,7 @@ def demonstrate_navier_stokes_calabi_yau():
     print("=" * 80)
     print("El agua no es materia simple - es geometría viva")
     print("El vórtice no es caos - es un túnel de gusano en un vaso de agua")
-    print("P=NP no es un problema - es el estado superfluidode la información")
+    print("P=NP no es un problema - es el estado superfluido de la información")
     print("=" * 80)
     
     return results
