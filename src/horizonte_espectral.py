@@ -26,10 +26,9 @@ from dataclasses import dataclass
 
 # Importar constantes universales
 try:
-    from src.constants import KAPPA_PI, PHI
+    from src.constants import KAPPA_PI  # PHI available but not used in this module
 except ImportError:
     KAPPA_PI = 2.5773
-    PHI = (1 + math.sqrt(5)) / 2
 
 # Constantes del Horizonte Espectral
 F0_QCAL = 141.7001  # Hz - Frecuencia de resonancia QCAL

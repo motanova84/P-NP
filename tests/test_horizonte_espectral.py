@@ -120,8 +120,7 @@ class TestMathematicalBlackHole:
         r_s = bh.schwarzschild_radius_analog()
         
         assert r_s > 0
-        # Radio debe ser proporcional a entropía sink
-        assert r_s > 0
+        # Radio debe ser proporcional a entropía sink y finito
     
     def test_entropy_at_horizon(self):
         """Test entropía en el horizonte (Bekenstein-Hawking análoga)."""

@@ -74,7 +74,7 @@ theorem critical_line_is_geodesic :
 /-- Cero no trivial de la función zeta de Riemann en la línea crítica -/
 structure RiemannZero extends CriticalLinePoint where
   /-- Este punto es un cero: ζ(1/2 + it) = 0 -/
-  is_zero : True  -- Placeholder: requiere definición formal de ζ
+  is_zero : True  -- Placeholder: requires formal definition of ζ
 
 /-- Sumidero de entropía en un cero -/
 noncomputable def entropy_sink (z : RiemannZero) : ℝ :=
