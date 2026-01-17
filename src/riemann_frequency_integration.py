@@ -19,28 +19,43 @@ import os
 import numpy as np
 from typing import Dict, List, Tuple
 
-# Add parent directory to path for imports when run as script
-if __name__ == "__main__":
-    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# Import Riemann operator
-from riemann_spectral_operator import (
-    RiemannSpectralOperator,
-    F_0,
-    T_1,
-)
-
-# Import frequency applications
-from frequency_applications import (
-    planck_energy_correlation,
-    electromagnetic_resonance_analysis,
-    brainwave_modulation_analysis,
-    calculate_noesis_coherence,
-    identify_critical_windows,
-    analyze_market_volatility_alignment,
-    TAU_0,
-    SCHUMANN_RESONANCES,
-)
+try:
+    # Try relative imports first (when used as module)
+    from .riemann_spectral_operator import (
+        RiemannSpectralOperator,
+        F_0,
+        T_1,
+    )
+    from .frequency_applications import (
+        planck_energy_correlation,
+        electromagnetic_resonance_analysis,
+        brainwave_modulation_analysis,
+        calculate_noesis_coherence,
+        identify_critical_windows,
+        analyze_market_volatility_alignment,
+        TAU_0,
+        SCHUMANN_RESONANCES,
+    )
+except ImportError:
+    # Fall back to absolute imports (when run as script)
+    from riemann_spectral_operator import (
+        RiemannSpectralOperator,
+        F_0,
+        T_1,
+    )
+    from frequency_applications import (
+        planck_energy_correlation,
+        electromagnetic_resonance_analysis,
+        brainwave_modulation_analysis,
+        calculate_noesis_coherence,
+        identify_critical_windows,
+        analyze_market_volatility_alignment,
+        TAU_0,
+        SCHUMANN_RESONANCES,
+    )
 
 
 class RiemannFrequencyIntegration:
