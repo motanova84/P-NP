@@ -110,7 +110,7 @@ def generate_env_lock():
     try:
         with open('lean-toolchain', 'r') as f:
             lean_toolchain = f.read().strip()
-    except:
+    except Exception:
         pass
     
     if lean_version and "not found" not in lean_version:
@@ -159,7 +159,7 @@ def generate_env_lock():
     content.append("")
     
     # Hash of pip freeze for verification
-    pip_freeze_hash = hashlib.sha256(pip_freeze.encode()).hexdigest()
+    pip_freeze_hash = hashlib.sha256(pip_freeze.encode()).hexdigest() if pip_freeze else "N/A"
     content.append(f"SHA256 checksum of pip freeze output: {pip_freeze_hash}")
     content.append("")
     
@@ -248,7 +248,7 @@ def generate_env_lock():
         content.append("  κ_Π = 2.5773302292 (Calabi-Yau geometric constant)")
         content.append("  σ_detection = 18.2 (detection significance for GW150914/250114)")
         content.append("")
-    except:
+    except Exception:
         pass
     
     content.append("Random Seeds:")

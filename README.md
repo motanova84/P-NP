@@ -25,7 +25,7 @@ python simple_demo.py  # or: ./run_all_tests.sh
 ```
 
 ### 🔒 Reproducibilidad / Reproducibility
-- **ENV.lock**: Complete environment specification for bit-by-bit reproducibility
+- **ENV.lock**: complete environment specification for bit-by-bit reproducibility
 - **Auditoría Externa**: Permite a revisores reproducir exactamente todos los resultados
 - **Hash de Realidad**: Sistema y dependencias verificables con checksums SHA256
 - **Documentación**: Ver [ENV_LOCK_README.md](ENV_LOCK_README.md) para detalles completos
