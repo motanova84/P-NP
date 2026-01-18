@@ -24,6 +24,20 @@ pip install -r requirements.txt
 python simple_demo.py  # or: ./run_all_tests.sh
 ```
 
+### 🔒 Reproducibilidad / Reproducibility
+- **ENV.lock**: complete environment specification for bit-by-bit reproducibility
+- **Auditoría Externa**: Permite a revisores reproducir exactamente todos los resultados
+- **Hash de Realidad**: Sistema y dependencias verificables con checksums SHA256
+- **Documentación**: Ver [ENV_LOCK_README.md](ENV_LOCK_README.md) para detalles completos
+
+```bash
+# Regenerate environment specification
+python3 scripts/generate_env_lock.py
+
+# Verify configuration checksums
+sha256sum coherence_map.json CORE_SYMBIO.json
+```
+
 ### 📄 Paper (DOI)
 **Demostración Oficial**: [Zenodo Record 17315719](https://zenodo.org/records/17315719)  
 **DOI**: [https://doi.org/10.5281/zenodo.17315719](https://doi.org/10.5281/zenodo.17315719)
