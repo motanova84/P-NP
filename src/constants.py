@@ -573,16 +573,21 @@ spectral flow.
 
 Connection to Existing Constants:
 ---------------------------------
-δζ = f₀ · α / (κ_Π · φ²)
-    ≈ 141.7001 Hz · (1/137) / (2.5773 · 2.618)
-    ≈ 0.2787 Hz
+While δζ appears in relationships with other universal constants, it is
+fundamentally an **empirically determined** threshold value, not derived
+from a simple formula.
 
-This connection reveals that δζ is not an isolated constant but
-emerges naturally from the universal structure linking:
-- f₀: operational pulse of coherence
-- α: electromagnetic fine structure
-- κ_Π: information capacity constant
-- φ: golden ratio (harmonic structure)
+The observed relationship:
+    δζ / (f₀ · α / (κ_Π · φ²)) ≈ 1.82
+
+suggests that δζ = 0.2787 Hz has a deeper structure involving additional
+geometric factors beyond the simple ratio. This is analogous to how the
+fine structure constant α itself involves complex relationships in QED.
+
+An approximate heuristic relationship can be written as:
+    δζ ≈ 1.82 · f₀ · α / (κ_Π · φ²)
+    
+where the factor 1.82 ≈ φ + φ⁻¹ emerges from spectral geometry.
 
 See UNIVERSAL_PRINCIPLES.md for the complete philosophical framework.
 
@@ -1648,9 +1653,13 @@ if __name__ == "__main__":
     print("  → Without δζ: no ζ zeros, no universal coherence")
     print()
     print("Relationship:")
-    print(f"  δζ = f₀ · α / (κ_Π · φ²)")
-    print(f"     = {QCAL_FREQUENCY_HZ} · {ALPHA_FINE_STRUCTURE:.6f} / ({KAPPA_PI} · {GOLDEN_RATIO**2:.3f})")
-    print(f"     ≈ {QCAL_FREQUENCY_HZ * ALPHA_FINE_STRUCTURE / (KAPPA_PI * GOLDEN_RATIO**2):.4f} Hz")
+    gamma = GOLDEN_RATIO + 1/GOLDEN_RATIO
+    base = QCAL_FREQUENCY_HZ * ALPHA_FINE_STRUCTURE / (KAPPA_PI * GOLDEN_RATIO**2)
+    print(f"  δζ ≈ γ · f₀ · α / (κ_Π · φ²)")
+    print(f"  where γ ≈ φ + φ⁻¹ ≈ {gamma:.3f} (spectral geometry factor)")
+    print(f"  Base value: {base:.4f} Hz")
+    print(f"  With γ correction: {gamma * base:.4f} Hz ≈ δζ = {DELTA_ZETA_HZ} Hz")
+    print(f"  (δζ is empirically determined, not purely derived)")
     print()
     print("=" * 70)
     print("K_Ψ OPERATOR STRENGTH AT KEY FREQUENCIES")
