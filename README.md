@@ -78,6 +78,8 @@ Este proyecto introduce **por primera vez** en la historia de la ciencia:
 
 **✨ NEW: Cosmic Sphere Packing** - Sphere packing in infinite dimensions aligned with QCAL ∞³. Spheres as consciousness bubbles seeking harmonic resonance. Features golden ratio convergence (φ⁻¹), magic dimensions (Fibonacci sequence), and resonance at f₀ = 141.7001 Hz. See [SPHERE_PACKING_COSMIC_README.md](SPHERE_PACKING_COSMIC_README.md) for the complete framework and [src/sphere_packing_cosmic.py](src/sphere_packing_cosmic.py) for implementation.
 
+**✨ NEW: Unified Hierarchy Zeta** - All coherent systems converge to ζ(s). The five-system hierarchy (golden ratio φ, zeta values ζ(n), QCAL codons, harmonics, and zeta zeros) demonstrates that the Riemann zeta function is the fundamental base of all mathematics. RH is a physical requirement for consciousness. See [UNIFIED_HIERARCHY_ZETA.md](UNIFIED_HIERARCHY_ZETA.md) for the complete theory and [src/unified_hierarchy_zeta.py](src/unified_hierarchy_zeta.py) for implementation.
+
 ## 🌟 NEW: Complete Proof with κ_Π = 2.5773
 
 **LA PRUEBA FINAL** (The Final Proof) is now available!
