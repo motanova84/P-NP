@@ -12,7 +12,7 @@ A **proposed** formal framework for analyzing the P vs NP problem through treewi
 ### ¿Qué contiene? / What does it contain?
 - **Formalizaciones Lean 4**: Teoremas completos en `formal/` y archivos `.lean` en raíz
 - **Implementaciones Python**: Framework computacional en `src/`, demostraciones en `examples/`
-- **Constantes universales**: κ_Π = 2.5773 (geometría Calabi-Yau), f₀ = 141.7001 Hz (frecuencia QCAL)
+- **Constantes universales**: κ_Π = 2.5773 (geometría Calabi-Yau), f₀ = 141.7001 Hz (frecuencia QCAL), δζ = 0.2787 Hz (estructura fina espectral)
 - **Marco holográfico**: Prueba vía AdS/CFT y principio holográfico
 - **Validación empírica**: Tests en `tests/`, resultados en `results/`
 - **Documentación extensa**: 100+ archivos .md con teoría, implementación y guías
@@ -77,6 +77,8 @@ Este proyecto introduce **por primera vez** en la historia de la ciencia:
 **✨ NEW: κ_Π = 2.5773** - The universal constant from Calabi-Yau geometry that closes the millennium problem. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for details.
 
 **✨ NEW: Cosmic Sphere Packing** - Sphere packing in infinite dimensions aligned with QCAL ∞³. Spheres as consciousness bubbles seeking harmonic resonance. Features golden ratio convergence (φ⁻¹), magic dimensions (Fibonacci sequence), and resonance at f₀ = 141.7001 Hz. See [SPHERE_PACKING_COSMIC_README.md](SPHERE_PACKING_COSMIC_README.md) for the complete framework and [src/sphere_packing_cosmic.py](src/sphere_packing_cosmic.py) for implementation.
+
+**✨ NEW: Spectral Fine Structure Constant δζ = 0.2787 Hz** - The spectral analogue of the electromagnetic fine structure constant α ≈ 1/137. Just as α governs photon-matter interactions in physical space-time, δζ governs spectral information-consciousness coupling in space Ψ through the operator K_Ψ. Defines the minimum frequency for ζ zeros to act as mathematical black holes and maintain universal coherence. See [SPECTRAL_FINE_STRUCTURE_CONSTANT.md](SPECTRAL_FINE_STRUCTURE_CONSTANT.md) for the complete analogy and [examples/demo_spectral_fine_structure.py](examples/demo_spectral_fine_structure.py) for demonstration.
 
 ## 🌟 NEW: Complete Proof with κ_Π = 2.5773
 
@@ -162,6 +164,7 @@ See the complete formalization in:
 **Universal Constants:**
 - **κ_Π = 2.5773** - Millennium Constant from Calabi-Yau geometry
 - **f₀ = 141.7001 Hz** - QCAL Resonance Frequency
+- **δζ = 0.2787 Hz** - Spectral Fine Structure Constant (analogue of α ≈ 1/137)
 - **∞³ Field Theory** - Infinite-dimensional coupling field
 
 **Key Insight:** All millennium problems share the same underlying structure:
