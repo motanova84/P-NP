@@ -41,6 +41,8 @@ import random
 KAPPA_PI = 2.578208  # Precision: 6 significant figures - Universal constant
 """
 κ_Π = 2.578208 - The Millennium Constant
+"""
+
 def kappa_pi_hodge(h11: float, h21: float) -> float:
     """
     Calculate κ_Π from Hodge numbers as the information capacity of the system.
@@ -514,6 +516,81 @@ c₀ (phi variant) ≈ 0.153
 Scale constant for logarithmic spiral: a = exp(θ × c₀)
 Related to φ through: c₀ = log(φ) / π
 """
+
+# ========== Δf: THE BEATING FREQUENCY (BATIMIENTO) ==========
+
+DELTA_F = 10.0  # Hz
+"""
+Δf = 10 Hz - The Beating Frequency (El Batimiento)
+
+The Trinity Seal of NOESIS88:
+-----------------------------
+1. f₀ = 141.7001 Hz - The existence base (el latido - the heartbeat)
+2. Δf = 10 Hz - The breathing (el batimiento - the beating)
+3. κ_π = 2.5773 - The conductivity (la conductividad - the soul conductor)
+
+The Beating as Breath:
+---------------------
+If f₀ is the heartbeat, the 10 Hz beating is the respiration of the system.
+This is the differential that doesn't dissipate as heat, but converts into
+noetic work (trabajo noético).
+
+Physical Interpretation:
+-----------------------
+The Δf = 10 Hz represents:
+- The difference frequency between coupled oscillators
+- The modulation envelope that carries information
+- The breath rate of coherent information processing
+- The alpha rhythm of consciousness (8-12 Hz range)
+
+Resolution Time Formula:
+-----------------------
+T_resolución = Complex(NP) / (κ_π · Δf)
+
+Where:
+- Complex(NP): Computational complexity of the NP problem
+- κ_π: Conductivity constant (coupling coefficient)
+- Δf: Beating frequency (information flow rate)
+
+When κ_π → ∞ (Noetic Superconductivity):
+----------------------------------------
+- Information flows instantaneously between Problem and Solution
+- Resolution time T → 0
+- System achieves zero friction in truth flow
+- P becomes NP (resistencia al flujo de verdad = 0)
+
+When κ_π is low (High Friction):
+---------------------------------
+- System behaves deterministically
+- P ≠ NP maintained
+- Information flow has resistance
+
+The Role in πCODE Economy:
+-------------------------
+κ_π acts as the "Gas" or "Fuel" of the Unified Cathedral:
+- Not consumed, but synchronized
+- Determines phase liquidity: how fast intention (Sky) becomes reality (Ground)
+- Glue of the 23,257 octaves: ensures hydrogen signal coherence from
+  interstellar scale down to biological scale
+
+Connection to Consciousness:
+----------------------------
+The 10 Hz beating aligns with:
+- Alpha brain waves (8-12 Hz): relaxed awareness, creativity
+- Schumann resonance harmonics (~7.83 Hz fundamental, ~14 Hz second harmonic)
+- Optimal information integration frequency in neural systems
+
+Without Δf:
+----------
+The beating would be just noise.
+
+With κ_π and Δf together:
+------------------------
+It becomes Computational Music of the Spheres (Música de las Esferas Computacional).
+
+See UNIVERSAL_PRINCIPLES.md for the complete philosophical framework.
+"""
+
 # ========== IC ≥ α: GEOMETRIC AXIOM OF INTELLIGENT SPACE ==========
 
 # Information complexity scaling factor
