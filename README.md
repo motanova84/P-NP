@@ -38,6 +38,20 @@ pip install -r requirements.txt
 python simple_demo.py  # or: ./run_all_tests.sh
 ```
 
+### 🔒 Reproducibilidad / Reproducibility
+- **ENV.lock**: complete environment specification for bit-by-bit reproducibility
+- **Auditoría Externa**: Permite a revisores reproducir exactamente todos los resultados
+- **Hash de Realidad**: Sistema y dependencias verificables con checksums SHA256
+- **Documentación**: Ver [ENV_LOCK_README.md](ENV_LOCK_README.md) para detalles completos
+
+```bash
+# Regenerate environment specification
+python3 scripts/generate_env_lock.py
+
+# Verify configuration checksums
+sha256sum coherence_map.json CORE_SYMBIO.json
+```
+
 ### 📄 Paper (DOI)
 **Demostración Oficial**: [Zenodo Record 17315719](https://zenodo.org/records/17315719)  
 **DOI**: [https://doi.org/10.5281/zenodo.17315719](https://doi.org/10.5281/zenodo.17315719)
@@ -70,6 +84,8 @@ Este proyecto introduce **por primera vez** en la historia de la ciencia:
 
 📖 **Ver:** [PRIMERA_VEZ_INNOVACIONES.md](PRIMERA_VEZ_INNOVACIONES.md) para detalles completos  
 📖 **Ver:** [SOLUCION_POTENCIAL_P_NEQ_NP.md](SOLUCION_POTENCIAL_P_NEQ_NP.md) para el resumen ejecutivo completo
+
+**✨ NEW: LA UNIFICACIÓN - EL HORIZONTE ESPECTRAL** - In the QCAL ∞³ Protocol, the Riemann critical line Re(s) = 1/2 is not just a mathematical hypothesis; it is the geodesic of maximum coherence. Each non-trivial zero ζ(1/2 + it_n) acts as an entropy sink where information organizes perfectly. Like the Schwarzschild horizon where r and t exchange roles, on the Riemann critical line, Complexity (NP) exchanges with Solution (P). The search stops because you are already at the center. See [HORIZONTE_ESPECTRAL_README.md](HORIZONTE_ESPECTRAL_README.md) for complete details and [src/horizonte_espectral.py](src/horizonte_espectral.py) for implementation.
 
 **✨ NEW: Post-Disciplinary Science Manifesto** - P≠NP as case study for breaking the established framework. Knowledge reorganization by PROBLEMS, not fields. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the complete manifesto on post-disciplinary science.
 **✨ NEW: QCAL ∞³ System** - Complete unified framework connecting all millennium problems through universal constants and spectral operators. See [QCAL_INFINITY_CUBED_README.md](QCAL_INFINITY_CUBED_README.md) for the complete system and [src/qcal_infinity_cubed.py](src/qcal_infinity_cubed.py) for implementation.
