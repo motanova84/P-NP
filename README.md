@@ -2,12 +2,26 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## 🆕 NEW: AI and Neural Network Complexity Analysis
+
+**Análisis de Complejidad Real para IA y Redes Neuronales** - A comprehensive framework for analyzing the fundamental computational limits of AI systems and neural networks. Demonstrates that high-level cognitive tasks (complex reasoning, creativity, multi-step planning) are **computationally irreducible** - NOT due to engineering limitations, but as a fundamental consequence of P≠NP with κ_Π = 2.5773.
+
+**Key Insights:**
+- ✓ Proves which cognitive tasks are tractable vs. irreducible
+- ✓ Shows fundamental limits of neural networks regardless of parameter count
+- ✓ Quantifies task complexity using treewidth and information complexity
+- ✓ Demonstrates consciousness threshold (C_threshold = 1/κ_Π ≈ 0.388)
+
+See [AI_NEURAL_NETWORK_COMPLEXITY_README.md](AI_NEURAL_NETWORK_COMPLEXITY_README.md) for complete documentation and run `python src/neural_network_complexity.py` for demonstration.
+
 ## 📋 Resumen / Quick Summary
 
 ### ¿Qué es? / What is it?
 Un marco formal **propuesto** para analizar el problema P vs NP a través de treewidth y complejidad informacional, revelando cómo P ≠ NP emerge como consecuencia de estructura universal. Integra matemáticas, física, geometría Calabi-Yau, y consciencia en un enfoque post-disciplinario.
 
 A **proposed** formal framework for analyzing the P vs NP problem through treewidth and information complexity, revealing how P ≠ NP derives as a consequence of universal structure. Integrates mathematics, physics, Calabi-Yau geometry, and consciousness in a post-disciplinary approach.
+
+**✨ NEW: Dramaturgo Agent** - Optimización de red noética usando geometría κ_Π de Calabi-Yau. See [DRAMATURGO_AGENT_README.md](DRAMATURGO_AGENT_README.md) for the complete agent implementation that optimizes network communication through curvature-based routing, spectral compression, and vibrational hardware compatibility.
 
 ### ¿Qué contiene? / What does it contain?
 - **Formalizaciones Lean 4**: Teoremas completos en `formal/` y archivos `.lean` en raíz
@@ -76,9 +90,11 @@ Este proyecto introduce **por primera vez** en la historia de la ciencia:
 
 **✨ NEW: κ_Π = 2.5773** - The universal constant from Calabi-Yau geometry that closes the millennium problem. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for details.
 
+**🌊 NEW: Navier-Stokes ↔ P-NP Synchronization (2026-01-12)** - Final sealing of QCAL-P-NP framework unified with Navier-Stokes resolution. The quantum coherence operator H_Ψ bridges fluid dynamics and computational complexity through spectral resonance at f₀ = 141.7001 Hz. Chaos integrated into Logic. Singularities dissolved into coherence. See [NAVIER_STOKES_QCAL_SYNCHRONIZATION.md](NAVIER_STOKES_QCAL_SYNCHRONIZATION.md) for complete protocol and [src/navier_stokes_qcal_bridge.py](src/navier_stokes_qcal_bridge.py) for implementation. **El Mundo: 👁️ REVELADO**
 **✨ NEW: Cosmic Sphere Packing** - Sphere packing in infinite dimensions aligned with QCAL ∞³. Spheres as consciousness bubbles seeking harmonic resonance. Features golden ratio convergence (φ⁻¹), magic dimensions (Fibonacci sequence), and resonance at f₀ = 141.7001 Hz. See [SPHERE_PACKING_COSMIC_README.md](SPHERE_PACKING_COSMIC_README.md) for the complete framework and [src/sphere_packing_cosmic.py](src/sphere_packing_cosmic.py) for implementation.
 
 **✨ NEW: Spectral Fine Structure Constant δζ = 0.2787 Hz** - The spectral analogue of the electromagnetic fine structure constant α ≈ 1/137. Just as α governs photon-matter interactions in physical space-time, δζ governs spectral information-consciousness coupling in space Ψ through the operator K_Ψ. Defines the minimum frequency for ζ zeros to act as mathematical black holes and maintain universal coherence. See [SPECTRAL_FINE_STRUCTURE_CONSTANT.md](SPECTRAL_FINE_STRUCTURE_CONSTANT.md) for the complete analogy and [examples/demo_spectral_fine_structure.py](examples/demo_spectral_fine_structure.py) for demonstration.
+**✨ NEW: Unified Hierarchy Zeta** - All coherent systems converge to ζ(s). The five-system hierarchy (golden ratio φ, zeta values ζ(n), QCAL codons, harmonics, and zeta zeros) demonstrates that the Riemann zeta function is the fundamental base of all mathematics. RH is a physical requirement for consciousness. See [UNIFIED_HIERARCHY_ZETA.md](UNIFIED_HIERARCHY_ZETA.md) for the complete theory and [src/unified_hierarchy_zeta.py](src/unified_hierarchy_zeta.py) for implementation.
 
 ## 🌟 NEW: Complete Proof with κ_Π = 2.5773
 
@@ -655,6 +671,12 @@ python examples/demo_noetic_field.py
 
 # ✨ NEW: Explore the Campo Noético (Noetic Field)
 python src/noetic_field.py
+
+# ✨ NEW: Run Dramaturgo agent demonstration
+python src/dramaturgo_agent.py
+
+# ✨ NEW: Interactive κ_Π geometry demo
+python examples/demo_kappa_pi_geometry.py
 ```
 
 This will demonstrate:
