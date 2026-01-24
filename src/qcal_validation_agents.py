@@ -352,13 +352,13 @@ class AccelerationValidator:
    Theoretical: {latest['theoretical_acceleration']:.0f}×
 
 🔬 Hypothesis Validation:
-   Status: {"✅ VALIDATED" if validation['valid'] else "⚠️  PENDING"}
-   {validation['interpretation']}
+   Status: {"✅ VALIDATED" if validation.get('valid', False) else "⚠️  PENDING"}
+   {validation.get('interpretation', validation.get('reason', 'Insufficient data'))}
    
-   Correlation (coherence ↔ acceleration): {validation['correlation_acceleration']:.3f}
-   Correlation (coherence ↔ reduction): {validation['correlation_reduction']:.3f}
-   Mean acceleration: {validation['mean_acceleration']:.2f}×
-   Max acceleration: {validation['max_acceleration']:.2f}×
+   Correlation (coherence ↔ acceleration): {validation.get('correlation_acceleration', 0):.3f}
+   Correlation (coherence ↔ reduction): {validation.get('correlation_reduction', 0):.3f}
+   Mean acceleration: {validation.get('mean_acceleration', 1.0):.2f}×
+   Max acceleration: {validation.get('max_acceleration', 1.0):.2f}×
 
 📈 Total benchmarks: {len(self.benchmarks)}
 {'='*70}
@@ -604,16 +604,29 @@ Total Validation Runs: {len(self.validation_runs)}
     
     def save_validation_data(self, filepath: str = "qcal_validation_data.json"):
         """Save validation data to JSON file."""
+        
+        def convert_to_serializable(obj):
+            """Convert numpy types to native Python types."""
+            if isinstance(obj, (np.bool_, np.generic)):
+                return obj.item()
+            elif isinstance(obj, np.ndarray):
+                return obj.tolist()
+            elif isinstance(obj, dict):
+                return {k: convert_to_serializable(v) for k, v in obj.items()}
+            elif isinstance(obj, list):
+                return [convert_to_serializable(item) for item in obj]
+            return obj
+        
         data = {
             'system': 'QCAL ∞³ Validation System',
             'total_runs': len(self.validation_runs),
-            'runs': self.validation_runs,
+            'runs': convert_to_serializable(self.validation_runs),
             'constants': {
-                'KAPPA_PI': KAPPA_PI,
-                'F0_QCAL': F0_QCAL,
-                'PHI': PHI,
-                'C_COHERENCE': C_COHERENCE,
-                'COHERENCE_THRESHOLD': COHERENCE_THRESHOLD
+                'KAPPA_PI': float(KAPPA_PI),
+                'F0_QCAL': float(F0_QCAL),
+                'PHI': float(PHI),
+                'C_COHERENCE': float(C_COHERENCE),
+                'COHERENCE_THRESHOLD': float(COHERENCE_THRESHOLD)
             }
         }
         
