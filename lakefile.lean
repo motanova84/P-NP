@@ -40,6 +40,11 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib EmpiricalEvidence where
+  roots := #[`empirical_evidence]
+
+lean_lib UltimateUnification where
+  roots := #[`Ultimate_Unification]
 lean_lib HolographicPnP where
   roots := #[`HolographicPnP]
 lean_lib HolographicVolume where
