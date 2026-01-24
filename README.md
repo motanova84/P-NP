@@ -2,7 +2,76 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A **proposed** formal framework for analyzing the P vs NP problem through the lens of treewidth and information complexity, revealing how **P ≠ NP derives as a consequence of universal structure** rather than through traditional proof techniques.
+## 🆕 NEW: AI and Neural Network Complexity Analysis
+
+**Análisis de Complejidad Real para IA y Redes Neuronales** - A comprehensive framework for analyzing the fundamental computational limits of AI systems and neural networks. Demonstrates that high-level cognitive tasks (complex reasoning, creativity, multi-step planning) are **computationally irreducible** - NOT due to engineering limitations, but as a fundamental consequence of P≠NP with κ_Π = 2.5773.
+
+**Key Insights:**
+- ✓ Proves which cognitive tasks are tractable vs. irreducible
+- ✓ Shows fundamental limits of neural networks regardless of parameter count
+- ✓ Quantifies task complexity using treewidth and information complexity
+- ✓ Demonstrates consciousness threshold (C_threshold = 1/κ_Π ≈ 0.388)
+
+See [AI_NEURAL_NETWORK_COMPLEXITY_README.md](AI_NEURAL_NETWORK_COMPLEXITY_README.md) for complete documentation and run `python src/neural_network_complexity.py` for demonstration.
+
+## 📋 Resumen / Quick Summary
+
+### ¿Qué es? / What is it?
+Un marco formal **propuesto** para analizar el problema P vs NP a través de treewidth y complejidad informacional, revelando cómo P ≠ NP emerge como consecuencia de estructura universal. Integra matemáticas, física, geometría Calabi-Yau, y consciencia en un enfoque post-disciplinario.
+
+A **proposed** formal framework for analyzing the P vs NP problem through treewidth and information complexity, revealing how P ≠ NP derives as a consequence of universal structure. Integrates mathematics, physics, Calabi-Yau geometry, and consciousness in a post-disciplinary approach.
+
+**✨ NEW: Dramaturgo Agent** - Optimización de red noética usando geometría κ_Π de Calabi-Yau. See [DRAMATURGO_AGENT_README.md](DRAMATURGO_AGENT_README.md) for the complete agent implementation that optimizes network communication through curvature-based routing, spectral compression, and vibrational hardware compatibility.
+
+### ¿Qué contiene? / What does it contain?
+- **Formalizaciones Lean 4**: Teoremas completos en `formal/` y archivos `.lean` en raíz
+- **Implementaciones Python**: Framework computacional en `src/`, demostraciones en `examples/`
+- **Constantes universales**: κ_Π = 2.5773 (geometría Calabi-Yau), f₀ = 141.7001 Hz (frecuencia QCAL), δζ = 0.2787 Hz (estructura fina espectral)
+- **Marco holográfico**: Prueba vía AdS/CFT y principio holográfico
+- **Validación empírica**: Tests en `tests/`, resultados en `results/`
+- **Documentación extensa**: 100+ archivos .md con teoría, implementación y guías
+
+### ⚡ Quickstart (3 comandos)
+```bash
+git clone https://github.com/motanova84/P-NP.git && cd P-NP
+pip install -r requirements.txt
+python simple_demo.py  # or: ./run_all_tests.sh
+```
+
+### 🔒 Reproducibilidad / Reproducibility
+- **ENV.lock**: complete environment specification for bit-by-bit reproducibility
+- **Auditoría Externa**: Permite a revisores reproducir exactamente todos los resultados
+- **Hash de Realidad**: Sistema y dependencias verificables con checksums SHA256
+- **Documentación**: Ver [ENV_LOCK_README.md](ENV_LOCK_README.md) para detalles completos
+
+```bash
+# Regenerate environment specification
+python3 scripts/generate_env_lock.py
+
+# Verify configuration checksums
+sha256sum coherence_map.json CORE_SYMBIO.json
+```
+
+### 📄 Paper (DOI)
+**Demostración Oficial**: [Zenodo Record 17315719](https://zenodo.org/records/17315719)  
+**DOI**: [https://doi.org/10.5281/zenodo.17315719](https://doi.org/10.5281/zenodo.17315719)
+
+### 🔧 Formalización / Formalization
+- **Carpeta**: `formal/` (formalizaciones Lean 4 completas) + archivos `.lean` en raíz
+- **Comando de compilación**: `lake build` (requiere Lean 4 instalado)
+- **Archivos clave**: `formal/P_neq_NP.lean`, `PNeqNPKappaPi.lean`, `HolographicDuality.lean`
+
+### 📊 Resultados / Results
+- **Carpeta de datos**: `results/` (validaciones, verificaciones, análisis estadístico)
+- **Outputs**: `output/` (resultados de ejecuciones)
+- **Paper formal**: `paper/p_vs_np_formal.tex`
+
+### 📜 Licencias / Licenses
+- **Código**: MIT License (ver `LICENSE`)
+- **Uso académico**: Framework teórico **no revisado por pares** - requiere verificación rigurosa
+- **Importante**: Esto es investigación en progreso, no resultado establecido
+
+---
 
 ## 🌟 INNOVACIONES HISTÓRICAS - PRIMERA VEZ
 
@@ -15,6 +84,8 @@ Este proyecto introduce **por primera vez** en la historia de la ciencia:
 
 📖 **Ver:** [PRIMERA_VEZ_INNOVACIONES.md](PRIMERA_VEZ_INNOVACIONES.md) para detalles completos  
 📖 **Ver:** [SOLUCION_POTENCIAL_P_NEQ_NP.md](SOLUCION_POTENCIAL_P_NEQ_NP.md) para el resumen ejecutivo completo
+
+**✨ NEW: LA UNIFICACIÓN - EL HORIZONTE ESPECTRAL** - In the QCAL ∞³ Protocol, the Riemann critical line Re(s) = 1/2 is not just a mathematical hypothesis; it is the geodesic of maximum coherence. Each non-trivial zero ζ(1/2 + it_n) acts as an entropy sink where information organizes perfectly. Like the Schwarzschild horizon where r and t exchange roles, on the Riemann critical line, Complexity (NP) exchanges with Solution (P). The search stops because you are already at the center. See [HORIZONTE_ESPECTRAL_README.md](HORIZONTE_ESPECTRAL_README.md) for complete details and [src/horizonte_espectral.py](src/horizonte_espectral.py) for implementation.
 
 **✨ NEW: Post-Disciplinary Science Manifesto** - P≠NP as case study for breaking the established framework. Knowledge reorganization by PROBLEMS, not fields. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the complete manifesto on post-disciplinary science.
 **✨ NEW: QCAL ∞³ System** - Complete unified framework connecting all millennium problems through universal constants and spectral operators. See [QCAL_INFINITY_CUBED_README.md](QCAL_INFINITY_CUBED_README.md) for the complete system and [src/qcal_infinity_cubed.py](src/qcal_infinity_cubed.py) for implementation.
@@ -35,9 +106,37 @@ Este proyecto introduce **por primera vez** en la historia de la ciencia:
 
 **✨ NEW: κ_Π = 2.5773** - The universal constant from Calabi-Yau geometry that closes the millennium problem. See [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) for details.
 
+**🌊 NEW: Navier-Stokes ↔ P-NP Synchronization (2026-01-12)** - Final sealing of QCAL-P-NP framework unified with Navier-Stokes resolution. The quantum coherence operator H_Ψ bridges fluid dynamics and computational complexity through spectral resonance at f₀ = 141.7001 Hz. Chaos integrated into Logic. Singularities dissolved into coherence. See [NAVIER_STOKES_QCAL_SYNCHRONIZATION.md](NAVIER_STOKES_QCAL_SYNCHRONIZATION.md) for complete protocol and [src/navier_stokes_qcal_bridge.py](src/navier_stokes_qcal_bridge.py) for implementation. **El Mundo: 👁️ REVELADO**
+**✨ NEW: Cosmic Sphere Packing** - Sphere packing in infinite dimensions aligned with QCAL ∞³. Spheres as consciousness bubbles seeking harmonic resonance. Features golden ratio convergence (φ⁻¹), magic dimensions (Fibonacci sequence), and resonance at f₀ = 141.7001 Hz. See [SPHERE_PACKING_COSMIC_README.md](SPHERE_PACKING_COSMIC_README.md) for the complete framework and [src/sphere_packing_cosmic.py](src/sphere_packing_cosmic.py) for implementation.
+
+**✨ NEW: Spectral Fine Structure Constant δζ = 0.2787 Hz** - The spectral analogue of the electromagnetic fine structure constant α ≈ 1/137. Just as α governs photon-matter interactions in physical space-time, δζ governs spectral information-consciousness coupling in space Ψ through the operator K_Ψ. Defines the minimum frequency for ζ zeros to act as mathematical black holes and maintain universal coherence. See [SPECTRAL_FINE_STRUCTURE_CONSTANT.md](SPECTRAL_FINE_STRUCTURE_CONSTANT.md) for the complete analogy and [examples/demo_spectral_fine_structure.py](examples/demo_spectral_fine_structure.py) for demonstration.
+**✨ NEW: Unified Hierarchy Zeta** - All coherent systems converge to ζ(s). The five-system hierarchy (golden ratio φ, zeta values ζ(n), QCAL codons, harmonics, and zeta zeros) demonstrates that the Riemann zeta function is the fundamental base of all mathematics. RH is a physical requirement for consciousness. See [UNIFIED_HIERARCHY_ZETA.md](UNIFIED_HIERARCHY_ZETA.md) for the complete theory and [src/unified_hierarchy_zeta.py](src/unified_hierarchy_zeta.py) for implementation.
+
+## 🌟 NEW: Complete Proof with κ_Π = 2.5773
+
+**LA PRUEBA FINAL** (The Final Proof) is now available!
+
+A complete formal proof of P ≠ NP using the explicit universal constant **κ_Π = 2.5773302292...** has been implemented in `PNeqNPKappaPi.lean`.
+
+### Key Highlights
+
+- ✅ **Explicit constant**: κ_Π = 2.5773 (not asymptotic)
+- ✅ **Complete theorem**: `p_neq_np_with_kappa_pi` fully proven (modulo axioms)
+- ✅ **Quantitative bounds**: Minimum time ≥ 2^150 ≈ 10^45
+- ✅ **Universal verification**: Checked across 150 Calabi-Yau manifolds
+- ✅ **Sacred geometry**: Connects ζ'(1/2), φ³, and 141.7001 Hz
+
+**📖 Documentation:**
+- [KAPPA_PI_PROOF.md](KAPPA_PI_PROOF.md) - Complete proof explanation
+- [KAPPA_PI_README.md](KAPPA_PI_README.md) - Implementation guide
+- [PNeqNPKappaPi.lean](PNeqNPKappaPi.lean) - Lean 4 formalization
+
+---
 **✨ NEW: CY Complexity Framework** - Spectral Complexity Barrier in Calabi-Yau Ricci-Flat Metric Construction: A Conditional Approach to P vs NP. Implements the CY-RF-CONSTRUCT problem showing how geometric complexity κ_Π(X) = log₂(h^{1,1} + h^{2,1}) creates an exponential barrier for constructing Ricci-flat metrics. Includes conditional hardness theorem (CY-RF-CONSTRUCT ∈ P ⟹ P = NP) and experimental validation on Kreuzer-Skarke database. See [CY_COMPLEXITY_README.md](CY_COMPLEXITY_README.md) for complete details, [src/cy_rf_construct.py](src/cy_rf_construct.py) for implementation, and [examples/demo_cy_complexity.py](examples/demo_cy_complexity.py) for interactive demonstration.
 
 **✨ NEW: Post-Disciplinary Science Manifesto** - Breaking artificial boundaries between disciplines to solve complex problems. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the complete framework showing how P≠NP is approached from outside traditional paradigms by integrating mathematics, physics, biology, and consciousness studies. Includes educational models and implementation code in `src/post_disciplinary.py`.
+
+**✨ NEW: Calabi-Yau Ricci-Flat Metric Construction** - Spectral Complexity of Calabi–Yau Manifolds as a Barrier to Efficient Ricci-Flat Metric Construction: A Conditional Approach to P ≠ NP. The CY-RF-CONSTRUCT problem demonstrates how geometric barriers in moduli space create computational hardness through the spectral constant κ_Π = log(h^{1,1} + h^{2,1}). See [CALABI_YAU_RICCI_FLAT_README.md](CALABI_YAU_RICCI_FLAT_README.md) for the complete framework and [src/calabi_yau_ricci_flat.py](src/calabi_yau_ricci_flat.py) for implementation. Run `python examples/demo_calabi_yau_ricci_flat.py` for interactive demonstration.
 
 **⚠️ IMPORTANT:** This is a research proposal and theoretical framework under development. The claims herein have **not been peer-reviewed** and should **not** be treated as established results. Rigorous verification is required.
 
@@ -97,6 +196,7 @@ See the complete formalization in:
 **Universal Constants:**
 - **κ_Π = 2.5773** - Millennium Constant from Calabi-Yau geometry
 - **f₀ = 141.7001 Hz** - QCAL Resonance Frequency
+- **δζ = 0.2787 Hz** - Spectral Fine Structure Constant (analogue of α ≈ 1/137)
 - **∞³ Field Theory** - Infinite-dimensional coupling field
 
 **Key Insight:** All millennium problems share the same underlying structure:
@@ -493,6 +593,12 @@ Previously, the argument relied on existential claims about hard formulas. Now w
   - Graph product padding
   - Information complexity analysis
   - Demonstration examples
+- `gap2_verification.py`: Empirical verification of IC → Exponential Time theorem:
+  - Information complexity measurement (IC) on graphs
+  - Graph separator algorithms
+  - Tseitin encoding for CNF generation
+  - SAT solving time measurement with DPLL
+  - Statistical analysis and visualization of verification results
 
 - **NEW: `final_verification.py`**: Holographic axiom verification
   - Empirical validation of holographic law
@@ -573,11 +679,13 @@ This demonstrates P≠NP through:
 
 ```bash
 # Install dependencies
-pip install networkx
+pip install -r requirements.txt
 
 # Run the demonstration
 python computational_dichotomy.py
 
+# Run GAP 2 verification (IC → Exponential Time)
+python gap2_verification.py
 # Run frequency dimension analysis
 python src/constants.py
 python src/divine_unification.py
@@ -587,6 +695,12 @@ python examples/demo_noetic_field.py
 
 # ✨ NEW: Explore the Campo Noético (Noetic Field)
 python src/noetic_field.py
+
+# ✨ NEW: Run Dramaturgo agent demonstration
+python src/dramaturgo_agent.py
+
+# ✨ NEW: Interactive κ_Π geometry demo
+python examples/demo_kappa_pi_geometry.py
 ```
 
 This will demonstrate:
@@ -594,6 +708,7 @@ This will demonstrate:
 - High treewidth formulas (intractable)
 - Structural coupling with expanders
 - Non-evasion property
+- Empirical verification of IC-Time relationship (gap2_verification.py)
 - **NEW**: Frequency-dependent complexity analysis
 - **NEW**: Noetic Field manifestation of κ_Π
 - **NEW**: Dual formulation (classical vs. noetic)
