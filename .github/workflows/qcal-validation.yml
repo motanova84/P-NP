@@ -16,10 +16,18 @@ on:
       - 'src/qcal_*.py'
       - '.github/workflows/qcal-validation.yml'
 
+# Limit permissions for security
+permissions:
+  contents: read
+
 jobs:
   validate-hypothesis:
     name: Validate QCAL ∞³ Hypothesis
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      actions: write  # For uploading artifacts
     
     steps:
       - name: 🔄 Checkout repository
@@ -181,6 +189,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: validate-hypothesis
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    
+    permissions:
+      contents: read
     
     steps:
       - name: 🔄 Checkout repository
