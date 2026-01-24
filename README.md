@@ -2,6 +2,18 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## 🆕 NEW: AI and Neural Network Complexity Analysis
+
+**Análisis de Complejidad Real para IA y Redes Neuronales** - A comprehensive framework for analyzing the fundamental computational limits of AI systems and neural networks. Demonstrates that high-level cognitive tasks (complex reasoning, creativity, multi-step planning) are **computationally irreducible** - NOT due to engineering limitations, but as a fundamental consequence of P≠NP with κ_Π = 2.5773.
+
+**Key Insights:**
+- ✓ Proves which cognitive tasks are tractable vs. irreducible
+- ✓ Shows fundamental limits of neural networks regardless of parameter count
+- ✓ Quantifies task complexity using treewidth and information complexity
+- ✓ Demonstrates consciousness threshold (C_threshold = 1/κ_Π ≈ 0.388)
+
+See [AI_NEURAL_NETWORK_COMPLEXITY_README.md](AI_NEURAL_NETWORK_COMPLEXITY_README.md) for complete documentation and run `python src/neural_network_complexity.py` for demonstration.
+
 ## 📋 Resumen / Quick Summary
 
 ### ¿Qué es? / What is it?
