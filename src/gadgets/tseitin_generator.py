@@ -11,8 +11,17 @@ and serve as hard instances for SAT solvers.
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 """
 
+import random
 import networkx as nx
 from typing import List, Tuple
+
+
+def generate_ramanujan_expander(n: int, d: int = 3) -> nx.Graph:
+    """Generate Ramanujan-like expander graph."""
+    # For demo purposes - in real implementation use proper Ramanujan construction
+    # Random regular graphs are good expanders with high probability
+    G = nx.random_regular_graph(d, n)
+    return G
 
 
 class TseitinGenerator:
@@ -114,6 +123,24 @@ def generate_expander_tseitin(n: int, d: int) -> Tuple[int, List[List[int]]]:
     
     generator = TseitinGenerator(graph)
     return generator.generate_formula(charge_assignment)
+
+
+def create_treewidth_hard_instance(base_clauses: List[List[int]], expander_size: int = 100, d: int = 3) -> Tuple[List[List[int]], int]:
+    """Create treewidth-hard instance by coupling with expander."""
+    expander = generate_ramanujan_expander(expander_size, d)
+    
+    # Generate Tseitin formula over expander
+    num_vars, tseitin_clauses = generate_expander_tseitin(expander_size, d)
+    
+    # Combine with base CNF (simplified coupling)
+    # Offset variables in base clauses to avoid conflict
+    offset = num_vars
+    offset_base_clauses = [[lit + offset if lit > 0 else lit - offset for lit in clause] for clause in base_clauses]
+    
+    combined_clauses = tseitin_clauses + offset_base_clauses
+    total_vars = num_vars + max(abs(lit) for clause in base_clauses for lit in clause) if base_clauses else num_vars
+    
+    return combined_clauses, total_vars
 
 
 if __name__ == "__main__":
