@@ -66,6 +66,8 @@ diagrams/
 *.csv
 *.png
 *.json
+!coherence_map.json
+!CORE_SYMBIO.json
 kappa_verification_output.txt
 results/*.log
 results/*.csv
@@ -133,3 +135,6 @@ pnp/echo_qcal/data/config/*
 # Echo QCAL generated files
 echo_qcal_logs/
 echo_qcal_config/
+
+# QCAL Symbiosis generated files (created by link_ecosystem.py)
+.qcal_symbiosis.md
