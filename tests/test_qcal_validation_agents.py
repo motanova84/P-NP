@@ -11,6 +11,12 @@ import os
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
+# Test constants
+DEFAULT_PROBLEM_SIZE = 100  # Number of variables for standard test problems
+DEFAULT_TREEWIDTH = 50      # Treewidth for standard test problems
+SMALL_PROBLEM_SIZE = 50     # Smaller problem size for quick tests
+SMALL_TREEWIDTH = 25        # Smaller treewidth for quick tests
+
 import pytest
 import numpy as np
 from qcal_validation_agents import (
@@ -94,8 +100,8 @@ class TestAccelerationValidator:
         validator = AccelerationValidator()
         
         result = validator.benchmark_problem(
-            problem_size=50,
-            treewidth=25,
+            problem_size=SMALL_PROBLEM_SIZE,
+            treewidth=SMALL_TREEWIDTH,
             coherence=0.7
         )
         
@@ -110,8 +116,8 @@ class TestAccelerationValidator:
         validator = AccelerationValidator()
         
         result = validator.benchmark_problem(
-            problem_size=100,
-            treewidth=50,
+            problem_size=DEFAULT_PROBLEM_SIZE,
+            treewidth=DEFAULT_TREEWIDTH,
             coherence=0.9
         )
         
@@ -133,7 +139,7 @@ class TestAccelerationValidator:
         
         # Add multiple benchmarks with varying coherence
         for coherence in [0.5, 0.6, 0.7, 0.8]:
-            validator.benchmark_problem(100, 50, coherence)
+            validator.benchmark_problem(DEFAULT_PROBLEM_SIZE, DEFAULT_TREEWIDTH, coherence)
         
         validation = validator.validate_acceleration_hypothesis()
         
@@ -144,7 +150,7 @@ class TestAccelerationValidator:
     def test_status_report(self):
         """Test status report generation."""
         validator = AccelerationValidator()
-        validator.benchmark_problem(50, 25, 0.7)
+        validator.benchmark_problem(SMALL_PROBLEM_SIZE, SMALL_TREEWIDTH, 0.7)
         
         report = validator.get_status_report()
         

@@ -605,16 +605,30 @@ Total Validation Runs: {len(self.validation_runs)}
     def save_validation_data(self, filepath: str = "qcal_validation_data.json"):
         """Save validation data to JSON file."""
         
-        def convert_to_serializable(obj):
+        def convert_to_serializable(obj, visited=None):
             """Convert numpy types to native Python types."""
+            if visited is None:
+                visited = set()
+            
+            # Prevent circular references
+            obj_id = id(obj)
+            if obj_id in visited:
+                return str(obj)  # Return string representation for circular refs
+            
             if isinstance(obj, (np.bool_, np.generic)):
                 return obj.item()
             elif isinstance(obj, np.ndarray):
                 return obj.tolist()
             elif isinstance(obj, dict):
-                return {k: convert_to_serializable(v) for k, v in obj.items()}
+                visited.add(obj_id)
+                result = {k: convert_to_serializable(v, visited) for k, v in obj.items()}
+                visited.remove(obj_id)
+                return result
             elif isinstance(obj, list):
-                return [convert_to_serializable(item) for item in obj]
+                visited.add(obj_id)
+                result = [convert_to_serializable(item, visited) for item in obj]
+                visited.remove(obj_id)
+                return result
             return obj
         
         data = {
