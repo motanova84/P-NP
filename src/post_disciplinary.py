@@ -61,10 +61,46 @@ class PostDisciplinaryScience:
     - No artificial boundaries between disciplines
     - Knowledge organized by interconnected concept networks
     - Problems solved using ALL relevant tools regardless of field
+    
+    Integrates 6 domains as shown in problem statement:
+    - mathematics: κ_Π = 2.5773
+    - physics: f₀ = 141.7 Hz
+    - biology: ARN piCODE
+    - consciousness: C_threshold = 0.388
+    - computation: P ≠ NP
+    - geometry: Calabi-Yau
     """
     
-    def __init__(self):
-        """Initialize with concept network."""
+    def __init__(
+        self,
+        mathematics: str = "κ_Π = 2.5773",
+        physics: str = "f₀ = 141.7 Hz",
+        biology: str = "ARN piCODE",
+        consciousness: str = "C_threshold = 0.388",
+        computation: str = "P ≠ NP",
+        geometry: str = "Calabi-Yau"
+    ):
+        """
+        Initialize with 6-domain integration.
+        
+        Args:
+            mathematics: Mathematical aspect (κ_Π)
+            physics: Physical aspect (f₀)
+            biology: Biological aspect (ARN piCODE)
+            consciousness: Consciousness aspect (C_threshold)
+            computation: Computational aspect (P ≠ NP)
+            geometry: Geometric aspect (Calabi-Yau)
+        """
+        # Store 6-domain integration
+        self.domains = {
+            'mathematics': mathematics,
+            'physics': physics,
+            'biology': biology,
+            'consciousness': consciousness,
+            'computation': computation,
+            'geometry': geometry
+        }
+        
         # Knowledge organized by interconnected concept networks
         self.concept_network = {
             'kappa_pi': {
@@ -72,18 +108,44 @@ class PostDisciplinaryScience:
                 'geometric': ['calabi_yau', 'hodge_numbers', 'euler_char'],
                 'physical': ['resonance_freq', 'quantum_coherence', 'field'],
                 'biological': ['rna_structure', 'pi_electrons', 'vibrations'],
-                'computational': ['treewidth', 'information', 'complexity']
+                'computational': ['treewidth', 'information', 'complexity'],
+                'consciousness': ['threshold', 'coherence', 'quantization']
             },
             'complexity': {
                 'mathematical': ['graph_theory', 'logic', 'number_theory'],
                 'physical': ['entropy', 'thermodynamics', 'energy'],
                 'biological': ['metabolic_networks', 'evolution'],
                 'computational': ['P_vs_NP', 'algorithms', 'circuits'],
-                'philosophical': ['consciousness', 'information']
+                'philosophical': ['consciousness', 'information'],
+                'geometric': ['manifolds', 'curvature', 'topology']
             }
         }
         
         self.available_tools = self._initialize_tools()
+    
+    def get_domain_integration(self) -> Dict[str, str]:
+        """Get the 6-domain integration."""
+        return self.domains
+    
+    def show_unified_framework(self) -> str:
+        """Show how all 6 domains unify."""
+        return f"""
+        6-DOMAIN INTEGRATION OF P≠NP:
+        ================================
+        Mathematics:    {self.domains['mathematics']}
+        Physics:        {self.domains['physics']}
+        Biology:        {self.domains['biology']}
+        Consciousness:  {self.domains['consciousness']}
+        Computation:    {self.domains['computation']}
+        Geometry:       {self.domains['geometry']}
+        
+        These are not separate facts but ONE unified reality:
+        - κ_Π emerges from Calabi-Yau geometry
+        - f₀ is the frequency at which κ_Π reveals itself
+        - ARN piCODE transduces at f₀
+        - C_threshold = 1/κ_Π quantizes consciousness
+        - P≠NP follows from κ_Π being finite and universal
+        """
     
     def _initialize_tools(self) -> List[Tool]:
         """Initialize tools from all domains."""
@@ -245,13 +307,28 @@ if __name__ == "__main__":
     print("POST-DISCIPLINARY SCIENCE FRAMEWORK")
     print("=" * 70)
     
-    # Create framework
-    pds = PostDisciplinaryScience()
-    print(f"Concept networks: {list(pds.concept_network.keys())}")
+    # Create framework with 6-domain integration
+    pds = PostDisciplinaryScience(
+        mathematics="κ_Π = 2.5773",
+        physics="f₀ = 141.7 Hz",
+        biology="ARN piCODE",
+        consciousness="C_threshold = 0.388",
+        computation="P ≠ NP",
+        geometry="Calabi-Yau"
+    )
+    
+    print("\n6-DOMAIN INTEGRATION:")
+    for domain, value in pds.get_domain_integration().items():
+        print(f"  {domain:15s}: {value}")
+    
+    print(f"\nConcept networks: {list(pds.concept_network.keys())}")
+    
+    # Show unified framework
+    print(pds.show_unified_framework())
     
     # Create university
     univ = PostDisciplinaryUniversity()
-    print(f"Problem labs: {univ.spaces['problem_labs']}")
+    print(f"\nProblem labs: {univ.spaces['problem_labs']}")
     
     # Show unified approach
     approach = PNeqNP_UnifiedApproach()
