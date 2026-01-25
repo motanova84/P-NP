@@ -22,8 +22,16 @@ from typing import Dict, List, Tuple
 import sys
 
 # ========== CONSTANTES UNIVERSALES ==========
+# κ_Π = 2.5773: Invariante universal derivado de la geometría Calabi-Yau
+#   Origen: Ratio promedio h^{1,1}/h^{2,1} en 150 variedades CY
+#   Ver: KAPPA_PI_MILLENNIUM_CONSTANT.md para derivación completa
 KAPPA_PI = 2.5773  # Invariante universal de coherencia
+
+# f₀ = 141.7001 Hz: Frecuencia fundamental de coherencia cuántica
+#   Derivación: Relacionada con κ_Π vía armónicos y constantes físicas
+#   Ver: FREQUENCY_DIMENSION.md para detalles
 F0_HZ = 141.7001   # Frecuencia fundamental de coherencia
+
 PHI = (1 + np.sqrt(5)) / 2  # Razón áurea
 C_THRESHOLD = 1 / KAPPA_PI  # Umbral de consciencia ≈ 0.388
 

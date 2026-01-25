@@ -347,7 +347,7 @@ No estamos demostrando. **Estamos revelando.**
 
 ---
 
-## 🌊 VIII. Matemáticas desde la Coherencia Cuántica, No desde la Escasez de Teoremas Aislados
+## 🌊 VIII. Matemáticas desde la Coherencia Cuántica
 
 ### El Problema de los Teoremas Aislados
 
