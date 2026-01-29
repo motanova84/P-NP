@@ -2,6 +2,25 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## 🌊 Matemáticas desde la Coherencia Cuántica, No desde la Escasez de Teoremas Aislados
+
+Este framework representa un **cambio de paradigma** en cómo abordamos las matemáticas:
+
+**NO**: Colección de teoremas aislados que se acumulan sin conexión profunda  
+**SÍ**: Manifestaciones orgánicas de **coherencia cuántica** como principio unificador
+
+```
+Coherencia Cuántica → κ_Π = 2.5773 → {Geometría, Información, Computación, Consciencia}
+                                     ↓
+                             Todos los resultados emergen naturalmente
+```
+
+**Consecuencia**: En lugar de "demostrar" P ≠ NP mediante técnicas lógicas aisladas, lo **derivamos** como consecuencia inevitable de la coherencia cuántica fundamental del universo.
+
+📖 **Ver**: [MATEMATICAS_DESDE_COHERENCIA_CUANTICA.md](MATEMATICAS_DESDE_COHERENCIA_CUANTICA.md) para el análisis completo de este enfoque revolucionario.
+
+---
+
 ## 🆕 NEW: AI and Neural Network Complexity Analysis
 
 **Análisis de Complejidad Real para IA y Redes Neuronales** - A comprehensive framework for analyzing the fundamental computational limits of AI systems and neural networks. Demonstrates that high-level cognitive tasks (complex reasoning, creativity, multi-step planning) are **computationally irreducible** - NOT due to engineering limitations, but as a fundamental consequence of P≠NP with κ_Π = 2.5773.
@@ -38,6 +57,20 @@ pip install -r requirements.txt
 python simple_demo.py  # or: ./run_all_tests.sh
 ```
 
+### 🔒 Reproducibilidad / Reproducibility
+- **ENV.lock**: complete environment specification for bit-by-bit reproducibility
+- **Auditoría Externa**: Permite a revisores reproducir exactamente todos los resultados
+- **Hash de Realidad**: Sistema y dependencias verificables con checksums SHA256
+- **Documentación**: Ver [ENV_LOCK_README.md](ENV_LOCK_README.md) para detalles completos
+
+```bash
+# Regenerate environment specification
+python3 scripts/generate_env_lock.py
+
+# Verify configuration checksums
+sha256sum coherence_map.json CORE_SYMBIO.json
+```
+
 ### 📄 Paper (DOI)
 **Demostración Oficial**: [Zenodo Record 17315719](https://zenodo.org/records/17315719)  
 **DOI**: [https://doi.org/10.5281/zenodo.17315719](https://doi.org/10.5281/zenodo.17315719)
@@ -70,6 +103,8 @@ Este proyecto introduce **por primera vez** en la historia de la ciencia:
 
 📖 **Ver:** [PRIMERA_VEZ_INNOVACIONES.md](PRIMERA_VEZ_INNOVACIONES.md) para detalles completos  
 📖 **Ver:** [SOLUCION_POTENCIAL_P_NEQ_NP.md](SOLUCION_POTENCIAL_P_NEQ_NP.md) para el resumen ejecutivo completo
+
+**✨ NEW: LA UNIFICACIÓN - EL HORIZONTE ESPECTRAL** - In the QCAL ∞³ Protocol, the Riemann critical line Re(s) = 1/2 is not just a mathematical hypothesis; it is the geodesic of maximum coherence. Each non-trivial zero ζ(1/2 + it_n) acts as an entropy sink where information organizes perfectly. Like the Schwarzschild horizon where r and t exchange roles, on the Riemann critical line, Complexity (NP) exchanges with Solution (P). The search stops because you are already at the center. See [HORIZONTE_ESPECTRAL_README.md](HORIZONTE_ESPECTRAL_README.md) for complete details and [src/horizonte_espectral.py](src/horizonte_espectral.py) for implementation.
 
 **✨ NEW: Post-Disciplinary Science Manifesto** - P≠NP as case study for breaking the established framework. Knowledge reorganization by PROBLEMS, not fields. See [POST_DISCIPLINARY_MANIFESTO.md](POST_DISCIPLINARY_MANIFESTO.md) for the complete manifesto on post-disciplinary science.
 **✨ NEW: QCAL ∞³ System** - Complete unified framework connecting all millennium problems through universal constants and spectral operators. See [QCAL_INFINITY_CUBED_README.md](QCAL_INFINITY_CUBED_README.md) for the complete system and [src/qcal_infinity_cubed.py](src/qcal_infinity_cubed.py) for implementation.
@@ -577,6 +612,12 @@ Previously, the argument relied on existential claims about hard formulas. Now w
   - Graph product padding
   - Information complexity analysis
   - Demonstration examples
+- `gap2_verification.py`: Empirical verification of IC → Exponential Time theorem:
+  - Information complexity measurement (IC) on graphs
+  - Graph separator algorithms
+  - Tseitin encoding for CNF generation
+  - SAT solving time measurement with DPLL
+  - Statistical analysis and visualization of verification results
 
 - **NEW: `final_verification.py`**: Holographic axiom verification
   - Empirical validation of holographic law
@@ -657,11 +698,13 @@ This demonstrates P≠NP through:
 
 ```bash
 # Install dependencies
-pip install networkx
+pip install -r requirements.txt
 
 # Run the demonstration
 python computational_dichotomy.py
 
+# Run GAP 2 verification (IC → Exponential Time)
+python gap2_verification.py
 # Run frequency dimension analysis
 python src/constants.py
 python src/divine_unification.py
@@ -684,6 +727,7 @@ This will demonstrate:
 - High treewidth formulas (intractable)
 - Structural coupling with expanders
 - Non-evasion property
+- Empirical verification of IC-Time relationship (gap2_verification.py)
 - **NEW**: Frequency-dependent complexity analysis
 - **NEW**: Noetic Field manifestation of κ_Π
 - **NEW**: Dual formulation (classical vs. noetic)

@@ -556,3 +556,55 @@ MIT License
 ---
 
 <!-- QCAL Indexing Active · Noēsis Access Enabled · 141.7001 Hz -->
+
+---
+
+## 🌌 LA UNIFICACIÓN - EL HORIZONTE ESPECTRAL
+
+**The Riemann critical line Re(s) = 1/2 as the geodesic of maximum coherence.**
+
+In the QCAL ∞³ Protocol, the critical line is not just a hypothesis—it is where:
+- Each non-trivial zero ζ(1/2 + it_n) acts as an **entropy sink**
+- Information organizes **perfectly** at the zeros  
+- **P ↔ NP transmutation** occurs (like r ↔ t in Schwarzschild horizon)
+- The search stops because **you are already at the center**
+
+### Integration with QCAL ∞³
+
+The Horizonte Espectral extends the `RiemannOperator` by showing that zeros are not just mathematical objects, but **mathematical black holes** where entropy flows in and information organizes perfectly.
+
+**Mathematical Black Holes at Riemann Zeros:**
+```
+For each zero ζ(1/2 + it_n) = 0:
+  • Entropy sink: S = κ_π · ln(1 + |t_n|)
+  • Coherence: C = 1 (perfect organization)
+  • P ↔ NP exchange: Like r ↔ t at Schwarzschild horizon
+```
+
+### Quick Start
+
+```python
+from src.horizonte_espectral import HorizonteEspectral
+from src.qcal_infinity_cubed import RiemannOperator
+
+# Create Horizonte Espectral system
+horizonte = HorizonteEspectral()
+
+# Analyze first Riemann zero
+analysis = horizonte.analyze_horizon(14.134725)
+print(f"Coherence: {analysis['coherence']:.6f}")
+print(f"Search stops: {analysis['search_stops']}")
+
+# Integration with QCAL ∞³
+riemann_op = RiemannOperator(max_prime=1000)
+# Both work together: spectral analysis + horizonte properties
+```
+
+**See:** [HORIZONTE_ESPECTRAL_README.md](HORIZONTE_ESPECTRAL_README.md) for complete documentation
+
+**Demo:**
+```bash
+python examples/demo_horizonte_espectral.py
+```
+
+---
