@@ -125,6 +125,17 @@ lean_lib HolographicProofUnified where
 lean_lib ExpanderTreewidth where
   roots := #[`ExpanderTreewidth]
 
+lean_lib RamanujanGraphs where
+  roots := #[`RamanujanGraphs]
+
+lean_lib KappaPiExpander where
+  roots := #[`KappaPiExpander]
+
+lean_lib PetersenGraphDemo where
+  roots := #[`PetersenGraphDemo]
+
+lean_lib QCAL where
+  roots := #[`QCAL.Core, `QCAL.Theorem]
 lean_lib RamanujanGraph where
   roots := #[`RamanujanGraph]
 
