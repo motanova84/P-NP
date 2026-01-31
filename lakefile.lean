@@ -22,6 +22,9 @@ lean_lib FormalVerification where
 lean_lib Treewidth where
   roots := #[`Treewidth]
 
+lean_lib SimpleTreewidth where
+  roots := #[`SimpleTreewidth]
+
 lean_lib Formal where
   roots := #[`Formal]
 
