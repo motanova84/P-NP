@@ -22,6 +22,17 @@ lean_lib FormalVerification where
 lean_lib Treewidth where
   roots := #[`Treewidth]
 
+lean_lib SimpleTreewidth where
+  roots := #[`SimpleTreewidth]
+lean_lib GraphTheory where
+  roots := #[`GraphTheory]
+
+lean_lib SpectralExpansion where
+  roots := #[`SpectralExpansion]
+
+lean_lib CycleTreeDecomposition where
+  roots := #[`CycleTreeDecomposition]
+
 lean_lib Formal where
   roots := #[`Formal]
 
@@ -40,6 +51,11 @@ lean_lib PNPSpectral where
 lean_lib GraphInformationComplexity where
   roots := #[`GraphInformationComplexity]
 
+lean_lib EmpiricalEvidence where
+  roots := #[`empirical_evidence]
+
+lean_lib UltimateUnification where
+  roots := #[`Ultimate_Unification]
 lean_lib HolographicPnP where
   roots := #[`HolographicPnP]
 lean_lib HolographicVolume where
@@ -104,6 +120,35 @@ lean_lib CY_RF_Construct where
 
 lean_lib KappaPhiTheorem where
   roots := #[`KappaPhiTheorem]
+
+lean_lib HolographicProofUnified where
+  roots := #[`HolographicProofUnified]
+
+lean_lib ExpanderTreewidth where
+  roots := #[`ExpanderTreewidth]
+
+lean_lib RamanujanGraphs where
+  roots := #[`RamanujanGraphs]
+
+lean_lib KappaPiExpander where
+  roots := #[`KappaPiExpander]
+
+lean_lib PetersenGraphDemo where
+  roots := #[`PetersenGraphDemo]
+
+lean_lib QCAL where
+  roots := #[`QCAL.Core, `QCAL.Theorem]
+lean_lib RamanujanGraph where
+  roots := #[`RamanujanGraph]
+
+lean_lib KappaExpander where
+  roots := #[`KappaExpander]
+
+lean_lib CompilationTests where
+  roots := #[`CompilationTests]
+
+lean_lib QCALDemonstration where
+  roots := #[`QCAL_Demonstration]
 
 @[default_target]
 lean_exe pnp where
