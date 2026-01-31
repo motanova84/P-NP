@@ -125,6 +125,9 @@ lean_lib KappaPiExpander where
 lean_lib PetersenGraphDemo where
   roots := #[`PetersenGraphDemo]
 
+lean_lib QCAL where
+  roots := #[`QCAL.Core, `QCAL.Theorem]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal
