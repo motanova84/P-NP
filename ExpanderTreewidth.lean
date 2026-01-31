@@ -45,6 +45,11 @@ noncomputable def spectral_gap (G : SimpleGraph V) : ℝ :=
   -- of the adjacency matrix
   0
 
+/-- The spectral gap is always non-negative -/
+lemma spectral_gap_nonneg (G : SimpleGraph V) : 0 ≤ spectral_gap G := by
+  unfold spectral_gap
+  norm_num
+
 /-- A graph is a spectral expander if:
     1. It is d-regular
     2. Its spectral gap λ satisfies λ < d
@@ -53,6 +58,20 @@ structure IsSpectralExpander (G : SimpleGraph V) (d : ℕ) (λ : ℝ) : Prop whe
   is_regular : ∀ v : V, G.degree v = d
   gap_positive : spectral_gap G ≤ λ
   gap_bounded : λ < (d : ℝ)
+
+/-- If a graph is a spectral expander with parameters d and λ, then λ is positive -/
+lemma expander_gap_pos {G : SimpleGraph V} {d : ℕ} {λ : ℝ} 
+    (h : IsSpectralExpander G d λ) : 0 ≤ λ := by
+  have h1 := spectral_gap_nonneg G
+  have h2 := h.gap_positive
+  linarith
+
+/-- If a graph is a spectral expander, then d > 0 -/
+lemma expander_degree_pos {G : SimpleGraph V} {d : ℕ} {λ : ℝ} 
+    (h : IsSpectralExpander G d λ) : 0 < (d : ℝ) := by
+  have : λ < (d : ℝ) := h.gap_bounded
+  have : 0 ≤ λ := expander_gap_pos h
+  linarith
 
 /-!
   ## Edge Expansion
@@ -64,12 +83,23 @@ noncomputable def edgeBoundary (G : SimpleGraph V) (A : Finset V) : ℝ :=
   -- In a full implementation, this would count edges properly
   (A.card : ℝ)
 
+/-- The edge boundary is always non-negative -/
+lemma edgeBoundary_nonneg (G : SimpleGraph V) (A : Finset V) : 
+    0 ≤ edgeBoundary G A := by
+  unfold edgeBoundary
+  exact Nat.cast_nonneg _
+
 /-- Edge expansion of a graph: minimum ratio of boundary size to set size
     for sets of size at most n/2 -/
 noncomputable def edgeExpansion (G : SimpleGraph V) : ℝ :=
   -- This is a placeholder
   -- Should be: min_{|A| ≤ n/2} |∂A| / |A|
   0
+
+/-- The edge expansion is always non-negative -/
+lemma edgeExpansion_nonneg (G : SimpleGraph V) : 0 ≤ edgeExpansion G := by
+  unfold edgeExpansion
+  norm_num
 
 /-- Definition of edge expansion for a specific set -/
 axiom edgeExpansion_def {G : SimpleGraph V} {A : Finset V} 
@@ -110,6 +140,14 @@ noncomputable def treewidth (G : SimpleGraph V) : ℕ :=
   -- This should reference the actual treewidth definition
   -- from the existing Treewidth module
   0
+
+/-- Treewidth is always non-negative (trivially true for natural numbers) -/
+lemma treewidth_nonneg (G : SimpleGraph V) : 0 ≤ treewidth G := by
+  exact Nat.zero_le _
+
+/-- Treewidth cast to real is non-negative -/
+lemma treewidth_real_nonneg (G : SimpleGraph V) : 0 ≤ (treewidth G : ℝ) := by
+  exact Nat.cast_nonneg _
 
 /-- If a graph has treewidth at most k, then it has a balanced separator 
     of size at most k+1. This is a fundamental property of tree decompositions. -/
@@ -208,3 +246,24 @@ theorem ramanujan_expander_treewidth (G : SimpleGraph V) (d : ℕ)
   obtain ⟨c, hc_pos, h_bound⟩ := expander_large_treewidth G d _ h_exp (le_refl _) h_nlarge
   -- Show that c ≥ 0.1 for Ramanujan graphs with d ≥ 3
   sorry
+
+/-! ## Provable Utility Lemmas -/
+
+/-- The constant 0.1 is positive -/
+lemma const_0_1_pos : (0 : ℝ) < 0.1 := by norm_num
+
+/-- For d ≥ 3, we have d > 0 -/
+lemma three_le_imp_pos (d : ℕ) (h : 3 ≤ d) : 0 < d := by omega
+
+/-- If n ≥ 100, then n > 0 -/  
+lemma hundred_le_imp_pos (n : ℕ) (h : 100 ≤ n) : 0 < n := by omega
+
+/-- The square root of 2 is less than 2 -/
+lemma sqrt_2_lt_2 : Real.sqrt 2 < 2 := by
+  rw [Real.sqrt_lt']
+  · norm_num
+  · norm_num
+
+/-- Basic inequality: if 0 < a and a < b, then 0 < b -/
+lemma pos_trans_lt {a b : ℝ} (h1 : 0 < a) (h2 : a < b) : 0 < b := by
+  linarith

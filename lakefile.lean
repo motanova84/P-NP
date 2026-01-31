@@ -122,6 +122,9 @@ lean_lib RamanujanGraph where
 lean_lib KappaExpander where
   roots := #[`KappaExpander]
 
+lean_lib CompilationTests where
+  roots := #[`CompilationTests]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal

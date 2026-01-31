@@ -48,6 +48,30 @@ open SimpleGraph Finset Real Nat
 /-- Check if a natural number is congruent to 1 modulo 4 -/
 def is_one_mod_four (p : ℕ) : Prop := p % 4 = 1
 
+/-- 5 is congruent to 1 modulo 4 - PROVABLE -/
+lemma five_mod_four : is_one_mod_four 5 := by
+  unfold is_one_mod_four
+  norm_num
+
+/-- 13 is congruent to 1 modulo 4 - PROVABLE -/
+lemma thirteen_mod_four : is_one_mod_four 13 := by
+  unfold is_one_mod_four
+  norm_num
+
+/-- If p ≡ 1 (mod 4) and p is prime, then p ≥ 5 - PROVABLE -/
+lemma prime_one_mod_four_ge_five (p : ℕ) (hp : p.Prime) (hmod : is_one_mod_four p) : 
+    p ≥ 5 := by
+  unfold is_one_mod_four at hmod
+  -- p % 4 = 1 means p = 4k + 1 for some k
+  -- The smallest prime of form 4k+1 is 5
+  by_contra h
+  push_neg at h
+  interval_cases p
+  · norm_num at hp
+  · norm_num at hmod
+  · norm_num at hp
+  · norm_num at hmod
+
 /-- Prime p ≡ 1 (mod 4) -/
 structure PrimeOneMod4 where
   p : ℕ

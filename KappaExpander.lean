@@ -95,14 +95,26 @@ variable {V : Type*} [Fintype V] [DecidableEq V]
 -/
 noncomputable def kappa_pi : ℝ := 2.5773
 
-/-- κ_Π is positive -/
-axiom kappa_pi_pos : kappa_pi > 0
+/-- κ_Π is positive - PROVABLE -/
+lemma kappa_pi_pos : kappa_pi > 0 := by
+  unfold kappa_pi
+  norm_num
 
-/-- κ_Π is greater than 1 -/
-axiom kappa_pi_gt_one : kappa_pi > 1
+/-- κ_Π is greater than 1 - PROVABLE -/
+lemma kappa_pi_gt_one : kappa_pi > 1 := by
+  unfold kappa_pi
+  norm_num
 
-/-- κ_Π is less than 3 -/
-axiom kappa_pi_lt_three : kappa_pi < 3
+/-- κ_Π is less than 3 - PROVABLE -/
+lemma kappa_pi_lt_three : kappa_pi < 3 := by
+  unfold kappa_pi
+  norm_num
+
+/-- κ_Π is between 2 and 3 - PROVABLE -/
+lemma kappa_pi_bounds : 2 < kappa_pi ∧ kappa_pi < 3 := by
+  constructor
+  · unfold kappa_pi; norm_num
+  · unfold kappa_pi; norm_num
 
 /-- κ_Π is approximately equal to the product φ × (π/e) × λ_CY -/
 axiom kappa_pi_composition : 
