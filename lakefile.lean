@@ -110,6 +110,9 @@ lean_lib CY_RF_Construct where
 lean_lib KappaPhiTheorem where
   roots := #[`KappaPhiTheorem]
 
+lean_lib HolographicProofUnified where
+  roots := #[`HolographicProofUnified]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal
