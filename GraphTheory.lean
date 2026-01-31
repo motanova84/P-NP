@@ -119,26 +119,49 @@ theorem edgeBoundary_card_le (S : Finset V) :
 ### Stronger Bound Using Sum of Degrees
 
 A more precise bound: |∂S| ≤ ∑_{v∈S} degree(v)
+
+The key insight is that each edge in the boundary originates from exactly one vertex in S,
+and each such vertex v contributes at most degree(v) edges to the boundary.
 -/
+
+-- Helper: edges in boundary can be counted by grouping by source vertex
+lemma edgeBoundary_eq_biUnion (S : Finset V) :
+    G.edgeBoundary S ⊆ (S.biUnion fun v => (G.neighborFinset v \ S).image (Prod.mk v)) := by
+  intro e he
+  -- If e = (v, w) is in the boundary, then v ∈ S, w ∉ S, and G.Adj v w
+  obtain ⟨hv, hw, hadj⟩ := mem_edgeBoundary_iff.mp he
+  -- So e is in the image of (v, _) for neighbors of v outside S
+  apply mem_biUnion.mpr
+  use e.1, hv
+  apply mem_image.mpr
+  use e.2
+  constructor
+  · apply mem_sdiff.mpr
+    constructor
+    · exact adj_comm.mp hadj ▸ mem_neighborFinset.mpr hadj
+    · exact hw
+  · rfl
 
 theorem edgeBoundary_card_le_sum_degrees (S : Finset V) :
     (G.edgeBoundary S).card ≤ ∑ v in S, G.degree v := by
   -- If S is empty, trivial
   by_cases hS : S = ∅
   · simp [hS, edgeBoundary]
-  -- Each edge (v,w) in ∂S corresponds to v ∈ S and w ∉ S with w neighbor of v
-  -- We count: for each v ∈ S, how many neighbors w are outside S
+  -- Use the helper to bound cardinality
   calc
     (G.edgeBoundary S).card 
-        = (S ×ˢ (univ \ S)).card := by
-          -- This is not quite right; we need to filter by adjacency
-          sorry
+        ≤ (S.biUnion fun v => (G.neighborFinset v \ S).image (Prod.mk v)).card := by
+          exact card_le_card (edgeBoundary_eq_biUnion G S)
+    _ ≤ ∑ v in S, ((G.neighborFinset v \ S).image (Prod.mk v)).card := by
+          apply card_biUnion_le
     _ ≤ ∑ v in S, (G.neighborFinset v \ S).card := by
-          sorry
-    _ ≤ ∑ v in S, (G.neighborFinset v).card := by
-          apply Finset.sum_le_sum
+          apply sum_le_sum
           intro v hv
-          exact Finset.card_le_card (Finset.sdiff_subset _ _)
+          apply card_image_le
+    _ ≤ ∑ v in S, (G.neighborFinset v).card := by
+          apply sum_le_sum
+          intro v hv
+          exact card_le_card (sdiff_subset _ _)
     _ = ∑ v in S, G.degree v := by
           simp_rw [degree_eq_card_neighborFinset]
 
@@ -174,24 +197,24 @@ end SimpleGraph
 /-!
 ## Cycle Graph Definition
 
-A cycle graph is a graph where vertices form a single cycle.
-For n vertices (labeled 0 to n-1), vertex i is adjacent to vertices
-(i-1) mod n and (i+1) mod n.
+A cycle graph Cₙ on n vertices forms a single cycle.
+Vertices are adjacent if they are consecutive in the cycle (mod n).
 -/
 
-def cycleGraph (n : ℕ) : SimpleGraph (Fin n) where
+def cycleGraph (n : ℕ) (hn : n ≥ 3) : SimpleGraph (Fin n) where
   Adj i j := 
-    -- Two vertices are adjacent if they differ by 1 (mod n)
-    let diff := if j.val ≥ i.val then j.val - i.val else i.val - j.val
-    (diff = 1) ∨ (n ≥ 2 ∧ diff = n - 1)
+    -- Two distinct vertices are adjacent if one is the successor of the other (mod n)
+    i ≠ j ∧ ((i.val + 1) % n = j.val ∨ (j.val + 1) % n = i.val)
   symm := by
-    intro i j h
-    -- Adjacency is symmetric because we take absolute difference
-    sorry
+    intro i j ⟨hij, h⟩
+    constructor
+    · exact hij.symm
+    · cases h with
+      | inl h => right; exact h
+      | inr h => left; exact h
   loopless := by
-    intro i h
-    -- A vertex cannot be adjacent to itself
-    sorry
+    intro i ⟨h, _⟩
+    exact h rfl
 
 /-!
 ## Petersen Graph - A Small Ramanujan Graph
@@ -199,40 +222,56 @@ def cycleGraph (n : ℕ) : SimpleGraph (Fin n) where
 The Petersen graph is a 3-regular graph on 10 vertices that is known to be
 a Ramanujan graph (optimal expander for its degree).
 
-We construct it using the standard definition with outer and inner pentagons.
+Construction:
+- Outer pentagon: vertices 0-4, edges form a 5-cycle
+- Inner star: vertices 5-9, edges connect vertices at distance 2 in the 5-cycle
+- Spokes: vertex i (outer) connects to vertex i+5 (inner) for i = 0..4
 -/
 
 def petersenGraph : SimpleGraph (Fin 10) where
   Adj i j :=
-    -- Outer pentagon: 0-1-2-3-4-0
-    -- Inner star: 5-7-9-6-8-5
-    -- Connections: 0-5, 1-6, 2-7, 3-8, 4-9
-    let outer_i := i.val < 5
-    let outer_j := j.val < 5
-    if outer_i && outer_j then
-      -- Both on outer pentagon
-      let diff := if j.val ≥ i.val then j.val - i.val else i.val - j.val
-      diff = 1 ∨ diff = 4
-    else if !outer_i && !outer_j then
-      -- Both on inner star (pentagon with chord pattern)
-      let ii := i.val - 5
-      let jj := j.val - 5
-      let diff := if jj ≥ ii then jj - ii else ii - jj
-      diff = 2 ∨ diff = 3
-    else
-      -- One outer, one inner - spoke connections
-      if outer_i then
-        j.val = i.val + 5
-      else
-        i.val = j.val + 5
+    i ≠ j ∧ (
+      -- Outer pentagon edges (0-1-2-3-4-0)
+      (i.val < 5 ∧ j.val < 5 ∧ 
+        ((i.val + 1) % 5 = j.val % 5 ∨ (j.val + 1) % 5 = i.val % 5)) ∨
+      -- Inner star edges (5-7-9-6-8-5, i.e., connecting at distance 2)
+      (i.val ≥ 5 ∧ j.val ≥ 5 ∧ 
+        let ii := i.val - 5
+        let jj := j.val - 5
+        (ii + 2) % 5 = jj ∨ (jj + 2) % 5 = ii) ∨
+      -- Spoke edges (0-5, 1-6, 2-7, 3-8, 4-9)
+      (i.val < 5 ∧ j.val ≥ 5 ∧ j.val = i.val + 5) ∨
+      (j.val < 5 ∧ i.val ≥ 5 ∧ i.val = j.val + 5)
+    )
   symm := by
-    intro i j h
-    -- Symmetry follows from the symmetric construction
-    sorry
+    intro i j ⟨hij, h⟩
+    constructor
+    · exact hij.symm
+    · cases h with
+      | inl h_outer =>
+        left
+        obtain ⟨hi, hj, hedge⟩ := h_outer
+        refine ⟨hj, hi, ?_⟩
+        cases hedge with
+        | inl h => right; exact h
+        | inr h => left; exact h
+      | inr h_rest =>
+        cases h_rest with
+        | inl h_inner =>
+          right; left
+          obtain ⟨hi, hj, hedge⟩ := h_inner
+          refine ⟨hj, hi, ?_⟩
+          cases hedge with
+          | inl h => right; exact h
+          | inr h => left; exact h
+        | inr h_spokes =>
+          right; right
+          cases h_spokes with
+          | inl h => right; exact h
+          | inr h => left; exact h
   loopless := by
-    intro i h
-    -- A vertex cannot be adjacent to itself
-    sorry
+    intro i ⟨h, _⟩
+    exact h rfl
 
 /-!
 ## Petersen Graph Properties

@@ -32,8 +32,8 @@ example :
 This should hold for any graph and any set.
 -/
 
-example (n : ℕ) (S : Finset (Fin n)) :
-  let G := cycleGraph n
+example (n : ℕ) (hn : 3 ≤ n) (S : Finset (Fin n)) :
+  let G := cycleGraph n hn
   0 ≤ G.edgeExpansion S := by
   apply edgeExpansion_nonneg
 
@@ -54,7 +54,7 @@ A cycle graph on n vertices where n ≥ 3 should be connected and 2-regular.
 
 example (n : ℕ) (hn : 3 ≤ n) :
   -- Each vertex in a cycle has degree 2
-  ∀ v : Fin n, (cycleGraph n).degree v = 2 := by
+  ∀ v : Fin n, (cycleGraph n hn).degree v = 2 := by
   sorry
 
 /-!
