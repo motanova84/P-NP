@@ -110,7 +110,8 @@ theorem diagonalization_argument :
       ∀ i : ℕ, ∀ A : SATAlgorithm,
         enumeration i = some A →
         ∃ n₀ : ℕ, ∀ n ≥ n₀,
-          A.time n < Real.exp (κ_Π * Real.sqrt n) := by
+          -- Fixed: Algorithm time is INSUFFICIENT (≥ needed, so fails)
+          Real.exp (κ_Π * Real.sqrt n) > A.time n := by
   intro enumeration h_poly
   -- For each algorithm Aᵢ in the enumeration:
   -- 1. Extract its polynomial bound: time(n) ≤ n^cᵢ

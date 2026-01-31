@@ -202,9 +202,9 @@ Since "high treewidth" is neither constructive nor large, it's not a
 natural property, and the proof avoids the natural proofs barrier.
 -/
 theorem high_treewidth_not_natural :
-  ¬∃ (C : NaturalProperty),
+  ¬∃ (C : NaturalProperty) (threshold : ℕ),
     (∀ G : SimpleGraph ℕ,
-      C.property (fun _ => true) ↔ treewidth G ≥ 10) := by
+      C.property (fun _ => true) ↔ treewidth G ≥ threshold) := by
   intro ⟨C, h_equiv⟩
   -- Would need to show:
   -- 1. Computing treewidth is NP-complete (not efficiently computable)
