@@ -2,6 +2,25 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## 🌊 Matemáticas desde la Coherencia Cuántica, No desde la Escasez de Teoremas Aislados
+
+Este framework representa un **cambio de paradigma** en cómo abordamos las matemáticas:
+
+**NO**: Colección de teoremas aislados que se acumulan sin conexión profunda  
+**SÍ**: Manifestaciones orgánicas de **coherencia cuántica** como principio unificador
+
+```
+Coherencia Cuántica → κ_Π = 2.5773 → {Geometría, Información, Computación, Consciencia}
+                                     ↓
+                             Todos los resultados emergen naturalmente
+```
+
+**Consecuencia**: En lugar de "demostrar" P ≠ NP mediante técnicas lógicas aisladas, lo **derivamos** como consecuencia inevitable de la coherencia cuántica fundamental del universo.
+
+📖 **Ver**: [MATEMATICAS_DESDE_COHERENCIA_CUANTICA.md](MATEMATICAS_DESDE_COHERENCIA_CUANTICA.md) para el análisis completo de este enfoque revolucionario.
+
+---
+
 ## 🆕 NEW: AI and Neural Network Complexity Analysis
 
 **Análisis de Complejidad Real para IA y Redes Neuronales** - A comprehensive framework for analyzing the fundamental computational limits of AI systems and neural networks. Demonstrates that high-level cognitive tasks (complex reasoning, creativity, multi-step planning) are **computationally irreducible** - NOT due to engineering limitations, but as a fundamental consequence of P≠NP with κ_Π = 2.5773.
@@ -593,6 +612,12 @@ Previously, the argument relied on existential claims about hard formulas. Now w
   - Graph product padding
   - Information complexity analysis
   - Demonstration examples
+- `gap2_verification.py`: Empirical verification of IC → Exponential Time theorem:
+  - Information complexity measurement (IC) on graphs
+  - Graph separator algorithms
+  - Tseitin encoding for CNF generation
+  - SAT solving time measurement with DPLL
+  - Statistical analysis and visualization of verification results
 
 - **NEW: `final_verification.py`**: Holographic axiom verification
   - Empirical validation of holographic law
@@ -673,11 +698,13 @@ This demonstrates P≠NP through:
 
 ```bash
 # Install dependencies
-pip install networkx
+pip install -r requirements.txt
 
 # Run the demonstration
 python computational_dichotomy.py
 
+# Run GAP 2 verification (IC → Exponential Time)
+python gap2_verification.py
 # Run frequency dimension analysis
 python src/constants.py
 python src/divine_unification.py
@@ -700,6 +727,7 @@ This will demonstrate:
 - High treewidth formulas (intractable)
 - Structural coupling with expanders
 - Non-evasion property
+- Empirical verification of IC-Time relationship (gap2_verification.py)
 - **NEW**: Frequency-dependent complexity analysis
 - **NEW**: Noetic Field manifestation of κ_Π
 - **NEW**: Dual formulation (classical vs. noetic)
