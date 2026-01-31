@@ -209,13 +209,14 @@ theorem kappa_expander_large_separator (G : SimpleGraph V)
   -- By expander property, C has large boundary
   have hC_small_enough : C.card ≤ Fintype.card V / 2 := by
     -- From balance property: C.card ≤ 2n/3
-    -- Since 2n/3 < n (trivial), we have C.card < n
-    -- For the expander property to apply, we need C.card ≤ n/2
-    -- This follows from: C.card ≤ 2n/3 and n/2 < 2n/3 is false when n > 0
-    -- Actually, we need a different approach or a tighter balance condition
-    -- The standard approach: if C.card > n/2, use complement instead
+    -- We need C.card ≤ n/2 for the expander property to apply
+    -- Note: n/2 < 2n/3 IS true for n > 0 (since 1/2 < 2/3)
+    -- However, C.card ≤ 2n/3 does NOT directly imply C.card ≤ n/2
+    -- since 2n/3 > n/2 when n > 0
+    -- The standard approach: if C.card > n/2, consider the complement of C instead
+    -- and apply expansion property to the smaller set
     -- Requires Mathlib support for graph complements and symmetric arguments
-    sorry  -- Requires refinement of balance condition or complement argument
+    sorry  -- Requires refinement: use complement or tighter balance condition
   
   have h_exp_bound : ((G.neighborFinset C \ C).card : ℝ) ≥ δ * (C.card : ℝ) := by
     have := h_expansion C hC_small_enough
@@ -317,19 +318,19 @@ theorem separator_treewidth_relation (G : SimpleGraph V)
         _ ≤ 2 * (S.card : ℝ) := by linarith
         _ ≤ (S.card : ℝ) + (S.card : ℝ) := by ring
         _ ≤ (S.card : ℝ) + (k : ℝ) := by 
-          -- Using separator properties: This step has logical issues
-          -- The calculation shows 2·|S| ≤ |S| + k, which means |S| ≤ k
+          -- TODO: KNOWN ISSUE - Proof strategy needs revision
+          -- This step has logical issues: showing 2·|S| ≤ |S| + k implies |S| ≤ k
           -- But this contradicts what we're trying to prove (|S| ≥ α·k where α < 1)
-          -- The proof strategy needs revision - likely need different case split
-          -- or tighter bounds on the expander case
-          sorry  -- Proof strategy needs revision for consistency
+          -- The proof strategy for the high treewidth case needs complete revision
+          -- Likely need different case split or tighter bounds from expander property
+          sorry  -- BUG: Proof strategy has fundamental logical gap
         _ ≤ (S.card : ℝ) + (S.card : ℝ) := by 
-          -- This would require |k| ≤ |S|, but we're in high treewidth case
+          -- TODO: This would require k ≤ |S|, but we're in high treewidth case
           -- where we only know |S| ≥ n/(2κ_Π) and k ≤ n
-          -- Need to use the relationship more carefully
-          sorry  -- Requires tighter analysis of high treewidth case
+          -- Need to use the expander-treewidth relationship more carefully
+          sorry  -- BUG: Requires tighter analysis, current approach flawed
         _ = 2 * (S.card : ℝ) := by ring
-      sorry  -- Need to tighten this bound - current proof strategy has gaps
+      sorry  -- BUG: Complete proof strategy revision needed for this case
   
   -- Right side: S.card ≤ κ_Π * k
   · -- Construct tree decomposition with bags containing S
