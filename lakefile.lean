@@ -125,6 +125,9 @@ lean_lib KappaExpander where
 lean_lib CompilationTests where
   roots := #[`CompilationTests]
 
+lean_lib QCALDemonstration where
+  roots := #[`QCAL_Demonstration]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal
