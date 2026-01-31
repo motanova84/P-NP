@@ -2,6 +2,20 @@
 
 This document tracks the status of completing proofs (replacing `sorry` with actual demonstrations) in the spectral graph theory and tree decomposition modules.
 
+## Completed Proofs
+
+### ✅ Proof 1: k+1 ≤ κ_Π·k Inequality (ExpanderSeparators.lean, line 347)
+
+**Theorem**: For treewidth k and universal constant κ_Π ≈ 2.5773, we have k + 1 ≤ κ_Π · k (for k ≥ 1).
+
+**Strategy**:
+1. Case analysis on whether k = 0
+2. For k ≥ 1: Prove 1 ≤ (κ_Π - 1) · k using κ_Π > 1
+3. Algebraic rearrangement: 1 + (κ_Π - 1)·k = κ_Π·k
+
+**Code**: ~25 lines of Lean proof
+**Remaining**: k = 0 case requires additional hypothesis (non-trivial graph with tw ≥ 1)
+
 ## Overview
 
 The repository contains approximately 656 `sorry` statements across the codebase. This document focuses on the spectral graph theory and tree decomposition theory modules as requested in the problem statement.
@@ -44,7 +58,7 @@ The repository contains approximately 656 `sorry` statements across the codebase
 
 ### 2. `formal/Treewidth/ExpanderSeparators.lean`
 
-**Status**: Documentation significantly improved, dependencies clearly identified
+**Status**: Documentation significantly improved, dependencies clearly identified, **one proof completed**
 
 #### Theorems Analyzed:
 
@@ -88,11 +102,13 @@ The repository contains approximately 656 `sorry` statements across the codebase
       - Issue: Logical inconsistency in calculation steps
       - Requires: Rethinking the case split or tighter bounds
       
-   d. **k+1 ≤ κ_Π·k bound** (line 335-343)
-      - Requirements: Basic algebra
-      - Mathematical: True when k ≥ 1/(κ_Π - 1) ≈ 0.634
-      - Status: ✅ Provable with case analysis
-      - Effort: Low
+   d. **k+1 ≤ κ_Π·k bound** (line 347-377)
+      - **Status**: ✅ **COMPLETED for k ≥ 1**
+      - Mathematical: k + 1 ≤ κ_Π·k ⟺ 1 ≤ (κ_Π - 1)·k
+      - Proof: Case analysis on k, algebraic manipulation
+      - Remaining: k=0 case requires hypothesis (non-trivial graph)
+      - **Lines of proof code**: ~25 lines
+      - Effort: Low (completed)
 
 ## Summary of Infrastructure Needs
 
@@ -173,11 +189,12 @@ Most other `sorry` statements are:
 ## Statistics
 
 ### Current Status (for spectral & treewidth modules)
-- **Total sorry statements**: ~18 in the two main files
-- **Documented with requirements**: 18/18 (100%)
+- **Total sorry statements analyzed**: ~20 in the three main files
+- **Documented with requirements**: 20/20 (100%)
 - **Mathematical flaws identified**: 2
+- **Proofs completed**: 1 (k+1 ≤ κ_Π·k for k ≥ 1)
 - **Provable with current Mathlib**: ~2 (simple algebra)
-- **Requiring new Mathlib infrastructure**: ~14 (78%)
+- **Requiring new Mathlib infrastructure**: ~15 (75%)
 
 ### Infrastructure Dependency Breakdown
 - **Connected components**: 4 sorries
@@ -185,8 +202,9 @@ Most other `sorry` statements are:
 - **Spectral theory**: 3 sorries
 - **Calculus/optimization**: 1 sorry
 - **Proof strategy revision**: 2 sorries
-- **Simple algebra**: 2 sorries
-- **Other**: 3 sorries
+- **Simple algebra**: 1 sorry (remaining - k=0 case)
+- **Completed**: 1 proof (k+1 ≤ κ_Π·k)
+- **Other**: 2 sorries
 
 ## Conclusion
 
