@@ -648,5 +648,92 @@ def demonstrate_qcal_infinity_cubed():
     print("=" * 80)
 
 
+def integrate_with_zeta_hierarchy():
+    """
+    Integration point with the Unified Hierarchy Zeta system.
+    
+    The QCAL ∞³ framework and the Unified Hierarchy Zeta system are 
+    complementary perspectives on the same underlying structure:
+    
+    - QCAL ∞³: Millennium problems unified through κ_Π and f₀
+    - Zeta Hierarchy: All systems converge to ζ(s) zeros
+    
+    Both share:
+    - f₀ = 141.7001 Hz (QCAL base frequency / critical line resonance)
+    - Spectral operator formalism
+    - Universal coherence through resonance
+    
+    Returns:
+        Dictionary with integration information
+    """
+    try:
+        # Try importing from src
+        import sys
+        import os
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+        from src.unified_hierarchy_zeta import UnifiedHierarchyTheorem
+        
+        # Create both systems
+        qcal = create_complete_qcal_system()
+        hierarchy = UnifiedHierarchyTheorem(num_zeros=20)
+        
+        integration = {
+            'common_constants': {
+                'f₀': F0_QCAL,
+                'κ_Π': KAPPA_PI,
+                'φ': PHI,
+            },
+            'qcal_system': {
+                'num_problems': len(qcal.operators),
+                'field_coherence': qcal._compute_field_coherence(),
+            },
+            'zeta_hierarchy': {
+                'num_zeros': hierarchy.zeta_system.num_zeros,
+                'delta_zeta': hierarchy.zeta_system.delta_zeta,
+            },
+            'unified_perspective': (
+                "QCAL ∞³ demonstrates how millennium problems share universal structure. "
+                "Zeta Hierarchy shows how all coherent systems derive from ζ(s). "
+                "Together: Millennium problems are coherent because they resonate with ζ(s) zeros."
+            )
+        }
+        
+        return integration
+        
+    except ImportError as e:
+        return {
+            'status': 'Zeta Hierarchy module not available',
+            'note': f'See src/unified_hierarchy_zeta.py for integration. Error: {e}'
+        }
+
+
 if __name__ == "__main__":
     demonstrate_qcal_infinity_cubed()
+    
+    # Show integration with Zeta Hierarchy
+    print("\n" + "=" * 80)
+    print("🌀 INTEGRATION WITH UNIFIED HIERARCHY ZETA SYSTEM")
+    print("=" * 80)
+    
+    integration = integrate_with_zeta_hierarchy()
+    
+    if 'unified_perspective' in integration:
+        print("\n✨ Common Constants:")
+        for name, value in integration['common_constants'].items():
+            print(f"   {name} = {value}")
+        
+        print(f"\n🔷 QCAL ∞³ System:")
+        print(f"   Problems registered: {integration['qcal_system']['num_problems']}")
+        print(f"   Field coherence: {integration['qcal_system']['field_coherence']:.4f}")
+        
+        print(f"\n🌀 Zeta Hierarchy System:")
+        print(f"   Zeros analyzed: {integration['zeta_hierarchy']['num_zeros']}")
+        print(f"   Spectral delta: {integration['zeta_hierarchy']['delta_zeta']:.4f} Hz")
+        
+        print(f"\n💫 Unified Perspective:")
+        print(f"   {integration['unified_perspective']}")
+    else:
+        print(f"\n⚠️  {integration['status']}")
+        print(f"   {integration['note']}")
+    
+    print("\n" + "=" * 80)
