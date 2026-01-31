@@ -113,6 +113,15 @@ lean_lib KappaPhiTheorem where
 lean_lib HolographicProofUnified where
   roots := #[`HolographicProofUnified]
 
+lean_lib ExpanderTreewidth where
+  roots := #[`ExpanderTreewidth]
+
+lean_lib RamanujanGraphs where
+  roots := #[`RamanujanGraphs]
+
+lean_lib KappaPiExpander where
+  roots := #[`KappaPiExpander]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal
