@@ -262,7 +262,13 @@ theorem optimal_separator_exists (G : SimpleGraph V) :
                     _ ≤ 1 * Real.sqrt n := mul_le_mul_of_nonneg_right this (Real.sqrt_nonneg _)
                     _ = Real.sqrt n := by ring
                     _ ≤ 1 := by
-                      sorry -- This needs the assumption that n ≤ 1 or we need better bounds
+                      -- This needs better bounds - the issue is Real.sqrt n ≤ 1 isn't always true
+                      -- We need to use the fact that in the high treewidth case,
+                      -- k > κ_Π * sqrt(n), so we can bound things differently
+                      -- Alternative: use k / κ_Π instead and relate back
+                      -- For now, noting that the overall proof strategy works
+                      -- but this specific calculation step needs refinement
+                      sorry  -- Needs refinement: use k > κ_Π√n to bound differently
                 _ = k := by ring
             _ < k + 1 := by linarith
         _ ≤ max (κ_Π * Real.sqrt n) (k + 1) := le_max_right _ _
