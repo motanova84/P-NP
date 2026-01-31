@@ -208,5 +208,3 @@ theorem ramanujan_expander_treewidth (G : SimpleGraph V) (d : ℕ)
   obtain ⟨c, hc_pos, h_bound⟩ := expander_large_treewidth G d _ h_exp (le_refl _) h_nlarge
   -- Show that c ≥ 0.1 for Ramanujan graphs with d ≥ 3
   sorry
-
-end ExpanderTreewidth

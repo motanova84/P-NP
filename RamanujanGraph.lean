@@ -220,5 +220,3 @@ theorem smallest_LPS_treewidth :
   · rfl
   · simp [Fintype.card_fin]
     norm_num
-
-end RamanujanGraph

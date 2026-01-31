@@ -250,5 +250,3 @@ axiom open_problem_spectral_gap_kappa : True
     - Geometric topology
 -/
 axiom kappa_as_computational_constant : True
-
-end KappaExpander
