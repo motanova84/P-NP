@@ -74,7 +74,7 @@ The central charge of Boolean CFT is derived from first principles:
 c = 1 - 6/κ_Π²
   = 1 - 6/(2.5773)²
   = 1 - 6/6.6425
-  = 0.0967 ≈ 0.099
+  = 0.0967 ≈ 0.097
 ```
 
 This value places Boolean CFT between the trivial theory (c=0) and the Ising model (c=1/2) in the CFT hierarchy.

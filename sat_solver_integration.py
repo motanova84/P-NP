@@ -7,7 +7,7 @@ This script implements the three requirements:
 2. Measure entanglement entropy in incidence graphs
 3. Verify the predicted scaling of correlation length
 
-Based on Boolean CFT theory with central charge c = 1 - 6/κ_Π² ≈ 0.099
+Based on Boolean CFT theory with central charge c = 1 - 6/κ_Π² ≈ 0.097
 where κ_Π = 2.5773 (from Calabi-Yau geometry)
 
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
