@@ -350,9 +350,35 @@ theorem separator_treewidth_relation (G : SimpleGraph V)
       -- Since κ_Π ≈ 2.5773, we have κ_Π - 1 ≈ 1.5773
       -- So we need k ≥ 1/1.5773 ≈ 0.634
       -- For k ≥ 1, this is satisfied
-      -- Need to handle case k = 0 separately or assume k ≥ 1
-      -- Mathlib needs: basic algebra for this type of inequality
-      sorry  -- Provable but needs case split on k and basic algebra
+      by_cases h_k_zero : k = 0
+      · -- Case k = 0: Need to show 1 ≤ 0, which is false
+        -- This suggests we need k ≥ 1 or handle degenerate case
+        -- For now, assume non-trivial graph with tw ≥ 1
+        sorry  -- Need hypothesis: treewidth ≥ 1 for non-trivial graphs
+      · -- Case k ≥ 1: We can prove the bound
+        have h_k_pos : 0 < (k : ℝ) := by
+          have h_k_ne : (k : ℕ) ≠ 0 := h_k_zero
+          exact Nat.cast_pos.mpr (Nat.pos_of_ne_zero h_k_ne)
+        have h_k_ge_one : 1 ≤ (k : ℝ) := by
+          have h_k_ge_one_nat : 1 ≤ k := Nat.one_le_iff_ne_zero.mpr h_k_zero
+          exact Nat.one_le_cast.mpr h_k_ge_one_nat
+        -- Now prove: 1 ≤ (κ_Π - 1) * k
+        have h_kappa_minus_one_pos : 0 < κ_Π - 1 := by
+          calc κ_Π - 1 > 1 - 1 := by linarith [κ_Π_gt_one]
+               _ = 0 := by ring
+        calc (k : ℝ) + 1 
+            = 1 + (k : ℝ) := by ring
+          _ ≤ (κ_Π - 1) * (k : ℝ) + (k : ℝ) := by
+            apply add_le_add_right
+            calc 1 ≤ (k : ℝ) := h_k_ge_one
+               _ = 1 * (k : ℝ) := by ring
+               _ ≤ (κ_Π - 1) * (k : ℝ) := by
+                 apply mul_le_mul_of_nonneg_right
+                 · linarith [κ_Π_gt_one]
+                 · exact le_of_lt h_k_pos
+          _ = (κ_Π - 1) * (k : ℝ) + 1 * (k : ℝ) := by ring
+          _ = ((κ_Π - 1) + 1) * (k : ℝ) := by ring
+          _ = κ_Π * (k : ℝ) := by ring
     
     calc (S.card : ℝ)
       _ ≤ (b.card : ℝ) := Nat.cast_le.mpr (Finset.card_le_card hb_sub)
