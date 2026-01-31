@@ -150,6 +150,9 @@ lean_lib CompilationTests where
 lean_lib QCALDemonstration where
   roots := #[`QCAL_Demonstration]
 
+lean_lib QCALUnifiedTheory where
+  roots := #[`QCAL_Unified_Theory]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal
