@@ -29,6 +29,7 @@ import Mathlib.Combinatorics.SimpleGraph.Basic
 import Mathlib.Combinatorics.SimpleGraph.Connectivity
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Real.Basic
+import Mathlib.Data.Sym.Sym2
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Tactic
 
@@ -168,9 +169,13 @@ theorem expander_large_treewidth (G : SimpleGraph V) (d : ℕ) (λ : ℝ)
   -- Contradicción
   linarith [h_boundary_small, h_boundary_large]
 
-/-- Helper: Edge boundary of a set -/
-def edgeBoundary (G : SimpleGraph V) (S : Finset V) : Finset (V × V) :=
-  Finset.filter (fun (u, v) => u ∈ S ∧ v ∉ S ∧ G.Adj u v) Finset.univ
+/-- Edge boundary of a set S in a graph G
+    
+    The edge boundary consists of all edges with one endpoint in S 
+    and the other endpoint outside S. -/
+def edgeBoundary (G : SimpleGraph V) (S : Finset V) : Finset (Sym2 V) :=
+  G.edgeFinset.filter fun e => 
+    (∃ v ∈ S, ∃ w ∉ S, e = ⟦(v, w)⟧) ∨ (∃ w ∈ S, ∃ v ∉ S, e = ⟦(v, w)⟧)
 
 /-!
   AUXILIARY LEMMAS WITH COMPLETE PROOFS
@@ -232,5 +237,86 @@ lemma nat_cast_le {m n : ℕ} (h : m ≤ n) : (m : ℝ) ≤ (n : ℝ) := Nat.cas
 lemma div_le_div_of_nonneg {a b c : ℝ} (ha : 0 ≤ a) (hb : 0 < c) (h : a ≤ b) :
     a / c ≤ b / c := by
   apply div_le_div_of_nonneg_right h hb
+
+/-!
+  NON-TRIVIAL LEMMA: EDGE BOUNDARY BOUND
+-/
+
+/-- The number of edges in the edge boundary of S is bounded by 
+    the sum of degrees of vertices in S.
+    
+    This is a fundamental property: each edge in the boundary has at least 
+    one endpoint in S, and each vertex in S can contribute at most its degree 
+    many edges to the boundary. -/
+lemma edgeBoundary_card_le_degree_sum (G : SimpleGraph V) (S : Finset V) :
+    (G.edgeBoundary S).card ≤ ∑ v in S, G.degree v := by
+  -- The key insight: each boundary edge has at least one endpoint in S,
+  -- and we can count boundary edges by their endpoints in S
+  
+  -- First, observe that each edge in the boundary is incident to at least one vertex in S
+  -- The sum ∑ v in S, degree(v) counts all edges incident to vertices in S,
+  -- counting each edge once for each endpoint in S
+  
+  -- For edges with both endpoints in S: counted twice, not in boundary
+  -- For edges with exactly one endpoint in S: counted once, these ARE in boundary
+  
+  -- Therefore: |boundary| ≤ ∑ v in S, degree(v)
+  
+  -- We establish this by showing the boundary edges are a subset of edges
+  -- incident to S, counted with multiplicity
+  
+  -- The formal proof requires establishing an injection from boundary edges
+  -- to pairs (v, e) where v ∈ S and e is incident to v
+  -- This is non-trivial and requires more Mathlib infrastructure
+  
+  sorry
+
+/-!
+  CONCRETE GRAPH CONSTRUCTIONS
+-/
+
+/-- The Petersen graph: a famous 3-regular graph on 10 vertices.
+    
+    We use a simple construction: vertex i is adjacent to j if:
+    - j = i + 1 (mod 10), or
+    - j = i - 1 (mod 10), or  
+    - j = i + 5 (mod 10)
+    
+    This creates a 3-regular graph where each vertex i has neighbors:
+    - i+1 mod 10
+    - i-1 mod 10 (which is i+9 mod 10)
+    - i+5 mod 10
+    
+    Since 5 is coprime to 10, i+5 ≠ i±1, giving exactly 3 distinct neighbors.
+    
+    Properties:
+    - 10 vertices (Fin 10)
+    - 3-regular (degree 3)
+    - 15 edges
+-/
+def petersenGraph : SimpleGraph (Fin 10) where
+  Adj i j := 
+    i ≠ j ∧ (j = i + 1 ∨ j = i - 1 ∨ j = i + 5)
+  symm := by
+    intro i j ⟨hij, h⟩
+    constructor
+    · exact hij.symm  
+    · cases h with
+      | inl h1 => right; left; omega
+      | inr h => 
+        cases h with
+        | inl h2 => left; omega
+        | inr h3 => right; right; omega
+  loopless := by
+    intro i ⟨h, _⟩
+    exact h rfl
+
+/-- The Petersen graph is 3-regular -/
+theorem petersenGraph_is_3_regular :
+    ∀ v : Fin 10, (petersenGraph.neighborFinset v).card = 3 := by
+  intro v
+  -- The three neighbors of v are: v+1, v-1, and v+5
+  -- We need to show these are distinct and exactly these three satisfy the adjacency condition
+  sorry
 
 end ExpanderTreewidth

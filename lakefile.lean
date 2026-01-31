@@ -122,6 +122,9 @@ lean_lib RamanujanGraphs where
 lean_lib KappaPiExpander where
   roots := #[`KappaPiExpander]
 
+lean_lib PetersenGraphDemo where
+  roots := #[`PetersenGraphDemo]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal
