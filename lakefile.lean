@@ -25,6 +25,12 @@ lean_lib Treewidth where
 lean_lib GraphTheory where
   roots := #[`GraphTheory]
 
+lean_lib SpectralExpansion where
+  roots := #[`SpectralExpansion]
+
+lean_lib CycleTreeDecomposition where
+  roots := #[`CycleTreeDecomposition]
+
 lean_lib Formal where
   roots := #[`Formal]
 
