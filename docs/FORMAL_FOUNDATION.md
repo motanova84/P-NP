@@ -199,7 +199,7 @@ theorem p_np_implies_cs_requires_work :
 
 ### Corolario: ℂₛ es Proof-of-Coherence
 
-A diferencia de Bitcoin (proof-of-work con hashing), ℂₓ usa coherencia biológica:
+A diferencia de Bitcoin (proof-of-work con hashing), ℂₛ usa coherencia biológica:
 
 ```lean
 def cs_is_proof_of_coherence : Prop :=
