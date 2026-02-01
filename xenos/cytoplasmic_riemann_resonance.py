@@ -42,7 +42,9 @@ import warnings
 # ============================================================================
 
 # Primer cero de la función zeta de Riemann en la línea crítica Re(s) = 1/2
-RIEMANN_FIRST_ZERO = 14.134725141734693790457251983562470270784257115699243175685567460149963429809256764949010393171561012779202971548797436107570314536000
+# Valor con precisión suficiente para cálculos en float64 (15-17 dígitos significativos)
+# Valor completo disponible: 14.13472514173469379045725198356247027078...
+RIEMANN_FIRST_ZERO = 14.134725141734694
 
 # Constante de conversión biofísica (derivada empíricamente)
 BIOPHYSICAL_SCALING = 10.025
