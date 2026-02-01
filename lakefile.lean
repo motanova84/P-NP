@@ -153,6 +153,21 @@ lean_lib QCALDemonstration where
 lean_lib QCALUnifiedTheory where
   roots := #[`QCAL_Unified_Theory]
 
+lean_lib CoherenceEconomy where
+  roots := #[`CoherenceEconomy]
+
+lean_lib TransitionAxioms where
+  roots := #[`TransitionAxioms]
+
+lean_lib PiCode1417ECON where
+  roots := #[`PiCode1417ECON]
+
+lean_lib PNPImpliesCS where
+  roots := #[`PNPImpliesCS]
+
+lean_lib CoherenceEconomyMain where
+  roots := #[`Main]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal
