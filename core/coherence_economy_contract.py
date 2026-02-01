@@ -241,10 +241,6 @@ class CoherenceEconomyContract:
         
         node_sigs, network_psi = triad_proof
         
-        # Verificar que la tríada validó (coherencia alcanzada)
-        if network_psi < 0.888:
-            raise TriadError(f"Coherencia insuficiente para minteo: {network_psi:.3f} < 0.888")
-        
         # Calcular coherencia final usando πCODE
         picode_contribution = 1417 * 0.00012  # ~0.17004
         stimulus_boost = 0.85 * 0.85  # ~0.7225
@@ -254,6 +250,10 @@ class CoherenceEconomyContract:
             triad=network_psi,
             picode=picode_contribution
         )
+        
+        # Verificar que la coherencia final alcanzó el umbral
+        if final_psi < 0.888:
+            raise TriadError(f"Coherencia final insuficiente para minteo: {final_psi:.3f} < 0.888")
         
         # Generar token único (el sello ∴𓂀Ω∞³)
         timestamp = int(datetime.now().timestamp())
