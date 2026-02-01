@@ -159,6 +159,13 @@ lean_lib CoherenceEconomy where
 lean_lib TransitionAxioms where
   roots := #[`TransitionAxioms]
 
+lean_lib PiCode1417ECON where
+  roots := #[`PiCode1417ECON]
+
+lean_lib PNPImpliesCS where
+  roots := #[`PNPImpliesCS]
+
+lean_lib CoherenceEconomyMain where
 lean_lib PNPImpliesCS where
   roots := #[`PNPImpliesCS]
 
