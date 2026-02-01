@@ -166,6 +166,10 @@ lean_lib PNPImpliesCS where
   roots := #[`PNPImpliesCS]
 
 lean_lib CoherenceEconomyMain where
+lean_lib PNPImpliesCS where
+  roots := #[`PNPImpliesCS]
+
+lean_lib CSMain where
   roots := #[`Main]
 
 @[default_target]

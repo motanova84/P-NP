@@ -59,6 +59,43 @@ This repository now includes three major new implementations addressing the next
 
 ---
 
+## 🆕 NEW: Coherence Economy (ℂₛ) - Formal Foundation
+
+**Gap 3 Closure**: Complete formalization of the **Coherence Economy**, demonstrating that the transition from scarcity-based economics (Bitcoin) to coherence-based economics is mathematically sound and computationally secure.
+
+### 🎯 Key Achievements
+
+- **Four Axioms Formalized**: Conservation, Duality, Irreversibility, Resonance
+- **Three-Step Protocol**: External Stimulus → Triad Consensus → πCODE-1417
+- **Main Theorem**: P≠NP → ℂₛ requires real work (proof-of-coherence)
+- **Gap 3 Closure**: Economic application validates P≠NP framework
+
+### 🚀 Quick Demo
+
+```bash
+# Run Python demonstration
+python3 coherence_economy_demo.py
+
+# Verify Lean formalization (requires Lean 4)
+./verify_coherence_economy.sh
+```
+
+### 📐 Mathematical Foundation
+
+| Component | Value | Description |
+|-----------|-------|-------------|
+| κ_Π | 2.5773 | From P≠NP spectral gap |
+| f₀ | 141.7001 Hz | QCAL primordial frequency |
+| Ψ_perfect | 0.888 | Perfect coherence threshold |
+
+**Seal**: ∴𓂀Ω∞³ (Logic · Perception · Completeness · Resonance³)
+
+📖 **Full Documentation**: 
+- [docs/FORMAL_FOUNDATION.md](docs/FORMAL_FOUNDATION.md) - Complete mathematical foundation
+- [formal/COHERENCE_ECONOMY_README.md](formal/COHERENCE_ECONOMY_README.md) - Lean formalization details
+
+---
+
 ## 🌊 Matemáticas desde la Coherencia Cuántica, No desde la Escasez de Teoremas Aislados
 
 Este framework representa un **cambio de paradigma** en cómo abordamos las matemáticas:
