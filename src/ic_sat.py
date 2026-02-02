@@ -290,9 +290,11 @@ def predict_advantages(G: nx.Graph, S: List = None, d: int = 6, c0: float = 0.25
     # Apply Ramanujan calibration if graph has enough structure
     if len(G.nodes()) > 10:
         try:
-            # Estimate spectral gap
-            A = nx.adjacency_matrix(G).todense()
-            eigs = np.linalg.eigvalsh(A)
+            # Estimate spectral gap using sparse eigenvalue computation for efficiency
+            from scipy.sparse import linalg as sp_linalg
+            A = nx.adjacency_matrix(G)
+            # Compute only top 2 eigenvalues
+            eigs = sp_linalg.eigsh(A, k=2, which='LA', return_eigenvectors=False)
             if len(eigs) >= 2:
                 delta = d - abs(eigs[-2])
                 gamma = delta / d if d > 0 else 0
@@ -301,7 +303,8 @@ def predict_advantages(G: nx.Graph, S: List = None, d: int = 6, c0: float = 0.25
                 # Adjust variable selection based on spectral advantage
                 max_var = max(var_degrees, key=var_degrees.get)
                 return max_var
-        except:
+        except Exception:
+            # Fallback to simple degree-based selection on any error
             pass
     
     return max(var_degrees, key=var_degrees.get)
@@ -506,13 +509,17 @@ class LargeScaleValidation:
         """
         Run IC-SAT with timeout and branch counting.
         
+        NOTE: Branch count is currently a simplified estimation (number of clauses)
+        rather than actual recursive call tracking. For accurate performance analysis,
+        consider instrumenting the ic_sat function to count actual branching decisions.
+        
         Args:
             n_vars: Number of variables
             clauses: List of clauses
             timeout: Timeout in seconds (not implemented, uses max_depth instead)
             
         Returns:
-            Tuple of (result, branch_count)
+            Tuple of (result, branch_count_estimate)
         """
         try:
             # Use max_depth to simulate timeout
@@ -520,7 +527,7 @@ class LargeScaleValidation:
             result = ic_sat(n_vars, clauses, log=False, max_depth=20)
             elapsed = time.time() - start_time
             
-            # Estimate branches (simplified)
+            # Estimate branches (simplified - actual branch count would require instrumentation)
             branch_count = len(clauses)
             
             return result, branch_count
@@ -531,19 +538,23 @@ class LargeScaleValidation:
         """
         Run simple DPLL solver as baseline.
         
+        NOTE: Branch count is currently a simplified estimation (2 * number of clauses)
+        rather than actual recursive call tracking. For accurate performance analysis,
+        consider instrumenting the simple_dpll function to count actual branching decisions.
+        
         Args:
             n_vars: Number of variables
             clauses: List of clauses
             
         Returns:
-            Tuple of (result, branch_count)
+            Tuple of (result, branch_count_estimate)
         """
         try:
             start_time = time.time()
             result = simple_dpll(clauses, n_vars)
             elapsed = time.time() - start_time
             
-            # Estimate branches (simplified)
+            # Estimate branches (simplified - actual branch count would require instrumentation)
             branch_count = len(clauses) * 2
             
             return result, branch_count

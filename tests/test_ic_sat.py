@@ -323,22 +323,20 @@ class TestDIMACSparsing(unittest.TestCase):
         import tempfile
         
         # Create a temporary DIMACS file
-        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.cnf') as f:
+        with tempfile.NamedTemporaryFile(mode='w', delete=True, suffix='.cnf') as f:
             f.write("c Sample CNF file\n")
             f.write("p cnf 3 2\n")
             f.write("1 -2 0\n")
             f.write("2 3 0\n")
-            temp_path = f.name
-        
-        try:
-            n_vars, clauses = parse_dimacs(temp_path)
+            f.flush()  # Ensure data is written before reading
+            
+            # Parse while file is still open
+            n_vars, clauses = parse_dimacs(f.name)
             
             self.assertEqual(n_vars, 3)
             self.assertEqual(len(clauses), 2)
             self.assertEqual(clauses[0], [1, -2])
             self.assertEqual(clauses[1], [2, 3])
-        finally:
-            os.unlink(temp_path)
 
 
 class TestRamanujanCalibration(unittest.TestCase):
