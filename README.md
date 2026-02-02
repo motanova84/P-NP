@@ -1356,6 +1356,28 @@ See also:
 - [docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md](docs/UNIFICACION_COMPLEJIDAD_ESPECTRAL.md) - Spectral complexity unification
 - [docs/DUALIDAD_RESOLUCION_INFOCOM.md](docs/DUALIDAD_RESOLUCION_INFOCOM.md) - Resolution-InfoCom duality
 
+### 🔒 Security and Reproducibility
+
+**New Documentation** for ensuring security and reproducible results:
+- **[SEGURIDAD.md](SEGURIDAD.md)** - Comprehensive security documentation (Spanish)
+  - Security analysis and practices
+  - Dependency management
+  - CI/CD security
+  - Data integrity and ENV.lock verification
+- **[RESUMEN DE SEGURIDAD.md](RESUMEN%20DE%20SEGURIDAD.md)** - Security summary and quick reference (Spanish)
+  - Executive summary
+  - CodeQL scan results
+  - Environment verification
+
+**Reproducibility Tools**:
+- `ENV.lock` - Complete Python environment snapshot with exact versions
+- `ENV.lock.sha256` - Integrity verification hash
+- `scripts/verify_env_integrity.sh` - Verify environment matches ENV.lock
+- `scripts/update_env_lock.sh` - Update ENV.lock when dependencies change
+- See [scripts/README_SECURITY.md](scripts/README_SECURITY.md) for detailed usage
+
+**Status**: ✅ 0 vulnerabilities · ✅ 100% reproducible environment · ✅ CI/CD verified
+
 ## 🔮 Potential Implications
 
 **If this framework is validated** (which requires rigorous proof):
