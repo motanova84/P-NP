@@ -14,7 +14,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from src.ic_sat import (
     build_primal_graph, build_incidence_graph, estimate_treewidth,
     compare_treewidths, simplify_clauses, unit_propagation,
-    predict_advantages, simple_dpll, ic_sat, LargeScaleValidation
+    predict_advantages, simple_dpll, ic_sat, LargeScaleValidation,
+    parse_dimacs, incidence_graph, primal_graph, validate_ramanujan_calibration
 )
 
 
@@ -241,9 +242,10 @@ class TestLargeScaleValidation(unittest.TestCase):
         n_vars = 3
         clauses = [[1, 2], [2, 3]]
         
-        result = validator.run_ic_sat(n_vars, clauses)
+        result, branches = validator.run_ic_sat(n_vars, clauses)
         
         self.assertIn(result, ['SAT', 'UNSAT', 'TIMEOUT'])
+        self.assertGreaterEqual(branches, 0)
 
 
 class TestPredicateAdvantages(unittest.TestCase):
@@ -271,6 +273,131 @@ class TestPredicateAdvantages(unittest.TestCase):
         
         # Should handle empty graph gracefully
         self.assertIn(var, [None, 'v1'])
+    
+    def test_predict_advantages_with_ramanujan(self):
+        """Test variable prediction with Ramanujan parameters."""
+        n_vars = 20
+        clauses = [[i, i+1, i+2] for i in range(1, 18)]
+        
+        G = build_incidence_graph(n_vars, clauses)
+        var = predict_advantages(G, d=6, c0=0.25, rho=1.0)
+        
+        # Should return a valid variable with spectral analysis
+        self.assertIsNotNone(var)
+        self.assertTrue(var.startswith('v'))
+
+
+class TestAliases(unittest.TestCase):
+    """Test cases for alias functions."""
+    
+    def test_incidence_graph_alias(self):
+        """Test that incidence_graph alias works."""
+        n_vars = 2
+        clauses = [[1, -2]]
+        
+        G1 = incidence_graph(n_vars, clauses)
+        G2 = build_incidence_graph(n_vars, clauses)
+        
+        # Should produce same graph
+        self.assertEqual(len(G1.nodes()), len(G2.nodes()))
+        self.assertEqual(len(G1.edges()), len(G2.edges()))
+    
+    def test_primal_graph_alias(self):
+        """Test that primal_graph alias works."""
+        n_vars = 2
+        clauses = [[1, -2]]
+        
+        G1 = primal_graph(n_vars, clauses)
+        G2 = build_primal_graph(n_vars, clauses)
+        
+        # Should produce same graph
+        self.assertEqual(len(G1.nodes()), len(G2.nodes()))
+        self.assertEqual(len(G1.edges()), len(G2.edges()))
+
+
+class TestDIMACSparsing(unittest.TestCase):
+    """Test cases for DIMACS file parsing."""
+    
+    def test_parse_dimacs_simple(self):
+        """Test parsing a simple DIMACS file."""
+        import tempfile
+        
+        # Create a temporary DIMACS file
+        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.cnf') as f:
+            f.write("c Sample CNF file\n")
+            f.write("p cnf 3 2\n")
+            f.write("1 -2 0\n")
+            f.write("2 3 0\n")
+            temp_path = f.name
+        
+        try:
+            n_vars, clauses = parse_dimacs(temp_path)
+            
+            self.assertEqual(n_vars, 3)
+            self.assertEqual(len(clauses), 2)
+            self.assertEqual(clauses[0], [1, -2])
+            self.assertEqual(clauses[1], [2, 3])
+        finally:
+            os.unlink(temp_path)
+
+
+class TestRamanujanCalibration(unittest.TestCase):
+    """Test cases for Ramanujan calibration."""
+    
+    def test_ramanujan_validation(self):
+        """Test Ramanujan calibration validation runs without error."""
+        # Should not raise an exception
+        try:
+            validate_ramanujan_calibration()
+        except Exception as e:
+            self.fail(f"validate_ramanujan_calibration raised {type(e).__name__}: {e}")
+
+
+class TestLargeScaleEnhanced(unittest.TestCase):
+    """Test cases for enhanced large-scale validation."""
+    
+    def test_run_minisat(self):
+        """Test running baseline DPLL solver."""
+        validator = LargeScaleValidation()
+        
+        n_vars = 3
+        clauses = [[1, 2], [2, 3]]
+        
+        result, branches = validator.run_minisat(n_vars, clauses)
+        
+        self.assertIn(result, ['SAT', 'UNSAT', 'TIMEOUT'])
+        self.assertGreaterEqual(branches, 0)
+    
+    def test_run_ic_sat_with_branches(self):
+        """Test IC-SAT returns branch count."""
+        validator = LargeScaleValidation()
+        
+        n_vars = 3
+        clauses = [[1, 2], [2, 3]]
+        
+        result, branches = validator.run_ic_sat(n_vars, clauses)
+        
+        self.assertIn(result, ['SAT', 'UNSAT', 'TIMEOUT'])
+        self.assertIsInstance(branches, int)
+    
+    def test_run_large_scale_returns_results(self):
+        """Test that run_large_scale returns results dict."""
+        validator = LargeScaleValidation()
+        
+        # Run with small parameters for speed
+        results = validator.run_large_scale(n_values=[10], ratios=[4.0])
+        
+        # Should return a dictionary
+        self.assertIsInstance(results, dict)
+        self.assertGreater(len(results), 0)
+        
+        # Check structure of results
+        for key, value in results.items():
+            self.assertIn('tw_estimated', value)
+            self.assertIn('ic_sat_branches', value)
+            self.assertIn('minisat_branches', value)
+            self.assertIn('branch_reduction', value)
+            self.assertIn('coherence_C', value)
 
 
 if __name__ == '__main__':
