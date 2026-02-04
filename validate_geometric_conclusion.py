@@ -446,7 +446,8 @@ def main():
     
     # Additional info
     print(f"\n{BOLD}For detailed documentation, see:{RESET}")
-    print("  - CONCLUSION_GEOMETRICA.md - This validation summary")
+    print("  - CONCLUSION_GEOMETRICA.md - Complete geometric conclusion")
+    print("  - GEOMETRIC_QUICKREF.md - Quick reference guide")
     print("  - KAPPA_PI_README.md - κ_Π constant explanation")
     print("  - QCAL_UNIFIED_WHITEPAPER.md - Complete framework")
     print("  - README.md - Project overview")

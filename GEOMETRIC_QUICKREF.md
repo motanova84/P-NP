@@ -139,7 +139,8 @@ axiom separator_information_need_with_kappa_pi :
 
 | File | Purpose |
 |------|---------|
-| `CONCLUSION_GEOMETRICA.md` | **THIS DOCUMENT** - Geometric conclusion |
+| `CONCLUSION_GEOMETRICA.md` | Complete geometric conclusion (Spanish) |
+| `GEOMETRIC_QUICKREF.md` | **THIS DOCUMENT** - Quick reference guide |
 | `KAPPA_PI_README.md` | κ_Π explanation |
 | `QCAL_UNIFIED_WHITEPAPER.md` | Complete QCAL theory |
 | `P_NEQ_NP_PROOF_README.md` | Proof walkthrough |
