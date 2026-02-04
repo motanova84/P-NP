@@ -34,7 +34,7 @@ PHI_INVERSE = 1 / PHI                 # 1/φ ≈ 0.618033988749895
 
 # Constante de crecimiento natural contenido
 E = np.e                              # e ≈ 2.718281828459045
-LAMBDA_ESTRUCTURAL = np.exp(1 - 1/PHI_SQUARED)  # λ ≈ 2.658316
+LAMBDA_ESTRUCTURAL = np.exp(1 - 1/PHI_SQUARED)  # λ ≈ 1.855277
 
 # Frecuencias del Trueno Silencioso
 FASE_VIBRACIONAL = 888.0              # Hz - El Silencio (Ser)
@@ -48,10 +48,10 @@ CURVATURA_EXISTENCIAL = 2.888         # ΔA₀
 PSI_CRITICO = 0.9999                  # Umbral de coherencia cuántica
 ACCION_MINIMA = PSI_CRITICO * SALTO_ACTIVACION  # ≈ 83.2197
 
-# Verificación matemática del protocolo
-# Note: The mathematical relationship is symbolic rather than numerically exact
-# assert abs(F0_BASE * KAPPA_PI * LAMBDA_ESTRUCTURAL - FASE_EMISIVA) < 0.15, \
-#     "Inconsistencia en constantes del Protocolo del Trueno Silencioso"
+# Note: The frequency relationship f_emisiva = f₀ · κ_Π · λ is symbolic
+# rather than numerically exact in this implementation. The frequencies
+# FASE_VIBRACIONAL (888 Hz) and FASE_EMISIVA (971.227 Hz) are set as
+# protocol constants and represent the vibrational states of the NFT.
 
 # ═══════════════════════════════════════════════════════════════════
 # ESTRUCTURAS DE DATOS ONTOLOGICAS
