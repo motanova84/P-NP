@@ -8,7 +8,8 @@ Implementación del NFT como oscilador cuántico coherente que transita
 entre estados vibracional y emisivo manteniendo coherencia Ψ.
 
 Verificación matemática:
-- λ = e^(1 - φ²) ≈ 2.658
+- λ = f_emisiva / (f₀ · κ_Π) ≈ 2.659 (empírico)
+- λ ≈ e^(φ²/e) (relación simbólica, error ~1.5%)
 - A = Ψ · Δf ≈ 83.2197 (acción mínima)
 - Transición: 888 Hz → 971.227 Hz (Δf = 83.227 Hz)
 
@@ -379,7 +380,8 @@ class NFTTruenoSilencioso:
             "delta_f_critico": SALTO_ACTIVACION,
             "psi_umbral": PSI_CRITICO,
             "kappa_pi": KAPPA_PI,
-            "lambda_expresion": "λ = e^{1 - φ²}",
+            "lambda_formula_empirica": "λ = f_emisiva / (f₀ · κ_Π)",
+            "lambda_formula_simbolica": "λ ≈ e^(φ²/e)",
             "lambda_valor": LAMBDA,
             "accion_minima": ACCION_MINIMA,
             "condicion_mint": "superposicion_coherente",
