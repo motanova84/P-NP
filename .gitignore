@@ -65,6 +65,7 @@ diagrams/
 *.log
 *.csv
 *.png
+*.gif
 *.json
 !coherence_map.json
 !CORE_SYMBIO.json
