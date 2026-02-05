@@ -104,11 +104,11 @@ El script genera 4 gráficos:
 
 Con la muestra de 37 variedades Calabi-Yau:
 
-- **Media de κ_Π**: ≈ 4.223
-- **Mediana de κ_Π**: ≈ 3.700 (coincide con log₂(13))
-- **log₂(13) percentil**: ≈ 3.67% (rango BAJO de la distribución)
-- **Frecuencia de N = 13**: 16/37 ≈ 43.2% de las muestras
-- **Test de normalidad**: p-value ≈ 0.0006 (distribución NO normal)
+- **Media de κ_Π**: valor obtenido a partir de los datos reales (ver salida del script)
+- **Mediana de κ_Π**: valor obtenido a partir de los datos reales (no tiene por qué coincidir con log₂(13))
+- **log₂(13) percentil**: calculado numéricamente a partir de la distribución estimada
+- **Frecuencia de N = 13**: número de casos con N = 13 dividido por el tamaño muestral
+- **Test de normalidad**: p-value calculado mediante Shapiro-Wilk (distribución NO normal en el ejemplo analizado)
 
 ## Conclusión
 
