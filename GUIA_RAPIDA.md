@@ -12,10 +12,11 @@ Este proyecto propone resolver P≠NP mediante:
 
 ---
 
-## 📊 Las 4 Innovaciones Principales
+## 📊 Las 5 Innovaciones Principales
 
 | Innovación | Qué es | Dónde ver más |
 |-----------|--------|---------------|
+| **Matemáticas desde Coherencia** | Resultados emergen de coherencia cuántica, NO teoremas aislados | [MATEMATICAS_DESDE_COHERENCIA_CUANTICA.md](MATEMATICAS_DESDE_COHERENCIA_CUANTICA.md) |
 | **κ_Π de Calabi-Yau** | Constante geométrica que determina separación P/NP | [KAPPA_PI_MILLENNIUM_CONSTANT.md](KAPPA_PI_MILLENNIUM_CONSTANT.md) |
 | **Dimensión Frecuencia** | Tercera dimensión ω en análisis de complejidad | [FREQUENCY_DIMENSION.md](FREQUENCY_DIMENSION.md) |
 | **Consciencia Cuantizada** | P≠NP ↔ Consciencia vía ARN piCODE | [ULTIMATE_UNIFICATION_README.md](ULTIMATE_UNIFICATION_README.md) |
