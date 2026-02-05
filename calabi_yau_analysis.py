@@ -66,7 +66,7 @@ def comprehensive_analysis(cy_data):
         'n13_count': N_values.count(13),
         'n13_fraction': N_values.count(13) / len(N_values),
         'log2_13_value': kappa_13,
-        'log2_13_percentile': (np.sum(np.array(kappas) < kappa_13) / len(kappas)) * 100,
+        'log2_13_percentile': scipy_stats.percentileofscore(kappas, kappa_13, kind="weak"),
     }
 
     # Test de normalidad de Shapiro-Wilk
