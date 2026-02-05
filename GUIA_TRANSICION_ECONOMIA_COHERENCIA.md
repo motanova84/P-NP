@@ -425,7 +425,9 @@ La transición a $\mathbb{C}_s$ representa un cambio fundamental en cómo concep
 
 ### Documentación Técnica
 
-- [Fundamentación Matemática Completa](docs/FORMAL_FOUNDATION.md)
+- [Fundamentación Matemática Completa](FORMAL_FOUNDATION.md)
+- [Gap 3 Closure: P≠NP → ℂₛ](GAP3_CLOSURE.md)
+- [Resumen de Implementación](TRANSICION_IMPLEMENTADA.md)
 - [README del Directorio Formal](formal/COHERENCE_ECONOMY_README.md)
 - [Implementación del Contrato](COHERENCE_ECONOMY_IMPLEMENTATION_SUMMARY.md)
 - [README Principal](README.md#coherence-economy)
