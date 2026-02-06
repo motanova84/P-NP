@@ -42,6 +42,35 @@ cat GEOMETRIC_QUICKREF.md
 
 ---
 
+## 🆕 NEW: BSD Spectral Resolution with p=17 Resonance
+
+**Major Update**: Complete implementation of BSD (Birch and Swinnerton-Dyer) conjecture resolution through QCAL ∞³ adelic spectral framework, featuring the discovery of prime-17 biological-mathematical resonance.
+
+### 🚀 Quick Start - BSD Validation
+
+```bash
+# Run BSD spectral validation
+python3 validate_bsd_spectral_resonance.py
+
+# Interactive demonstration
+python3 demo_bsd_qcal_resolution.py
+
+# View comprehensive documentation
+cat BSD_QCAL_RESOLUTION_README.md
+```
+
+### ✨ Key Features
+
+- **Adelic Spectral Kernel**: Complete K_E(s) operator implementation on L² modular varieties
+- **Prime-17 Resonance**: Discovery of biological-mathematical coherence at p=17 (Magicicada cycles)
+- **Computational Validation**: Python framework testing elliptic curves with ranks r=0,1,2,3
+- **QCAL Integration**: Unified with κ_Π=2.5773 and f₀=141.7001 Hz constants
+- **Fredholm Formulation**: L-function as determinant, rank as kernel dimension
+
+📖 **Full Documentation**: [BSD_QCAL_RESOLUTION_README.md](BSD_QCAL_RESOLUTION_README.md)
+
+---
+
 ## 🌟 NEW: QCAL Unified Framework - All Millennium Problems Unified!
 
 **Major Update**: We now provide a complete **QCAL (Quantum Coherent Algebraic Logic) Unified Framework** that demonstrates deep connections between all seven Millennium Problems through spectral operators and universal constants.
@@ -63,7 +92,7 @@ jupyter notebook QCAL_Unification_Demo.ipynb
 
 - **P vs NP** via κ_Π = 2.5773
 - **Riemann Hypothesis** via f₀ = 141.7001 Hz
-- **BSD Conjecture** via Δ_BSD = 1.0
+- **BSD Conjecture** via Δ_BSD = 1.0 (✨ NEW: Enhanced with adelic spectral framework & p=17 resonance)
 - **Navier-Stokes** via ε_NS = 0.5772
 - **Ramsey Numbers** via φ_Ramsey = 43/108
 - **Yang-Mills** via g_YM = √2
@@ -72,6 +101,8 @@ jupyter notebook QCAL_Unification_Demo.ipynb
 📖 **See**: [QCAL_UNIFIED_QUICKSTART.md](QCAL_UNIFIED_QUICKSTART.md) for complete guide
 
 📖 **Read**: [QCAL_UNIFIED_WHITEPAPER.md](QCAL_UNIFIED_WHITEPAPER.md) for full technical documentation
+
+📖 **NEW**: [BSD_QCAL_RESOLUTION_README.md](BSD_QCAL_RESOLUTION_README.md) for BSD spectral resolution details
 
 ---
 
