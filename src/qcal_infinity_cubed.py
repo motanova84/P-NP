@@ -338,13 +338,15 @@ class BSDOperator(SpectralOperator):
         min_trace = min(trace_samples)
         avg_trace = sum(trace_samples) / len(trace_samples)
         
-        # Kernel dimension estimate
-        if avg_trace > 0:
-            dimension_est = math.log(avg_trace / (min_trace + 1e-10)) / math.log(self.kappa)
-        else:
-            dimension_est = 0.0
+        # Guard against invalid values
+        if avg_trace <= 0 or min_trace < 0 or self.kappa <= 1:
+            return 0.0
         
-        return dimension_est
+        # Kernel dimension estimate
+        log_denominator = min_trace + 1e-10
+        dimension_est = math.log(avg_trace / log_denominator) / math.log(self.kappa)
+        
+        return max(0.0, dimension_est)  # Ensure non-negative
 
 
 class GoldbachOperator(SpectralOperator):

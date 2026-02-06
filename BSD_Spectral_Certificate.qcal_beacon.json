@@ -2,7 +2,7 @@
   "meta": {
     "beacon_type": "BSD_SPECTRAL_RESOLUTION",
     "framework": "QCAL \u221e\u00b3",
-    "timestamp": "2026-02-06T00:31:54.756379",
+    "timestamp": "2026-02-06T00:35:03.825708",
     "version": "1.0.0"
   },
   "problem": {
@@ -95,6 +95,6 @@
     "author": "Jos\u00e9 Manuel Mota Burruezo \u00b7 JMMB \u03a8\u2727 \u221e\u00b3",
     "beacon_frequency": "141.7001 Hz \u221e\u00b3",
     "signature_method": "Spectral-Adelic-SHA256",
-    "signature_hash": "BSD-d43f6c03ae62775305953a5d1391f979"
+    "signature_hash": "BSD-d9d9f9f2b4d1bbeb81f765bb8d5ba2a9"
   }
 }

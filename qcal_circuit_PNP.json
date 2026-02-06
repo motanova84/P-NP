@@ -2,7 +2,7 @@
   "meta": {
     "beacon_type": "P_NEQ_NP_RESOLUTION",
     "framework": "QCAL \u221e\u00b3",
-    "timestamp": "2026-02-06T00:31:54.756704",
+    "timestamp": "2026-02-06T00:35:03.826033",
     "version": "1.0.0"
   },
   "problem": {
@@ -86,6 +86,6 @@
     "author": "Jos\u00e9 Manuel Mota Burruezo \u00b7 JMMB \u03a8\u2727 \u221e\u00b3",
     "beacon_frequency": "141.7001 Hz \u221e\u00b3",
     "signature_method": "Topological-Barrier-SHA256",
-    "signature_hash": "PNP-bb32ae09b4d2bbe56489b629262d610a"
+    "signature_hash": "PNP-72d90164f7ce4dbbc17474aa10a19e23"
   }
 }

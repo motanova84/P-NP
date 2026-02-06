@@ -3,7 +3,7 @@
   "problem": "Birch and Swinnerton-Dyer Conjecture",
   "resolution_status": "VALIDATED",
   "validation_results": {
-    "timestamp": "2026-02-06T00:27:32.723861",
+    "timestamp": "2026-02-06T00:36:31.331293",
     "framework": "QCAL \u221e\u00b3",
     "frequency_hz": 141.7001,
     "kappa_pi": 2.5773,
@@ -99,6 +99,6 @@
       "f0_hz": 141.7001
     }
   },
-  "generated": "2026-02-06T00:27:32.724886",
+  "generated": "2026-02-06T00:36:31.332314",
   "signature": "QCAL-BSD-SPECTRAL-ADELIC-\u221e\u00b3"
 }

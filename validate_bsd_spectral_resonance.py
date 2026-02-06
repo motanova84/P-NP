@@ -119,9 +119,15 @@ class AdelicSpectralKernel:
         min_val = min(samples)
         avg_val = np.mean(samples)
         
-        dim_estimate = math.log(avg_val / (min_val + 1e-10)) / math.log(self.kappa)
+        # Guard against invalid log inputs
+        if avg_val <= 0 or min_val < 0 or self.kappa <= 1:
+            return 0.0
         
-        return dim_estimate
+        # Compute dimension estimate
+        log_denominator = min_val + 1e-10
+        dim_estimate = math.log(avg_val / log_denominator) / math.log(self.kappa)
+        
+        return max(0.0, dim_estimate)  # Ensure non-negative
 
 
 class PrimeSeventeenResonator:
@@ -164,14 +170,17 @@ class PrimeSeventeenResonator:
         # For prime p, only divisors are 1 and p
         # Measure gap to nearest composite multiple
         interference_sum = 0.0
+        threshold = 0.05  # Increased from 0.01 for stability
         
         for n in range(2, p):
             # Measure phase alignment with multiple n
             alignment = abs(math.sin(math.pi * p / n))
-            interference_sum += 1.0 / alignment if alignment > 0.01 else 0
+            # Safe division with threshold protection
+            if alignment > threshold:
+                interference_sum += 1.0 / alignment
             
         # Lower interference = higher resistance = higher stability
-        resistance = p * p / (interference_sum + 1)
+        resistance = p * p / (interference_sum + 1.0)
         
         return resistance
     
