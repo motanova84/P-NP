@@ -103,6 +103,25 @@ Biológico:  κ_Π = √(2π × A_eff_max)
 - Verdades matemáticas descubiertas, no construidas
 - Unidad fundamental del conocimiento
 
+### Matemáticas desde Coherencia Cuántica
+
+**Documento principal:** [MATEMATICAS_DESDE_COHERENCIA_CUANTICA.md](MATEMATICAS_DESDE_COHERENCIA_CUANTICA.md) ⭐ NUEVO
+
+**Contenido:**
+- Cambio de paradigma: coherencia vs teoremas aislados
+- De la escasez a la abundancia
+- Derivación de P≠NP desde coherencia cuántica
+- Unificación de dominios vía κ_Π
+- Ejemplos concretos en geometría, información, computación, biología
+
+**Implementación:**
+- [matematicas_coherencia_cuantica.py](matematicas_coherencia_cuantica.py) - Demostración completa
+
+**Filosofía:**
+- NO: Colección de teoremas aislados sin conexión
+- SÍ: Manifestaciones orgánicas de coherencia cuántica
+- Todos los resultados emergen de κ_Π = 2.5773
+
 ### Marco Epistemológico
 
 **Documento principal:** [EPISTEMOLOGICAL_FRAMEWORK.md](EPISTEMOLOGICAL_FRAMEWORK.md)
