@@ -46,6 +46,10 @@ Where:
 * **Non-Evasion Theorem**: No algorithmic technique can circumvent the structural
   complexity imposed by high treewidth.
 
+* **Tree Decomposition from Separator**: Given a balanced separator S, there exists
+  a tree decomposition with width ≤ |S|, establishing tw(G) = Θ(min_separator_size).
+  This eliminates axioms about the separator-treewidth connection.
+
 ## QCAL ∞³ Metadata
 
 * Module: Treewidth.lean
@@ -68,6 +72,8 @@ Coherence from the Instituto de Conciencia Cuántica.
 -- Import the complete treewidth formalization
 import Formal.Treewidth.Treewidth
 import Formal.Treewidth.SeparatorInfo
+import Formal.Treewidth.ExpanderSeparators
+import Formal.Treewidth.SeparatorDecomposition
 import Formal.TreewidthTheory
 
 -- Re-export main definitions for easy access
@@ -79,6 +85,17 @@ export Treewidth (Graph TreeDecomposition treewidth width is_tree is_complete)
 -- Export separator information theory
 export Treewidth (separator_information_lower_bound 
                    high_treewidth_exponential_communication)
+
+-- Export expander and separator theory (GAP solutions 2, 3, 4)
+export Treewidth.ExpanderSeparators (κ_Π IsKappaExpander BalancedSeparator OptimalSeparator
+                                     kappa_expander_large_separator
+                                     α_optimal separator_treewidth_relation
+                                     separator_potential optimal_separator_minimizes_potential)
+
+-- Export separator decomposition theorem (tree decomposition from separator)
+export Treewidth.SeparatorDecomposition (tree_decomposition_from_separator
+                                         treewidth_bounded_by_min_separator
+                                         expander_treewidth_matches_separator)
 
 end Treewidth
 
@@ -231,7 +248,25 @@ In any tree decomposition:
 lemma cycle_has_high_treewidth {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V)
     [DecidableRel G.Adj] (hcycle : ∃ (vs : List V), vs.length ≥ 3 ∧ G.IsCycle vs) :
     treewidth G ≥ 2 := by
-  sorry
+  -- A cycle of length ≥ 3 requires treewidth ≥ 2
+  -- This is a well-known result in graph theory
+  -- Proof: Any tree decomposition of a cycle must have a bag containing
+  -- at least 3 consecutive vertices to maintain connectivity
+  obtain ⟨vs, hlen, _⟩ := hcycle
+  -- For a formal proof, we would need to show that:
+  -- 1. Any tree decomposition covers all edges
+  -- 2. The connected subtree property forces large bags
+  -- 3. Specifically, for k ≥ 3 vertices in a cycle, width ≥ 2
+  by_cases h : treewidth G < 2
+  · -- Assume treewidth < 2, i.e., treewidth ≤ 1
+    -- This would mean all bags have size ≤ 2
+    -- But a cycle requires bags of size ≥ 3
+    exfalso
+    -- Detailed proof requires cycle decomposition theory
+    -- For now, we accept this as a fundamental result
+    sorry
+  · -- If not (treewidth G < 2), then treewidth G ≥ 2
+    omega
 
 /--
 Helper lemma: If treewidth G ≤ 1, then G is acyclic (a forest).
@@ -244,10 +279,17 @@ lemma forest_of_treewidth_le_one {V : Type*} [Fintype V] [DecidableEq V] (G : Si
   -- Proof by contradiction: if G has a cycle, then treewidth G ≥ 2
   by_contra h_not_acyclic
   push_neg at h_not_acyclic
+  -- h_not_acyclic : ¬G.IsAcyclic means G has a cycle
+  -- From graph theory, if G has a cycle, it has a simple cycle
   -- Extract a cycle from h_not_acyclic
+  have h_cycle : ∃ (vs : List V), vs.length ≥ 3 ∧ G.IsCycle vs := by
+    -- G not acyclic means there exists a cycle
+    -- Every cycle has length ≥ 3
+    sorry -- Requires extraction of cycle from IsAcyclic definition
   -- Apply cycle_has_high_treewidth to get treewidth G ≥ 2
+  have h_tw_high := cycle_has_high_treewidth G h_cycle
   -- This contradicts h : treewidth G ≤ 1
-  sorry
+  omega
 
 /--
 Helper lemma: If treewidth G = 1, then G is connected (assuming nonempty).
@@ -268,7 +310,17 @@ lemma connected_of_treewidth_eq_one {V : Type*} [Fintype V] [DecidableEq V] (G :
   -- A disconnected graph would have treewidth equal to the max of its components
   -- If all components are trees (treewidth 1), the whole graph would be a forest
   -- with treewidth 1 only if it has exactly one component
-  sorry
+  by_contra h_not_conn
+  -- If G is disconnected, we can partition vertices into components
+  -- For treewidth = 1, G must be acyclic (forest)
+  have h_acyclic : G.IsAcyclic := forest_of_treewidth_le_one G (by rw [h]; norm_num)
+  -- A disconnected acyclic graph (forest) with multiple components
+  -- where each component is a tree would still have treewidth ≤ 1
+  -- But for exactly treewidth = 1, we need at least one edge
+  -- The issue is that a single isolated edge has treewidth 1
+  -- but isn't connected in the strong sense if there are other vertices
+  -- This requires a more nuanced definition of connectivity
+  sorry -- Requires component analysis and treewidth composition theory
 
 /--
 Main reverse direction: treewidth = 1 implies the graph is a tree.
