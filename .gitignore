@@ -40,8 +40,8 @@ env/
 /build/
 /lake-packages/
 /.lake/
-/*.olean
-/*.trace
+*.olean
+*.trace
 
 # ---------- TEST / RESULTS ----------
 results/
@@ -50,13 +50,49 @@ results/
 *.csv
 *.png
 
+/*.olean
+/*.trace
+
+# ---------- TEST / RESULTS ----------
+results/
+!results/.gitkeep
+output/
+!output/.gitkeep
+data/
+!data/.gitkeep
+diagrams/
+!diagrams/.gitkeep
+*.log
+*.csv
+*.png
+*.gif
+*.json
+!coherence_map.json
+!CORE_SYMBIO.json
+kappa_verification_output.txt
+results/*.log
+results/*.csv
+results/*.png
+data/*.json
+diagrams/*.png
+
+# QCAL verification results
+A_u_verification_results.json
+
+# ---------- DEPLOYMENT ----------
+deploy/
+
 # ---------- IDE ----------
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+*.iml
 
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
 # Lean
 .lake/
 lakefile.olean
@@ -72,6 +108,9 @@ Thumbs.db
 *.log
 *.iml
 
+# Installation test directory
+ultimate-unification/
+
 # ---------- OS ----------
 .DS_Store
 Thumbs.db
@@ -85,3 +124,18 @@ pip-wheel-metadata/
 .mypy_cache/
 .pyre/
 lake-manifest.json
+tree_decomposition_example.png
+dicotomia_computacional.png
+
+# Echo-QCAL data directories (runtime generated)
+pnp/echo_qcal/data/logs/*.json
+pnp/echo_qcal/data/firmas/*
+!pnp/echo_qcal/data/firmas/.gitkeep
+pnp/echo_qcal/data/config/*
+!pnp/echo_qcal/data/config/.gitkeep
+# Echo QCAL generated files
+echo_qcal_logs/
+echo_qcal_config/
+
+# QCAL Symbiosis generated files (created by link_ecosystem.py)
+.qcal_symbiosis.md

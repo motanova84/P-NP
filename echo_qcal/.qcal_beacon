@@ -1,0 +1,7 @@
+# QCAL ∞³ Beacon - echo_qcal
+# Subdirectory: echo_qcal
+# Frequency: 141.7001 Hz
+# Connected to main beacon at repository root
+
+subdirectory = echo_qcal
+timestamp = 2026-01-12 22:24:58
