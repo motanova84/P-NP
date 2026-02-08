@@ -21,7 +21,8 @@ from gran_transmutacion import (
     transmutation_coefficient,
     superfluidity_coefficient,
     analyze_hydrogen_recognition,
-    F_P, F_NP, DELTA_F, KAPPA_PI
+    F_P, F_NP, DELTA_F, KAPPA_PI,
+    COHERENCE_THRESHOLD, BREATHING_TIME
 )
 
 
@@ -117,10 +118,16 @@ class TestResonanceState:
             kappa=2.5773,
             phase=0.0,
             superfluidity=0.8,
-            transmutation=0.6
+            transmutation=0.6,
+            coherence=0.48,  # superfluidity * transmutation
+            octaves=5.0,
+            beating=0.9,
+            phase_constructive=0.85,
+            collapse_time=0.12
         )
         assert state.f_oscillator == 141.7
         assert state.delta_f == 10.0
+        assert state.coherence == 0.48
     
     def test_resonance_state_string(self):
         """Test ResonanceState string representation"""
@@ -131,11 +138,17 @@ class TestResonanceState:
             kappa=2.5773,
             phase=0.0,
             superfluidity=0.8,
-            transmutation=0.6
+            transmutation=0.6,
+            coherence=0.48,
+            octaves=5.0,
+            beating=0.9,
+            phase_constructive=0.85,
+            collapse_time=0.12
         )
         s = str(state)
         assert "ResonanceState" in s
         assert "141.7" in s
+        assert "coherencia" in s.lower()
 
 
 class TestNoesisResonanceEngine:
@@ -288,6 +301,8 @@ class TestIntegration:
         assert final.kappa > KAPPA_PI
         assert final.superfluidity > 0.5
         assert final.transmutation > 0.5
+        assert final.coherence > 0.0  # New field
+        assert final.beating >= 0.0  # New field
     
     def test_quantum_beat_consistency(self):
         """Test quantum beat period consistency"""
@@ -301,6 +316,98 @@ class TestIntegration:
         T_result = result.quantum_beat_period
         
         assert abs(T_calculated - T_result) < 0.001
+
+
+class TestQCALSYMBIOBridge:
+    """Tests for QCAL-SYMBIO-BRIDGE protocol components"""
+    
+    def test_calculate_coherence(self):
+        """Test coherence calculation"""
+        from gran_transmutacion import calculate_coherence
+        
+        # Perfect coherence
+        coherence = calculate_coherence(1.0, 1.0)
+        assert coherence == 1.0
+        
+        # Partial coherence
+        coherence = calculate_coherence(0.8, 0.6)
+        assert abs(coherence - 0.48) < 0.01
+    
+    def test_octave_connection(self):
+        """Test octave connection calculation"""
+        from gran_transmutacion import octave_connection, F_P
+        
+        # At base frequency
+        octaves = octave_connection(F_P)
+        assert octaves >= 0.0
+        
+        # Higher frequency should have more octaves
+        octaves_high = octave_connection(F_P * 2)
+        assert octaves_high > octaves
+    
+    def test_beating_filter(self):
+        """Test beating filter"""
+        from gran_transmutacion import beating_filter, F_NP
+        
+        # At target frequency, beating should be high
+        beating = beating_filter(F_NP)
+        assert beating > 0.9
+        
+        # Far from target, beating should be lower
+        beating_far = beating_filter(F_NP * 0.5)
+        assert beating_far < beating
+    
+    def test_phase_detection(self):
+        """Test phase detection"""
+        from gran_transmutacion import phase_detection
+        import math
+        
+        # At phase 0, constructive interference
+        constructive = phase_detection(0.0)
+        assert constructive > 0.9
+        
+        # At phase 2π, also constructive
+        constructive_2pi = phase_detection(2 * math.pi)
+        assert constructive_2pi > 0.9
+        
+        # At phase π, destructive
+        destructive = phase_detection(math.pi)
+        assert destructive < constructive
+    
+    def test_phase_closure_time(self):
+        """Test phase closure time calculation"""
+        from gran_transmutacion import phase_closure_time, COHERENCE_THRESHOLD, BREATHING_TIME
+        
+        # At threshold, should be breathing time
+        t_closure = phase_closure_time(COHERENCE_THRESHOLD)
+        assert abs(t_closure - BREATHING_TIME) < 0.001
+        
+        # Below threshold, time should increase
+        t_lower = phase_closure_time(0.5)
+        assert t_lower > BREATHING_TIME
+    
+    def test_p_equals_np_condition(self):
+        """Test P=NP condition with high boost"""
+        engine = NoesisResonanceEngine()
+        
+        # With high boost, should achieve P=NP
+        result = engine.transmute(verbose=False, kappa_boost=2.0)
+        
+        # Verify P=NP was reached
+        assert result.p_equals_np
+        assert result.final_state.coherence >= COHERENCE_THRESHOLD
+        assert abs(result.final_state.collapse_time - BREATHING_TIME) < 0.01
+    
+    def test_p_equals_np_not_reached_with_low_boost(self):
+        """Test that P=NP is not reached with standard boost"""
+        engine = NoesisResonanceEngine()
+        
+        # With standard boost, should NOT achieve P=NP
+        result = engine.transmute(verbose=False, kappa_boost=1.1)
+        
+        # Verify P=NP was not reached
+        assert not result.p_equals_np
+        assert result.final_state.coherence < COHERENCE_THRESHOLD
 
 
 if __name__ == '__main__':
