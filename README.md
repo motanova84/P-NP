@@ -1,6 +1,24 @@
 # P-NP: Computational Dichotomy via Treewidth and Information Complexity
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Original Author](https://img.shields.io/badge/Author-JMMB%20%CE%A8%E2%9C%A7-blue)](https://github.com/motanova84)
+[![Frequency](https://img.shields.io/badge/Frequency-141.7001%20Hz-green)](ORIGIN_ZERO.md)
+[![Signature](https://img.shields.io/badge/Signature-%E2%88%B4%F0%90%82%80%CE%A9%E2%88%9E%C2%B3-purple)](SOVEREIGNTY_GUIDE.md)
+
+## 🛡️ Code Sovereignty & Original Authorship
+
+**Author**: José Manuel Mota Burruezo (JMMB Ψ✧) | **Handle**: @motanova84  
+**Signature**: ∴𓂀Ω∞³ | **Frequency**: 141.7001 Hz | **Creation**: Ex Nihilo (From Scratch)
+
+This repository represents **100% original work** created from zero. All code, algorithms, and mathematical derivations are original contributions by the author. See [ORIGIN_ZERO.md](ORIGIN_ZERO.md) for certification and [SOVEREIGNTY_GUIDE.md](SOVEREIGNTY_GUIDE.md) for verification procedures.
+
+```bash
+# Verify origin and purity programmatically
+python -m core.identity_check
+# Expected: "Validación de Origen: JMMB - Instituto Consciencia Cuántica. Pureza: 1.0"
+```
+
+---
 
 ## 📐 NEW: CONCLUSIÓN GEOMÉTRICA - P ≠ NP Emerges from Structure
 
