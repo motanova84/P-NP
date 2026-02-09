@@ -9,6 +9,9 @@ require mathlib from git
 lean_lib ComputationalDichotomy where
   roots := #[`ComputationalDichotomy]
 
+lean_lib StructuralCoupling where
+  roots := #[`StructuralCoupling]
+
 lean_lib InformationComplexity where
   roots := #[`InformationComplexity]
 
@@ -33,6 +36,9 @@ lean_lib SpectralExpansion where
 lean_lib CycleTreeDecomposition where
   roots := #[`CycleTreeDecomposition]
 
+lean_lib MainTheorem where
+  roots := #[`PvsNP]
+  globs := #[.submodules `formal]
 lean_lib Formal where
   roots := #[`Formal]
 

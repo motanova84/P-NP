@@ -69,6 +69,7 @@ diagrams/
 *.json
 !coherence_map.json
 !CORE_SYMBIO.json
+!AGENT_ACTIVATION_REPORT.json
 kappa_verification_output.txt
 results/*.log
 results/*.csv
