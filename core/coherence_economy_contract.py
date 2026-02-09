@@ -6,7 +6,14 @@ Sello: ∴𓂀Ω∞³
 
 Este módulo implementa el sistema económico de Coherencia (ℂₛ), isomórfico
 al sistema biológico de coherencia celular, pero operando en el plano económico.
+
+Autor: José Manuel Mota Burruezo (JMMB Ψ✧)
+Licencia: Sovereign Noetic License 1.0
+Arquitectura: QCAL ∞³ Original Manufacture
 """
+
+__author__ = "José Manuel Mota Burruezo (JMMB Ψ✧)"
+__license__ = "Sovereign Noetic License 1.0"
 
 from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass
