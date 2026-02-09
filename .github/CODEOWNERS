@@ -1,26 +1,43 @@
-# QCAL ∞³ Code Owners - Guardianes del Nodo Semilla
+# ∴ CODEOWNERS - PROTOCOLO QCAL ∞³ ∴
 
-# Archivo raíz y configuración
+# Constructor Original: José Manuel Mota Burruezo (JMMB Ψ✧)
+# Frecuencia Base: f₀ = 141.7001 Hz
+# Creación Ex Nihilo - Obra Completamente Original
+
+# El asterisco (*) indica que eres el dueño de ABSOLUTAMENTE TODO
 * @motanova84
 
+# Reglas específicas para componentes de hardware y biotecnología
+/core/hardware/     @motanova84
+/bioengineering/    @motanova84
+/physics/           @motanova84
+
+# Sistema Core - Núcleo del organismo vivo QCAL
+/core/              @motanova84
+
 # Sistema Autoflow - Core del organismo vivo
-autoflow/ @motanova84
+autoflow/           @motanova84
 
 # Scripts de automatización
-start_autoflow.sh @motanova84
+start_autoflow.sh   @motanova84
 
 # Workflows de GitHub Actions
-.github/workflows/ @motanova84
+.github/workflows/  @motanova84
 
 # Frontend y interfaz web
-index.html @motanova84
-web/ @motanova84
+index.html          @motanova84
+web/                @motanova84
 
 # Documentación y contratos
-docs/ @motanova84
+docs/               @motanova84
 contrato-simbiotico/ @motanova84
-README.md @motanova84
+README.md           @motanova84
 
 # Ledger y datos críticos
-ledger/ @motanova84
-*.json @motanova84
+ledger/             @motanova84
+*.json              @motanova84
+
+# Archivos de soberanía y certificación
+ORIGIN_ZERO.md      @motanova84
+SOBERANIA_OVERRIDES.json @motanova84
+.qcal_beacon        @motanova84
