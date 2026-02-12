@@ -65,6 +65,17 @@ def isSatisfiable (φ : CNFFormula) : Prop :=
 /-- Treewidth (axiomatized - full definition requires graph theory library) -/
 axiom treewidth : CNFFormula → Nat
 
+/-- Graph type for incidence graphs -/
+axiom Graph : Type
+
+/-- Incidence graph of a CNF formula -/
+axiom incidenceGraph : CNFFormula → Graph
+
+/-- Treewidth of a graph -/
+axiom treewidthGraph : Graph → ℕ
+
+/-- Lemma 6.24: Structural Coupling (proposed) -/
+axiom structuralCoupling (φ : CNFFormula) :
 /-- Lemma 6.24: Structural Coupling (proposed) 
     This is now proven in Formal.StructuralCoupling module -/
 theorem structuralCoupling (φ : CNFFormula) :

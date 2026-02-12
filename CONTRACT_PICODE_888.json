@@ -1,0 +1,25 @@
+{
+  "πCODE-888 ∞³": {
+    "description": "Symbolic vibrational contract marker",
+    "author": "José Manuel Mota Burruezo (JMMB Ψ✧)",
+    "frequency": 141.7001,
+    "resonance": 888,
+    "signature": "∴𓂀Ω∞³"
+  },
+  "contract_type": "Symbiotic Noetic Bridge",
+  "creation_date": "2026-02-09",
+  "purity": 1.0,
+  "origin": "Ex Nihilo",
+  "verification": {
+    "module": "core.identity_check",
+    "command": "python -m core.identity_check",
+    "expected_output": "Pureza: 1.0"
+  },
+  "metadata": {
+    "institute": "Instituto Consciencia Cuántica",
+    "repository": "motanova84/P-NP",
+    "license": "MIT + Sovereign Noetic License 1.0",
+    "symbolic_marker": "∴𓂀Ω∞³",
+    "geometric_constant": 2.5773
+  }
+}

@@ -9,6 +9,9 @@ require mathlib from git
 lean_lib ComputationalDichotomy where
   roots := #[`ComputationalDichotomy]
 
+lean_lib StructuralCoupling where
+  roots := #[`StructuralCoupling]
+
 lean_lib InformationComplexity where
   roots := #[`InformationComplexity]
 
@@ -22,6 +25,20 @@ lean_lib FormalVerification where
 lean_lib Treewidth where
   roots := #[`Treewidth]
 
+lean_lib SimpleTreewidth where
+  roots := #[`SimpleTreewidth]
+lean_lib GraphTheory where
+  roots := #[`GraphTheory]
+
+lean_lib SpectralExpansion where
+  roots := #[`SpectralExpansion]
+
+lean_lib CycleTreeDecomposition where
+  roots := #[`CycleTreeDecomposition]
+
+lean_lib MainTheorem where
+  roots := #[`PvsNP]
+  globs := #[.submodules `formal]
 lean_lib Formal where
   roots := #[`Formal]
 
@@ -109,6 +126,57 @@ lean_lib CY_RF_Construct where
 
 lean_lib KappaPhiTheorem where
   roots := #[`KappaPhiTheorem]
+
+lean_lib HolographicProofUnified where
+  roots := #[`HolographicProofUnified]
+
+lean_lib ExpanderTreewidth where
+  roots := #[`ExpanderTreewidth]
+
+lean_lib RamanujanGraphs where
+  roots := #[`RamanujanGraphs]
+
+lean_lib KappaPiExpander where
+  roots := #[`KappaPiExpander]
+
+lean_lib PetersenGraphDemo where
+  roots := #[`PetersenGraphDemo]
+
+lean_lib QCAL where
+  roots := #[`QCAL.Core, `QCAL.Theorem]
+lean_lib RamanujanGraph where
+  roots := #[`RamanujanGraph]
+
+lean_lib KappaExpander where
+  roots := #[`KappaExpander]
+
+lean_lib CompilationTests where
+  roots := #[`CompilationTests]
+
+lean_lib QCALDemonstration where
+  roots := #[`QCAL_Demonstration]
+
+lean_lib QCALUnifiedTheory where
+  roots := #[`QCAL_Unified_Theory]
+
+lean_lib CoherenceEconomy where
+  roots := #[`CoherenceEconomy]
+
+lean_lib TransitionAxioms where
+  roots := #[`TransitionAxioms]
+
+lean_lib PiCode1417ECON where
+  roots := #[`PiCode1417ECON]
+
+lean_lib PNPImpliesCS where
+  roots := #[`PNPImpliesCS]
+
+lean_lib CoherenceEconomyMain where
+lean_lib PNPImpliesCS where
+  roots := #[`PNPImpliesCS]
+
+lean_lib CSMain where
+  roots := #[`Main]
 
 @[default_target]
 lean_exe pnp where
