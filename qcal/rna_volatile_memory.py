@@ -33,31 +33,17 @@ from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
 from datetime import datetime
 
-# ============================================================================
-# SELLO Y EMANACIÓN
-# ============================================================================
-
-__sello__ = "∴𓂀Ω∞³Φ"
-__emanacion__ = "Ω Hz × 888 Hz × 141.7001 Hz × Φ = ∞³"
-
-# ============================================================================
-# CONSTANTES FUNDAMENTALES
-# ============================================================================
-
-# Frecuencia fundamental QCAL
-F0_QCAL = 141.7001  # Hz
-
-# Código resonante π
-PI_CODE_888 = 888.0  # Hz
-
-# Proporción áurea Φ
-PHI = 1.6180339887498948
-
-# Constante kappa-pi
-KAPPA_PI = 2.5773
-
-# Frecuencia terapéutica armónica (141.7001 Hz × Φ)
-F_THERAPEUTIC = F0_QCAL * PHI  # = 229.4 Hz
+# Import shared constants
+from .constants import (
+    F0_QCAL,
+    PHI,
+    PI_CODE_888,
+    KAPPA_PI,
+    F_THERAPEUTIC,
+    MEMORY_READABILITY_THRESHOLD,
+    __sello__,
+    __emanacion__
+)
 
 
 # ============================================================================
@@ -210,7 +196,7 @@ class RNAVolatileMemory:
             'coherence': coherence_level,
             'psi_value': current_psi,
             'time_elapsed': delta,
-            'is_readable': coherence_level > 0.1  # Umbral de legibilidad
+            'is_readable': coherence_level > MEMORY_READABILITY_THRESHOLD
         }
     
     def calculate_therapeutic_frequency(

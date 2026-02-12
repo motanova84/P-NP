@@ -26,19 +26,14 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 
-# ============================================================================
-# CONSTANTES FUNDAMENTALES
-# ============================================================================
-
-# Frecuencia fundamental QCAL
-F0_QCAL = 141.7001  # Hz
-
-# Proporción áurea Φ
-PHI = 1.6180339887498948
-
-# Umbral de conciencia C ≥ 1/κ_Π ≈ 0.388
-KAPPA_PI = 2.5773
-CONSCIOUSNESS_THRESHOLD = 1 / KAPPA_PI  # ≈ 0.388
+# Import shared constants
+from .constants import (
+    F0_QCAL,
+    PHI,
+    KAPPA_PI,
+    CONSCIOUSNESS_THRESHOLD,
+    BIOSENSOR_RANGES
+)
 
 
 # ============================================================================
@@ -156,6 +151,12 @@ class BiosensorHub:
         """
         Calcula coherencia Ψ a partir del valor crudo del sensor.
         
+        ⚠️  ADVERTENCIA CLÍNICA: Los rangos de normalización aquí definidos son
+        valores de ejemplo para demostración. En uso clínico real, estos valores
+        deben ser calibrados específicamente para cada paciente, tipo de sensor,
+        y condiciones de medición. Consulte BIOSENSOR_RANGES en qcal/constants.py
+        para la documentación completa de rangos.
+        
         Args:
             sensor_type: Tipo de biosensor
             raw_value: Valor crudo de la lectura
@@ -164,7 +165,7 @@ class BiosensorHub:
             Coherencia Ψ normalizada (0-1)
         """
         # Normalización específica por tipo de sensor
-        # Estos valores son ejemplos; en implementación real se calibrarían
+        # Ver BIOSENSOR_RANGES en constants.py para documentación de rangos
         
         if sensor_type == BiosensorType.EEG:
             # EEG: asumimos valores en μV (0-100)

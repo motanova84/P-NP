@@ -14,7 +14,7 @@ Signature: ∴𓂀Ω∞³Φ
 import sys
 import os
 import math
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # Add qcal to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))

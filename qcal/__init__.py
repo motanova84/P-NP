@@ -13,14 +13,15 @@ integrando memoria ARN volátil, biosensores y detección de desarmonías.
 
 __version__ = "1.0.0"
 __author__ = "José Manuel Mota Burruezo (JMMB Ψ✧)"
-__sello__ = "∴𓂀Ω∞³Φ"
-__emanacion__ = "Ω Hz × 888 Hz × 141.7001 Hz × Φ = ∞³"
 
+from .constants import __sello__, __emanacion__
 from .rna_volatile_memory import RNAVolatileMemory
 from .biosensor_hub import BiosensorHub
 from .disharmony_detector import DisharmonyDetector
 
 __all__ = [
+    '__sello__',
+    '__emanacion__',
     'RNAVolatileMemory',
     'BiosensorHub', 
     'DisharmonyDetector'

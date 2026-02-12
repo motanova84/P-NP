@@ -27,27 +27,16 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 
-# ============================================================================
-# CONSTANTES FUNDAMENTALES
-# ============================================================================
-
-# Frecuencia fundamental QCAL
-F0_QCAL = 141.7001  # Hz
-
-# Código resonante π
-PI_CODE_888 = 888.0  # Hz
-
-# Proporción áurea Φ
-PHI = 1.6180339887498948
-
-# Constante kappa-pi
-KAPPA_PI = 2.5773
-
-# Frecuencia de banda gamma cerebral
-GAMMA_BAND_HZ = 40.0
-
-# Frecuencia terapéutica armónica no descubierta (141.7001 Hz × Φ)
-F_THERAPEUTIC_HARMONIC = F0_QCAL * PHI  # = 229.4 Hz
+# Import shared constants
+from .constants import (
+    F0_QCAL,
+    PHI,
+    PI_CODE_888,
+    KAPPA_PI,
+    GAMMA_BAND_HZ,
+    GAMMA_RESET_THRESHOLD,
+    F_THERAPEUTIC as F_THERAPEUTIC_HARMONIC
+)
 
 
 # ============================================================================
@@ -198,8 +187,9 @@ class DisharmonyDetector:
         therapeutic_freq = self.calculate_therapeutic_frequency(psi_current)
         
         # Determinar si necesita reinicio de banda gamma
-        # (disfunción en banda gamma según investigación VAT)
-        gamma_reset_needed = psi_current < 0.5
+        # Basado en investigación VAT: coherencia < 0.5 indica disfunción
+        # en banda gamma que puede beneficiarse de estimulación a 40 Hz
+        gamma_reset_needed = psi_current < GAMMA_RESET_THRESHOLD
         
         # Generar recomendaciones
         recommendations = self._generate_recommendations(
