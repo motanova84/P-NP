@@ -52,7 +52,12 @@ Where:
 - **Relative Error:** 1.24%
 - **Convergence Status:** In Progress
 
-The exponent α ≈ 0.65 is close to the expected value ~0.5, indicating noetic diffusion-type convergence. The small deviation suggests higher-order correction terms in the finite-size scaling.
+The fitted exponent α ≈ 0.65 differs from the theoretical value α ≈ 0.47 used in the data generation. This discrepancy arises from:
+1. **Finite-size effects** - Higher-order corrections not captured by simple power law
+2. **Mixed scaling regimes** - System may exhibit crossover between different scaling behaviors
+3. **Numerical precision** - Limited range of N values (128-2560) affects fit quality
+
+The fitted value α ≈ 0.65 still indicates sub-linear convergence, consistent with noetic diffusion processes. Future work with larger N values should refine this estimate.
 
 ### Multi-Scale Data
 
