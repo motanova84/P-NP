@@ -293,7 +293,9 @@ class Atlas3ModalAnalysis:
             # Therefore: κ(n) = κ_Π / √(n log n) + corrections
             
             # Set seed for reproducibility based on n
-            np.random.seed(int(n * 137.036))  # Fine structure constant
+            # Using fine structure constant α ≈ 1/137.036 for seed
+            # This connects to fundamental physics constants
+            np.random.seed(int(n * 137.036))
             
             # Base calculation following asymptotic law
             base_kappa = self.kappa_pi / np.sqrt(n * np.log(n))
