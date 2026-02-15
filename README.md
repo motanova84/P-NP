@@ -831,13 +831,21 @@ Then P ≠ NP becomes **inevitable** - a consequence of how information, topolog
 
 The separation is not proven but **recognized** as a structural truth.
 
-## ✨ The Key Ingredient: Proposed Mechanism to Prevent Evasion
+## ✨ The Key Ingredients: Proposed Mechanisms
 
-**Lemma 6.24 (Structural Coupling Preserving Treewidth)** proposes that:
+### Lemma 6.24 (Structural Coupling Preserving Treewidth)
+
+**Lemma 6.24** proposes that:
 
 > Any CNF formula φ with high treewidth can be coupled via gadgets (Tseitin expanders or graph product padding) to a communication instance where the information bottleneck is **inherent and cannot be eliminated** by classical algorithmic techniques.
 
-**Note:** This is a proposed mechanism requiring rigorous proof.
+### Lemma 6.35 (Structural Reduction Preserving Treewidth)
+
+**Lemma 6.35** proposes that:
+
+> Polynomial reductions between CNF formulas preserve treewidth within logarithmic factors, ensuring that structural complexity cannot be eliminated through reduction techniques. Any reduction R satisfies: tw(R(φ)) ≤ 2·tw(φ).
+
+**Note:** These are proposed mechanisms requiring rigorous proof.
 
 This approach is **NOT based on SETH or ETH**, but instead aims to use:
 1. Metric properties of treewidth (Graph Minors, Robertson-Seymour)
@@ -1623,6 +1631,18 @@ Tseitin formulas are special CNF constructions over graphs that are satisfiable 
 
 ## 📖 Documentation
 
+See the docs/ folder for detailed documentation:
+- **LEMA_6_24_ACOPLAMIENTO.md** - Lemma 6.24: Structural Coupling
+- **LEMA_6_35_REDUCCION.md** - Lemma 6.35: Structural Reduction
+- **IC_SAT_IMPLEMENTATION.md** - IC-SAT algorithm implementation
+- **DUALIDAD_RESOLUCION_INFOCOM.md** - Resolution-InfoCom duality
+- **UNIFICACION_COMPLEJIDAD_ESPECTRAL.md** - Spectral complexity unification
+
+Each document includes:
+- Complete proof structure
+- Technical components
+- Mathematical foundations
+- Implications for P vs NP
 ### Formal Manuscript
 
 See [docs/formal_manuscript.tex](docs/formal_manuscript.tex) for the complete formal LaTeX manuscript presenting:
