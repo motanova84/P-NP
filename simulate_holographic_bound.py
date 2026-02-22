@@ -179,6 +179,104 @@ def verify_kappa_pi() -> None:
     print("\n" + "="*100)
 
 
+def susskind_simulation(n_values: List[int] = None, tw_ratio: float = 0.3) -> List[Dict[str, Any]]:
+    """
+    Simulación de la Cota de Susskind (Complexity=Volume) comparando T_holo(n)
+    frente a los límites polinomiales clásicos O(n^2), O(n^10), O(n^100).
+
+    T_holo(n) = exp(κ_Π · tw(G) / log n)  — Volumen de Ryu-Takayanagi
+
+    Args:
+        n_values: Lista de valores de n a simular (default: [50, 100, 250, 500])
+        tw_ratio: Ratio tw(G)/n, típicamente 0.3 para grafos de Ramanujan
+
+    Returns:
+        Lista de diccionarios con resultados para cada n
+    """
+    if n_values is None:
+        n_values = [50, 100, 250, 500]
+
+    κ_Π = 2.5773  # Constante QCAL (κ_Π ≈ 2.5773, invariante QCAL)
+    results = []
+
+    for n in n_values:
+        tw = tw_ratio * n
+        log_n = math.log(n)
+
+        # Volumen de Ryu-Takayanagi (proporcional a la complejidad computacional)
+        T_holo = math.exp(κ_Π * tw / log_n)
+
+        # Límites polinomiales clásicos
+        T_poly_2 = n ** 2
+        T_poly_10 = n ** 10
+        T_poly_100 = n ** 100
+
+        results.append({
+            'n': n,
+            'tw': tw,
+            'T_holo': T_holo,
+            'T_n^2': T_poly_2,
+            'T_n^10': T_poly_10,
+            'T_n^100': T_poly_100,
+            'exceeds_n^2': T_holo > T_poly_2,
+            'exceeds_n^10': T_holo > T_poly_10,
+            'exceeds_n^100': T_holo > T_poly_100,
+        })
+
+    return results
+
+
+def print_susskind_table(results: List[Dict[str, Any]]) -> None:
+    """Imprime la tabla de resultados de la Cota de Susskind"""
+    print("\n" + "="*90)
+    print("📊 COLISEO DE COMPLEJIDAD: Cota de Susskind (Complexity = Volume)")
+    print(f"   T_holo(n) = exp(κ_Π · tw/log n),  κ_Π = 2.5773,  tw_ratio = 0.3")
+    print("="*90)
+    print(f"{'n':>8} {'tw':>8} {'T_holo (Vol RT)':>22} {'O(n²)':>16} {'Tholo > n^10':>14}")
+    print("-"*90)
+
+    for r in results:
+        marker = "✓ SUPERA" if r['exceeds_n^10'] else "       "
+        print(f"{r['n']:8d} {r['tw']:8.1f} {format_scientific(r['T_holo']):>22} "
+              f"{format_scientific(r['T_n^2']):>16}  {marker}")
+
+    print("="*90)
+    print()
+
+
+def demonstrate_susskind_separation(results: List[Dict[str, Any]]) -> None:
+    """Demuestra la separación super-polinomial de la Cota de Susskind"""
+    print("\n" + "="*90)
+    print("📜 TEOREMA DE LÍMITE DE INFERENCIA EN EL BORDE (Susskind-QCAL)")
+    print("="*90)
+    print()
+    print("  Sea C una clase de circuitos en una teoría conforme 1+1D.")
+    print("  Si Vol(γ_RT) = ω(log^k n), entonces no existe ninguna MT")
+    print("  polinomial que pueda preparar ψ sin violar la condición")
+    print("  de energía nula de la dualidad holográfica.")
+    print()
+
+    # Encuentra el primer n donde T_holo supera n^10
+    breakpoint_n10 = None
+    for r in results:
+        if r['exceeds_n^10']:
+            breakpoint_n10 = r
+            break
+
+    if breakpoint_n10:
+        print(f"  ✓ Punto de Ruptura (n^10): n = {breakpoint_n10['n']}")
+        print(f"    T_holo  ≈ {format_scientific(breakpoint_n10['T_holo'])}")
+        print(f"    n^10    ≈ {format_scientific(breakpoint_n10['T_n^10'])}")
+        print(f"    Ratio T_holo/n^10 ≈ {breakpoint_n10['T_holo']/breakpoint_n10['T_n^10']:.3f}")
+    else:
+        print(f"  T_holo no ha superado n^10 en el rango n ≤ {results[-1]['n']}")
+
+    print()
+    print("  Invariancia QCAL: κ_Π ≈ 2.5773 actúa como factor de escala que")
+    print("  impide que el volumen del bulk sea 'comprimido' por un algoritmo eficiente.")
+    print("="*90)
+
+
 def main():
     """Función principal"""
     print("\n" + "="*100)
@@ -186,26 +284,34 @@ def main():
     print("Teorema: Separación de P y NP vía AdS/CFT y QCAL ∞³")
     print("Autor: José Manuel Mota Burruezo")
     print("="*100)
-    
+
     # Ejemplo concreto
     example_concrete_instance()
-    
+
     # Verificación de κ_Π
     verify_kappa_pi()
-    
+
+    # --- Simulación de la Cota de Susskind (tw_ratio=0.3, Ramanujan) ---
+    print("\n\nEjecutando Simulación de la Cota de Susskind")
+    print("(tw_ratio = 0.3, típico de grafos de Ramanujan)\n")
+
+    susskind_results = susskind_simulation(n_values=[50, 100, 250, 500], tw_ratio=0.3)
+    print_susskind_table(susskind_results)
+    demonstrate_susskind_separation(susskind_results)
+
     # Simulación para diferentes valores de n
     print("\n\nEjecutando simulación para n = 10, 20, ..., 1000")
     print("(esto puede tomar unos segundos...)\n")
-    
+
     results = simulate_holographic_bound(n_max=1000, tw_ratio=0.5)
-    
+
     # Mostrar tabla de resultados (cada 100 valores)
     sampled_results = [r for r in results if r['n'] % 100 == 0 or r['n'] in [10, 50, 500]]
     print_results_table(sampled_results)
-    
+
     # Demostrar separación
     demonstrate_separation(results)
-    
+
     # Resumen final
     print("\n" + "="*100)
     print("CONCLUSIÓN")
