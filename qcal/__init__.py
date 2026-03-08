@@ -18,11 +18,21 @@ from .constants import __sello__, __emanacion__
 from .rna_volatile_memory import RNAVolatileMemory
 from .biosensor_hub import BiosensorHub
 from .disharmony_detector import DisharmonyDetector
+from .adn_riemann import CodificadorADNRiemann
+from .p_np_solver_bridge import (
+    resolver_p_vs_np_vibracional,
+    encontrar_maxima_coherencia,
+    certificar_logos
+)
 
 __all__ = [
     '__sello__',
     '__emanacion__',
     'RNAVolatileMemory',
     'BiosensorHub', 
-    'DisharmonyDetector'
+    'DisharmonyDetector',
+    'CodificadorADNRiemann',
+    'resolver_p_vs_np_vibracional',
+    'encontrar_maxima_coherencia',
+    'certificar_logos'
 ]
