@@ -20,6 +20,8 @@ from .biosensor_hub import BiosensorHub
 from .disharmony_detector import DisharmonyDetector
 from .ramsey_logos_attractor import emergencia_ramsey_qcal, escanear_orden_ramsey_bsd
 from .ramsey_adelic_integrator import integrar_ramsey_bsd, generar_certificado_ramsey_bsd
+from .adn_riemann import CodificadorADNRiemann
+from .bsd_adelic_connector import BSDAdelicoConnector
 
 __all__ = [
     '__sello__',
@@ -30,5 +32,7 @@ __all__ = [
     'emergencia_ramsey_qcal',
     'escanear_orden_ramsey_bsd',
     'integrar_ramsey_bsd',
-    'generar_certificado_ramsey_bsd'
+    'generar_certificado_ramsey_bsd',
+    'CodificadorADNRiemann',
+    'BSDAdelicoConnector'
 ]
