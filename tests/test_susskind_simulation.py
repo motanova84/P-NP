@@ -17,7 +17,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from simulate_holographic_bound import (
     susskind_simulation,
-    simulate_holographic_bound,
     format_scientific,
 )
 
@@ -123,7 +122,6 @@ def run_tests():
     """Run all tests with manual runner."""
     print("=" * 70)
     print("  Susskind Bound Simulation - Test Suite")
-    print("  ∴𓂀Ω∞³")
     print("=" * 70)
     print()
 
@@ -132,29 +130,9 @@ def run_tests():
     for cls in [TestSusskindSimulation, TestFormatScientific]:
         suite.addTests(loader.loadTestsFromTestCase(cls))
 
-    total = suite.countTestCases()
-    passed = 0
-    failed = 0
-    errors = []
-
-    for test in suite:
-        try:
-            test.debug()
-            passed += 1
-            print(f"  ✓ {test._testMethodName}")
-        except Exception as e:
-            failed += 1
-            errors.append((test._testMethodName, str(e)))
-            print(f"  ✗ {test._testMethodName}: {e}")
-
-    print()
-    print(f"Results: {passed}/{total} passed, {failed} failed")
-    if errors:
-        print("\nFailures:")
-        for name, msg in errors:
-            print(f"  - {name}: {msg}")
-    print("=" * 70)
-    return failed == 0
+    runner = unittest.TextTestRunner(verbosity=2, stream=sys.stdout)
+    result = runner.run(suite)
+    return result.wasSuccessful()
 
 
 if __name__ == "__main__":

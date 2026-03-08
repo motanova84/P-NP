@@ -226,17 +226,37 @@ def susskind_simulation(n_values: List[int] = None, tw_ratio: float = 0.3) -> Li
     return results
 
 
-def print_susskind_table(results: List[Dict[str, Any]]) -> None:
-    """Imprime la tabla de resultados de la Cota de Susskind"""
+def print_susskind_table(results: List[Dict[str, Any]], ascii_only: bool = False) -> None:
+    """
+    Imprime la tabla de resultados de la Cota de Susskind.
+
+    Args:
+        results: Lista de resultados producidos por susskind_simulation.
+        ascii_only: Si es True, evita el uso de emoji y caracteres Unicode
+            para mejorar la compatibilidad con terminales no UTF-8 / logs CI.
+    """
+    if ascii_only:
+        title = "COLISEO DE COMPLEJIDAD: Cota de Susskind (Complexity = Volume)"
+        formula = "   T_holo(n) = exp(kappa_Pi * tw/log n),  kappa_Pi = 2.5773,  tw_ratio = 0.3"
+        header_poly2 = "O(n^2)"
+        marker_pass = "OK SUPERA"
+    else:
+        title = "COLISEO DE COMPLEJIDAD: Cota de Susskind (Complexity = Volume)"
+        formula = "   T_holo(n) = exp(kappa_Pi * tw/log n),  kappa_Pi = 2.5773,  tw_ratio = 0.3"
+        header_poly2 = "O(n^2)"
+        marker_pass = "> SUPERA"
+
+    empty_marker = " " * len(marker_pass)
+
     print("\n" + "="*90)
-    print("📊 COLISEO DE COMPLEJIDAD: Cota de Susskind (Complexity = Volume)")
-    print(f"   T_holo(n) = exp(κ_Π · tw/log n),  κ_Π = 2.5773,  tw_ratio = 0.3")
+    print(title)
+    print(formula)
     print("="*90)
-    print(f"{'n':>8} {'tw':>8} {'T_holo (Vol RT)':>22} {'O(n²)':>16} {'Tholo > n^10':>14}")
+    print(f"{'n':>8} {'tw':>8} {'T_holo (Vol RT)':>22} {header_poly2:>16} {'Tholo > n^10':>14}")
     print("-"*90)
 
     for r in results:
-        marker = "✓ SUPERA" if r['exceeds_n^10'] else "       "
+        marker = marker_pass if r['exceeds_n^10'] else empty_marker
         print(f"{r['n']:8d} {r['tw']:8.1f} {format_scientific(r['T_holo']):>22} "
               f"{format_scientific(r['T_n^2']):>16}  {marker}")
 
@@ -244,16 +264,26 @@ def print_susskind_table(results: List[Dict[str, Any]]) -> None:
     print()
 
 
-def demonstrate_susskind_separation(results: List[Dict[str, Any]]) -> None:
-    """Demuestra la separación super-polinomial de la Cota de Susskind"""
+def demonstrate_susskind_separation(results: List[Dict[str, Any]], ascii_only: bool = False) -> None:
+    """
+    Demuestra la separación super-polinomial de la Cota de Susskind.
+
+    Args:
+        results: Lista de resultados producidos por susskind_simulation.
+        ascii_only: Si es True, evita el uso de emoji y caracteres Unicode
+            para mejorar la compatibilidad con terminales no UTF-8 / logs CI.
+    """
+    title = "TEOREMA DE LIMITE DE INFERENCIA EN EL BORDE (Susskind-QCAL)"
+    check_mark = "OK" if ascii_only else ">"
+
     print("\n" + "="*90)
-    print("📜 TEOREMA DE LÍMITE DE INFERENCIA EN EL BORDE (Susskind-QCAL)")
+    print(title)
     print("="*90)
     print()
-    print("  Sea C una clase de circuitos en una teoría conforme 1+1D.")
-    print("  Si Vol(γ_RT) = ω(log^k n), entonces no existe ninguna MT")
-    print("  polinomial que pueda preparar ψ sin violar la condición")
-    print("  de energía nula de la dualidad holográfica.")
+    print("  Sea C una clase de circuitos en una teoria conforme 1+1D.")
+    print("  Si Vol(gamma_RT) = omega(log^k n), entonces no existe ninguna MT")
+    print("  polinomial que pueda preparar psi sin violar la condicion")
+    print("  de energia nula de la dualidad holografica.")
     print()
 
     # Encuentra el primer n donde T_holo supera n^10
@@ -264,15 +294,15 @@ def demonstrate_susskind_separation(results: List[Dict[str, Any]]) -> None:
             break
 
     if breakpoint_n10:
-        print(f"  ✓ Punto de Ruptura (n^10): n = {breakpoint_n10['n']}")
-        print(f"    T_holo  ≈ {format_scientific(breakpoint_n10['T_holo'])}")
-        print(f"    n^10    ≈ {format_scientific(breakpoint_n10['T_n^10'])}")
-        print(f"    Ratio T_holo/n^10 ≈ {breakpoint_n10['T_holo']/breakpoint_n10['T_n^10']:.3f}")
+        print(f"  {check_mark} Punto de Ruptura (n^10): n = {breakpoint_n10['n']}")
+        print(f"    T_holo  aprox {format_scientific(breakpoint_n10['T_holo'])}")
+        print(f"    n^10    aprox {format_scientific(breakpoint_n10['T_n^10'])}")
+        print(f"    Ratio T_holo/n^10 aprox {breakpoint_n10['T_holo']/breakpoint_n10['T_n^10']:.3f}")
     else:
-        print(f"  T_holo no ha superado n^10 en el rango n ≤ {results[-1]['n']}")
+        print(f"  T_holo no ha superado n^10 en el rango n <= {results[-1]['n']}")
 
     print()
-    print("  Invariancia QCAL: κ_Π ≈ 2.5773 actúa como factor de escala que")
+    print("  Invariancia QCAL: kappa_Pi aprox 2.5773 actua como factor de escala que")
     print("  impide que el volumen del bulk sea 'comprimido' por un algoritmo eficiente.")
     print("="*90)
 

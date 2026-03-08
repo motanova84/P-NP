@@ -46,23 +46,25 @@ lemma κ_Π_pos : κ_Π > 0 := by norm_num [κ_Π]
 /-! ## Definición del tiempo holográfico -/
 
 /--
-  T_holo(n, tw) = exp(κ_Π · tw / log n)
+  T_holo(n, tw) = exp(κ_Π · tw / log (max n 2))
 
   Representa el Volumen de Ryu-Takayanagi, proporcional a la complejidad
   computacional según la conjetura Complexity=Volume de Susskind.
 
-  * n   : número de variables del problema
+  * n   : número de variables del problema (se fuerza internamente n ≥ 2
+          para evitar log 0 = 0 y log 1 = 0 que hacen la expresión degenerada)
   * tw  : ancho de árbol del grafo de instancia
 -/
 def T_holo (n : ℕ) (tw : ℝ) : ℝ :=
-  Real.exp (κ_Π * tw / Real.log n)
+  Real.exp (κ_Π * tw / Real.log (max n 2))
 
 /-! ## Lemas auxiliares -/
 
 /-- Para n ≥ 2, log n > 0 -/
 lemma log_pos_of_ge_two (n : ℕ) (hn : n ≥ 2) : Real.log n > 0 := by
-  apply Real.log_pos
-  exact_mod_cast Nat.one_lt_iff_ne_one.mpr (by omega)
+  have h₁ : (1 : ℝ) < n := by
+    exact_mod_cast Nat.lt_of_lt_of_le one_lt_two hn
+  exact Real.log_pos h₁
 
 /-- T_holo es positivo -/
 lemma T_holo_pos (n : ℕ) (tw : ℝ) : T_holo n tw > 0 := by
@@ -105,10 +107,8 @@ lemma exponent_dominates_log (c : ℝ) (hc : c > 0) (k : ℕ) :
   de expander.
 -/
 theorem holographic_complexity_gap
-    (n : ℕ) (tw : ℝ) (k : ℕ) :
-    (tw ≥ 0.3 * n) →
+    (k : ℕ) :
     Filter.Eventually (fun n : ℕ => T_holo n (0.3 * n) > (n : ℝ) ^ k) Filter.atTop := by
-  intro _h_tw
   -- La demostración se basa en que exp(κ_Π · 0.3 · n / log n) crece
   -- super-polinomialmente respecto a n^k = exp(k · log n),
   -- pues κ_Π · 0.3 · n / log n = ω(k · log n) para cualquier k fijo.
