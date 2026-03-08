@@ -178,6 +178,9 @@ lean_lib PNPImpliesCS where
 lean_lib CSMain where
   roots := #[`Main]
 
+lean_lib ProofComplexity where
+  roots := #[`ProofComplexity.Complexity]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal
