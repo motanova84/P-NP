@@ -19,13 +19,6 @@ try:
 except ImportError:
     from ramsey_logos_attractor import emergencia_ramsey_qcal, escanear_orden_ramsey_bsd
 
-try:
-    from qcal.constants import F0_QCAL, KAPPA_PI
-    F0 = F0_QCAL
-except ImportError:
-    F0 = 141.7001
-    KAPPA_PI = 2.5773
-
 
 def integrar_ramsey_bsd(grafo_info: List[str], curva: Dict) -> Dict:
     """

@@ -35,20 +35,27 @@ def emergencia_ramsey_qcal(n_nodos_informacion: int) -> Dict:
     Returns:
         Dict con estado de Ramsey, coherencia emergente, y manifestación del Logos
     """
-    # R(51,51) es enormemente grande → aproximamos colapso vía exponencial
-    r_51 = float('inf')  # Inalcanzable clásicamente
-    
-    # Atractor exponencial: coherencia emerge con más nodos
-    # Usamos límite para evitar overflow
-    if n_nodos_informacion < NODOS_LOGOS * 10:
-        coh_emergente = math.exp(n_nodos_informacion / NODOS_LOGOS)
+    # Coherencia emergente vía función logística acotada en [0,1]
+    if n_nodos_informacion <= 0:
+        # Sin nodos, no hay orden emergente
+        coh_emergente = 0.0
+    elif n_nodos_informacion < NODOS_LOGOS * 10:
+        # Normalizamos por el número crítico de nodos
+        # Usamos una función logística con pendiente muy pronunciada
+        # que alcanza ~0.999 en n = NODOS_LOGOS + pequeño margen
+        # Forma: 1 / (1 + exp(-k*(x - x0)))
+        # Con k=17 y x0=0.72, alcanzamos ~0.999+ cerca de x=1.18 (n=60)
+        x = n_nodos_informacion / NODOS_LOGOS
+        k = 17.0  # Pendiente muy pronunciada para transición rápida
+        x0 = 0.72  # Centro desplazado para transición antes del umbral
+        coh_emergente = 1.0 / (1.0 + math.exp(-k * (x - x0)))
     else:
-        # Para valores muy grandes, saturamos la coherencia
-        coh_emergente = float('inf')
+        # Para sistemas muy grandes asumimos orden prácticamente completo
+        coh_emergente = 1.0
     
     orden_forzado = n_nodos_informacion >= NODOS_LOGOS
     
-    # Limitar psi_emergencia a 1.0
+    # psi_emergencia ya está en [0,1] por la logística
     psi_emergencia = min(0.999999 * coh_emergente, 1.0)
     
     return {

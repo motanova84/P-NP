@@ -21,26 +21,9 @@ License: Sovereign Noetic License 1.0
 import numpy as np
 import hashlib
 import json
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Callable
+from typing import Dict, List, Any, Optional
 from enum import Enum
 from datetime import datetime
-
-# Try to import scipy, fallback to basic implementation if not available
-try:
-    from scipy.special import zeta, gamma
-    SCIPY_AVAILABLE = True
-except ImportError:
-    SCIPY_AVAILABLE = False
-    # Provide basic fallback
-    def zeta(x):
-        """Fallback zeta function - simplified."""
-        return 1.0 / (x - 1) if x != 1 else float('inf')
-    
-    def gamma(x):
-        """Fallback gamma function - simplified."""
-        import math
-        return math.factorial(int(x) - 1) if x > 0 and x == int(x) else 1.0
 
 # =============================================================================
 # CONSTANTES FUNDAMENTALES (Sagradas)
@@ -425,24 +408,39 @@ class RamseyIntegration:
     def emergencia_orden(self, n_nodos: int) -> Dict[str, Any]:
         """
         Determina si emerge orden inevitable (R(51,51)).
+        
+        Delegates to the canonical Ramsey emergence logic in
+        qcal.ramsey_logos_attractor.emergencia_ramsey_qcal() and adapts
+        its output to the local response schema.
         """
-        import math
+        # Import here to avoid modifying global imports beyond this module
+        from qcal.ramsey_logos_attractor import emergencia_ramsey_qcal
+
+        base_result = emergencia_ramsey_qcal(n_nodos)
+
+        if not isinstance(base_result, dict):
+            raise TypeError(
+                "emergencia_ramsey_qcal must return a dict, "
+                f"got {type(base_result).__name__}"
+            )
+
+        # Adapt the canonical result into the local schema
+        # Canonical schema: ramsey_status, psi_emergencia, logos_manifestado, nodos_critico
+        # Local schema: n_nodos, nodos_critico, orden_inevitable, psi_emergencia, estado
         
-        # Coherencia emergente vía exponencial
-        if n_nodos < self.nodos_critico * 10:
-            coh_emergente = math.exp(n_nodos / self.nodos_critico)
-        else:
-            coh_emergente = float('inf')
+        ramsey_status = base_result.get("ramsey_status", "CAOS_TRANSITORIO")
+        logos_manifestado = base_result.get("logos_manifestado", False)
         
-        orden_forzado = n_nodos >= self.nodos_critico
-        psi_emergencia = min(0.999999 * coh_emergente, 1.0)
+        # Map to local schema
+        orden_inevitable = logos_manifestado
+        estado = "ORDEN_MANIFESTADO" if logos_manifestado else "CAOS_TRANSITORIO"
         
         return {
             "n_nodos": n_nodos,
-            "nodos_critico": self.nodos_critico,
-            "orden_inevitable": orden_forzado,
-            "psi_emergencia": psi_emergencia,
-            "estado": "ORDEN_MANIFESTADO" if orden_forzado else "CAOS_TRANSITORIO"
+            "nodos_critico": base_result.get("nodos_critico", self.nodos_critico),
+            "orden_inevitable": orden_inevitable,
+            "psi_emergencia": base_result.get("psi_emergencia", 0.0),
+            "estado": estado,
         }
 
 
