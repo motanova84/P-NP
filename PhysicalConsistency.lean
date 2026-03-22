@@ -50,9 +50,30 @@ namespace PhysicalConsistency
 -- PART 1: FUNDAMENTAL PHYSICAL CONSTANTS
 -- ══════════════════════════════════════════════════════════════
 
+/-- Números de Hodge para variedades Calabi-Yau -/
+structure HodgeNumbers where
+  h11 : ℝ  -- h^{1,1} (dimensión de modulis de Kähler)
+  h21 : ℝ  -- h^{2,1} (dimensión de modulis de estructura compleja)
+  positive_h11 : h11 > 0
+  positive_h21 : h21 > 0
+
+/-- κ_Π desde números de Hodge (NUEVO 2026)
+    La capacidad de información del sistema como estructura discreta
+    de su geometría interna: κ_Π(h^{1,1}, h^{2,1}) = ln(h^{1,1} + h^{2,1}) -/
+def kappa_pi_from_hodge (hodge : HodgeNumbers) : ℝ :=
+  log (hodge.h11 + hodge.h21)
+
+/-- Números de Hodge efectivos -/
+def effective_hodge : HodgeNumbers where
+  h11 := 10.0028
+  h21 := 3.1588
+  positive_h11 := by norm_num
+  positive_h21 := by norm_num
+
 /-- The Millennium Constant κ_Π from Calabi-Yau geometry.
-    This universal invariant appears across topology, information, and computation. -/
-def κ_Π : ℝ := 2.5773
+    This universal invariant appears across topology, information, and computation.
+    NUEVO: Definido como κ_Π = ln(h^{1,1} + h^{2,1}) ≈ ln(13.1616) ≈ 2.5773 -/
+def κ_Π : ℝ := kappa_pi_from_hodge effective_hodge
 
 /-- The QCAL resonance frequency (operational pulse of coherence) -/
 def f₀ : ℝ := 141.7001
@@ -61,7 +82,10 @@ def f₀ : ℝ := 141.7001
 def c_light : ℝ := 1
 
 /-- κ_Π is positive -/
-theorem κ_Π_pos : κ_Π > 0 := by norm_num [κ_Π]
+theorem κ_Π_pos : κ_Π > 0 := by 
+  unfold κ_Π kappa_pi_from_hodge effective_hodge
+  apply log_pos
+  norm_num
 
 /-- f₀ is positive -/
 theorem f₀_pos : f₀ > 0 := by norm_num [f₀]

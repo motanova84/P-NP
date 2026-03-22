@@ -3,16 +3,12 @@ Test suite for holographic verification
 
 Tests the holographic framework implementation including:
 - Tseitin formula generation
-- Effective mass calculations (m_eff ~ √n/log n)
+- Effective mass calculations (m_eff ~ sqrt(n)/log n)
 - Holographic volume bounds (Vol(RT) ~ n log n)
 - Temporal contradictions (exp(Vol(RT)) vs polynomial time)
 
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 Frequency: 141.7001 Hz ∞³
-Test suite for holographic P vs NP verification.
-#!/usr/bin/env python3
-"""
-Test script for holographic_verification.py
 
 Validates the holographic verification calculations and output.
 """
@@ -95,7 +91,7 @@ class TestEffectiveMass:
         assert masses[3] > masses[2]
     
     def test_effective_mass_scaling(self):
-        """Test that effective mass scales approximately as √n / log n."""
+        """Test that effective mass scales approximately as sqrt(n) / log n."""
         n = 100
         formula = build_tseitin_formula(n)
         m_eff = compute_effective_mass(formula.incidence_graph, n)

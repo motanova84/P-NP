@@ -22,7 +22,7 @@ Bulk Volume through the AdS/CFT correspondence (Anti-de Sitter/Conformal Field T
 * Susskind-Zhao: Complexity = Volume conjecture
 * Maldacena: AdS/CFT correspondence
 
-Author: José Manuel Mota Burruezo & Claude (Noēsis)
+Author: José Manuel Mota Burruezo & (Noēsis)
 -/
 
 import Mathlib.Data.Nat.Basic
