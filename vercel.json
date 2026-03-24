@@ -1,24 +1,18 @@
 {
     "version": 2,
     "name": "p-vs-np-treewidth-framework",
-    "builds": [
-        {
-            "src": "README.md",
-            "use": "@vercel/static"
-        }
-    ],
     "rewrites": [
         {
             "source": "/demo",
-            "destination": "examples/demo_ic_sat.py"
+            "destination": "/api/demo"
         },
         {
             "source": "/run_all",
-            "destination": "run_all_tests.sh"
+            "destination": "/api/run_all"
         },
         {
             "source": "/simple",
-            "destination": "simple_demo.py"
+            "destination": "/api/simple"
         }
     ],
     "headers": [
@@ -46,11 +40,11 @@
     ],
     "crons": [
         {
-            "path": "/run_all",
+            "path": "/api/run_all",
             "schedule": "0 4 * * 1"
         },
         {
-            "path": "/demo",
+            "path": "/api/demo",
             "schedule": "15 4 * * 1"
         }
     ],

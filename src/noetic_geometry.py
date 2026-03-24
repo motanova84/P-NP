@@ -31,7 +31,7 @@ Frequency: 141.7001 Hz ∞³
 
 import numpy as np
 import math
-from typing import Optional
+from typing import Optional, Dict, Any
 from dataclasses import dataclass
 
 
