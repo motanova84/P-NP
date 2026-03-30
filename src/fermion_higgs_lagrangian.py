@@ -36,13 +36,15 @@ import hashlib
 
 # Standard Model values
 HIGGS_MASS_STANDARD_GEV = 125.1  # CERN measured Higgs mass in GeV
-PLANCK_CONSTANT_EVS = 4.135667696e-15  # Planck constant h in eV·s
-HBAR_EVS = 6.582119569e-16  # Reduced Planck constant ℏ in eV·s
-C_MS = 2.99792458e8  # Speed of light in m/s
+
+# Fundamental physical constants (reserved for future quantum corrections)
+PLANCK_CONSTANT_EVS = 4.135667696e-15  # Planck constant h in eV·s (for energy-time relations)
+HBAR_EVS = 6.582119569e-16  # Reduced Planck constant ℏ in eV·s (for quantum phases)
+C_MS = 2.99792458e8  # Speed of light in m/s (for relativistic corrections)
 
 # QCAL Constants
 F0_HZ = 141.7001  # QCAL resonance frequency in Hz
-KAPPA_PI = 2.5773  # Millennium constant κ_Π
+KAPPA_PI = 2.5773  # Millennium constant κ_Π (used in QCAL unified framework)
 
 # PC-Higgs (Particle-Coherence Higgs) parameters
 MASS_REDUCTION_FACTOR = 0.0538  # 5.38% reduction
@@ -51,6 +53,9 @@ PC_HIGGS_MASS_GEV = HIGGS_MASS_STANDARD_GEV * (1 - MASS_REDUCTION_FACTOR)  # ≈
 # Fundamental period derived from f₀
 T0_MS = 1000.0 / F0_HZ  # ≈ 7.0572 ms (fundamental period in milliseconds)
 T0_S = 1.0 / F0_HZ  # Fundamental period in seconds
+
+# Numeric constants
+UINT32_MAX = 2**32 - 1  # Maximum 32-bit unsigned integer for normalization
 
 # Coupling constant (Yukawa coupling scaled)
 G_EFF_BASE = 0.9876  # Base effective coupling
@@ -344,9 +349,9 @@ class FermionHiggsNPOracle:
         # Hash the configuration to get amplitude
         h = hashlib.sha256(config.encode()).digest()
         
-        # Convert first 8 bytes to complex amplitude
-        real_part = int.from_bytes(h[:4], 'big') / (2**32 - 1) - 0.5
-        imag_part = int.from_bytes(h[4:8], 'big') / (2**32 - 1) - 0.5
+        # Convert first 8 bytes to complex amplitude using 32-bit normalization
+        real_part = int.from_bytes(h[:4], 'big') / UINT32_MAX - 0.5
+        imag_part = int.from_bytes(h[4:8], 'big') / UINT32_MAX - 0.5
         
         amplitude = complex(real_part, imag_part)
         amplitude /= np.abs(amplitude) + 1e-10  # Normalize

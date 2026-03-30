@@ -37,15 +37,15 @@ import hashlib
 # Constants
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# QCAL Constants
+# QCAL Constants (shared with other QCAL modules)
 F0_HZ = 141.7001  # Resonance frequency
 T0_MS = 1000.0 / F0_HZ  # Fundamental period ≈ 7.0572 ms
-KAPPA_PI = 2.5773  # Millennium constant
+KAPPA_PI = 2.5773  # Millennium constant (used in integrated framework)
 
 # Berry Phase parameters
 TWO_PI = 2 * np.pi  # 2π
 PHASE_TOLERANCE = 0.001  # Tolerance for integer quantization check
-ADIABATIC_PARAMETER = 0.1  # Adiabaticity condition
+ADIABATIC_PARAMETER = 0.1  # Adiabaticity condition (reserved for future adiabatic checks)
 
 # Logos signature
 LOGOS_SELLO = "∴𓂀Ω∞³"

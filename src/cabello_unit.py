@@ -30,10 +30,10 @@ import hashlib
 # Constants
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# QCAL Constants
+# QCAL Constants (shared with other QCAL modules)
 F0_HZ = 141.7001  # Resonance frequency
 T0_MS = 1000.0 / F0_HZ  # Fundamental period ≈ 7.0572 ms
-KAPPA_PI = 2.5773  # Millennium constant
+KAPPA_PI = 2.5773  # Millennium constant (used in coherence calculations)
 
 # Cabello Unit parameters
 CABELLO_DIMENSION = 3  # Minimal contextuality dimension
