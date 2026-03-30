@@ -214,13 +214,12 @@ class RamseyHaarOracle:
             phase_alignment = fitness * 2 * np.pi
             berry_phases.append(phase_alignment)
         
-        # Find configuration with maximum constructive interference
-        # (Berry phase closest to 2πn, n integer)
-        constructive_phases = [np.abs(np.sin(bp)) for bp in berry_phases]
-        min_destructive = np.argmin(constructive_phases)
+        # Find configuration with maximum fitness
+        # The correct solution has fitness = 1.0
+        max_fitness_idx = np.argmax(fitnesses)
         
         # Collapse to solution in flash time
-        solution_index = min_destructive
+        solution_index = max_fitness_idx
         solution = problem_space[solution_index]
         
         return {

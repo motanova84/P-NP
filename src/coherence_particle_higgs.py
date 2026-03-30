@@ -171,9 +171,16 @@ class CoherenceParticleHiggs:
         # Path length in modified spacetime (shorter with lower viscosity)
         path_length = distance * (1.0 + viscosity)
         
-        # Flow time - approaches flash time (7.057 μs) at high coherence
+        # Flow time - at high coherence (low viscosity), approaches flash time
+        # At low coherence (high viscosity), flow time increases with distance
         base_flow_time = distance / C_LIGHT  # Classical light-speed limit
-        flow_time = base_flow_time * viscosity + self.tau_flash * (1.0 - viscosity)
+        # Use minimum of flash time and scaled base time
+        if coherence > 0.9:
+            # At high coherence, everything happens in flash time
+            flow_time = self.tau_flash
+        else:
+            # At lower coherence, flow time scales with viscosity
+            flow_time = base_flow_time * (1.0 + viscosity * 1000)
         
         return {
             'action': action,
@@ -239,8 +246,13 @@ class CoherenceParticleHiggs:
         # PC-accelerated time
         viscosity = self.spacetime_viscosity(coherence)
         
-        # At high coherence, time collapses to flash time
-        pc_time = classical_time * viscosity + self.tau_flash * (1.0 - viscosity)
+        # At high coherence (>0.9), time collapses to flash time
+        # At lower coherence, time interpolates between classical and flash
+        if coherence > 0.9:
+            pc_time = self.tau_flash
+        else:
+            # Interpolate between classical and flash based on viscosity
+            pc_time = classical_time * viscosity + self.tau_flash * (1.0 - viscosity)
         
         # Speedup factor
         speedup = classical_time / pc_time if pc_time > 0 else float('inf')
