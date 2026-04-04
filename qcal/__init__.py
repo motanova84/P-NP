@@ -19,6 +19,11 @@ from .rna_volatile_memory import RNAVolatileMemory
 from .biosensor_hub import BiosensorHub
 from .disharmony_detector import DisharmonyDetector
 from .adn_riemann import CodificadorADNRiemann
+from .p_np_solver_bridge import (
+    resolver_p_vs_np_vibracional,
+    encontrar_maxima_coherencia,
+    certificar_logos
+)
 from .bsd_adelic_connector import (
     sincronizar_bsd_adn,
     validar_pentagono_cerrado,
@@ -37,6 +42,9 @@ __all__ = [
     'BiosensorHub', 
     'DisharmonyDetector',
     'CodificadorADNRiemann',
+    'resolver_p_vs_np_vibracional',
+    'encontrar_maxima_coherencia',
+    'certificar_logos'
     'sincronizar_bsd_adn',
     'validar_pentagono_cerrado',
     'calcular_capacidad_resonancia',
