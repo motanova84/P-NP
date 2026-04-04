@@ -17,8 +17,7 @@ License: MIT + Sovereign Noetic License 1.0
 Signature: ∴𓂀Ω∞³
 """
 
-import hashlib
-from typing import Dict, Tuple, Optional
+from typing import Any, Dict, Tuple
 
 
 class PiCode888Bridge:
@@ -200,7 +199,7 @@ class PiCode888Bridge:
         except Exception:
             return False
     
-    def get_sequence_info(self) -> Dict[str, any]:
+    def get_sequence_info(self) -> Dict[str, Any]:
         """
         Get complete information about all sequences.
         

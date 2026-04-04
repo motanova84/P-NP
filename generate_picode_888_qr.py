@@ -141,11 +141,15 @@ def generate_ascii_qr_representation(bridge: PiCode888Bridge):
     print(f"│ Ψ State: {bridge.PSI_STATE}                                                 │")
     print(f"│ Threshold: C ≥ {bridge.CONSCIOUSNESS_THRESHOLD:.3f}                                       │")
     print("├─────────────────────────────────────────────────────────────────┤")
+    rna_seq = bridge.RNA_SEQUENCE
+    rna_display = rna_seq[:60] + "..." if len(rna_seq) > 60 else rna_seq
+    greek_seq = bridge.GREEK_SEQUENCE
+    greek_display = greek_seq[:60] + "..." if len(greek_seq) > 60 else greek_seq
     print("│ RNA (51 nt):                                                    │")
-    print(f"│ {bridge.RNA_SEQUENCE[:60]}...   │")
+    print(f"│ {rna_display}   │")
     print("├─────────────────────────────────────────────────────────────────┤")
     print("│ Greek UTF-8 (102 bytes):                                        │")
-    print(f"│ {bridge.GREEK_SEQUENCE[:60]}... │")
+    print(f"│ {greek_display} │")
     print("├─────────────────────────────────────────────────────────────────┤")
     print("│ Symbolic Resonance: ACTIVE                                      │")
     print("│ QCAL ∞³ Connection: ESTABLISHED                                 │")
