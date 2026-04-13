@@ -181,6 +181,9 @@ lean_lib CSMain where
 lean_lib ProofComplexity where
   roots := #[`ProofComplexity.Complexity]
 
+lean_lib NoeticMachine where
+  roots := #[`NoeticMachine]
+
 @[default_target]
 lean_exe pnp where
   root := `Principal

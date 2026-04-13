@@ -18,11 +18,41 @@ from .constants import __sello__, __emanacion__
 from .rna_volatile_memory import RNAVolatileMemory
 from .biosensor_hub import BiosensorHub
 from .disharmony_detector import DisharmonyDetector
+from .adn_riemann import CodificadorADNRiemann
+from .p_np_solver_bridge import (
+    resolver_p_vs_np_vibracional,
+    encontrar_maxima_coherencia,
+    certificar_logos
+)
+from .bsd_adelic_connector import (
+    sincronizar_bsd_adn,
+    validar_pentagono_cerrado,
+    calcular_capacidad_resonancia,
+    analizar_familia_curvas
+)
+from .ramsey_logos_attractor import emergencia_ramsey_qcal, escanear_orden_ramsey_bsd
+from .ramsey_adelic_integrator import integrar_ramsey_bsd, generar_certificado_ramsey_bsd
+from .adn_riemann import CodificadorADNRiemann
+from .bsd_adelic_connector import BSDAdelicoConnector
 
 __all__ = [
     '__sello__',
     '__emanacion__',
     'RNAVolatileMemory',
     'BiosensorHub', 
-    'DisharmonyDetector'
+    'DisharmonyDetector',
+    'CodificadorADNRiemann',
+    'resolver_p_vs_np_vibracional',
+    'encontrar_maxima_coherencia',
+    'certificar_logos'
+    'sincronizar_bsd_adn',
+    'validar_pentagono_cerrado',
+    'calcular_capacidad_resonancia',
+    'analizar_familia_curvas'
+    'emergencia_ramsey_qcal',
+    'escanear_orden_ramsey_bsd',
+    'integrar_ramsey_bsd',
+    'generar_certificado_ramsey_bsd',
+    'CodificadorADNRiemann',
+    'BSDAdelicoConnector'
 ]

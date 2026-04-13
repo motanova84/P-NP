@@ -80,10 +80,7 @@ Para grafos construidos vía codificación Tseitin sobre expansores.
 
 -/
 
-import Mathlib.Combinatorics.SimpleGraph.Basic
 import Mathlib.Combinatorics.SimpleGraph.Connectivity
-import Mathlib.Data.Finset.Basic
-import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
 import Mathlib.Topology.MetricSpace.Basic
 
