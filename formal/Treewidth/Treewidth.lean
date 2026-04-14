@@ -212,7 +212,7 @@ if `tw(G) = 1`, then `G` is a tree.
 This declaration is currently exposed as an interface axiom
 for the TW=1 theory in this module.
 -/
-axiom tree_of_treewidth_one {V : Type*} [Fintype V] [DecidableEq V]
+axiom tree_of_treewidth_one {V : Type*} [Fintype V] [DecidableEq V] [Nontrivial V]
     (G : SimpleGraph V) (h : treewidth G = 1) : G.IsTree
 
 /--
@@ -239,15 +239,29 @@ lemma treewidth_eq_one_iff_tree {V : Type*} [Fintype V] [DecidableEq V]
     exact Nat.le_antisymm h_le h_ge
 
 /--
-Lower-bound form used in edge coverage arguments:
-for connected graphs on nontrivial vertex types, `treewidth ≥ 1`
-iff there exists at least one edge.
-This captures the "bag of size 2 is necessary to cover an edge" criterion
-used in the `tw = 1` structural regime.
+Edge-coverage lower bound: if there is at least one edge, then `treewidth ≥ 1`.
 -/
-axiom treewidth_ge_one_iff_has_edge_of_connected {V : Type*} [Fintype V] [DecidableEq V]
+axiom treewidth_ge_one_of_has_edge {V : Type*} [Fintype V] [DecidableEq V]
+    [Nontrivial V] (G : SimpleGraph V) :
+    (∃ v w : V, G.Adj v w) → 1 ≤ treewidth G
+
+/--
+Connected reverse direction: for connected nontrivial graphs,
+`treewidth ≥ 1` forces existence of an edge.
+-/
+axiom has_edge_of_treewidth_ge_one_of_connected {V : Type*} [Fintype V] [DecidableEq V]
     [Nontrivial V] (G : SimpleGraph V) (hconn : G.Connected) :
-    1 ≤ treewidth G ↔ ∃ v w : V, G.Adj v w
+    1 ≤ treewidth G → ∃ v w : V, G.Adj v w
+
+/--
+Connected/nontrivial edge criterion at width lower bound.
+-/
+lemma treewidth_ge_one_iff_has_edge_of_connected {V : Type*} [Fintype V] [DecidableEq V]
+    [Nontrivial V] (G : SimpleGraph V) (hconn : G.Connected) :
+    1 ≤ treewidth G ↔ ∃ v w : V, G.Adj v w := by
+  constructor
+  · exact has_edge_of_treewidth_ge_one_of_connected G hconn
+  · exact treewidth_ge_one_of_has_edge G
 
 
 -- Theorem: If H is a minor of G, then tw(H) ≤ tw(G)
