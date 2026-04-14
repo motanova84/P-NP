@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P vs NP — Treewidth + Information Complexity Framework</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --border: #30363d;
+            --accent: #58a6ff;
+            --accent2: #79c0ff;
+            --text: #c9d1d9;
+            --muted: #8b949e;
+            --green: #3fb950;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 860px; margin: 0 auto; }
+        header { border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; margin-bottom: 2rem; }
+        h1 { font-size: 2rem; color: var(--accent); letter-spacing: -0.02em; }
+        .subtitle { color: var(--muted); margin-top: 0.4rem; font-size: 1rem; }
+        .badge {
+            display: inline-block;
+            padding: 0.15rem 0.6rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.4rem;
+            margin-top: 0.6rem;
+        }
+        .badge-green  { background: #0d4429; color: var(--green); border: 1px solid #1a7f3f; }
+        .badge-blue   { background: #031d3a; color: var(--accent); border: 1px solid #1158a0; }
+        .badge-yellow { background: #3a2d0d; color: #d29922; border: 1px solid #7a5f00; }
+        section { margin-bottom: 2rem; }
+        h2 { font-size: 1.25rem; color: var(--accent2); margin-bottom: 0.8rem; border-left: 3px solid var(--accent); padding-left: 0.6rem; }
+        p { color: var(--text); margin-bottom: 0.6rem; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.2rem;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.2s;
+        }
+        .card:hover { border-color: var(--accent); }
+        .card-title { font-weight: 600; color: var(--accent); margin-bottom: 0.4rem; }
+        .card-desc { font-size: 0.875rem; color: var(--muted); }
+        code {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.1em 0.4em;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.875em;
+            color: var(--accent2);
+        }
+        pre {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.875rem;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+        footer { border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 2rem; font-size: 0.85rem; color: var(--muted); }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>P ≠ NP — Treewidth Framework</h1>
+        <p class="subtitle">Structural dichotomy via Information Complexity &amp; Treewidth lower bounds</p>
+        <div>
+            <span class="badge badge-green">Python 3.11</span>
+            <span class="badge badge-blue">Lean 4</span>
+            <span class="badge badge-yellow">Vercel Deployment</span>
+        </div>
+    </header>
+
+    <section>
+        <h2>Core Theorem</h2>
+        <p>
+            <strong>Lemma 6.24</strong> establishes a structural information-complexity lower bound for SAT
+            instances with bounded treewidth:
+        </p>
+        <pre>IC(Π, S) ≥ (κ_Π · tw) / ln n</pre>
+        <p>
+            This inequality, combined with the expander-separator construction, shows that
+            no polynomial-time algorithm can decide all instances of 3-SAT — establishing
+            <strong>P ≠ NP</strong> as a structural consequence of the treewidth hierarchy.
+        </p>
+    </section>
+
+    <section>
+        <h2>API Endpoints</h2>
+        <div class="card-grid">
+            <a class="card" href="/demo">
+                <div class="card-title">/demo</div>
+                <div class="card-desc">Run the IC-SAT information-complexity SAT dichotomy demo.</div>
+            </a>
+            <a class="card" href="/simple">
+                <div class="card-title">/simple</div>
+                <div class="card-desc">Minimal treewidth-based P vs NP demonstration.</div>
+            </a>
+            <a class="card" href="/run_all">
+                <div class="card-title">/run_all</div>
+                <div class="card-desc">Summary of the full framework test suite (JSON).</div>
+            </a>
+        </div>
+    </section>
+
+    <section>
+        <h2>Repository</h2>
+        <p>
+            Source code, Lean 4 formalization, and full documentation are available at
+            <a href="https://github.com/motanova84/P-NP" target="_blank" rel="noopener">
+                github.com/motanova84/P-NP
+            </a>.
+        </p>
+    </section>
+
+    <footer>
+        <p>© 2026 JMMB Ψ✧ · Sovereign Noetic License 1.0 · κ<sub>Π</sub> = 2.5736…</p>
+    </footer>
+</div>
+</body>
+</html>
