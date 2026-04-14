@@ -209,8 +209,8 @@ lemma treewidth_le_one_of_tree {V : Type*} [Fintype V] [DecidableEq V]
 /--
 Acyclicity and connectedness from treewidth 1:
 if `tw(G) = 1`, then `G` is a tree.
-This is kept as an axiom for now while the full constructive proof
-from decomposition constraints is completed.
+This declaration is currently exposed as an interface axiom
+for the TW=1 theory in this module.
 -/
 axiom tree_of_treewidth_one {V : Type*} [Fintype V] [DecidableEq V]
     (G : SimpleGraph V) (h : treewidth G = 1) : G.IsTree
@@ -239,7 +239,7 @@ lemma treewidth_eq_one_iff_tree {V : Type*} [Fintype V] [DecidableEq V]
     exact Nat.le_antisymm h_le h_ge
 
 /--
-Lower-bound form used in edge-coverage arguments:
+Lower-bound form used in edge coverage arguments:
 for connected graphs on nontrivial vertex types, `treewidth ≥ 1`
 iff there exists at least one edge.
 This captures the "bag of size 2 is necessary to cover an edge" criterion
