@@ -43,7 +43,13 @@ lower bound on the communication complexity.
 theorem informationComplexityLowerBound (π : Protocol) (φ : CNFFormula) :
   treewidth φ ≥ numVars φ / 2 →
   informationComplexity π ≥ (treewidth φ : ℝ) / Real.log (numVars φ) := by
-  sorry
+  intro htw
+  -- High treewidth implies large balanced separators in the incidence graph
+  -- Any protocol must communicate information across these separators
+  -- By Braverman-Rao framework: IC ≥ separator_size / log(problem_size)
+  -- With separator_size ≥ treewidth and problem_size = numVars
+  -- Therefore: IC ≥ treewidth / log(numVars)
+  sorry  -- Requires SILB lemma and Braverman-Rao framework
 
 /--
 Corollary: Information complexity forces exponential communication.
@@ -58,10 +64,16 @@ theorem informationComplexityExponential (π : Protocol) (φ : CNFFormula) (n : 
   intro hn htw
   have h := informationComplexityLowerBound π φ htw
   rw [hn] at h
-  have : (treewidth φ : ℝ) ≥ (n : ℝ) / 2 := by
-    have : treewidth φ ≥ n / 2 := htw
-    sorry
-  sorry
+  -- From htw: treewidth φ ≥ n / 2
+  -- From h: informationComplexity π ≥ (treewidth φ : ℝ) / Real.log n
+  -- Therefore: informationComplexity π ≥ (n / 2) / Real.log n = n / (2 * Real.log n)
+  have htw_cast : (treewidth φ : ℝ) ≥ (n : ℝ) / 2 := by
+    -- Convert natural number inequality to real inequality
+    sorry  -- Requires real number coercion lemmas
+  calc informationComplexity π
+    ≥ (treewidth φ : ℝ) / Real.log n := h
+    _ ≥ ((n : ℝ) / 2) / Real.log n := by sorry  -- Uses htw_cast
+    _ = (n : ℝ) / (2 * Real.log n) := by ring
 
 /--
 Connection between information and computational complexity.
@@ -72,6 +84,15 @@ hardness results for the underlying problem.
 theorem informationToComputational (π : Protocol) (φ : CNFFormula) :
   informationComplexity π ≥ (numVars φ : ℝ) →
   ∀ (alg : CNFFormula → Bool), ∃ (ψ : CNFFormula), ¬(alg ψ = true) := by
-  sorry
+  intro h_ic alg
+  -- High information complexity IC ≥ n implies:
+  -- 1. Communication complexity CC ≥ IC (by definition)
+  -- 2. Time complexity ≥ 2^CC (to process exponentially many messages)
+  -- 3. Therefore time ≥ 2^n (exponential)
+  -- 4. This means no polynomial algorithm can solve all instances
+  -- 
+  -- Construct ψ as the hard instance that defeats alg
+  use φ
+  sorry  -- Requires formalizing the connection IC → exponential time
 
 end Formal.InformationComplexity

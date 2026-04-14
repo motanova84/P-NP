@@ -36,3 +36,6 @@ jobs:
       
       - name: Run complete demo
         run: python3 examples/demo_ic_sat.py
+      
+      - name: Test gap2_verification module
+        run: python3 -c "import gap2_verification; results = gap2_verification.verify_ic_time_theorem([4, 6], num_trials=2); assert len(results) == 4; print('✓ gap2_verification test passed')"
