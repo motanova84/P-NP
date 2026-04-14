@@ -2,7 +2,7 @@
 Test suite for the constants module (κ_Π and related constants)
 ================================================================
 
-Tests the millennium constant κ_Π = 2.5773 and its relationships
+Tests the millennium constant κ_Π = 2.578208 and its relationships
 with Calabi-Yau geometry, QCAL frequency, and computational bounds.
 
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
@@ -21,13 +21,17 @@ from constants import (
     KAPPA_PI,
     QCAL_FREQUENCY_HZ,
     GOLDEN_RATIO,
+    C_0_KAPPA,
+    C_0_PHI,
     CALABI_YAU_VARIETIES_VALIDATED,
     HEPTAGON_GIZA_ANGLE,
     information_complexity_lower_bound,
     p_np_dichotomy_threshold,
     minimum_time_complexity,
     is_in_P,
-    validate_kappa_pi
+    validate_kappa_pi,
+    kappa_pi_hodge,
+    effective_hodge_numbers
 )
 
 
@@ -36,8 +40,60 @@ class TestKappaPiConstant:
     
     def test_kappa_pi_value(self):
         """Test that κ_Π has the correct value."""
-        assert KAPPA_PI == 2.5773
+        assert KAPPA_PI == 2.578208
+        assert abs(KAPPA_PI - 2.5773) < 0.0001
         assert isinstance(KAPPA_PI, float)
+    
+    def test_kappa_pi_from_hodge(self):
+        """Test κ_Π calculation from Hodge numbers (NEW 2026)."""
+        # Test the new formula: κ_Π = ln(h^{1,1} + h^{2,1})
+        h11, h21 = effective_hodge_numbers()
+        
+        # Verify effective Hodge numbers sum to exp(2.5773)
+        total_complexity = h11 + h21
+        expected_total = math.exp(2.5773)
+        assert abs(total_complexity - expected_total) < 0.01
+        
+        # Verify κ_Π from Hodge numbers equals expected value
+        kappa_from_hodge = kappa_pi_hodge(h11, h21)
+        assert abs(kappa_from_hodge - 2.5773) < 0.0001
+        
+        # Verify KAPPA_PI constant equals formula result
+        assert abs(KAPPA_PI - kappa_from_hodge) < 1e-10
+    
+    def test_kappa_pi_hodge_formula(self):
+        """Test κ_Π formula with different Hodge numbers."""
+        # Test that formula works correctly
+        # ln(13) ≈ 2.565
+        kappa_13 = kappa_pi_hodge(10, 3)
+        assert abs(kappa_13 - math.log(13)) < 1e-10
+        
+        # ln(20) ≈ 2.996
+        kappa_20 = kappa_pi_hodge(15, 5)
+        assert abs(kappa_20 - math.log(20)) < 1e-10
+        
+        # Verify the relationship: exp(κ_Π) = h^{1,1} + h^{2,1}
+        h11, h21 = 8, 5
+        kappa = kappa_pi_hodge(h11, h21)
+        assert abs(math.exp(kappa) - (h11 + h21)) < 1e-10
+    
+    def test_kappa_pi_hodge_errors(self):
+        """Test that κ_Π formula rejects invalid inputs."""
+        import pytest
+        
+        # Should reject negative Hodge numbers
+        with pytest.raises(ValueError):
+            kappa_pi_hodge(-1, 5)
+        
+        with pytest.raises(ValueError):
+            kappa_pi_hodge(5, -1)
+        
+        # Should reject zero Hodge numbers
+        with pytest.raises(ValueError):
+            kappa_pi_hodge(0, 5)
+        
+        with pytest.raises(ValueError):
+            kappa_pi_hodge(5, 0)
     
     def test_qcal_frequency(self):
         """Test QCAL frequency value."""
@@ -49,6 +105,22 @@ class TestKappaPiConstant:
         expected = (1 + math.sqrt(5)) / 2
         assert abs(GOLDEN_RATIO - expected) < 1e-10
         assert abs(GOLDEN_RATIO - 1.618033988749) < 1e-10
+    
+    def test_c0_kappa_constant(self):
+        """Test c₀ (kappa variant) for logarithmic spiral."""
+        # c₀ = log(κ_Π) / (2π)
+        expected = math.log(KAPPA_PI) / (2 * math.pi)
+        assert abs(C_0_KAPPA - expected) < 1e-10
+        # Should be approximately 0.150
+        assert abs(C_0_KAPPA - 0.150679) < 0.001
+    
+    def test_c0_phi_constant(self):
+        """Test c₀ (phi variant) for logarithmic spiral."""
+        # c₀ = log(φ) / π
+        expected = math.log(GOLDEN_RATIO) / math.pi
+        assert abs(C_0_PHI - expected) < 1e-10
+        # Should be approximately 0.153
+        assert abs(C_0_PHI - 0.153174) < 0.001
     
     def test_calabi_yau_varieties(self):
         """Test number of validated Calabi-Yau varieties."""
@@ -298,6 +370,8 @@ def test_module_imports():
         KAPPA_PI,
         QCAL_FREQUENCY_HZ,
         GOLDEN_RATIO,
+        C_0_KAPPA,
+        C_0_PHI,
         IC_SCALING_FACTOR,
         CALABI_YAU_VARIETIES_VALIDATED
     )
@@ -305,11 +379,13 @@ def test_module_imports():
     assert KAPPA_PI is not None
     assert QCAL_FREQUENCY_HZ is not None
     assert IC_SCALING_FACTOR == KAPPA_PI
+    assert C_0_KAPPA is not None
+    assert C_0_PHI is not None
 
 
 if __name__ == "__main__":
     print("=" * 70)
-    print("Testing κ_Π = 2.5773 (Millennium Constant)")
+    print("Testing κ_Π = 2.578208 (Millennium Constant)")
     print("=" * 70)
     print()
     

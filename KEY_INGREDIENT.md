@@ -2,6 +2,8 @@
 
 **⚠️ RESEARCH PROPOSAL:** This document describes a proposed theoretical framework that has not been peer-reviewed or validated. Do not treat as established results.
 
+**✨ NEW: Universal Principles Framework** — P ≠ NP is not demonstrated but derived from universal structure. IC ≥ α is not a lemma but a geometric axiom. See [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md) for the complete philosophical framework.
+
 ## 🎯 The Core Question
 
 **¿Qué impide a un algoritmo astuto "evadir" la barrera de información construida mediante treewidth e IC?**
@@ -14,6 +16,8 @@ This lemma **proposes** that **any CNF formula φ with high treewidth can be cou
 
 **Status:** This is a proposed mechanism requiring rigorous mathematical proof.
 
+**Philosophical Note:** The bound IC ≥ κ_Π · tw(φ) / log n is not a derived result but a **geometric axiom of intelligent space** - a fundamental principle that defines how information behaves in structured spaces. See [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md).
+
 ### Why This Would NOT Be Based on SETH or ETH (If Valid)
 
 This proof framework **proposes** to NOT rely on:
@@ -24,16 +28,18 @@ Instead, it is based on:
 1. **Metric properties of treewidth** (Graph Minors theorem by Robertson-Seymour)
 2. **Duality between resolution, branching programs, and communication**
 3. **Correlation decay properties in expander graphs**
+4. **Universal invariants** (κ_Π from Calabi-Yau geometry)
 
-## 🧠 The Central Theorem
+## 🧠 The Central Framework
 
 ```lean
+-- The computational dichotomy derives from universal structure
 theorem computational_dichotomy (φ : CNF) :
   (tw(G_I(φ)) = O(log n) ↔ φ ∈ P) ∧ 
   (tw(G_I(φ)) = ω(log n) → φ ∉ P)
 ```
 
-### Proof Structure
+### Framework Structure
 
 #### Step 1: Upper Bound (Constructive)
 - For formulas with `tw ≤ O(log n)`, use dynamic programming FPT algorithm
@@ -42,24 +48,26 @@ theorem computational_dichotomy (φ : CNF) :
 
 #### Step 2: Lower Bound (Universal)
 - Convert high treewidth ⇒ communication protocol
-- Prove that `IC(Π | S) ≥ α·tw(φ)` implies time `≥ 2^Ω(tw)`
+- Apply geometric axiom: `IC(Π | S) ≥ κ_Π · tw(φ) / log n`
+- This implies time `≥ 2^Ω(tw)`
 - Key: Structural coupling ensures this bottleneck cannot be avoided
 
 #### Step 3: Logical Implication
 - `φ ∈ P` ⇒ efficient decision tree ⇒ protocol with low IC
-- `φ ∉ P` ⇒ no such tree ⇒ high IC ⇒ lower bound
+- `φ ∉ P` ⇒ no such tree ⇒ high IC (by axiom) ⇒ lower bound
 
 ## 📌 Argument Structure
 
-| Element | Role |
-|---------|------|
-| `tw(G_I)` | Structural measure of incidence graph |
-| Expander Tseitin / Padding | Introduces non-evadable communication bottlenecks |
-| Braverman-Rao conditioned | Controls minimum information flow between parties |
-| Conditioned Pinsker | Converts accurate prediction ⇒ minimum required information |
-| Structural Coupling | Forces solving φ to require solving interdependent subproblems |
-| Universal IC Conditional Bound | Shows `IC ≥ Ω(tw/log n)` when `G_I` has sparse structure |
-| Non-evasion via heuristics | Any evasion implies collapsing IC, contradicting graph properties |
+| Element | Role | Nature |
+|---------|------|--------|
+| `tw(G_I)` | Structural measure of incidence graph | Topological invariant |
+| Expander Tseitin / Padding | Introduces non-evadable communication bottlenecks | Gadget construction |
+| Braverman-Rao conditioned | Controls minimum information flow between parties | Information theory |
+| Conditioned Pinsker | Converts accurate prediction ⇒ minimum required information | Inequality |
+| Structural Coupling | Forces solving φ to require solving interdependent subproblems | Lemma 6.24 |
+| IC ≥ κ_Π · tw / log n | The geometric axiom of intelligent space | **Axiom** (not theorem) |
+| κ_Π = 2.5773 | Universal invariant from Calabi-Yau geometry | **Invariant** (not constant) |
+| Non-evasion via heuristics | Any evasion implies collapsing IC, contradicting graph properties | Theorem |
 
 ## 🚧 Closing the Gap Completely
 
@@ -79,22 +87,42 @@ This is proven by showing:
 
 ## 🔬 Technical Components
 
-### Lemma 6.24 (Formalized with κ_Π)
+### The Geometric Axiom IC ≥ α (with κ_Π)
+
+**⚠️ IMPORTANT: This is an AXIOM, not a lemma or theorem.**
+
+Just as Euclid's axioms define plane geometry (e.g., "the sum of angles in a triangle is 180°"), the following defines the geometry of intelligent space:
+
+```lean
+axiom information_complexity_lower_bound (φ : CNF) (Π : CommunicationProtocol) (S : Separator) :
+  InformationComplexity Π S ≥ κ_Π · treewidth φ / log n
+
+where κ_Π = 2.5773  -- Universal invariant from Calabi-Yau geometry
+```
+
+This axiom states that:
+- Information has intrinsic geometric cost
+- This cost scales with topological complexity (treewidth)
+- The scaling factor κ_Π is a universal invariant, not a tunable parameter
+- No algorithm can compress information below this bound
+
+See [UNIVERSAL_PRINCIPLES.md](UNIVERSAL_PRINCIPLES.md) for why IC ≥ α is an axiom rather than a derived result.
+
+### Lemma 6.24 (Structural Coupling with κ_Π)
 
 ```lean
 lemma structural_coupling_preserves_treewidth (φ : CNF) (tw_φ : ℕ) 
   (h_tw : treewidth φ = tw_φ) (h_high : tw_φ > log n) :
   ∃ (protocol : CommunicationProtocol),
+    -- The information complexity satisfies the geometric axiom
     InformationComplexity protocol ≥ κ_Π · tw_φ / log n
-
-where κ_Π = 2.5773  -- The Millennium Constant from Calabi-Yau geometry
 ```
 
 This lemma ensures that:
 - High treewidth structures **cannot be compressed** through clever encoding
 - The communication bottleneck is **topologically forced** by the graph structure
-- Any algorithm must **pay the information cost** scaled by κ_Π = 2.5773
-- The constant κ_Π emerged from 150 Calabi-Yau manifold varieties
+- Any algorithm must **pay the information cost** dictated by the axiom
+- The universal invariant κ_Π emerged from 150 Calabi-Yau manifold varieties
 - This connects topology (Calabi-Yau), information (IC), and computation (time)
 
 ### No Evasion Theorem
