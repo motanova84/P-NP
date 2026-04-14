@@ -237,12 +237,12 @@ lemma treewidth_eq_one_iff_tree {V : Type*} [Fintype V] [DecidableEq V]
 
 /--
 Lower-bound form used in edge-coverage arguments:
-for connected graphs, `treewidth ≥ 1` iff there exists at least one edge.
+for connected nontrivial graphs, `treewidth ≥ 1` iff there exists at least one edge.
 This captures the "bag of size 2 is necessary to cover an edge" criterion
 used in the `tw = 1` structural regime.
 -/
 axiom treewidth_ge_one_iff_has_edge_of_connected {V : Type*} [Fintype V] [DecidableEq V]
-    (G : SimpleGraph V) (hconn : G.Connected) :
+    (G : SimpleGraph V) (hconn : G.Connected) (h_nontrivial : ∃ v w : V, v ≠ w) :
     1 ≤ treewidth G ↔ ∃ v w : V, G.Adj v w
 
 
