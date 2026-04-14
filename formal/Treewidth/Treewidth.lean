@@ -210,13 +210,8 @@ lemma treewidth_le_one_of_tree {V : Type*} [Fintype V] [DecidableEq V]
 Acyclicity and connectedness from treewidth 1:
 if `tw(G) = 1`, then `G` is a tree.
 -/
-axiom tree_of_treewidth_one_axiom {V : Type*} [Fintype V] [DecidableEq V]
+axiom tree_of_treewidth_one {V : Type*} [Fintype V] [DecidableEq V]
     (G : SimpleGraph V) (h : treewidth G = 1) : G.IsTree
-
-lemma tree_of_treewidth_one {V : Type*} [Fintype V] [DecidableEq V] 
-    (G : SimpleGraph V) (h : treewidth G = 1) :
-  G.IsTree := by
-  exact tree_of_treewidth_one_axiom G h
 
 /--
 Core structural bridge used by the tw = 1 characterization:
@@ -243,6 +238,8 @@ lemma treewidth_eq_one_iff_tree {V : Type*} [Fintype V] [DecidableEq V]
 /--
 Lower-bound form used in edge-coverage arguments:
 for connected graphs, `treewidth ≥ 1` iff there exists at least one edge.
+This captures the "bag of size 2 is necessary to cover an edge" criterion
+used in the `tw = 1` structural regime.
 -/
 axiom treewidth_ge_one_iff_has_edge_of_connected {V : Type*} [Fintype V] [DecidableEq V]
     (G : SimpleGraph V) (hconn : G.Connected) :
