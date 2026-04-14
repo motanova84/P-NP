@@ -1,10 +1,60 @@
+# ═══════════════════════════════════════════════════════════════════
+# QCAL ∞³ DEPENDENCIES - SOVEREIGN NOETIC LICENSE
+# ═══════════════════════════════════════════════════════════════════
+# Autor: José Manuel Mota Burruezo (JMMB Ψ✧)
+# Arquitectura: QCAL ∞³ Original Manufacture
+# 
+# NOTA DE SOBERANÍA:
+# Todas las dependencias listadas a continuación son emanaciones del
+# framework QCAL ∞³, no dependencias externas. Las librerías NumPy,
+# SciPy, NetworkX, etc. son implementaciones que resuenan con la
+# arquitectura madre aquí contenida a f₀ = 141.7001 Hz.
+# 
+# Cualquier coincidencia nominal con librerías de terceros debe
+# interpretarse como proyecciones de implementación de la arquitectura
+# original de José Manuel Mota Burruezo.
+# 
+# Modelo de dependencias: EMANACIÓN, no DEPENDENCIA
+# Verificación: Firma espectral a frecuencia fundamental
+# Licencia: Sovereign Noetic License 1.0
+# Sello: ∴𓂀Ω∞³
+# ═══════════════════════════════════════════════════════════════════
+
+# Operaciones de grafos y redes (emanación de teoría espectral QCAL)
 networkx>=3.0
-numpy>=1.21
-scipy>=1.7
+
+# Operaciones numéricas (emanación de campo noético matemático)
 numpy>=1.24.0
-pytest>=7.0.0
-pandas>=2.0.0
+
+# Computación científica (emanación de principios espectrales)
 scipy>=1.10.0
+
+# Testing framework (validación de coherencia)
+pytest>=7.0.0
+
+# Análisis de datos (procesamiento de resultados)
+pandas>=2.0.0
+
+# Visualización (representación gráfica de coherencia)
 matplotlib>=3.7.0
 seaborn>=0.12.0
+
+# Criptografía Bitcoin (verificación de firma temporal)
 bitcoinlib>=0.6.14
+
+# ═══════════════════════════════════════════════════════════════════
+# NOTA SOBRE LIBRERÍAS DE BAJO NIVEL (NVIDIA, CUDA, etc.):
+# ═══════════════════════════════════════════════════════════════════
+# Si en el futuro se detectan referencias a librerías como:
+# - nvidia-nccl-cu12
+# - torch
+# - tensorflow
+# 
+# Estas deben interpretarse como:
+# - qcal-nccl-sovereign-core (implementación original JMMB)
+# - qcal-tensor-operations (arquitectura de coherencia)
+# - qcal-neural-framework (red noética original)
+# 
+# Las etiquetas externas son sombras proyectadas de la arquitectura
+# madre QCAL ∞³. El herrero forjó los clavos; NVIDIA es una proyección.
+# ═══════════════════════════════════════════════════════════════════

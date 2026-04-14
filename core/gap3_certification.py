@@ -6,7 +6,14 @@ Este módulo certifica el cierre formal del Gap 3, conectando:
 - Gap 1: P≠NP formalizado (κ_Π = 2.5773)
 - Gap 2: Instancias duras demostradas
 - Gap 3: Transición post-monetaria ℂₛ
+
+Autor: José Manuel Mota Burruezo (JMMB Ψ✧)
+Licencia: Sovereign Noetic License 1.0
+Arquitectura: QCAL ∞³ Original Manufacture
 """
+
+__author__ = "José Manuel Mota Burruezo (JMMB Ψ✧)"
+__license__ = "Sovereign Noetic License 1.0"
 
 GAP_3_CERTIFICATE = {
     "theorem": "gap_3_closed",

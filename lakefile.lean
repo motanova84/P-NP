@@ -9,6 +9,9 @@ require mathlib from git
 lean_lib ComputationalDichotomy where
   roots := #[`ComputationalDichotomy]
 
+lean_lib StructuralCoupling where
+  roots := #[`StructuralCoupling]
+
 lean_lib InformationComplexity where
   roots := #[`InformationComplexity]
 
@@ -33,6 +36,9 @@ lean_lib SpectralExpansion where
 lean_lib CycleTreeDecomposition where
   roots := #[`CycleTreeDecomposition]
 
+lean_lib MainTheorem where
+  roots := #[`PvsNP]
+  globs := #[.submodules `formal]
 lean_lib Formal where
   roots := #[`Formal]
 
@@ -171,6 +177,12 @@ lean_lib PNPImpliesCS where
 
 lean_lib CSMain where
   roots := #[`Main]
+
+lean_lib ProofComplexity where
+  roots := #[`ProofComplexity.Complexity]
+
+lean_lib NoeticMachine where
+  roots := #[`NoeticMachine]
 
 @[default_target]
 lean_exe pnp where
