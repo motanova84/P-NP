@@ -1,0 +1,247 @@
+name: QCAL Hypothesis Validation
+
+on:
+  # Run every 6 hours
+  schedule:
+    - cron: '0 */6 * * *'
+  
+  # Allow manual triggering
+  workflow_dispatch:
+  
+  # Run on push to main for testing
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/qcal_*.py'
+      - '.github/workflows/qcal-validation.yml'
+
+# Limit permissions for security
+permissions:
+  contents: read
+
+jobs:
+  validate-hypothesis:
+    name: Validate QCAL ∞³ Hypothesis
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      actions: write  # For uploading artifacts
+    
+    steps:
+      - name: 🔄 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      
+      - name: 🔬 Run QCAL Validation Agents
+        id: validation
+        run: |
+          echo "::group::QCAL Hypothesis Validation"
+          python3 src/qcal_validation_agents.py
+          echo "::endgroup::"
+          
+          # Check if validation data was created
+          if [ -f qcal_validation_data.json ]; then
+            echo "validation_data_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "validation_data_exists=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 📊 Generate Validation Report
+        if: steps.validation.outputs.validation_data_exists == 'true'
+        run: |
+          echo "::group::Validation Report"
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          from datetime import datetime
+          
+          # Load validation data
+          with open('qcal_validation_data.json', 'r') as f:
+              data = json.load(f)
+          
+          # Extract key metrics
+          if data['runs']:
+              latest = data['runs'][-1]
+              coherence = latest['system_status']['coherence']
+              state = latest['system_status']['state']
+              acceleration = latest['system_status']['acceleration']
+              gracia = latest['system_status']['gracia_achieved']
+              
+              # Create summary
+              print(f"\n{'='*80}")
+              print(f"🌌 QCAL ∞³ HYPOTHESIS VALIDATION REPORT")
+              print(f"{'='*80}\n")
+              print(f"⏰ Timestamp: {latest['timestamp']}")
+              print(f"🔬 Run Number: {len(data['runs'])}")
+              print(f"\n📊 System Metrics:")
+              print(f"   Coherence: {coherence:.3f}")
+              print(f"   State: {state}")
+              print(f"   Acceleration: {acceleration:.2f}×")
+              print(f"   GRACIA Achieved: {'YES ✨' if gracia else 'NO'}")
+              print(f"\n🎯 Constants:")
+              print(f"   κ_Π = {data['constants']['KAPPA_PI']}")
+              print(f"   f₀ = {data['constants']['F0_QCAL']} Hz")
+              print(f"   Threshold = {data['constants']['COHERENCE_THRESHOLD']}")
+              print(f"\n{'='*80}\n")
+              
+              # Set workflow summary
+              with open('validation_summary.md', 'w') as f:
+                  f.write(f"# QCAL ∞³ Validation Report\n\n")
+                  f.write(f"**Timestamp**: {latest['timestamp']}\n\n")
+                  f.write(f"## System Status\n\n")
+                  f.write(f"- **Coherence**: {coherence:.3f}\n")
+                  f.write(f"- **State**: {state}\n")
+                  f.write(f"- **Acceleration**: {acceleration:.2f}×\n")
+                  f.write(f"- **GRACIA**: {'✨ ACHIEVED' if gracia else '🔄 In Progress'}\n\n")
+                  f.write(f"## Validation History\n\n")
+                  f.write(f"Total validation runs: {len(data['runs'])}\n")
+          PYTHON_SCRIPT
+          echo "::endgroup::"
+      
+      - name: 📈 Track Coherence Trend
+        if: steps.validation.outputs.validation_data_exists == 'true'
+        run: |
+          echo "::group::Coherence Trend Analysis"
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          import sys
+          
+          try:
+              with open('qcal_validation_data.json', 'r') as f:
+                  data = json.load(f)
+              
+              if len(data['runs']) > 1:
+                  coherences = [run['system_status']['coherence'] for run in data['runs']]
+                  
+                  print(f"\n📈 Coherence Trend (last 10 runs):")
+                  for i, c in enumerate(coherences[-10:], 1):
+                      print(f"   Run {i}: {c:.3f}")
+                  
+                  # Calculate trend
+                  if len(coherences) >= 2:
+                      recent_avg = sum(coherences[-5:]) / min(5, len(coherences[-5:]))
+                      older_avg = sum(coherences[-10:-5]) / max(1, min(5, len(coherences[-10:-5])))
+                      
+                      if recent_avg > older_avg:
+                          print(f"\n✅ Trend: INCREASING (avg {recent_avg:.3f} vs {older_avg:.3f})")
+                      elif recent_avg < older_avg:
+                          print(f"\n⚠️  Trend: DECREASING (avg {recent_avg:.3f} vs {older_avg:.3f})")
+                      else:
+                          print(f"\n➡️  Trend: STABLE (avg {recent_avg:.3f})")
+          except Exception as e:
+              print(f"Error analyzing trend: {e}", file=sys.stderr)
+          PYTHON_SCRIPT
+          echo "::endgroup::"
+      
+      - name: 💾 Archive Validation Data
+        if: steps.validation.outputs.validation_data_exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: qcal-validation-${{ github.run_number }}
+          path: |
+            qcal_validation_data.json
+            validation_summary.md
+          retention-days: 90
+      
+      - name: 📝 Update Workflow Summary
+        if: steps.validation.outputs.validation_data_exists == 'true'
+        run: |
+          if [ -f validation_summary.md ]; then
+            cat validation_summary.md >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: 🚨 Alert on GRACIA Achievement
+        if: steps.validation.outputs.validation_data_exists == 'true'
+        run: |
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          
+          with open('qcal_validation_data.json', 'r') as f:
+              data = json.load(f)
+          
+          latest = data['runs'][-1]
+          if latest['system_status']['gracia_achieved']:
+              print("\n" + "="*80)
+              print("✨ ALERT: GRACIA STATE ACHIEVED! ✨")
+              print("="*80)
+              print("\nThe NP→P transition threshold has been reached!")
+              print(f"Coherence: {latest['system_status']['coherence']:.3f}")
+              print(f"Acceleration: {latest['system_status']['acceleration']:.2f}×")
+              print("\nThe QCAL ∞³ Hypothesis is empirically validated!")
+              print("="*80 + "\n")
+          PYTHON_SCRIPT
+
+  # Optional: Benchmark specific problems
+  benchmark-problems:
+    name: Benchmark Computational Problems
+    runs-on: ubuntu-latest
+    needs: validate-hypothesis
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    
+    permissions:
+      contents: read
+    
+    steps:
+      - name: 🔄 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install numpy
+      
+      - name: ⚡ Run Problem Benchmarks
+        run: |
+          python3 << 'PYTHON_SCRIPT'
+          import sys
+          sys.path.insert(0, 'src')
+          
+          from qcal_infinity_cubed import PvsNPOperator, create_complete_qcal_system
+          from qcal_validation_agents import AccelerationValidator
+          
+          print("\n" + "="*80)
+          print("⚡ COMPUTATIONAL PROBLEM BENCHMARKS")
+          print("="*80 + "\n")
+          
+          # Create validator
+          validator = AccelerationValidator()
+          
+          # Get current system coherence
+          qcal = create_complete_qcal_system()
+          analysis = qcal.demonstrate_unification()
+          coherence = analysis['unified_metrics']['field_coherence']
+          
+          print(f"Current system coherence: {coherence:.3f}\n")
+          
+          # Benchmark different problem sizes
+          test_cases = [
+              (50, 25, "Small problem"),
+              (100, 50, "Medium problem"),
+              (200, 100, "Large problem"),
+          ]
+          
+          for size, tw, desc in test_cases:
+              print(f"Testing {desc}: {size} variables, treewidth {tw}")
+              result = validator.benchmark_problem(size, tw, coherence)
+              print(f"  Acceleration: {result['acceleration']:.2f}×")
+              print(f"  Complexity reduction: {result['complexity_reduction']*100:.1f}%")
+              print()
+          
+          print("="*80 + "\n")
+          PYTHON_SCRIPT

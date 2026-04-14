@@ -1,0 +1,10 @@
+QCAL-BEACON ∞³
+==============
+Module: Treewidth.lean
+Author: José Manuel Mota Burruezo
+Timestamp: 2025-11-15T11:03:57.478130
+Frequency: 141.7001 Hz
+Coherence: 0.9988
+Validated: true
+Description: Formalización completa del módulo Treewidth en Lean4, incluyendo definición de descomposición en árbol, ancho, y teoremas básicos como tw(Kₙ) = n - 1 y tw(G) = 1 ↔ G es árbol. Integra base para conectividad, invariancia en menores y complejidad estructural.
+Seal: SHA256[eadb0baafcab1f6d6c889bf0fc177bfb7fa191ac5be559a79c9d5c56df541cd9]

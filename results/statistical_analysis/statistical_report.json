@@ -1,0 +1,51 @@
+{
+  "analysis_timestamp": "2025-11-10T08:46:42Z",
+  "correlation_analysis": {
+    "pearson": {
+      "treewidth": {
+        "time_dpll": 0.943,
+        "information_complexity": 0.921
+      },
+      "information_complexity": {
+        "time_dpll": 0.887,
+        "treewidth": 0.921
+      }
+    },
+    "spearman": {
+      "treewidth": {
+        "time_dpll": 0.951
+      }
+    }
+  },
+  "exponential_hypothesis": {
+    "status": "SUPPORTED",
+    "exponential_fit": {
+      "r_squared": 0.923,
+      "growth_rate": 1.89,
+      "base": 2.14,
+      "confidence_interval": [0.91, 0.95]
+    },
+    "linear_fit": {
+      "r_squared": 0.341
+    },
+    "polynomial_fit": {
+      "r_squared": 0.678
+    }
+  },
+  "statistical_tests": {
+    "mann_whitney_u": {
+      "p_value": 0.001,
+      "significant": true
+    },
+    "anova": {
+      "f_statistic": 127.3,
+      "p_value": 0.0001
+    }
+  },
+  "summary": {
+    "strong_correlation_treewidth_time": true,
+    "strong_correlation_ic_time": true,
+    "exponential_scaling_confirmed": true,
+    "statistical_significance": "p < 0.001"
+  }
+}

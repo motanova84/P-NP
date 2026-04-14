@@ -3,12 +3,18 @@
 Simple demonstration of the P-NP Computational Dichotomy Framework
 ===================================================================
 
-This script provides a quick demonstration of the key components.
+Featuring κ_Π = 2.5773 - The Millennium Constant from Calabi-Yau Geometry
+
+This script provides a quick demonstration of the key components:
+- Information complexity bounds with κ_Π
+- Treewidth analysis
+- P vs NP separation
 
 Usage:
     python3 simple_demo.py
 
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
+Frequency: 141.7001 Hz ∞³
 """
 
 import sys
@@ -21,12 +27,21 @@ from src.ic_sat import (
 )
 from src.computational_dichotomy import CNFFormula, generate_low_treewidth_formula
 from src.gadgets.tseitin_generator import generate_expander_tseitin
+from src.constants import (
+    KAPPA_PI, QCAL_FREQUENCY_HZ,
+    information_complexity_lower_bound,
+    is_in_P
+)
 
 
 def main():
     print("=" * 70)
     print("P-NP Computational Dichotomy: Simple Demonstration")
+    print(f"Featuring κ_Π = {KAPPA_PI} - The Millennium Constant")
     print("=" * 70)
+    print()
+    print(f"κ_Π (Millennium Constant): {KAPPA_PI}")
+    print(f"QCAL Frequency: {QCAL_FREQUENCY_HZ} Hz")
     print()
     
     # Example 1: Low Treewidth Formula (Tractable)
@@ -44,6 +59,12 @@ def main():
     print(f"Primal treewidth: {primal_tw}")
     print(f"Incidence treewidth: {incidence_tw}")
     
+    # Calculate IC bound
+    ic_bound = information_complexity_lower_bound(incidence_tw, low_tw_formula.num_vars)
+    in_p = is_in_P(incidence_tw, low_tw_formula.num_vars)
+    print(f"IC lower bound (κ_Π · tw / log n): {ic_bound:.2f} bits")
+    print(f"In P? {in_p}")
+    
     result = simple_dpll(low_tw_formula.clauses, low_tw_formula.num_vars)
     print(f"DPLL result: {result}")
     print(f"Status: LOW treewidth → TRACTABLE ✓")
@@ -60,7 +81,13 @@ def main():
     
     print(f"Primal treewidth: {primal_tw}")
     print(f"Incidence treewidth: {incidence_tw}")
-    print(f"Status: HIGH treewidth → INTRACTABLE")
+    
+    # Calculate IC bound
+    ic_bound = information_complexity_lower_bound(incidence_tw, num_vars)
+    in_p = is_in_P(incidence_tw, num_vars)
+    print(f"IC lower bound (κ_Π · tw / log n): {ic_bound:.2f} bits")
+    print(f"In P? {in_p}")
+    print(f"Status: HIGH treewidth → INTRACTABLE (via κ_Π bound)")
     print()
     
     # Example 3: IC-SAT Algorithm

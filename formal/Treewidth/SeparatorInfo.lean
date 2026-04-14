@@ -1,4 +1,5 @@
 import Mathlib
+import Formal.Treewidth.Treewidth
 
 /-!
 # Separator Information Lower Bounds (SILB)
@@ -29,11 +30,13 @@ This is a stub implementation. The full proof requires:
 
 namespace Treewidth
 
-/-- Placeholder for graph type -/
-axiom Graph : Type
+open Treewidth
 
-/-- Placeholder for treewidth function -/
-axiom treewidth : Graph → ℕ
+/-- Graph type from Treewidth module -/
+abbrev Graph := Treewidth.Graph
+
+/-- Treewidth function from Treewidth module -/
+abbrev treewidth := Treewidth.treewidth
 
 /-- Placeholder for communication protocol type -/
 axiom Protocol : Type

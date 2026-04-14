@@ -20,16 +20,18 @@ indicates structural complexity.
 import Mathlib.Data.Nat.Basic
 import Mathlib.Order.Basic
 import Formal.ComputationalDichotomy
+import Formal.Treewidth.Treewidth
 
 namespace Formal.TreewidthTheory
 
 open Formal.ComputationalDichotomy
+open Treewidth
 
-/-- Graph type -/
-axiom Graph : Type
+/-- Graph type (using Treewidth.Graph) -/
+abbrev Graph := Treewidth.Graph
 
-/-- Treewidth function on graphs -/
-axiom graphTreewidth : Graph → ℕ
+/-- Treewidth function on graphs (using Treewidth.treewidth) -/
+abbrev graphTreewidth := Treewidth.treewidth
 
 /-- Incidence graph of a CNF formula -/
 axiom incidenceGraph : CNFFormula → Graph
@@ -51,7 +53,13 @@ Treewidth satisfies key monotonicity and subgraph properties:
 theorem treewidthProperties (φ : CNFFormula) :
   treewidth φ ≥ 0 ∧
   treewidth φ ≤ numVars φ := by
-  sorry
+  constructor
+  · -- Treewidth is always non-negative (natural number)
+    exact Nat.zero_le _
+  · -- Treewidth is bounded by number of variables
+    -- This follows from the definition: a tree decomposition with all variables
+    -- in one bag has width n-1, where n is the number of variables
+    sorry  -- Requires full graph theory formalization
 
 /--
 Treewidth Lower Bound for Expander Graphs.
@@ -64,7 +72,14 @@ theorem expanderHighTreewidth (φ : CNFFormula) (n : Nat) :
   (∀ (S : List Nat), S.length ≤ n / 2 → 
     (∃ edges : Nat, edges ≥ S.length * (n - S.length) / 4)) →
   treewidth φ ≥ n / 4 := by
-  sorry
+  intro hn h_expander
+  -- Expander property: Every separator of size s has at least s(n-s)/4 crossing edges
+  -- By the separator bound from graph minor theory:
+  -- treewidth ≥ min_separator_size - 1
+  -- For expanders, min balanced separator has size ≥ n/4 + 1
+  -- Therefore treewidth ≥ n/4
+  -- This follows from the Separator Lower Bound Lemma for expander graphs
+  sorry  -- Requires full graph minor theory
 
 /--
 Connection between Treewidth and SAT Hardness.
@@ -77,7 +92,17 @@ theorem treewidthSATConnection (φ : CNFFormula) (n : Nat) :
   treewidth φ ≥ n / 2 →
   ∀ (alg : CNFFormula → Bool), 
     ∃ (ψ : CNFFormula), numVars ψ = n ∧ ¬(alg ψ = true) := by
-  sorry
+  intro hn htw alg
+  -- Use φ itself as the hard instance
+  use φ
+  constructor
+  · exact hn
+  · -- No algorithm can efficiently solve high-treewidth instances
+    -- This follows from:
+    -- 1. Structural coupling: high treewidth couples to communication protocols
+    -- 2. SILB lemma: high treewidth forces high information complexity
+    -- 3. Information-to-computation: high IC implies superpolynomial time
+    sorry  -- Requires combining structural coupling + SILB
 
 /--
 Treewidth Dichotomy.
@@ -93,6 +118,17 @@ theorem treewidthDichotomy (φ : CNFFormula) (n : Nat) :
   (treewidth φ ≥ n / 2 →
     ∀ (alg : CNFFormula → Bool), 
       ∃ (ψ : CNFFormula), ¬(alg ψ = true)) := by
-  sorry
+  intro hn
+  constructor
+  · -- Low treewidth case: tractable via dynamic programming
+    intro h_low
+    -- Standard FPT algorithm for SAT with treewidth tw:
+    -- Time: 2^O(tw) * n^O(1)
+    -- When tw ≤ log n: Time = 2^O(log n) * n^O(1) = n^O(1) * n^O(1) = poly(n)
+    sorry  -- Requires FPT algorithm formalization
+  · -- High treewidth case: intractable
+    intro h_high
+    -- Apply treewidthSATConnection
+    exact treewidthSATConnection φ n hn h_high
 
 end Formal.TreewidthTheory
