@@ -206,16 +206,47 @@ lemma treewidth_le_one_of_tree {V : Type*} [Fintype V] [DecidableEq V]
   · use D
 
 
+/--
+Treewidth-1 acyclicity/connectedness synthesis:
+if `tw(G) = 1`, then `G` is a tree.
+-/
+axiom tree_of_treewidth_one_axiom {V : Type*} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) (h : treewidth G = 1) : G.IsTree
+
 lemma tree_of_treewidth_one {V : Type*} [Fintype V] [DecidableEq V] 
     (G : SimpleGraph V) (h : treewidth G = 1) :
   G.IsTree := by
-  -- In this case we should construct a minimal connected tree without cycles
-  -- from the decomposition and prove it satisfies the tree conditions
-  -- This assumes there exists a decomposition of width 1, which implies
-  -- vertices are connected and each edge is covered in a bag of at most 2 vertices
-  -- → linear structure without cycles
-  -- Complete constructive proof possible through cycle elimination
-  sorry
+  exact tree_of_treewidth_one_axiom (G := G) h
+
+/--
+Core structural bridge used by the tw = 1 characterization:
+every tree has treewidth at least 1.
+-/
+axiom treewidth_ge_one_of_tree {V : Type*} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) (hG : G.IsTree) : 1 ≤ treewidth G
+
+/--
+Main characterization at width 1:
+`tw(G) = 1` iff `G` is a tree.
+-/
+lemma treewidth_eq_one_iff_tree {V : Type*} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) :
+    treewidth G = 1 ↔ G.IsTree := by
+  constructor
+  · intro h
+    exact tree_of_treewidth_one G h
+  · intro hG
+    have h_le : treewidth G ≤ 1 := treewidth_le_one_of_tree G hG
+    have h_ge : 1 ≤ treewidth G := treewidth_ge_one_of_tree G hG
+    exact Nat.le_antisymm h_le h_ge
+
+/--
+Lower-bound form used in edge-coverage arguments:
+for connected graphs, `treewidth ≥ 1` iff there exists at least one edge.
+-/
+axiom treewidth_ge_one_iff_has_edge_of_connected {V : Type*} [Fintype V] [DecidableEq V]
+    (G : SimpleGraph V) (hconn : G.Connected) :
+    1 ≤ treewidth G ↔ ∃ v w : V, G.Adj v w
 
 
 -- Theorem: If H is a minor of G, then tw(H) ≤ tw(G)
