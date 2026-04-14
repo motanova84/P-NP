@@ -209,15 +209,17 @@ lemma treewidth_le_one_of_tree {V : Type*} [Fintype V] [DecidableEq V]
 /--
 Acyclicity and connectedness from treewidth 1:
 if `tw(G) = 1`, then `G` is a tree.
+This is kept as an axiom for now while the full constructive proof
+from decomposition constraints is completed.
 -/
 axiom tree_of_treewidth_one {V : Type*} [Fintype V] [DecidableEq V]
     (G : SimpleGraph V) (h : treewidth G = 1) : G.IsTree
 
 /--
 Core structural bridge used by the tw = 1 characterization:
-every tree has treewidth at least 1.
+every nontrivial tree has treewidth at least 1.
 -/
-axiom treewidth_ge_one_of_tree {V : Type*} [Fintype V] [DecidableEq V]
+axiom treewidth_ge_one_of_tree {V : Type*} [Fintype V] [DecidableEq V] [Nontrivial V]
     (G : SimpleGraph V) (hG : G.IsTree) : 1 ≤ treewidth G
 
 /--
@@ -225,6 +227,7 @@ Main characterization at width 1:
 `tw(G) = 1` iff `G` is a tree.
 -/
 lemma treewidth_eq_one_iff_tree {V : Type*} [Fintype V] [DecidableEq V]
+    [Nontrivial V]
     (G : SimpleGraph V) :
     treewidth G = 1 ↔ G.IsTree := by
   constructor
@@ -237,12 +240,13 @@ lemma treewidth_eq_one_iff_tree {V : Type*} [Fintype V] [DecidableEq V]
 
 /--
 Lower-bound form used in edge-coverage arguments:
-for connected nontrivial graphs, `treewidth ≥ 1` iff there exists at least one edge.
+for connected graphs on nontrivial vertex types, `treewidth ≥ 1`
+iff there exists at least one edge.
 This captures the "bag of size 2 is necessary to cover an edge" criterion
 used in the `tw = 1` structural regime.
 -/
 axiom treewidth_ge_one_iff_has_edge_of_connected {V : Type*} [Fintype V] [DecidableEq V]
-    (G : SimpleGraph V) (hconn : G.Connected) (h_nontrivial : ∃ v w : V, v ≠ w) :
+    [Nontrivial V] (G : SimpleGraph V) (hconn : G.Connected) :
     1 ≤ treewidth G ↔ ∃ v w : V, G.Adj v w
 
 
