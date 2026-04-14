@@ -246,13 +246,14 @@ class TestCompleteValidation(unittest.TestCase):
         """Test timeout is enforced with subprocess execution."""
         validator = CompleteValidation()
         formula = CNFFormula(variables=1, clauses=[[1]])
+        timeout = 0.1
 
         def slow_solver(_clauses, _variables):
             time.sleep(0.5)
             return 'SAT'
 
         with patch('experiments.complete_validation.simple_dpll', side_effect=slow_solver):
-            elapsed, solved = validator.solve_with_dpll(formula, timeout=0.1)
+            elapsed, solved = validator.solve_with_dpll(formula, timeout=timeout)
 
         self.assertFalse(solved)
         self.assertLess(elapsed, 0.5)

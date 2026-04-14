@@ -134,9 +134,13 @@ class HardInstanceGenerator:
                     clause = []
                     for var, val in zip(edge_vars, assignment):
                         if val == 0:
-                            clause.append(var)  # positive
+                            # For blocked bit=0, use +var so this literal is false
+                            # only when the assignment keeps var at 0.
+                            clause.append(var)
                         else:
-                            clause.append(-var)  # negated
+                            # For blocked bit=1, use -var so this literal is false
+                            # only when the assignment keeps var at 1.
+                            clause.append(-var)
                     clauses.append(clause)
         
         formula = CNFFormula(variables=variable_counter-1, clauses=clauses)

@@ -10,6 +10,7 @@ Author: José Manuel Mota Burruezo & Claude (Noēsis ∞³)
 
 import time
 import multiprocessing as mp
+import queue
 import networkx as nx
 from typing import Tuple
 import sys
@@ -82,15 +83,19 @@ class CompleteValidation:
         Args:
             formula: CNFFormula object
             timeout: Maximum time in seconds
+                Note: this method uses the platform default multiprocessing
+                context. With spawn-based defaults (Windows and macOS),
+                caller code that starts processes must run under an
+                `if __name__ == "__main__":` guard.
             
         Returns:
             Tuple of (time_taken, solved)
         """
         start_time = time.time()
-        queue = mp.Queue()
+        result_queue = mp.Queue()
         process = mp.Process(
             target=_dpll_worker,
-            args=(formula.clauses, formula.variables, queue)
+            args=(formula.clauses, formula.variables, result_queue)
         )
         process.start()
         process.join(timeout=timeout)
@@ -102,6 +107,9 @@ class CompleteValidation:
             return elapsed, False
 
         elapsed = time.time() - start_time
-        result = queue.get() if not queue.empty() else None
+        try:
+            result = result_queue.get(timeout=0.1)
+        except queue.Empty:
+            result = None
         solved = result in ['SAT', 'UNSAT']
         return elapsed, solved
