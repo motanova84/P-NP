@@ -207,16 +207,16 @@ lemma treewidth_le_one_of_tree {V : Type*} [Fintype V] [DecidableEq V]
 
 
 /--
-Treewidth-1 acyclicity/connectedness synthesis:
+Acyclicity and connectedness from treewidth 1:
 if `tw(G) = 1`, then `G` is a tree.
 -/
-axiom tree_of_treewidth_one_ax {V : Type*} [Fintype V] [DecidableEq V]
+axiom tree_of_treewidth_one_axiom {V : Type*} [Fintype V] [DecidableEq V]
     (G : SimpleGraph V) (h : treewidth G = 1) : G.IsTree
 
 lemma tree_of_treewidth_one {V : Type*} [Fintype V] [DecidableEq V] 
     (G : SimpleGraph V) (h : treewidth G = 1) :
   G.IsTree := by
-  exact tree_of_treewidth_one_ax G h
+  exact tree_of_treewidth_one_axiom G h
 
 /--
 Core structural bridge used by the tw = 1 characterization:
