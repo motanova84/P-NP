@@ -210,7 +210,8 @@ lemma treewidth_le_one_of_tree {V : Type*} [Fintype V] [DecidableEq V]
 Acyclicity and connectedness from treewidth 1:
 if `tw(G) = 1`, then `G` is a tree.
 This declaration is currently exposed as an interface axiom
-for the TW=1 theory in this module.
+for the TW=1 theory in this module and is intended to be replaced
+by a constructive proof from decomposition constraints.
 -/
 axiom tree_of_treewidth_one {V : Type*} [Fintype V] [DecidableEq V] [Nontrivial V]
     (G : SimpleGraph V) (h : treewidth G = 1) : G.IsTree
@@ -218,6 +219,8 @@ axiom tree_of_treewidth_one {V : Type*} [Fintype V] [DecidableEq V] [Nontrivial 
 /--
 Core structural bridge used by the tw = 1 characterization:
 every nontrivial tree has treewidth at least 1.
+This supplies the lower-bound direction needed in
+`treewidth_eq_one_iff_tree`.
 -/
 axiom treewidth_ge_one_of_tree {V : Type*} [Fintype V] [DecidableEq V] [Nontrivial V]
     (G : SimpleGraph V) (hG : G.IsTree) : 1 ≤ treewidth G
