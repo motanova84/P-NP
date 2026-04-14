@@ -6,8 +6,10 @@ Author: José Manuel Mota Burruezo & Claude (Noēsis ∞³)
 
 import unittest
 import networkx as nx
+import time
 import sys
 import os
+from unittest.mock import patch
 
 # Add parent directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
@@ -17,6 +19,7 @@ from experiments.hard_instance_generator import (
     HardInstanceGenerator,
     generate_hardness_dataset
 )
+from experiments.complete_validation import CompleteValidation
 
 
 class TestCNFFormula(unittest.TestCase):
@@ -234,6 +237,25 @@ class TestDatasetGeneration(unittest.TestCase):
         finally:
             # Clean up
             shutil.rmtree(temp_dir)
+
+
+class TestCompleteValidation(unittest.TestCase):
+    """Test cases for CompleteValidation wrapper behavior."""
+
+    def test_solve_with_dpll_timeout_enforced(self):
+        """Test timeout is enforced with subprocess execution."""
+        validator = CompleteValidation()
+        formula = CNFFormula(variables=1, clauses=[[1]])
+
+        def slow_solver(_clauses, _variables):
+            time.sleep(0.5)
+            return 'SAT'
+
+        with patch('experiments.complete_validation.simple_dpll', side_effect=slow_solver):
+            elapsed, solved = validator.solve_with_dpll(formula, timeout=0.1)
+
+        self.assertFalse(solved)
+        self.assertLess(elapsed, 0.5)
 
 
 if __name__ == '__main__':

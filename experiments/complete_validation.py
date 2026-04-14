@@ -9,6 +9,7 @@ Author: José Manuel Mota Burruezo & Claude (Noēsis ∞³)
 """
 
 import time
+import multiprocessing as mp
 import networkx as nx
 from typing import Tuple
 import sys
@@ -21,6 +22,14 @@ from src.ic_sat import (
     estimate_treewidth,
     simple_dpll
 )
+
+
+def _dpll_worker(clauses, variables, queue):
+    """Run DPLL in a separate process and return result through a queue."""
+    try:
+        queue.put(simple_dpll(clauses, variables))
+    except (ValueError, TypeError, RuntimeError):
+        queue.put(None)
 
 
 class CompleteValidation:
@@ -78,18 +87,21 @@ class CompleteValidation:
             Tuple of (time_taken, solved)
         """
         start_time = time.time()
-        
-        try:
-            result = simple_dpll(formula.clauses, formula.variables)
-            elapsed = time.time() - start_time
-            
-            # Check if we exceeded timeout
-            if elapsed > timeout:
-                return elapsed, False
-            
-            # Consider it solved if we got SAT or UNSAT
-            solved = (result in ['SAT', 'UNSAT'])
-            return elapsed, solved
-        except Exception:
+        queue = mp.Queue()
+        process = mp.Process(
+            target=_dpll_worker,
+            args=(formula.clauses, formula.variables, queue)
+        )
+        process.start()
+        process.join(timeout=timeout)
+
+        if process.is_alive():
+            process.terminate()
+            process.join()
             elapsed = time.time() - start_time
             return elapsed, False
+
+        elapsed = time.time() - start_time
+        result = queue.get() if not queue.empty() else None
+        solved = result in ['SAT', 'UNSAT']
+        return elapsed, solved
