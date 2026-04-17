@@ -8,7 +8,6 @@ import os
 from pathlib import Path
 from typing import Callable, Dict, Tuple
 
-import numpy as np
 import pandas as pd
 
 F0_REFERENCE = 141.7001
@@ -27,6 +26,8 @@ _HARMONIC_FACTORS = {
 
 _PHASE_GATE_RAD = 0.25
 _RESONANCE_GATE = 0.84
+_MAX_UINT64 = float(2**64 - 1)
+_TWO_PI = 2.0 * math.pi
 
 
 def _data_path(filename: str) -> Path:
@@ -35,7 +36,7 @@ def _data_path(filename: str) -> Path:
 
 def _deterministic_latency(base_ms: float, spread_ms: float, seed_key: str) -> float:
     digest = hashlib.sha256(seed_key.encode("utf-8")).digest()
-    unit = int.from_bytes(digest[:8], "big") / float(2**64 - 1)
+    unit = int.from_bytes(digest[:8], "big") / _MAX_UINT64
     jitter = (unit - 0.5) * 2.0 * spread_ms
     return max(0.1, base_ms + jitter)
 
@@ -62,7 +63,7 @@ def load_hrv_eeg_biologia() -> ObserverResult:
     rr_mean = float(df["rr_interval_ms"].mean())
     expected_rr = 1000.0 / (F0_REFERENCE / 2.0)
     delta_rr = rr_mean - expected_rr
-    phase_offset = 2.0 * math.pi * (delta_rr / 1000.0) * 60.0
+    phase_offset = _TWO_PI * (delta_rr / 1000.0) * 60.0
 
     latency_ms = _deterministic_latency(23.0, 2.5, f"hrv:{rr_mean:.9f}")
     return latency_ms, phase_offset, True, True
@@ -78,7 +79,7 @@ def load_magnetometer_interferometer() -> ObserverResult:
     peak_freq = float(df["frequency_hz"].mean())
     target = F0_REFERENCE * 2.0
     delta_f = peak_freq - target
-    phase_offset = 2.0 * math.pi * delta_f / target
+    phase_offset = _TWO_PI * delta_f / target
 
     latency_ms = _deterministic_latency(8.0, 2.0, f"mag:{peak_freq:.9f}")
     return latency_ms, phase_offset, True, True
@@ -93,13 +94,14 @@ def check_node_resonance(node: str) -> dict:
         latency_ms, phase_offset_rad, has_real_source, available = observer()
 
     harmonic_factor = _HARMONIC_FACTORS.get(node, 1.0)
-    wrapped_phase = math.remainder(phase_offset_rad, 2.0 * math.pi)
-
+    wrapped_phase = math.remainder(phase_offset_rad, _TWO_PI)
+    # Exponential damping prioritizes low-drift phase channels near the gate.
     phase_score = math.exp(-abs(wrapped_phase) / _PHASE_GATE_RAD)
     latency_score = math.exp(-max(0.0, latency_ms - 5.0) / 120.0)
     if harmonic_factor in (0.5, 1.0, 2.0):
         harmonic_score = 1.0
     else:
+        # Penalize non-canonical harmonics by octave distance with a soft floor.
         harmonic_score = max(0.6, 1.0 - abs(math.log2(harmonic_factor)))
 
     psi = min(1.0, max(0.0, phase_score * latency_score * harmonic_score))

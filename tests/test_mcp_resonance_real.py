@@ -9,6 +9,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from mcp_network.resonance import F0_REFERENCE, check_node_resonance
 
+PSI_THRESHOLD = 0.84
+PHASE_TOLERANCE = 1e-9
+
 
 pytestmark = pytest.mark.skipif(
     os.getenv("QCAL_REAL_TESTS") != "1",
@@ -20,7 +23,7 @@ class TestCheckNodeResonanceRealObservers:
     def test_biologia_cuantica_psi_above_gate(self):
         health = check_node_resonance("biologia-cuantica-noesica")
         assert health["resonance"] == "coherent"
-        assert health["psi"] >= 0.84
+        assert health["psi"] >= PSI_THRESHOLD
 
     def test_biologia_cuantica_phase_calculation(self):
         path = os.path.join(os.path.dirname(__file__), "data", "hrv_eeg_biologia_cuantica.csv")
@@ -30,7 +33,7 @@ class TestCheckNodeResonanceRealObservers:
         expected_phase = 2.0 * math.pi * ((rr_mean - expected_rr) / 1000.0) * 60.0
 
         health = check_node_resonance("biologia-cuantica-noesica")
-        assert health["phase_offset_rad"] == pytest.approx(expected_phase, abs=1e-12)
+        assert health["phase_offset_rad"] == pytest.approx(expected_phase, abs=PHASE_TOLERANCE)
 
     def test_biologia_cuantica_harmonic_factor(self):
         health = check_node_resonance("biologia-cuantica-noesica")
@@ -56,7 +59,7 @@ class TestCheckNodeResonanceRealObservers:
     def test_interferometro_psi_above_gate(self):
         health = check_node_resonance("interferometro-noesico")
         assert health["resonance"] == "coherent"
-        assert health["psi"] >= 0.84
+        assert health["psi"] >= PSI_THRESHOLD
 
     def test_interferometro_phase_from_magnetometer(self):
         path = os.path.join(os.path.dirname(__file__), "data", "magnetometer_interferometer.csv")
@@ -65,7 +68,7 @@ class TestCheckNodeResonanceRealObservers:
         expected_phase = 2.0 * math.pi * (peak_freq - F0_REFERENCE * 2.0) / (F0_REFERENCE * 2.0)
 
         health = check_node_resonance("interferometro-noesico")
-        assert health["phase_offset_rad"] == pytest.approx(expected_phase, abs=1e-12)
+        assert health["phase_offset_rad"] == pytest.approx(expected_phase, abs=PHASE_TOLERANCE)
 
     def test_interferometro_harmonic_factor(self):
         health = check_node_resonance("interferometro-noesico")

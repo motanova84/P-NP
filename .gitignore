@@ -61,7 +61,6 @@ output/
 data/
 !data/.gitkeep
 !tests/data/
-!tests/data/*.csv
 diagrams/
 !diagrams/.gitkeep
 *.log
