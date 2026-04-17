@@ -18,13 +18,29 @@ def test_check_node_resonance_defaults_in_sim_mode(monkeypatch):
     assert 0.0 <= health["psi"] <= 1.0
 
 
-def test_check_node_resonance_uses_fixture_in_real_mode(monkeypatch):
-    fixture_path = os.path.join(
-        os.path.dirname(__file__), "data", "grid_frequency_2026-04-15T14_55Z.csv"
+def test_check_node_resonance_uses_fixture_in_real_mode(monkeypatch, tmp_path):
+    fixture_path = tmp_path / "grid_frequency_2026-04-15T14_55Z.csv"
+    fixture_path.write_text(
+        "\n".join(
+            [
+                "timestamp,frequency_hz",
+                "2026-04-15T14:55:00Z,50.00010",
+                "2026-04-15T14:55:01Z,50.00012",
+                "2026-04-15T14:55:02Z,50.00009",
+                "2026-04-15T14:55:03Z,50.00011",
+                "2026-04-15T14:55:04Z,50.00010",
+                "2026-04-15T14:55:05Z,50.00008",
+                "2026-04-15T14:55:06Z,50.00012",
+                "2026-04-15T14:55:07Z,50.00009",
+                "2026-04-15T14:55:08Z,50.00010",
+                "2026-04-15T14:55:09Z,50.00011",
+            ]
+        ),
+        encoding="utf-8",
     )
     monkeypatch.setenv("QCAL_REAL_TESTS", "1")
-    monkeypatch.setenv("QCAL_GRID_SAMPLE_PATH", fixture_path)
-    monkeypatch.setenv("QCAL_GRID_LATENCY_MS", "10.0")
+    monkeypatch.setenv("QCAL_GRID_SAMPLE_PATH", str(fixture_path))
+    monkeypatch.setenv("QCAL_GRID_LATENCY_MS", "7.0")
 
     health = check_node_resonance("auron-governor")
 
