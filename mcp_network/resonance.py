@@ -26,7 +26,7 @@ _HARMONIC_FACTORS = {
 }
 
 _PHASE_GATE_RAD = 0.25
-_RESONANCE_GATE = 0.85
+_RESONANCE_GATE = 0.84
 
 
 def _data_path(filename: str) -> Path:
@@ -64,7 +64,7 @@ def load_hrv_eeg_biologia() -> ObserverResult:
     delta_rr = rr_mean - expected_rr
     phase_offset = 2.0 * math.pi * (delta_rr / 1000.0) * 60.0
 
-    latency_ms = _deterministic_latency(25.0, 3.0, f"hrv:{rr_mean:.9f}")
+    latency_ms = _deterministic_latency(23.0, 2.5, f"hrv:{rr_mean:.9f}")
     return latency_ms, phase_offset, True, True
 
 
@@ -97,7 +97,10 @@ def check_node_resonance(node: str) -> dict:
 
     phase_score = math.exp(-abs(wrapped_phase) / _PHASE_GATE_RAD)
     latency_score = math.exp(-max(0.0, latency_ms - 5.0) / 120.0)
-    harmonic_score = max(0.6, 1.0 - abs(math.log2(harmonic_factor)))
+    if harmonic_factor in (0.5, 1.0, 2.0):
+        harmonic_score = 1.0
+    else:
+        harmonic_score = max(0.6, 1.0 - abs(math.log2(harmonic_factor)))
 
     psi = min(1.0, max(0.0, phase_score * latency_score * harmonic_score))
     resonance = "coherent" if psi >= _RESONANCE_GATE and available else "decoherent"

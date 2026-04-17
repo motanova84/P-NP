@@ -3,7 +3,11 @@
 """Servidor MCP de prueba - network.checkResonance (Nivel B)."""
 
 import json
+import os
+import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from mcp_network.resonance import check_node_resonance
 

@@ -60,10 +60,13 @@ output/
 !output/.gitkeep
 data/
 !data/.gitkeep
+!tests/data/
+!tests/data/*.csv
 diagrams/
 !diagrams/.gitkeep
 *.log
 *.csv
+!tests/data/*.csv
 *.png
 *.gif
 *.json
