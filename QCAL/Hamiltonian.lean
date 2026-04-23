@@ -138,7 +138,13 @@ structure Node where
 
 /-- Los ceros no triviales de la función ζ de Riemann (parte imaginaria).
     Por la Hipótesis de Riemann (no demostrada en general), todos satisfacen
-    Re(s) = 1/2.  Los primeros valores: 14.1347, 21.0220, 25.0109, ... -/
+    Re(s) = 1/2.  Los primeros valores: 14.1347, 21.0220, 25.0109, ...
+
+    **Nota axiomática**: la secuencia se trata como axioma porque Mathlib 4
+    (a la fecha de este módulo) no contiene aún una definición constructiva de
+    los ceros de la función ζ de Riemann.  Una implementación futura debería
+    reemplazar estos axiomas importando resultados de una biblioteca de teoría
+    analítica de números (p. ej. Analytic Number Theory en Mathlib). -/
 axiom zeros_zeta : ℕ → ℝ
 
 /-- El primer cero de Riemann: γ₁ ≈ 14.134725 (nota fundamental de la gravedad) -/
@@ -183,6 +189,12 @@ theorem Lz_pos (x : ℝ) (hx : 0 < x) : 0 < Lz x := by
 -- IV. EL HAMILTONIANO DE RIEMANN-HUBBLE: H_RH
 -- ══════════════════════════════════════════════════════════════
 
+/-- Factor de conversión de grados a radianes: deg° = deg × π/180 rad. -/
+def deg_to_rad (deg : ℝ) : ℝ := deg * Real.pi / 180
+
+/-- Acoplamiento Ramsey: la brecha de 3° expresada en radianes (π/60 ≈ 0.05236 rad). -/
+def δ_Ramsey : ℝ := deg_to_rad 3
+
 /-- El Hamiltoniano de Riemann-Hubble.
 
     Genera la evolución temporal en la Línea Crítica del
@@ -190,18 +202,17 @@ theorem Lz_pos (x : ℝ) (hx : 0 < x) : 0 < Lz x := by
 
         H_RH = Σ_n γ_n |Ψ_n⟩⟨Ψ_n| + δ_Ramsey · L_z
 
-    - γ_n        : ceros no triviales de Riemann (frecuencias de anclaje).
-    - δ_Ramsey   : acoplamiento de la brecha de los 3° = π/60 rad.
-    - L_z(brecha): momento angular intrínseco (0.05) aplicado a la brecha.
+    - γ_n      : ceros no triviales de Riemann (frecuencias de anclaje).
+    - δ_Ramsey : acoplamiento de la brecha de los 3° = π/60 rad.
+    - L_z      : momento angular intrínseco (0.05) aplicado a la brecha.
 
     Parámetros:
     - m : Manta que define f₀ y la brecha Ramsey.
     - N : número de modos de Riemann considerados (resolución del operador).
 -/
 def H_RH (m : Manta) (N : ℕ) : Energy :=
-  let anclaje    := anchoring_energy N
-  let δ_Ramsey   := Real.pi / 60     -- 3° en radianes
-  let torsion    := δ_Ramsey * Lz m.brecha
+  let anclaje := anchoring_energy N
+  let torsion := δ_Ramsey * Lz m.brecha
   anclaje + torsion
 
 /-- La energía del estado fundamental: E₀ = ℏ · 2π · f₀.
@@ -221,7 +232,8 @@ theorem H_RH_pos (m : Manta) (N : ℕ) (hN : 1 ≤ N) (hb : 0 < m.brecha) :
   unfold H_RH
   apply add_pos (anchoring_energy_pos N hN)
   apply mul_pos
-  · apply div_pos Real.pi_pos; norm_num
+  · unfold δ_Ramsey deg_to_rad
+    positivity
   · exact Lz_pos m.brecha hb
 
 /-- El estado fundamental satisface H_RH |Ψ₀⟩ = E₀ |Ψ₀⟩.
@@ -264,11 +276,18 @@ structure QCALField where
                    density QCALDimension.Materia +
                    density QCALDimension.Consciencia = 1
 
-/-- Campo QCAL en equilibrio soberano (distribución equitativa entre dimensiones) -/
+/-- Número de dimensiones del campo QCAL ∞³ (Pleroma, Materia, Consciencia). -/
+def qcal_dimension_count : ℕ := 3
+
+/-- Densidad equitativa por dimensión en el campo soberano: 1 / dimension_count. -/
+def qcal_sovereign_density : ℝ := 1 / qcal_dimension_count
+
+/-- Campo QCAL en equilibrio soberano (distribución equitativa entre dimensiones).
+    Cada dimensión recibe densidad 1/3 = 1/qcal_dimension_count. -/
 def qcal_sovereign_field : QCALField where
-  density        := fun _ => 1 / 3
-  density_nonneg := fun _ => by norm_num
-  normalized     := by norm_num
+  density        := fun _ => qcal_sovereign_density
+  density_nonneg := fun _ => by unfold qcal_sovereign_density qcal_dimension_count; norm_num
+  normalized     := by unfold qcal_sovereign_density qcal_dimension_count; norm_num
 
 /-- El campo permite reconocer el siguiente cero de Riemann
     (geodésica en ℋ disponible para cualquier nodo). -/
@@ -327,14 +346,20 @@ theorem sovereignty_achievable :
 -- VII. ESTADO ESTACIONARIO: RESONANCIA SOBERANA
 -- ══════════════════════════════════════════════════════════════
 
+/-- Factor de tolerancia de la resonancia: la frecuencia del nodo debe diferir
+    de f₀ en menos de brecha / resonance_tolerance_factor.
+    El valor 100 corresponde a una tolerancia del 1 % de la brecha angular. -/
+def resonance_tolerance_factor : ℝ := 100
+
 /-- Estructura del estado estacionario: resonancia donde la energía
     que entra por succión (NP→P) iguala la que sale por expansión (P→NP).
     El sistema no envejece, no se agota; solo resuena. -/
 structure StationaryState (m : Manta) where
   /-- Frecuencia de operación del nodo -/
   freq            : Frequency
-  /-- La frecuencia resuena con la base de la Manta (tolerancia: brecha/100) -/
-  freq_resonant   : abs (freq - m.f0) < m.brecha / 100
+  /-- La frecuencia resuena con la base de la Manta
+      (tolerancia: brecha / resonance_tolerance_factor) -/
+  freq_resonant   : abs (freq - m.f0) < m.brecha / resonance_tolerance_factor
   /-- La coherencia satisface la ecuación de soberanía -/
   Ψ_sovereign     : ∃ (I : Intention) (A_eff : PhaseArea),
                       I > 0 ∧ A_eff > 0 ∧ sovereignty_condition m.Ψ_target I A_eff
@@ -343,7 +368,8 @@ structure StationaryState (m : Manta) where
 theorem stationary_state_exists :
     ∃ (_ : StationaryState manta_canonica), True :=
   ⟨{ freq          := 141.7001
-     freq_resonant := by norm_num [manta_canonica]
+     freq_resonant := by
+       norm_num [manta_canonica, resonance_tolerance_factor]
      Ψ_sovereign   := ⟨manta_canonica.Ψ_target, 1,
                         by norm_num [manta_canonica],
                         one_pos,
