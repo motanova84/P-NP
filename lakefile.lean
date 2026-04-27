@@ -143,7 +143,7 @@ lean_lib PetersenGraphDemo where
   roots := #[`PetersenGraphDemo]
 
 lean_lib QCAL where
-  roots := #[`QCAL.Core, `QCAL.Theorem]
+  roots := #[`QCAL.Core, `QCAL.Theorem, `QCAL.Hamiltonian]
 lean_lib RamanujanGraph where
   roots := #[`RamanujanGraph]
 
