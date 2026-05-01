@@ -5,7 +5,7 @@
   "Ds_recommendation": "Esperar convergencia de pilares antes de proceder.",
   "Action_Authorized": false,
   "Projected_Fund_BTC": 10000.0,
-  "timestamp": "2026-05-01T09:23:19.489996+00:00",
+  "timestamp": "2026-05-01T09:26:14.782469+00:00",
   "factors": {
     "Ck_value": 1.0,
     "At_value": 0.6,
@@ -19,7 +19,7 @@
       "key_derivation_correct": true,
       "pubkey_hash": "4b213814268dbd0c...",
       "verification_passed": true,
-      "timestamp": "2026-05-01T09:23:19.489326+00:00",
+      "timestamp": "2026-05-01T09:26:14.781817+00:00",
       "message": "Control Criptográfico VERIFICADO"
     },
     "A_t": {
@@ -32,7 +32,7 @@
       "resonance_deviation": 0.156383544921875,
       "non_random": false,
       "verification_passed": false,
-      "timestamp": "2026-05-01T09:23:19.489845+00:00",
+      "timestamp": "2026-05-01T09:26:14.782313+00:00",
       "message": "Alineación Temporal DÉBIL"
     },
     "A_u": {
@@ -43,7 +43,7 @@
       "volatility_coherent": true,
       "observed_sigma": 0.039548894215860324,
       "verification_passed": true,
-      "timestamp": "2026-05-01T09:23:19.489962+00:00",
+      "timestamp": "2026-05-01T09:26:14.782452+00:00",
       "message": "Arquitectura Unitaria VERIFICADA"
     }
   },

@@ -89,7 +89,7 @@ class ResonantNexusEngine:
         observed_sigma = float(np.std(returns))
         sigma_deviation = abs(observed_sigma - self.sigma) / self.sigma
         # Coherente si la desviación es menor al 10%
-        volatility_coherent = bool(sigma_deviation < 0.10)
+        volatility_coherent = sigma_deviation < 0.10
         return {
             "target_sigma": self.sigma,
             "observed_sigma": float(observed_sigma),
@@ -122,7 +122,7 @@ class ResonantNexusEngine:
             "coherence_ratio": float(coherence_ratio),
             "volatility_coherent": volatility_coherent,
             "observed_sigma": float(volatility_data["observed_sigma"]),
-            "verification_passed": bool(au_value >= self.verification_threshold),
+            "verification_passed": au_value >= self.verification_threshold,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "message": (
                 "Arquitectura Unitaria VERIFICADA"

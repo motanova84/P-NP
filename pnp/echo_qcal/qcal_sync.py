@@ -50,7 +50,7 @@ class TemporalAlignmentVerifier:
         # Introducir una ligera no-uniformidad dependiente de la fase
         observed_freq[bin_index] += 10
         observed_freq[(bin_index + 2) % num_bins] -= 10
-        expected_freq = np.full(num_bins, total_count / num_bins, dtype=float)  # Distribución uniforme esperada
+        expected_freq = np.full(num_bins, total_count / num_bins)
         
         chi2_stat, p_value = stats.chisquare(observed_freq, expected_freq)
         
