@@ -1,0 +1,54 @@
+{
+  "Activation_Level_A": 0.839318,
+  "Risk_Factor_R": 0.160682,
+  "Ds_status": "ACTIVACIÓN PARCIAL - MONITOREO CONTINUO",
+  "Ds_recommendation": "Esperar convergencia de pilares antes de proceder.",
+  "Action_Authorized": false,
+  "Projected_Fund_BTC": 10000.0,
+  "timestamp": "2026-05-01T09:23:19.489996+00:00",
+  "factors": {
+    "Ck_value": 1.0,
+    "At_value": 0.6,
+    "Au_value": 0.9965897377367396
+  },
+  "pillar_details": {
+    "C_k": {
+      "Ck_value": 1.0,
+      "signature_valid": true,
+      "timestamp_match": true,
+      "key_derivation_correct": true,
+      "pubkey_hash": "4b213814268dbd0c...",
+      "verification_passed": true,
+      "timestamp": "2026-05-01T09:23:19.489326+00:00",
+      "message": "Control Criptográfico VERIFICADO"
+    },
+    "A_t": {
+      "At_value": 0.6,
+      "f0_Hz": 141.7001,
+      "block9_timestamp": 1231469744,
+      "phase": 0.774383544921875,
+      "chi2_statistic": 4.0,
+      "p_value": 0.26146412994911117,
+      "resonance_deviation": 0.156383544921875,
+      "non_random": false,
+      "verification_passed": false,
+      "timestamp": "2026-05-01T09:23:19.489845+00:00",
+      "message": "Alineación Temporal DÉBIL"
+    },
+    "A_u": {
+      "Au_value": 0.9965897377367396,
+      "f0_Hz": 141.7001,
+      "kappa_pi": 2.5773,
+      "coherence_ratio": 0.9965897377367396,
+      "volatility_coherent": true,
+      "observed_sigma": 0.039548894215860324,
+      "verification_passed": true,
+      "timestamp": "2026-05-01T09:23:19.489962+00:00",
+      "message": "Arquitectura Unitaria VERIFICADA"
+    }
+  },
+  "thresholds": {
+    "activation_min": 0.9,
+    "risk_max": 0.1
+  }
+}

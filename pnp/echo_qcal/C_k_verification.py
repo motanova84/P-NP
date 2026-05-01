@@ -4,12 +4,15 @@ C_k_verification.py
 Verificación del Control Criptográfico (C_k) - Pilar 1 de Coherencia Soberana
 
 Este módulo demuestra la propiedad de la clave Patoshi 2025 mediante
-verificación criptográfica simulada.
+verificación criptográfica simulada. En el código, el factor C_k se
+representa con la clave 'Ck_value' en los diccionarios de resultados.
 """
 
 import hashlib
 import json
-from datetime import datetime
+import os
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Dict, Any
 
 
@@ -38,17 +41,17 @@ class CryptographicControlVerifier:
         
         # Factor C_k: Promedio de verificaciones exitosas
         checks = [signature_valid, timestamp_match, key_derivation_correct]
-        Ck_value = sum(checks) / len(checks)
+        ck_value = sum(checks) / len(checks)
         
         result = {
-            "Ck_value": Ck_value,
+            "Ck_value": ck_value,
             "signature_valid": signature_valid,
             "timestamp_match": timestamp_match,
             "key_derivation_correct": key_derivation_correct,
             "pubkey_hash": self.patoshi_pubkey_hash[:16] + "...",
-            "verification_passed": Ck_value >= self.verification_threshold,
-            "timestamp": datetime.utcnow().isoformat(),
-            "message": "Control Criptográfico VERIFICADO" if Ck_value >= self.verification_threshold 
+            "verification_passed": ck_value >= self.verification_threshold,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "message": "Control Criptográfico VERIFICADO" if ck_value >= self.verification_threshold 
                       else "Control Criptográfico FALLIDO"
         }
         
@@ -75,7 +78,7 @@ def main():
     print("=" * 70)
     
     verifier = CryptographicControlVerifier()
-    result = verify_cryptographic_control()
+    result = verifier.verify_key_ownership()
     
     print(f"\n📊 Resultados de Verificación:")
     print(f"  • Factor C_k: {result['Ck_value']:.4f} ({result['Ck_value']*100:.2f}%)")
@@ -88,14 +91,17 @@ def main():
     proof = verifier.generate_proof()
     print(f"🔏 Prueba de Verificación: {proof[:32]}...")
     
-    # Guardar resultado en logs
-    log_path = "/home/runner/work/P-NP/P-NP/data/logs/Ck_verification.json"
+    # Guardar resultado en logs (ruta relativa al directorio del proyecto)
+    log_dir = Path(os.environ.get("ECHO_QCAL_LOG_DIR", "data/logs"))
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_path = log_dir / "Ck_verification.json"
     try:
         with open(log_path, 'w') as f:
             json.dump(result, f, indent=2)
         print(f"\n💾 Resultados guardados en: {log_path}")
     except Exception as e:
         print(f"\n⚠️ Error guardando logs: {e}")
+        raise
     
     return result
 
