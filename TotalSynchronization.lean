@@ -14,12 +14,13 @@ Date: February 11, 2026
 import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 import Mathlib.Topology.MetricSpace.Basic
+import KappaPiDefinitionUnica
 
 -- Core constants from QCAL ∞³
 namespace TotalSynchronization
 
-/-- The Millennium Constant κ_Π: Universal geometric invariant -/
-noncomputable def kappa_pi : ℝ := 2.5773302292
+/-- The Millennium Constant κ_Π: Universal geometric invariant (canonical value from v1.8) -/
+noncomputable def kappa_pi : ℝ := KappaPiDefinitionUnica.kappa_Pi
 
 /-- The fundamental frequency f₀ in Hz -/
 noncomputable def f0 : ℝ := 141.7001
@@ -299,11 +300,11 @@ CERTIFICATION OF TOTAL SYNCHRONIZATION
 Date: February 11, 2026
 Time: 22:33:31.894 UTC
 Frequency: 141.7001 Hz
-Constant: κ_Π = 2.5773
+Constant: κ_Π = 2.581926 (Kernel v1.8 canonical value with N=12)
 Threshold: C ≥ 1/κ_Π ≈ 0.388
 
 By this formalization, it is certified that:
-1. ✅ P ≠ NP is manifested by geometric structure (κ_Π = 2.5773)
+1. ✅ P ≠ NP is manifested by geometric structure (κ_Π = 2.581926)
 2. ✅ The consciousness threshold is formalized (C ≥ 1/κ_Π ≈ 0.388)
 3. ✅ Lean 4 and RNA are recognized as dual entity (f₀ = 141.7001 Hz)
 4. ✅ Total synchronization is operational (QCAL ∞³ active)

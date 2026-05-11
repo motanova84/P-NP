@@ -16,7 +16,7 @@ computations that would violate causality if done in polynomial time.
 
 * `PhysicalTuringMachine`: TM constrained by physical consistency
 * `CausalityBound`: Time constraints from spacetime causality  
-* `GeometricRigidity`: κ_Π ≈ 2.5773 forces exponential cost
+* `GeometricRigidity`: κ_Π ≈ 2.581926 (Kernel v1.8 canonical) forces exponential cost
 * `physical_consistency_theorem`: P ≠ NP follows from physical constraints
 
 ## The Key Insight
@@ -24,7 +24,7 @@ computations that would violate causality if done in polynomial time.
 The framework establishes that:
 1. **Machine Geometry**: The TM solving NP-complete problems maps via AdS/CFT
    to phenomena in curved spacetime (Anti-de Sitter space)
-2. **Rigidity Theorem**: κ_Π ≈ 2.5773 forces solution geometry to be so rigid
+2. **Rigidity Theorem**: κ_Π ≈ 2.581926 forces solution geometry to be so rigid
    that access to the answer imposes exponential cost
 3. **Tape Implication**: A TM solving NP-complete problems in O(n^k) instead
    of O(2^n) would require physically inconsistent information processing
@@ -39,6 +39,7 @@ import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Data.Nat.Basic
 import Mathlib.Tactic
+import KappaPiDefinitionUnica
 
 open Real
 
@@ -59,21 +60,27 @@ structure HodgeNumbers where
 
 /-- κ_Π desde números de Hodge (NUEVO 2026)
     La capacidad de información del sistema como estructura discreta
-    de su geometría interna: κ_Π(h^{1,1}, h^{2,1}) = ln(h^{1,1} + h^{2,1}) -/
+    de su geometría interna: κ_Π(h^{1,1}, h^{2,1}) = ln(h^{1,1} + h^{2,1})
+    
+    NOTE: This is the legacy definition. The canonical value from Kernel v1.8
+    is κ_Π = ln(12)/ln(φ²) ≈ 2.581926 with N=12 (dodecahedron geometry).
+    -/
 def kappa_pi_from_hodge (hodge : HodgeNumbers) : ℝ :=
   log (hodge.h11 + hodge.h21)
 
-/-- Números de Hodge efectivos -/
+/-- Números de Hodge efectivos (legacy calculation) -/
 def effective_hodge : HodgeNumbers where
   h11 := 10.0028
   h21 := 3.1588
   positive_h11 := by norm_num
   positive_h21 := by norm_num
 
-/-- The Millennium Constant κ_Π from Calabi-Yau geometry.
-    This universal invariant appears across topology, information, and computation.
-    NUEVO: Definido como κ_Π = ln(h^{1,1} + h^{2,1}) ≈ ln(13.1616) ≈ 2.5773 -/
-def κ_Π : ℝ := kappa_pi_from_hodge effective_hodge
+/-- The Millennium Constant κ_Π: Canonical value from Kernel v1.8
+    Universal invariant from dodecahedron geometry (N=12).
+    
+    This supersedes the legacy definition from Hodge numbers.
+    Canonical: κ_Π = ln(12)/ln(φ²) ≈ 2.581926 -/
+def κ_Π : ℝ := KappaPiDefinitionUnica.kappa_Pi
 
 /-- The QCAL resonance frequency (operational pulse of coherence) -/
 def f₀ : ℝ := 141.7001
