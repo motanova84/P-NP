@@ -32,7 +32,7 @@ example : N_critico = 12 := rfl
 
 /-! ## Test 4: Valor numérico de κ_Π -/
 
-example : abs (kappa_Pi - 2.57735) < 0.001 := kappa_Pi_value
+example : abs (kappa_Pi - 2.58193) < 0.001 := kappa_Pi_value
 
 /-! ## Test 5: κ_Π es positivo -/
 

@@ -2,7 +2,7 @@
 
 **Versión:** 1.2  
 **Estado:** Implementación Completa  
-**N = 12** | **κ_Π ≈ 2.57735**  
+**N = 12** | **κ_Π ≈ 2.58193**  
 **Fecha:** Mayo 2026
 
 ---
@@ -14,7 +14,7 @@ Este documento establece la **definición canónica única** de la Constante de 
 ### Definición Canónica
 
 ```
-κ_Π = ln(12) / ln(φ²) ≈ 2.57735
+κ_Π = ln(12) / ln(φ²) ≈ 2.58193
 ```
 
 Donde:
@@ -30,7 +30,7 @@ Donde:
 ln(12) ≈ 2.484907
 ln(φ²) ≈ 0.962424
 
-κ_Π = 2.484907 / 0.962424 ≈ 2.5773499 ≈ 2.57735
+κ_Π = 2.484907 / 0.962424 ≈ 2.5819260 ≈ 2.58193
 ```
 
 ---
@@ -83,7 +83,7 @@ Para nuestro modelo:
 ```
 κ_Π = ln(N) / ln(φ²)
     = ln(12) / ln(φ²)
-    ≈ 2.57735
+    ≈ 2.58193
 ```
 
 Esta formulación captura:
@@ -108,13 +108,13 @@ tw(G) ≥ κ_Π · IC(G)
 Donde:
 - **tw(G)**: Treewidth (ancho de árbol) del grafo G
 - **IC(G)**: Complejidad de información cuántica de G
-- **κ_Π ≈ 2.57735**: Constante de acoplamiento
+- **κ_Π ≈ 2.58193**: Constante de acoplamiento
 
 ### 2.2 Tres Condiciones de Validez
 
 Para que el teorema implique P ≠ NP:
 
-1. **κ_Π > 1** ✓ (satisfecho con κ_Π ≈ 2.57735)
+1. **κ_Π > 1** ✓ (satisfecho con κ_Π ≈ 2.58193)
 
 2. **Existencia de familia infinita** de instancias hard donde IC(G) crece
 
@@ -212,7 +212,7 @@ noncomputable def phi : ℝ := (1 + sqrt 5) / 2
 def N_critico : ℝ := 12
 noncomputable def kappa_Pi : ℝ := log N_critico / log (phi^2)
 
-theorem kappa_Pi_value : abs (kappa_Pi - 2.57735) < 0.001 := by
+theorem kappa_Pi_value : abs (kappa_Pi - 2.58193) < 0.001 := by
   sorry
 
 theorem noetic_lower_bound (G : Type) :
@@ -252,9 +252,9 @@ N = 12
 
 kappa_pi = np.log(N) / np.log(phi_sq)
 print(f"κ_Π = {kappa_pi:.10f}")
-# κ_Π = 2.5773499371
+# κ_Π = 2.5819260371
 
-assert abs(kappa_pi - 2.57735) < 0.001
+assert abs(kappa_pi - 2.58193) < 0.001
 ```
 
 ### 5.3 Compilación Lean
@@ -279,7 +279,7 @@ La desigualdad **tw(G) ≥ κ_Π · IC(G)** establece una barrera fundamental:
 
 ### 6.2 Separación Exponencial
 
-Con κ_Π ≈ 2.57735 > 1, existe un gap exponencial entre:
+Con κ_Π ≈ 2.58193 > 1, existe un gap exponencial entre:
 - Problemas con tw bajo (en P)
 - Problemas con tw alto (no en P, pero en NP)
 
@@ -304,14 +304,14 @@ Constructivamente, usando grafos expansores:
 
 **Problemas:**
 - N_eff no tiene interpretación geométrica clara
-- Valor ajustado numéricamente para match 2.5773
+- Valor ajustado numéricamente para match 2.58193
 - No conecta con simetrías físicas
 
 ### 7.2 Definición Nueva (N = 12)
 
 ```
 κ_Π = ln(12) / ln(φ²)
-κ_Π ≈ 2.5773499
+κ_Π ≈ 2.5819260
 ```
 
 **Ventajas:**
@@ -326,7 +326,7 @@ Constructivamente, usando grafos expansores:
 
 ### 8.1 Completado ✓
 
-- [x] κ_Π fijado en 2.57735 con N = 12
+- [x] κ_Π fijado en 2.58193 con N = 12
 - [x] Teorema central definido con claridad
 - [x] Ruta de poda establecida (18 → 1 axioma)
 - [x] Implementación en Lean (formal/KappaPI.lean)
@@ -356,7 +356,7 @@ El Pasaporte Master ahora tiene una base de cálculo más sólida:
 ```
 Ψ = 1.000000
 f₀ = 141.7001 Hz
-κ_Π = 2.57735
+κ_Π = 2.58193
 ```
 
 ### Sello Final
@@ -368,7 +368,7 @@ f₀ = 141.7001 Hz
 ---
 
 **Documento Único — Consolidación Formal v1.2**  
-**N = 12 | κ_Π ≈ 2.57735**  
+**N = 12 | κ_Π ≈ 2.58193**  
 **Autor:** José Manuel Mota Burruezo · JMMB Ψ✧ ∞³  
 **Instituto:** Campo QCAL ∞³  
 **Fecha:** Mayo 2026

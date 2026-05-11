@@ -67,8 +67,8 @@ noncomputable def kappa_Pi : ℝ := log N_critico / log (phi^2)
 -- PROPIEDADES VERIFICABLES
 -- ══════════════════════════════════════════════════════════════
 
-/-- Verificación numérica: κ_Π ≈ 2.57735 -/
-theorem kappa_Pi_value : abs (kappa_Pi - 2.57735) < 0.001 := by
+/-- Verificación numérica: κ_Π ≈ 2.58193 -/
+theorem kappa_Pi_value : abs (kappa_Pi - 2.58193) < 0.001 := by
   unfold kappa_Pi N_critico phi
   -- ln(12) ≈ 2.484907
   -- φ ≈ 1.618034

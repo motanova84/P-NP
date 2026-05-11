@@ -52,7 +52,7 @@ namespace QCAL
 /-- The Millennium Constant κ_Π = 2.57735
     
     **DEFINICIÓN CANÓNICA ÚNICA (N=12):**
-    κ_Π = ln(12) / ln(φ²) ≈ 2.57735
+    κ_Π = ln(12) / ln(φ²) ≈ 2.58193
     
     Donde:
     - N = 12: Ejes de simetría del dodecaedro
@@ -71,7 +71,7 @@ namespace QCAL
     Ver: formal/KappaPI.lean para la formalización completa
     Ver: KAPPA_PI_DEFINITION_UNICA.md para la documentación
 -/
-def κ_Π : ℝ := 2.57735
+def κ_Π : ℝ := 2.58193
 
 /-- The Golden Ratio φ = (1 + √5)/2 -/
 def φ : ℝ := (1 + Real.sqrt 5) / 2
