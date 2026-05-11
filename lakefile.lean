@@ -184,6 +184,27 @@ lean_lib ProofComplexity where
 lean_lib NoeticMachine where
   roots := #[`NoeticMachine]
 
+-- ============================================
+-- KERNEL CONSOLIDADO V1.8
+-- ============================================
+
+lean_lib KappaPiDefinitionUnica where
+  roots := #[`KappaPiDefinitionUnica]
+
+lean_lib P_NP_From_Turing where
+  roots := #[`P_NP_From_Turing]
+
+lean_lib Treewidth_Lower_Bound where
+  roots := #[`Treewidth_Lower_Bound]
+
+lean_lib Hard_CNF_Family where
+  roots := #[`Hard_CNF_Family]
+
+lean_lib Metric_Kernel_Proof where
+  roots := #[`Metric_Kernel_Proof]
+
+-- ============================================
+
 @[default_target]
 lean_exe pnp where
   root := `Principal
