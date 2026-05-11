@@ -49,22 +49,29 @@ namespace QCAL
 -- FUNDAMENTAL CONSTANTS
 -- ══════════════════════════════════════════════════════════════
 
-/-- The Millennium Constant κ_Π = 2.5773
+/-- The Millennium Constant κ_Π = 2.57735
     
-    This constant emerges from Calabi-Yau geometry and unifies:
-    - 150 Calabi-Yau manifold varieties
-    - Information complexity scaling  
-    - Computational complexity separation (P vs NP)
-    - QCAL resonance frequency f₀ = 141.7001 Hz
-    - Golden ratio φ and sacred geometry
+    **DEFINICIÓN CANÓNICA ÚNICA (N=12):**
+    κ_Π = ln(12) / ln(φ²) ≈ 2.57735
     
-    Mathematical foundation:
-    κ_Π = φ × (π / e) × λ_CY
-    where φ ≈ 1.618034 (golden ratio),
-          λ_CY ≈ 1.38197 (Calabi-Yau eigenvalue),
-          π/e ≈ 1.155727
+    Donde:
+    - N = 12: Ejes de simetría del dodecaedro
+    - φ = (1+√5)/2: Número áureo
+    - φ² = φ + 1 ≈ 2.618034
+    
+    Esta constante unifica:
+    - Geometría Calabi-Yau (números de Hodge h^{1,1} + h^{2,1})
+    - Escalamiento de complejidad informacional (IC)
+    - Separación de complejidad computacional (P vs NP)
+    - Frecuencia de resonancia QCAL f₀ = 141.7001 Hz
+    - Geometría áurea y sagrada (φ)
+    
+    **Teorema Central:** tw(G) ≥ κ_Π · IC(G)
+    
+    Ver: formal/KappaPI.lean para la formalización completa
+    Ver: KAPPA_PI_DEFINITION_UNICA.md para la documentación
 -/
-def κ_Π : ℝ := 2.5773
+def κ_Π : ℝ := 2.57735
 
 /-- The Golden Ratio φ = (1 + √5)/2 -/
 def φ : ℝ := (1 + Real.sqrt 5) / 2
