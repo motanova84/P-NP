@@ -144,6 +144,10 @@ lean_lib PetersenGraphDemo where
 
 lean_lib QCAL where
   roots := #[`QCAL.Core, `QCAL.Theorem, `QCAL.Hamiltonian]
+
+lean_lib QCALCoherenceEconomics where
+  roots := #[`QCAL.Economics.CoherenceEconomics]
+
 lean_lib RamanujanGraph where
   roots := #[`RamanujanGraph]
 
