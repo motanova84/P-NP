@@ -148,6 +148,7 @@ lean_lib QCAL where
 lean_lib QCALCoherenceEconomics where
   roots := #[`QCAL.Economics.CoherenceEconomics]
 
+
 lean_lib RamanujanGraph where
   roots := #[`RamanujanGraph]
 
