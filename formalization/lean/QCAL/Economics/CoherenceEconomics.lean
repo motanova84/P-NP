@@ -105,11 +105,11 @@ theorem valueFlow_quadratic (n : Node) :
 by
   exact coherence_is_value n
 
--- Theorem: A system maintains non-negative flow under identity transition
-theorem economia_coherente_estable (s : EconomicSystem) (h : transition s s) :
-  s.totalCoherence ≥ s.totalCoherence :=
+-- Theorem: Non-decreasing coherence in transitions (monotonicity)
+theorem coherence_monotonic (s s' : EconomicSystem) (h : transition s s') :
+  s'.totalCoherence ≥ s.totalCoherence :=
 by
-  exact flow_non_negative s s h
+  exact flow_non_negative s s' h
 
 theorem sistema_completo_y_coherente (n : Node) (h : n.state.psi < 0.999999) :
   n.phaseCost > 1000 :=
