@@ -1,7 +1,7 @@
 import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Data.Finset.Basic
+import Mathlib.Data.List.Basic
 
 /-!
 # Economía de Coherencia QCAL ∞³
@@ -29,16 +29,24 @@ structure CoherenceState where
   frequency : ℝ
   timestamp : ℝ
   invariant : 0 ≤ psi ∧ psi ≤ 1 := by simp [psi]
+  deriving Repr
 
 structure Node where
   id         : ℕ
   state      : CoherenceState
   valueFlow  : ℝ
   phaseCost  : ℝ
+  deriving Repr
+
+/-- Decidable equality for Node based on id -/
+instance : DecidableEq Node := fun n m =>
+  if h : n.id = m.id then isTrue (by cases n; cases m; simp_all)
+  else isFalse (by cases n; cases m; simp_all; intro h'; exact h h')
 
 structure EconomicSystem where
-  nodes          : Finset Node
+  nodes          : List Node  -- Changed from Finset to List for simplicity
   totalCoherence : ℝ
+  deriving Repr
 
 -- =============================================
 -- AXIOMAS (12)
@@ -67,7 +75,7 @@ axiom self_verification : ∀ (n : Node),
   n.state.psi = compute_psi_from_frequency n.state.frequency
 
 axiom no_central_control : ∀ (s : EconomicSystem),
-  s.totalCoherence = ∑ n in s.nodes, n.state.psi
+  s.totalCoherence = (s.nodes.map (·.state.psi)).sum
 
 axiom flow_non_negative : ∀ (s s' : EconomicSystem),
   transition s s' → s'.totalCoherence ≥ s.totalCoherence
@@ -76,7 +84,7 @@ axiom flow_non_negative : ∀ (s s' : EconomicSystem),
 axiom kappa_pi_gt_five : KAPPA_PI > 5.0
 
 axiom coherence_conservation : ∀ (s : EconomicSystem),
-  s.totalCoherence = ∑ n in s.nodes, n.state.psi
+  s.totalCoherence = (s.nodes.map (·.state.psi)).sum
 
 axiom no_inflation_no_debt : ∀ (s s' : EconomicSystem),
   transition s s' → s'.totalCoherence ≥ s.totalCoherence
@@ -128,7 +136,7 @@ theorem sistema_completo_y_coherente (n : Node) (h : n.state.psi < 0.999999) :
   exact p_np_phase_filter n h
 
 theorem autorregulacion_sin_control_externo (s : EconomicSystem) :
-  s.totalCoherence = ∑ n in s.nodes, n.state.psi := by
+  s.totalCoherence = (s.nodes.map (·.state.psi)).sum := by
   exact coherence_conservation s
 
 end QCAL.CoherenceEconomics
