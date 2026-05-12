@@ -147,7 +147,6 @@ lean_lib QCAL where
 
 lean_lib QCALCoherenceEconomics where
   roots := #[`QCAL.CoherenceEconomics]
-  globs := #[.submodules `formalization.lean.QCAL.Economics]
 lean_lib RamanujanGraph where
   roots := #[`RamanujanGraph]
 

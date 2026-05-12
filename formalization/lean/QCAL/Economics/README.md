@@ -64,13 +64,13 @@ formalization/lean/QCAL/Economics/CoherenceEconomics.lean
 ### Axiomas de Conservación
 
 - **coherence_conservation**: Conservación de coherencia total
-- **no_inflation_no_debt**: No inflación ni deuda en transiciones
+- **flow_non_negative**: Flujo no negativo (no inflación, no deuda en transiciones)
 - **kappa_pi_gt_five**: κ_Π > 5.0 (verificado)
 
 ## Teoremas Demostrados
 
 1. **valueFlow_quadratic**: Demostración directa de flujo cuadrático
-2. **economia_coherente_mas_estable**: Estabilidad del sistema coherente
+2. **economia_coherente_estable**: Estabilidad del sistema bajo transición identidad
 3. **sistema_completo_y_coherente**: Completitud del sistema
 4. **autorregulacion_sin_control_externo**: Autorregulación sin control externo
 

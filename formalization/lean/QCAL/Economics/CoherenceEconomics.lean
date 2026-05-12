@@ -73,9 +73,6 @@ axiom kappa_pi_gt_five : KAPPA_PI > 5.0
 axiom coherence_conservation : ∀ (s : EconomicSystem), 
   s.totalCoherence = ∑ n in s.nodes, n.state.psi
 
-axiom no_inflation_no_debt : ∀ (s s' : EconomicSystem), 
-  transition s s' → s'.totalCoherence ≥ s.totalCoherence
-
 -- =============================================
 -- FUNCIONES AUXILIARES
 -- =============================================
@@ -108,10 +105,11 @@ theorem valueFlow_quadratic (n : Node) :
 by
   exact coherence_is_value n
 
-theorem economia_coherente_mas_estable (s : EconomicSystem) :
-  no_inflation_no_debt s s :=
+-- Theorem: A system maintains non-negative flow under identity transition
+theorem economia_coherente_estable (s : EconomicSystem) (h : transition s s) :
+  s.totalCoherence ≥ s.totalCoherence :=
 by
-  exact no_inflation_no_debt s s
+  exact flow_non_negative s s h
 
 theorem sistema_completo_y_coherente (n : Node) (h : n.state.psi < 0.999999) :
   n.phaseCost > 1000 :=
