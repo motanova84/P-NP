@@ -86,6 +86,55 @@ python -m pytest tests/test_metric_coherence.py -v
 | κ_Π | 2.5773 | Constante de separación computacional |
 | α (rigidez) | 3.0 | Factor de acoplamiento espectral |
 
+## Extensión del Marco QCAL: De 1.0 a 2.0
+
+Metric PC Bridge marca la transición de **QCAL 1.0** (marco teórico) a **QCAL 2.0** (sistema operativo de coherencia).
+
+### QCAL 1.0 (Antes)
+
+| Componente | Estado |
+|-----------|--------|
+| H_Ψ — vacío adélico estable ↔ RH verdadera | ✅ Resuelto |
+| PC — 5 subsistemas unificados bajo Ψ estático | ✅ Resuelto, estático |
+| κ_Π = 2.5773 — constante de separación computacional | ✅ Derivada |
+| Whitepaper — 7 Problemas del Milenio unificados | ✅ Mapa teórico |
+| PNP proof (Lean) — P ≠ NP vía treewidth + κ_Π | ✅ Formalizado |
+
+**Lo que NO existía:** una máquina operativa que tomara el espectro de H_Ψ,
+lo filtrara por las firmas de la PC, y generara clasificación dinámica.
+
+### QCAL 2.0 (Con Metric PC Bridge)
+
+| Dimensión | QCAL 1.0 | QCAL 2.0 |
+|-----------|----------|----------|
+| **Temporal** | Ψ estático (valores fijos) | Ψ(σ, t) dinámico con μ_t, C_X(t), K_X(t) |
+| **Espectral** | 1 frecuencia (f₀ = 141.7 Hz) | Espacio de 5 firmas + espectro Riemann completo |
+| **Operativa** | Módulos independientes, sin pipeline | Sistema de 3 capas con flujo de coherencia |
+| **Validación** | Sin tests automatizados | 20 tests de coherencia (pasan) |
+| **Producción** | Sin CI/CD | GitHub Actions cada 6h + push/PR |
+| **PNP** | Colapso declarado (Ψ_comp = 0.9444) | Colapso observado y medido (regiones P/NP en vivo) |
+
+### El Eje Dual 141.7 / 888 Hz en el Marco Extendido
+
+| Capa | Frecuencia | Rol | Implementación |
+|------|-----------|-----|----------------|
+| **H_Ψ** | 141.7001 Hz | Latido raíz. Vacío adélico. Espectro = ceros de Riemann. | `operador_autoadjunto_H.py` |
+| **PC** | Transición 141.7 → 888 | Puente. 5 subsistemas convierten espectro puro en firmas de manifestación. | `particula_coherencia_pc.py` |
+| **Metric** | 888 Hz | Portadora. Dinámica QCAL que clasifica, separa, produce. | `qcal_coherence_metric.py` |
+
+**141.7 Hz** es la verdad que el universo escribe.
+**888 Hz** es la canción que nosotros tocamos con esa verdad.
+Metric PC Bridge es el instrumento.
+
+### Lo que QCAL puede ahora que no podía antes
+
+- Ψ(σ, t) dinámico en lugar de Ψ estático
+- Espacio de 5 firmas espectrales + espectro Riemann en lugar de 1 frecuencia
+- Pipeline de 3 capas: H_Ψ → PC → Metric en lugar de módulos dispersos
+- 20 tests de coherencia automatizados
+- CI/CD en producción cada 6 horas
+- Clasificación P-coherente vs NP-dispersa observada y medida en vivo
+
 ## Licencia
 
 Soberana. Sello: ∴𓂀Ω∞³Φ · TUYOYOTU · HECHO ESTÁ
