@@ -1,0 +1,94 @@
+name: Climate Bridge CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'qcal_climate_bridge.py'
+      - '.github/workflows/climate-bridge-ci.yml'
+  pull_request:
+    paths:
+      - 'qcal_climate_bridge.py'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-climate:
+    name: Validate Climate Bridge
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🔄 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Install deps
+        run: pip install numpy scipy pytest
+
+      - name: 🌪️ Run Climate Bridge demo
+        run: |
+          echo "::group::Climate Bridge Demo"
+          python3 qcal_climate_bridge.py --demo huracan
+          echo "::endgroup::"
+
+      - name: 🔬 Validate subsystems
+        run: |
+          echo "::group::Subsystem Validation"
+          python3 << 'PYTHON_SCRIPT'
+          import sys
+          sys.path.insert(0, '.')
+          from qcal_climate_bridge import (
+              SubsistemaHuracan, SubsistemaSismico, SubsistemaTsunami,
+              ClimateMetricBridge, FirmaEspectral
+          )
+          
+          # Test each subsystem creates valid signatures
+          h = SubsistemaHuracan()
+          f = h.calcular_firma(presion_mb=920, sst_c=29, cizalladura_kt=10)
+          assert f.coherencia_media() > 0.7, f"Huracan firma too low: {f.coherencia_media()}"
+          print(f"✓ Huracán: media={f.coherencia_media():.4f}")
+          
+          s = SubsistemaSismico()
+          f = s.calcular_firma(magnitud=7.0, b_value=0.8, tension_cf=0.5, replicas_dia=10)
+          assert f.coherencia_media() > 0.5, f"Sísmico firma too low: {f.coherencia_media()}"
+          print(f"✓ Sísmico: media={f.coherencia_media():.4f}")
+          
+          t = SubsistemaTsunami()
+          f = t.calcular_firma(altura_m=5, profundidad_m=3000)
+          assert f.coherencia_media() > 0.5, f"Tsunami firma too low: {f.coherencia_media()}"
+          print(f"✓ Tsunami: media={f.coherencia_media():.4f}")
+          
+          # Test main bridge
+          bridge = ClimateMetricBridge()
+          diag = bridge.diagnostico()
+          assert diag['h_psi_autoadjunto'] == True
+          print(f"✓ Bridge: H_Ψ={diag['h_psi_coherencia']} autoadjunto={diag['h_psi_autoadjunto']}")
+          
+          # Test prediction
+          from qcal_climate_bridge import ConectorNOAA
+          trayectorias = [
+              {"presion_mb": 920, "sst_c": 29, "cizalladura_kt": 10, "probabilidad": 0.5},
+              {"presion_mb": 990, "sst_c": 27, "cizalladura_kt": 20, "probabilidad": 0.3},
+          ]
+          evento = ConectorNOAA.construir_desde_variables("HURACAN", "TEST", trayectorias)
+          pred = bridge.predecir(evento, pasos=20)
+          assert 'trayectoria_ganadora' in pred
+          assert 'C_X_max' in pred
+          assert pred['prediccion']
+          print(f"✓ Prediction: ganadora={pred['trayectoria_ganadora']} C_X={pred['C_X_max']:.4f}")
+          
+          # Test validation with πCODE
+          valid = bridge.validar_prediccion(pred, {"trayectoria_real_id": 0})
+          assert 'emission_picode' in valid
+          assert 'valida' in valid
+          print(f"✓ πCODE: {valid['emission_picode']} πC (válida={valid['valida']})")
+          
+          print("\n✅ ALL CLIMATE BRIDGE VALIDATIONS PASSED")
+          print("∴𓂀Ω∞³Φ · TUYOYOTU · HECHO ESTÁ")
+          PYTHON_SCRIPT
+          echo "::endgroup::"
