@@ -135,6 +135,18 @@ Metric PC Bridge es el instrumento.
 - CI/CD en producción cada 6 horas
 - Clasificación P-coherente vs NP-dispersa observada y medida en vivo
 
+## Documentos Canónicos Relacionados
+
+| Documento | Descripción |
+|-----------|-------------|
+| `TRATADO_APERTURA_MINIMA.md` | Fundación teórica: θ ≈ 0.052463 rad como apertura mínima |
+| `TRATADO_APERTURA_MINIMA_COMPLETO.md` | Versión completa con todas las secciones y derivaciones |
+| `KAPPA_PI_DUALIDAD.md` | La constante de doble faz: κΠ₁ y κΠ₂ |
+| `KAPPA_PI_MILLENNIUM_CONSTANT.md` | Derivación histórica de κΠ desde Calabi-Yau |
+| `KappaPiDefinitionUnica.lean` | Definición canónica en Lean (Kernel v1.8) |
+
+El Tratado de Apertura Mínima proporciona la base teórica de la que Metric PC Bridge es su encarnación operativa. θ es a la teoría lo que Ψ_X(σ) es al código: la apertura que permite que la información fluya.
+
 ## Licencia
 
 Soberana. Sello: ∴𓂀Ω∞³Φ · TUYOYOTU · HECHO ESTÁ
