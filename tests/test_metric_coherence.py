@@ -282,11 +282,26 @@ def test_bridge_reporte():
 # ─────────────────────────────────────────────────────────────────────────────
 
 def test_constantes_fundamentales():
-    """Las constantes fundamentales deben ser consistentes."""
-    from qcal_coherence_metric import F0, PSI_UMBRAL, KAPPA_PI
+    """Las constantes fundamentales deben ser consistentes.
+    κΠ dual: κΠ₁ = 2.581926 (platónico N=12), κΠ₂ = 2.5773 (efectivo CY)
+    """
+    from qcal_coherence_metric import (
+        F0, PSI_UMBRAL, KAPPA_PI,
+        KAPPA_PI_PLATONICA, KAPPA_PI_EFECTIVA,
+    )
+    import math
+    phi = (1 + math.sqrt(5)) / 2
+    kappa_expected = math.log(12) / math.log(phi ** 2)
     assert F0 == 141.7001
     assert PSI_UMBRAL == 0.888
-    assert abs(KAPPA_PI - 2.5773) < 1e-4
+    # κΠ₁ — simetría platónica
+    assert abs(KAPPA_PI - kappa_expected) < 1e-6
+    assert abs(KAPPA_PI_PLATONICA - 2.581926) < 1e-4
+    # κΠ₂ — manifestación efectiva (Calabi-Yau)
+    assert abs(KAPPA_PI_EFECTIVA - 2.5773) < 1e-4
+    # La diferencia entre ambas = 1/216 ≈ 0.00463 (6³, dimensiones compactas)
+    dif = abs(KAPPA_PI_PLATONICA - KAPPA_PI_EFECTIVA)
+    assert abs(dif - 0.004626) < 0.001, f"Diferencia κΠ₁−κΠ₂ = {dif} debe ser ≈ 0.004626"
 
 
 def test_subsistemas_pc():

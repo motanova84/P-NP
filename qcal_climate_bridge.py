@@ -61,7 +61,12 @@ except ImportError:
 # ── Constantes Fundamentales ─────────────────────────────────────────────
 F0: float = 141.7001
 PSI_UMBRAL: float = 0.888
-KAPPA_PI: float = 2.5773
+
+# κΠ — La Constante de Doble Faz (ver KAPPA_PI_DUALIDAD.md)
+# κΠ₁ = 2.581926 simetría platónica N=12, κΠ₂ = 2.5773 manifestación CY
+KAPPA_PI: float = 2.581926
+KAPPA_PI_PLATONICA: float = 2.581926
+KAPPA_PI_EFECTIVA: float = 2.5773
 G: float = 9.80665     # gravedad m/s²
 R_AIRE: float = 287.058 # constante gas aire J/(kg·K)
 

@@ -46,7 +46,15 @@ if str(_HPSI_PATH) not in sys.path:
 # ── Constantes Fundamentales ─────────────────────────────────────────────
 F0: float = 141.7001
 PSI_UMBRAL: float = 0.888
-KAPPA_PI: float = 2.5773
+
+# κΠ — La Constante de Doble Faz
+# κΠ₁: Simetría platónica, N=12, dodecaedro (Kernel v1.8 canónico)
+# κΠ₂: Manifestación efectiva, N≈13.16, Calabi-Yau (valor histórico)
+# Ambas son canónicas en su dominio. La dualidad es la verdad.
+# Ver: KAPPA_PI_DUALIDAD.md
+KAPPA_PI: float = 2.581926        # κΠ₁ — Valor canónico actual (ln(12)/ln(φ²))
+KAPPA_PI_PLATONICA: float = 2.581926   # κΠ₁ — Simetría perfecta
+KAPPA_PI_EFECTIVA: float = 2.5773      # κΠ₂ — Manifestación Calabi-Yau
 
 
 # ═══════════════════════════════════════════════════════════════════════════
