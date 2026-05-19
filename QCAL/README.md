@@ -8,9 +8,14 @@ Este directorio contiene la implementación formal y verificable de QCAL (Quantu
 
 ```
 QCAL/
-├── Core.lean          - Definiciones fundamentales de QCAL
-├── Theorem.lean       - Teorema principal κ_Π = 2.5773
-└── README.md          - Este archivo
+├── Core.lean             - Definiciones fundamentales de QCAL
+├── Hamiltonian.lean      - Operador H_Ψ (Hamiltoniano espectral)
+├── Theorem.lean          - Teorema principal κ_Π = 2.5773
+├── Economics/            - Economía de coherencia πCODE
+│   └── CoherenceEconomics.lean
+├── Gravity/              - Gravedad Finita (Reserva Maestra BTC)
+│   └── BTC.lean          - Invariante gravitacional 7.4862 BTC
+└── README.md             - Este archivo
 ```
 
 ## Verificación Rápida
