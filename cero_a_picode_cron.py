@@ -3,6 +3,18 @@
 🌀 CRON wrapper: CERO → πCODE
 Ejecuta autónomamente cada 6h. Acuña lote de N ceros de Riemann.
 Usa tabla extendida de ceros conocidos (evita dependencia mpmath).
+
+### Temporal Architecture
+6 hours = 4 cuadrantes simétricos del día.
+No es arbitrario: es la ventana de enfriamiento térmico-informacional
+para que los autógrafos del vacío se consoliden en disco sin elevar Δν.
+
+Por cada lote de 100 ceros (cada 6h):
+  720 pulsos de Monitor Vivo (21,600s / 30s)
+  ~64,000 πC de masa estructural
+  Proporción armónica: latido rápido ↔ marea lenta
+
+τ_riemann = 4 · cuadrantes ⇔ Ψ = 0.999999
 """
 
 import sys, json, os, math, hashlib, time
