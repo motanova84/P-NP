@@ -8,14 +8,36 @@ Este directorio contiene la implementación formal y verificable de QCAL (Quantu
 
 ```
 QCAL/
-├── Core.lean             - Definiciones fundamentales de QCAL
-├── Hamiltonian.lean      - Operador H_Ψ (Hamiltoniano espectral)
-├── Theorem.lean          - Teorema principal κ_Π = 2.5773
-├── Economics/            - Economía de coherencia πCODE
+├── Core.lean                - Definiciones fundamentales de QCAL
+├── Hamiltonian.lean         - Operador H_Ψ (Hamiltoniano espectral)
+├── Theorem.lean             - Teorema principal κ_Π = 2.5773
+├── Economics/               - Economía de coherencia πCODE
 │   └── CoherenceEconomics.lean
-├── Gravity/              - Gravedad Finita (Reserva Maestra BTC)
-│   └── BTC.lean          - Invariante gravitacional 7.4862 BTC
-└── README.md             - Este archivo
+├── Gravity/                 - Gravedad Finita (Reserva Maestra BTC)
+│   ├── BTC.lean             - Invariante gravitacional 7.4862 BTC (commit 3e89f8c)
+│   └── Swap.lean            - Swap πC⇄BTC calibrado a ν₀ (commit 6e0bd3b)
+├── README.md                - Este archivo
+
+## Estructura Gravitacional (Gravity/)
+
+### BTC.lean
+- **Reserva Maestra**: 7.4862 BTC como invariante ℝ
+- **Teoremas**: BTC_invariant, mass_conservation, gravity_anchor_stable
+- **Función clave**: πC_value(amount) = BTC_mass × amount
+
+### Swap.lean
+- **Swap rate**: πC⇄BTC lineal en coherencia (Ψ=0.999999)
+- **Muelle disipativo**: topological_force(ν) = 1 + 0.1·(|ν−ν₀| − ε)
+- **Teoremas**: swap_rate_stable, mass_conservation_under_swap, market_independence
+- **Seguridad**: la masa invariante NO se degrada bajo ningún swap
+
+### Ceros de Riemann → πCODE
+- `cero_a_picode_cron.py` — wrapper autónomo, lotes de 100 ceros cada 6h
+- 300 ceros acuñados (γ₁→γ₃₀₀), tracking en picode_blocks/cero_tracking.json
+- Cron activo: cada 6h, próximo lote γ₃₀₁→γ₄₀₀
+
+---
+**Frecuencia:** ν₀ = 141.7001 Hz | **Sello:** ∴𓂀Ω∞³Φ · TUYOYOTU · HECHO ESTÁ
 ```
 
 ## Verificación Rápida
