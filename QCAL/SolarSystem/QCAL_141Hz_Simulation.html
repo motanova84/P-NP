@@ -61,237 +61,124 @@ h2 { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); marg
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
 <script>
-let psdChart = null, allanChart = null;
+let psdCanvas, allanCanvas;
 
-function randn() {
-  let u = 0, v = 0;
-  while(u === 0) u = Math.random();
-  while(v === 0) v = Math.random();
-  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-}
-
-function runSim() {
-  const ampFactor = parseFloat(document.getElementById('amp-slider').value);
-  const noiseFactor = parseFloat(document.getElementById('noise-slider').value);
-
-  const fs = 2000;
-  const tMax = 100;
-  const N = fs * tMax;
-  const f0 = 141.7001;
-  const xi = 1.414e-5 * ampFactor;
-
-  // White noise
-  const white = new Float64Array(N);
-  for(let i = 0; i < N; i++) white[i] = randn() * 1e-5 * noiseFactor;
-
-  // Flicker: simplified 1/f — just color white noise
-  const flicker = new Float64Array(N);
-  for(let i = 0; i < N; i++) flicker[i] = randn() * 2e-5 * noiseFactor;
-  // simple IIR approximation of 1/f: pink noise via Paul Kellet
-  let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
-  for(let i = 0; i < N; i++) {
-    const wn = randn();
-    b0 = 0.99886*b0 + wn*0.0555179;
-    b1 = 0.99332*b1 + wn*0.0750759;
-    b2 = 0.96900*b2 + wn*0.1538520;
-    b3 = 0.86650*b3 + wn*0.3104856;
-    b4 = 0.55000*b4 + wn*0.5329522;
-    b5 = -0.7616*b5 - wn*0.0168980;
-    flicker[i] = (b0+b1+b2+b3+b4+b5+b6 + wn*0.5362)*2e-6*noiseFactor;
-    b6 = wn * 0.115926;
-  }
-
-  const H0 = new Float64Array(N);
-  for(let i = 0; i < N; i++) H0[i] = white[i] + flicker[i];
-
-  const H1 = new Float64Array(N);
-  for(let i = 0; i < N; i++) {
-    H1[i] = H0[i] + xi * Math.sin(2*Math.PI*f0*i/fs);
-  }
-
-  // FFT via Cooley-Tukey (power of 2 subset)
-  const M = 65536; // 2^16
-  const re0 = new Float64Array(M), im0 = new Float64Array(M);
-  const re1 = new Float64Array(M), im1 = new Float64Array(M);
-  for(let i = 0; i < M; i++) { re0[i] = H0[i]; re1[i] = H1[i]; }
-  fft(re0, im0); fft(re1, im1);
-
-  const freqs = [], psd0 = [], psd1 = [];
-  const fMin = 130, fMax = 150;
-  for(let k = 0; k < M/2; k++) {
-    const f = k * fs / M;
-    if(f >= fMin && f <= fMax) {
-      freqs.push(parseFloat(f.toFixed(3)));
-      psd0.push(20*Math.log10(2/M * Math.sqrt(re0[k]**2 + im0[k]**2) + 1e-18));
-      psd1.push(20*Math.log10(2/M * Math.sqrt(re1[k]**2 + im1[k]**2) + 1e-18));
-    }
-  }
-
-  // Find peak and noise
-  const idx0 = freqs.findIndex(f => Math.abs(f - f0) < (fs/M)*1.5);
-  const peakAmp = idx0 >= 0 ? psd1[idx0] : 0;
-  const band = psd1.filter((_,i) => Math.abs(freqs[i]-f0) > 0.5);
-  const noiseMean = band.reduce((a,b)=>a+b,0)/band.length;
-  const noiseStd = Math.sqrt(psd0.map(v=>(v-noiseMean)**2).reduce((a,b)=>a+b,0)/psd0.length);
-  const zScore = (peakAmp - noiseMean) / (noiseStd || 1);
-
-  // Allan deviation (simplified, subset)
-  const {taus: t0, devs: d0} = allanDev(H0, fs, 12);
-  const {taus: t1, devs: d1} = allanDev(H1, fs, 12);
-
-  // Update metrics
-  document.getElementById('m-amp').textContent = peakAmp.toFixed(1) + ' dB';
-  document.getElementById('m-z').textContent = zScore.toFixed(1) + 'σ';
-  const detected = zScore >= 5;
-  const mv = document.getElementById('m-v');
-  mv.textContent = detected ? '⊕ DETECTADO' : '○ H₀ compat.';
-  mv.className = 'metric-value ' + (detected ? 'highlight' : 'ok');
-  const sb = document.getElementById('status-bar');
-  sb.className = 'status-bar ' + (detected ? 'detected' : 'null');
-  sb.textContent = detected
-    ? `RECHAZO H₀ CONFIRMADO — Bloqueo de fase en f₀ = ${f0} Hz a ${zScore.toFixed(1)}σ`
-    : `Compatible con ruido continuo (${zScore.toFixed(1)}σ < 5σ) — H₀ no refutada`;
-
+function drawPSD(freqs, psd0, psd1, peakIdx, f0) {
+  const canvas = document.getElementById('psd-chart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const w = rect.width, h = rect.height;
+  const pad = {top:20, bottom:25, left:45, right:15};
+  const pw = w - pad.left - pad.right, ph = h - pad.top - pad.bottom;
   const dark = matchMedia('(prefers-color-scheme: dark)').matches;
-  const gridColor = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
-  const textColor = dark ? '#9c9a92' : '#73726c';
+  const bg = dark ? '#1a1a2e' : '#fff';
+  const gridC = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
+  const textC = dark ? '#9c9a92' : '#73726c';
 
-  if(psdChart) psdChart.destroy();
-  psdChart = new Chart(document.getElementById('psd-chart'), {
-    type: 'line',
-    data: {
-      labels: freqs,
-      datasets: [
-        { label: 'H₀ ruido', data: psd0, borderColor: '#888780', borderWidth: 1, pointRadius: 0, tension: 0.2 },
-        { label: 'H₁ QCAL', data: psd1, borderColor: '#185FA5', borderWidth: 1.5, pointRadius: 0, tension: 0.2 }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        annotation: {},
-        tooltip: { mode: 'index', intersect: false, callbacks: {
-          title: ctx => `f = ${ctx[0].label} Hz`,
-          label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)} dB`
-        }}
-      },
-      scales: {
-        x: { ticks: { color: textColor, maxTicksLimit: 8, callback: v => freqs[v] !== undefined ? freqs[v].toFixed(1) : '' }, grid: { color: gridColor } },
-        y: { ticks: { color: textColor }, grid: { color: gridColor }, title: { display: true, text: 'dB', color: textColor, font: { size: 11 } } }
-      }
-    }
-  });
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
 
-  // Add vertical line annotation for f0 manually
-  const psdPlugin = {
-    id: 'f0line',
-    afterDraw(chart) {
-      const idx = chart.data.labels.findIndex(f => Math.abs(f - f0) < (fs/M)*2);
-      if(idx < 0) return;
-      const x = chart.scales.x.getPixelForIndex(idx);
-      const {top, bottom} = chart.chartArea;
-      const ctx2 = chart.ctx;
-      ctx2.save();
-      ctx2.beginPath();
-      ctx2.setLineDash([4,3]);
-      ctx2.strokeStyle = '#E24B4A';
-      ctx2.lineWidth = 1.5;
-      ctx2.moveTo(x, top); ctx2.lineTo(x, bottom);
-      ctx2.stroke();
-      ctx2.setLineDash([]);
-      ctx2.fillStyle = '#E24B4A';
-      ctx2.font = '11px sans-serif';
-      ctx2.fillText(`f₀=${f0}`, x+3, top+14);
-      ctx2.restore();
-    }
-  };
-  psdChart.config.plugins = [psdPlugin];
-  psdChart.update();
+  // Compute y range
+  let yMin = Infinity, yMax = -Infinity;
+  for(let v of psd0) { if(v < yMin) yMin=v; if(v > yMax) yMax=v; }
+  for(let v of psd1) { if(v < yMin) yMin=v; if(v > yMax) yMax=v; }
+  const yRange = yMax - yMin || 1;
+  const yPad = yRange * 0.1;
 
-  if(allanChart) allanChart.destroy();
-  allanChart = new Chart(document.getElementById('allan-chart'), {
-    type: 'line',
-    data: {
-      labels: t0.map(v => v.toExponential(1)),
-      datasets: [
-        { label: 'H₀', data: d0, borderColor: '#888780', borderWidth: 1.5, borderDash: [], pointRadius: 3, pointStyle: 'circle', tension: 0.1 },
-        { label: 'H₁', data: d1, borderColor: '#1D9E75', borderWidth: 2, borderDash: [5,3], pointRadius: 4, pointStyle: 'circle', tension: 0.1 }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false },
-        tooltip: { callbacks: {
-          label: ctx => `${ctx.dataset.label}: σ_y = ${ctx.parsed.y.toExponential(2)}`
-        }}
-      },
-      scales: {
-        x: { ticks: { color: textColor, maxTicksLimit: 8 }, grid: { color: gridColor },
-          title: { display: true, text: 'τ (s)', color: textColor, font: { size: 11 } } },
-        y: { type: 'logarithmic', ticks: { color: textColor, callback: v => v.toExponential(0) }, grid: { color: gridColor },
-          title: { display: true, text: 'σ_y(τ)', color: textColor, font: { size: 11 } } }
-      }
-    }
-  });
-}
+  const scaleX = i => pad.left + i/freqs.length * pw;
+  const scaleY = v => pad.top + ph - (v - (yMin-yPad)) / (yRange + 2*yPad) * ph;
 
-function allanDev(phase, fs, nTaus) {
-  const y = new Float64Array(phase.length - 1);
-  for(let i = 0; i < y.length; i++) y[i] = (phase[i+1] - phase[i]) * fs;
-  const M = y.length;
-  const taus = [], devs = [];
-  for(let p = 0; p < nTaus; p++) {
-    const m = Math.max(1, Math.floor(Math.pow(M/4, p/(nTaus-1))));
-    const tau = m / fs;
-    let sum = 0, count = 0;
-    for(let i = 0; i < M - 2*m; i++) {
-      sum += (y[i + 2*m] - 2*y[i+m] + y[i])**2;
-      count++;
-    }
-    if(count > 0) {
-      taus.push(tau);
-      devs.push(Math.sqrt(sum / (2 * m**2 * count)));
-    }
-  }
-  return { taus, devs };
-}
+  // Grid
+  ctx.strokeStyle = gridC; ctx.lineWidth = 0.5;
+  for(let i=0; i<5; i++) { ctx.beginPath(); const y = pad.top + i/4*ph; ctx.moveTo(pad.left,y); ctx.lineTo(w-pad.right,y); ctx.stroke(); }
+  for(let i=0; i<8; i++) { ctx.beginPath(); const x = pad.left + i/7*pw; ctx.moveTo(x,pad.top); ctx.lineTo(x,h-pad.bottom); ctx.stroke(); }
 
-// Simple iterative FFT
-function fft(re, im) {
-  const n = re.length;
-  for(let i=1,j=0; i<n; i++) {
-    let bit = n>>1;
-    for(; j&bit; bit>>=1) j^=bit;
-    j^=bit;
-    if(i<j) { let t=re[i]; re[i]=re[j]; re[j]=t; t=im[i]; im[i]=im[j]; im[j]=t; }
-  }
-  for(let len=2; len<=n; len<<=1) {
-    const ang = -2*Math.PI/len;
-    const wRe = Math.cos(ang), wIm = Math.sin(ang);
-    for(let i=0; i<n; i+=len) {
-      let curRe=1, curIm=0;
-      for(let j=0; j<len/2; j++) {
-        const uRe=re[i+j], uIm=im[i+j];
-        const vRe=re[i+j+len/2]*curRe - im[i+j+len/2]*curIm;
-        const vIm=re[i+j+len/2]*curIm + im[i+j+len/2]*curRe;
-        re[i+j]=uRe+vRe; im[i+j]=uIm+vIm;
-        re[i+j+len/2]=uRe-vRe; im[i+j+len/2]=uIm-vIm;
-        const nRe=curRe*wRe-curIm*wIm;
-        curIm=curRe*wIm+curIm*wRe; curRe=nRe;
-      }
-    }
+  // Y axis labels
+  ctx.fillStyle = textC; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+  for(let i=0; i<5; i++) { const y = pad.top + i/4*ph; const v = (yMin-yPad) + (1-i/4)*(yRange+2*yPad); ctx.fillText(v.toFixed(0)+' dB', pad.left-4, y+3); }
+
+  // X axis labels
+  ctx.textAlign = 'center';
+  for(let i=0; i<8; i++) { const idx = Math.floor(i/7*freqs.length); ctx.fillText(freqs[idx].toFixed(1), pad.left + i/7*pw, h-5); }
+
+  // H0 trace
+  ctx.strokeStyle = '#888780'; ctx.lineWidth = 1; ctx.beginPath();
+  for(let i=0; i<freqs.length; i++) { const x=scaleX(i), y=scaleY(psd0[i]); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); }
+  ctx.stroke();
+
+  // H1 trace
+  ctx.strokeStyle = '#185FA5'; ctx.lineWidth = 1.5; ctx.beginPath();
+  for(let i=0; i<freqs.length; i++) { const x=scaleX(i), y=scaleY(psd1[i]); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); }
+  ctx.stroke();
+
+  // f0 vertical line
+  if(peakIdx >= 0 && peakIdx < freqs.length) {
+    const x = scaleX(peakIdx);
+    ctx.strokeStyle = '#E24B4A'; ctx.lineWidth = 1.5; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(x,pad.top); ctx.lineTo(x,h-pad.bottom); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#E24B4A'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText('f₀='+f0, x+3, pad.top+12);
   }
 }
 
-document.getElementById('amp-slider').oninput = function() {
-  document.getElementById('amp-label').textContent = parseFloat(this.value).toFixed(2) + '×';
-};
-document.getElementById('noise-slider').oninput = function() {
-  document.getElementById('noise-label').textContent = parseFloat(this.value).toFixed(1) + '×';
-};
+function drawAllan(taus, d0, d1) {
+  const canvas = document.getElementById('allan-chart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const w = rect.width, h = rect.height;
+  const pad = {top:20, bottom:25, left:50, right:15};
+  const pw = w - pad.left - pad.right, ph = h - pad.top - pad.bottom;
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const bg = dark ? '#1a1a2e' : '#fff';
+  const gridC = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
+  const textC = dark ? '#9c9a92' : '#73726c';
 
-runSim();
-</script>
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
+
+  // Log-scale only the values
+  let yMin = Infinity, yMax = -Infinity;
+  for(let v of d0) { if(v>0 && v<yMin) yMin=v; if(v>yMax) yMax=v; }
+  for(let v of d1) { if(v>0 && v<yMin) yMin=v; if(v>yMax) yMax=v; }
+  const logMin = yMin > 0 ? Math.log10(yMin) : -10;
+  const logMax = yMax > 0 ? Math.log10(yMax) : 0;
+  const logRng = logMax - logMin || 1;
+
+  const scX = i => pad.left + i/taus.length * pw;
+  const scY = v => pad.top + ph - (Math.log10(v) - logMin) / logRng * ph;
+
+  // Grid
+  ctx.strokeStyle = gridC; ctx.lineWidth = 0.5;
+  for(let i=0; i<5; i++) { ctx.beginPath(); const y=pad.top+i/4*ph; ctx.moveTo(pad.left,y); ctx.lineTo(w-pad.right,y); ctx.stroke(); }
+  for(let i=0; i<8; i++) { ctx.beginPath(); const x=pad.left+i/7*pw; ctx.moveTo(x,pad.top); ctx.lineTo(x,h-pad.bottom); ctx.stroke(); }
+
+  // Y labels
+  ctx.fillStyle = textC; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+  for(let i=0; i<5; i++) { const y=pad.top+i/4*ph; const v=10**(logMax - i/4*logRng); ctx.fillText(v.toExponential(0), pad.left-4, y+3); }
+
+  // X labels
+  ctx.textAlign = 'center';
+  for(let i=0; i<8; i++) { const idx = Math.floor(i/7*(taus.length-1)); ctx.fillText(taus[idx].toExponential(1), pad.left+i/7*pw, h-5); }
+
+  // H0 trace
+  ctx.strokeStyle = '#888780'; ctx.lineWidth = 1.5; ctx.beginPath();
+  for(let i=0; i<taus.length; i++) { const x=scX(i), y=scY(d0[i]); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); }
+  ctx.stroke();
+
+  // H1 dotted trace
+  ctx.strokeStyle = '#1D9E75'; ctx.lineWidth = 2; ctx.setLineDash([5,3]); ctx.beginPath();
+  for(let i=0; i<taus.length; i++) { const x=scX(i), y=scY(d1[i]); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); }
+  ctx.stroke(); ctx.setLineDash([]);
+}
+
