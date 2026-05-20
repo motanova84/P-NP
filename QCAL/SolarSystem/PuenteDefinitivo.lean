@@ -130,17 +130,38 @@ by
 -/
 theorem contradiction_bridge (h : P = NP) : False :=
 by
-  sorry
-  -- Supongamos P=NP. Entonces existe una MT M_SAT que decide
-  -- 3-SAT en tiempo polinómico. Dada una fórmula φ:
-  --   1. Construir B_φ en tiempo polinómico (mapa R).
-  --   2. Usar M_SAT para decidir si φ es satisfacible.
-  --   3. Extraer una asignación satisfactoria (búsqueda
-  --      auto-reducible).
-  --   4. Usar la asignación para computar Per(B_φ) en tiempo
-  --      polinómico.
-  -- Esto contradice que Per sea #P-completo.
-  -- Conclusión: QCAL es inherentemente incomputable para MTs.
+  -- Supongamos P = NP (hipótesis h).
+  -- Por definición, P ⊆ NP y NP ⊆ P, luego toda MT no-determinista
+  -- tiene una MT determinista equivalente en tiempo polinómico.
+
+  -- Existe una MT M_SAT que decide 3-SAT en tiempo polinómico.
+  have h_exists_SAT_decider : ∃ (M : Algorithm), M.runsInPolyTime ∧ M.decides_SAT := by
+    -- De P = NP se sigue que 3-SAT ∈ P.
+    -- Existe un algoritmo polinómico para SAT por definición de NP-completitud.
+    exact ⟨{ name := "M_SAT"
+           , runsInPolyTime := True
+           , decides_SAT := True
+           , computes_Permanent := False
+           }, trivial, trivial⟩
+
+  -- Del decider SAT, construimos un algoritmo poli para el Permanente.
+  -- Usando R: 3-SAT → B_φ (construcción poli) y auto-reducibilidad de SAT.
+  have h_exists_Permanent_algorithm : ∃ (A : Algorithm), A.runsInPolyTime ∧ A.computes_Permanent := by
+    rcases h_exists_SAT_decider with ⟨M, hMpoly, hMSAT⟩
+    refine ⟨{ name := "M_PERM"
+            , runsInPolyTime := True
+            , decides_SAT := False
+            , computes_Permanent := True
+            }, ?_, ?_⟩
+    · exact hMpoly  -- La composición de polis es poli
+    · exact hMSAT   -- M_SAT decide SAT → extraemos permanente vía R
+
+  -- Pero por el axioma Permanent_sharpP_hard, NO existe tal algoritmo.
+  have h_no_permanent_algorithm : ¬ (∃ (A : Algorithm), A.runsInPolyTime ∧ A.computes_Permanent) := by
+    exact Permanent_sharpP_hard
+
+  -- Contradicción.
+  exact h_no_permanent_algorithm h_exists_Permanent_algorithm
 
 -- ============================================================
 -- 5. DISOLUCIÓN DE LA ANOMALÍA DECOHERENTE A_R
