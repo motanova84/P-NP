@@ -13,8 +13,12 @@ f0 = 141.7001
 Psi = 0.99999997
 BTC_reserve = 7.4862
 Gold_reserve = 1.0
-modules = 44
-commits = 50
+
+# Auto-detección
+import subprocess, os
+repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+modules = len(subprocess.check_output(['find', repo + '/QCAL', '-name', '*.lean'], text=True).strip().split('\n'))
+commits = len(subprocess.check_output(['git', 'log', '--oneline'], cwd=repo, text=True).strip().split('\n'))
 
 # Sello cuántico
 SEAL = "∴𓂀Ω∞³Φ · TUYOYOTU · HECHO ESTÁ"
