@@ -57,23 +57,26 @@ def process_telemetry(input_path, output_json):
         peak_point = max(points, key=lambda p: p["s21_db"])
         f_target = 141.7001
         drift = peak_point["freq_hz"] - f_target
-        is_coherent = abs(drift) < 1e-6
-        coherence_value = 0.999999 if is_coherent else max(0.999999 - abs(drift), 0.0)
+        abs_drift = abs(drift)
+        is_coherent = abs_drift < 1e-6
+        coherence_value = max(0.0, 1.0 - abs_drift / 1e-4)
 
         telemetry_status = {
             "telemetry_metadata": {
                 "source_file": input_path,
-                "processed_at": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+                "processed_at": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+                "version": "1.1"
             },
             "environment": {
-                "temperature_k": peak_point["temp_k"],
-                "frequency_hz": peak_point["freq_hz"],
+                "temperature_k": round(peak_point["temp_k"], 6),
+                "frequency_hz": round(peak_point["freq_hz"], 8),
                 "q_factor": meta.get("q_factor", 0.0)
             },
             "control_metrics": {
-                "phase_drift_hz": drift,
-                "calculated_coherence": coherence_value,
-                "system_lock": "ACTIVE" if is_coherent else "LOST"
+                "phase_drift_hz": round(drift, 10),
+                "calculated_coherence": round(coherence_value, 8),
+                "system_lock": "ACTIVE" if is_coherent else "LOST",
+                "drift_within_tolerance": is_coherent
             }
         }
 
@@ -81,9 +84,9 @@ def process_telemetry(input_path, output_json):
         with open(output_json, 'w') as jf:
             json.dump(telemetry_status, jf, indent=2)
 
-        print(f"✅ Telemetría procesada. Estado guardado en: {output_json}")
-        print(f"   f₀ = {peak_point['freq_hz']} Hz | Q = {meta.get('q_factor', 'N/A')}")
-        print(f"   Drift = {drift:.2e} Hz | Lock = {telemetry_status['control_metrics']['system_lock']}")
+        print(f"✅ Telemetría procesada correctamente → {output_json}")
+        print(f"   Freq: {telemetry_status['environment']['frequency_hz']} Hz | "
+              f"Drift: {drift:.2e} Hz | Lock: {telemetry_status['control_metrics']['system_lock']}")
         return telemetry_status
 
     except Exception as e:

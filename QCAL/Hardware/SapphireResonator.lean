@@ -93,19 +93,26 @@ structure TelemetryReport where
   measured_drift : ℝ
   measured_q : ℝ
   temperature : ℝ
+  timestamp : ℝ
 
 def IsReportValid (report : TelemetryReport) : Prop :=
   |report.measured_drift| ≤ MAX_ALLOWED_DRIFT ∧ report.measured_q ≥ MIN_Q_FACTOR
 
 theorem validate_telemetry_metrics (report : TelemetryReport)
     (h_drift : report.measured_drift = 0)
-    (h_high_q : report.measured_q = 1.18e9) : IsReportValid report := by
+    (h_q : report.measured_q = 1.18e9) : IsReportValid report := by
   unfold IsReportValid
   constructor
   · rw [h_drift, abs_zero]
     have h : (0 : ℝ) ≤ 0.000001 := by norm_num
     exact h
-  · rw [h_high_q]
+  · rw [h_q]
     norm_num
+
+theorem valid_if_within_tolerance (report : TelemetryReport)
+    (h_drift : |report.measured_drift| ≤ MAX_ALLOWED_DRIFT)
+    (h_q : report.measured_q ≥ MIN_Q_FACTOR) : IsReportValid report := by
+  unfold IsReportValid
+  exact ⟨h_drift, h_q⟩
 
 end QCAL.Metrology
