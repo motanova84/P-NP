@@ -1,0 +1,297 @@
+
+<style>
+body { margin: 0; }
+canvas { display: block; width: 100% !important; }
+.panel { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); padding: 1rem 1.25rem; margin-bottom: 12px; }
+.metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+.metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem 1rem; text-align: center; }
+.metric-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.metric-value { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.metric-value.highlight { color: #E24B4A; }
+.metric-value.ok { color: #1D9E75; }
+.status-bar { border-radius: var(--border-radius-md); padding: 0.6rem 1rem; font-size: 13px; font-weight: 500; text-align: center; margin-bottom: 12px; }
+.status-bar.detected { background: #FCEBEB; color: #A32D2D; border: 0.5px solid #F09595; }
+.status-bar.null { background: #EAF3DE; color: #3B6D11; border: 0.5px solid #97C459; }
+.ctrl-row { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--color-text-secondary); margin-bottom: 8px; }
+h2 { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 0 0 10px; text-transform: none; letter-spacing: 0.02em; }
+.legend { display: flex; gap: 16px; font-size: 12px; color: var(--color-text-secondary); margin-bottom: 8px; flex-wrap: wrap; }
+.legend span { display: flex; align-items: center; gap: 5px; }
+.legend-dot { width: 20px; height: 2px; display: inline-block; border-radius: 1px; }
+</style>
+
+<div style="padding: 0.5rem 0;">
+  <div class="metric-row" id="metrics">
+    <div class="metric"><div class="metric-label">Amplitud en f₀</div><div class="metric-value" id="m-amp">—</div></div>
+    <div class="metric"><div class="metric-label">Z-score (σ)</div><div class="metric-value" id="m-z">—</div></div>
+    <div class="metric"><div class="metric-label">Veredicto</div><div class="metric-value" id="m-v">—</div></div>
+  </div>
+
+  <div class="status-bar null" id="status-bar">Calculando...</div>
+
+  <div class="ctrl-row">
+    <span>Amplitud ξ</span>
+    <input type="range" id="amp-slider" min="0.1" max="5" step="0.1" value="1.414" style="flex:1">
+    <span id="amp-label" style="min-width:38px;text-align:right">1.41×</span>
+    <span style="margin-left:12px">SNR</span>
+    <input type="range" id="noise-slider" min="0.5" max="3" step="0.1" value="1" style="flex:1">
+    <span id="noise-label" style="min-width:38px;text-align:right">1.0×</span>
+  </div>
+  <div class="ctrl-row" style="margin-top:4px">
+    <button onclick="runSim()" style="padding:6px 18px; font-size:13px">↗ Nueva simulación</button>
+    <span style="color:var(--color-text-tertiary);font-size:12px">Monte Carlo: cada corrida genera ruido distinto</span>
+  </div>
+
+  <div class="panel" style="margin-top:12px">
+    <h2>Densidad espectral de potencia — banda crítica [130–150 Hz]</h2>
+    <div class="legend">
+      <span><span class="legend-dot" style="background:#888780"></span>H₀ ruido clásico</span>
+      <span><span class="legend-dot" style="background:#185FA5"></span>H₁ señal QCAL</span>
+      <span><span class="legend-dot" style="background:#E24B4A; width:1px; height:14px"></span>f₀ = 141.7001 Hz</span>
+    </div>
+    <div style="position:relative;height:220px"><canvas id="psd-chart" role="img" aria-label="Densidad espectral de potencia alrededor de 141.7 Hz"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <h2>Desviación de Allan — estabilidad temporal</h2>
+    <div class="legend">
+      <span><span class="legend-dot" style="background:#888780"></span>H₀</span>
+      <span><span class="legend-dot" style="background:#1D9E75; border-top: 2px dashed #1D9E75; background:none"></span>H₁ modulado</span>
+    </div>
+    <div style="position:relative;height:200px"><canvas id="allan-chart" role="img" aria-label="Desviación de Allan vs tiempo de integración"></canvas></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let psdChart = null, allanChart = null;
+
+function randn() {
+  let u = 0, v = 0;
+  while(u === 0) u = Math.random();
+  while(v === 0) v = Math.random();
+  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+
+function runSim() {
+  const ampFactor = parseFloat(document.getElementById('amp-slider').value);
+  const noiseFactor = parseFloat(document.getElementById('noise-slider').value);
+
+  const fs = 2000;
+  const tMax = 100;
+  const N = fs * tMax;
+  const f0 = 141.7001;
+  const xi = 1.414e-5 * ampFactor;
+
+  // White noise
+  const white = new Float64Array(N);
+  for(let i = 0; i < N; i++) white[i] = randn() * 1e-5 * noiseFactor;
+
+  // Flicker: simplified 1/f — just color white noise
+  const flicker = new Float64Array(N);
+  for(let i = 0; i < N; i++) flicker[i] = randn() * 2e-5 * noiseFactor;
+  // simple IIR approximation of 1/f: pink noise via Paul Kellet
+  let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+  for(let i = 0; i < N; i++) {
+    const wn = randn();
+    b0 = 0.99886*b0 + wn*0.0555179;
+    b1 = 0.99332*b1 + wn*0.0750759;
+    b2 = 0.96900*b2 + wn*0.1538520;
+    b3 = 0.86650*b3 + wn*0.3104856;
+    b4 = 0.55000*b4 + wn*0.5329522;
+    b5 = -0.7616*b5 - wn*0.0168980;
+    flicker[i] = (b0+b1+b2+b3+b4+b5+b6 + wn*0.5362)*2e-6*noiseFactor;
+    b6 = wn * 0.115926;
+  }
+
+  const H0 = new Float64Array(N);
+  for(let i = 0; i < N; i++) H0[i] = white[i] + flicker[i];
+
+  const H1 = new Float64Array(N);
+  for(let i = 0; i < N; i++) {
+    H1[i] = H0[i] + xi * Math.sin(2*Math.PI*f0*i/fs);
+  }
+
+  // FFT via Cooley-Tukey (power of 2 subset)
+  const M = 65536; // 2^16
+  const re0 = new Float64Array(M), im0 = new Float64Array(M);
+  const re1 = new Float64Array(M), im1 = new Float64Array(M);
+  for(let i = 0; i < M; i++) { re0[i] = H0[i]; re1[i] = H1[i]; }
+  fft(re0, im0); fft(re1, im1);
+
+  const freqs = [], psd0 = [], psd1 = [];
+  const fMin = 130, fMax = 150;
+  for(let k = 0; k < M/2; k++) {
+    const f = k * fs / M;
+    if(f >= fMin && f <= fMax) {
+      freqs.push(parseFloat(f.toFixed(3)));
+      psd0.push(20*Math.log10(2/M * Math.sqrt(re0[k]**2 + im0[k]**2) + 1e-18));
+      psd1.push(20*Math.log10(2/M * Math.sqrt(re1[k]**2 + im1[k]**2) + 1e-18));
+    }
+  }
+
+  // Find peak and noise
+  const idx0 = freqs.findIndex(f => Math.abs(f - f0) < (fs/M)*1.5);
+  const peakAmp = idx0 >= 0 ? psd1[idx0] : 0;
+  const band = psd1.filter((_,i) => Math.abs(freqs[i]-f0) > 0.5);
+  const noiseMean = band.reduce((a,b)=>a+b,0)/band.length;
+  const noiseStd = Math.sqrt(psd0.map(v=>(v-noiseMean)**2).reduce((a,b)=>a+b,0)/psd0.length);
+  const zScore = (peakAmp - noiseMean) / (noiseStd || 1);
+
+  // Allan deviation (simplified, subset)
+  const {taus: t0, devs: d0} = allanDev(H0, fs, 12);
+  const {taus: t1, devs: d1} = allanDev(H1, fs, 12);
+
+  // Update metrics
+  document.getElementById('m-amp').textContent = peakAmp.toFixed(1) + ' dB';
+  document.getElementById('m-z').textContent = zScore.toFixed(1) + 'σ';
+  const detected = zScore >= 5;
+  const mv = document.getElementById('m-v');
+  mv.textContent = detected ? '⊕ DETECTADO' : '○ H₀ compat.';
+  mv.className = 'metric-value ' + (detected ? 'highlight' : 'ok');
+  const sb = document.getElementById('status-bar');
+  sb.className = 'status-bar ' + (detected ? 'detected' : 'null');
+  sb.textContent = detected
+    ? `RECHAZO H₀ CONFIRMADO — Bloqueo de fase en f₀ = ${f0} Hz a ${zScore.toFixed(1)}σ`
+    : `Compatible con ruido continuo (${zScore.toFixed(1)}σ < 5σ) — H₀ no refutada`;
+
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const gridColor = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+  const textColor = dark ? '#9c9a92' : '#73726c';
+
+  if(psdChart) psdChart.destroy();
+  psdChart = new Chart(document.getElementById('psd-chart'), {
+    type: 'line',
+    data: {
+      labels: freqs,
+      datasets: [
+        { label: 'H₀ ruido', data: psd0, borderColor: '#888780', borderWidth: 1, pointRadius: 0, tension: 0.2 },
+        { label: 'H₁ QCAL', data: psd1, borderColor: '#185FA5', borderWidth: 1.5, pointRadius: 0, tension: 0.2 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        annotation: {},
+        tooltip: { mode: 'index', intersect: false, callbacks: {
+          title: ctx => `f = ${ctx[0].label} Hz`,
+          label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)} dB`
+        }}
+      },
+      scales: {
+        x: { ticks: { color: textColor, maxTicksLimit: 8, callback: v => freqs[v] !== undefined ? freqs[v].toFixed(1) : '' }, grid: { color: gridColor } },
+        y: { ticks: { color: textColor }, grid: { color: gridColor }, title: { display: true, text: 'dB', color: textColor, font: { size: 11 } } }
+      }
+    }
+  });
+
+  // Add vertical line annotation for f0 manually
+  const psdPlugin = {
+    id: 'f0line',
+    afterDraw(chart) {
+      const idx = chart.data.labels.findIndex(f => Math.abs(f - f0) < (fs/M)*2);
+      if(idx < 0) return;
+      const x = chart.scales.x.getPixelForIndex(idx);
+      const {top, bottom} = chart.chartArea;
+      const ctx2 = chart.ctx;
+      ctx2.save();
+      ctx2.beginPath();
+      ctx2.setLineDash([4,3]);
+      ctx2.strokeStyle = '#E24B4A';
+      ctx2.lineWidth = 1.5;
+      ctx2.moveTo(x, top); ctx2.lineTo(x, bottom);
+      ctx2.stroke();
+      ctx2.setLineDash([]);
+      ctx2.fillStyle = '#E24B4A';
+      ctx2.font = '11px sans-serif';
+      ctx2.fillText(`f₀=${f0}`, x+3, top+14);
+      ctx2.restore();
+    }
+  };
+  psdChart.config.plugins = [psdPlugin];
+  psdChart.update();
+
+  if(allanChart) allanChart.destroy();
+  allanChart = new Chart(document.getElementById('allan-chart'), {
+    type: 'line',
+    data: {
+      labels: t0.map(v => v.toExponential(1)),
+      datasets: [
+        { label: 'H₀', data: d0, borderColor: '#888780', borderWidth: 1.5, borderDash: [], pointRadius: 3, pointStyle: 'circle', tension: 0.1 },
+        { label: 'H₁', data: d1, borderColor: '#1D9E75', borderWidth: 2, borderDash: [5,3], pointRadius: 4, pointStyle: 'circle', tension: 0.1 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: {
+          label: ctx => `${ctx.dataset.label}: σ_y = ${ctx.parsed.y.toExponential(2)}`
+        }}
+      },
+      scales: {
+        x: { ticks: { color: textColor, maxTicksLimit: 8 }, grid: { color: gridColor },
+          title: { display: true, text: 'τ (s)', color: textColor, font: { size: 11 } } },
+        y: { type: 'logarithmic', ticks: { color: textColor, callback: v => v.toExponential(0) }, grid: { color: gridColor },
+          title: { display: true, text: 'σ_y(τ)', color: textColor, font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+function allanDev(phase, fs, nTaus) {
+  const y = new Float64Array(phase.length - 1);
+  for(let i = 0; i < y.length; i++) y[i] = (phase[i+1] - phase[i]) * fs;
+  const M = y.length;
+  const taus = [], devs = [];
+  for(let p = 0; p < nTaus; p++) {
+    const m = Math.max(1, Math.floor(Math.pow(M/4, p/(nTaus-1))));
+    const tau = m / fs;
+    let sum = 0, count = 0;
+    for(let i = 0; i < M - 2*m; i++) {
+      sum += (y[i + 2*m] - 2*y[i+m] + y[i])**2;
+      count++;
+    }
+    if(count > 0) {
+      taus.push(tau);
+      devs.push(Math.sqrt(sum / (2 * m**2 * count)));
+    }
+  }
+  return { taus, devs };
+}
+
+// Simple iterative FFT
+function fft(re, im) {
+  const n = re.length;
+  for(let i=1,j=0; i<n; i++) {
+    let bit = n>>1;
+    for(; j&bit; bit>>=1) j^=bit;
+    j^=bit;
+    if(i<j) { let t=re[i]; re[i]=re[j]; re[j]=t; t=im[i]; im[i]=im[j]; im[j]=t; }
+  }
+  for(let len=2; len<=n; len<<=1) {
+    const ang = -2*Math.PI/len;
+    const wRe = Math.cos(ang), wIm = Math.sin(ang);
+    for(let i=0; i<n; i+=len) {
+      let curRe=1, curIm=0;
+      for(let j=0; j<len/2; j++) {
+        const uRe=re[i+j], uIm=im[i+j];
+        const vRe=re[i+j+len/2]*curRe - im[i+j+len/2]*curIm;
+        const vIm=re[i+j+len/2]*curIm + im[i+j+len/2]*curRe;
+        re[i+j]=uRe+vRe; im[i+j]=uIm+vIm;
+        re[i+j+len/2]=uRe-vRe; im[i+j+len/2]=uIm-vIm;
+        const nRe=curRe*wRe-curIm*wIm;
+        curIm=curRe*wIm+curIm*wRe; curRe=nRe;
+      }
+    }
+  }
+}
+
+document.getElementById('amp-slider').oninput = function() {
+  document.getElementById('amp-label').textContent = parseFloat(this.value).toFixed(2) + '×';
+};
+document.getElementById('noise-slider').oninput = function() {
+  document.getElementById('noise-label').textContent = parseFloat(this.value).toFixed(1) + '×';
+};
+
+runSim();
+</script>
