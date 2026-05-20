@@ -1,82 +1,101 @@
 #!/usr/bin/env python3
 """
-🌀 QCAL Hardware Telemetry — Medición del Resonador de Zafiro
+🌀 QCAL Sapphire Telemetry — Puente VNA → Validación Lean 4
 Protocolo: QCAL-SYMBIO-BRIDGE v1.0.0
 f₀ = 141.7001 Hz
 
-Registro de mediciones físicas del hardware en Mallorca.
-Genera archivos JSON validados por los módulos Lean 4.
+Lee el buffer del Analizador de Redes Vectorial (VNA) y el termómetro
+de Óxido de Rutenio, calcula Q y desviación, exporta estado unificado.
 """
-import json, time, os, sys
-from datetime import datetime
+import json, os, time, sys
 
-class SapphireResonatorTelemetry:
-    def __init__(self):
-        self.f0 = 141.7001
-        self.coherence_target = 0.999999
-        self.measurements_dir = "measurements"
+def read_instrument_buffer(file_path):
+    """Lee el buffer del VNA y del termómetro de Óxido de Rutenio."""
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"No se encontró el archivo de datos en: {file_path}")
 
-    def register_measurement(self, meas_type, value, unit):
-        """Registra una medición física del hardware."""
-        os.makedirs(self.measurements_dir, exist_ok=True)
-        entry = {
-            "protocol": "QCAL-SYMBIO-BRIDGE v1.0.0",
-            "timestamp": datetime.utcnow().isoformat(),
-            "measurement_type": meas_type,
-            "value": value,
-            "unit": unit,
-            "frequency_hz": self.f0,
-            "coherence": self.coherence_target,
-            "source": "Sapphire Resonator - Mallorca Core"
-        }
-        filename = f"{self.measurements_dir}/{meas_type}_{int(time.time())}.json"
-        with open(filename, "w") as f:
-            json.dump(entry, f, indent=2)
-        print(f"✅ Medición registrada: {meas_type} = {value} {unit}")
-        return filename
+    with open(file_path, 'r') as f:
+        lines = f.readlines()
 
-    def measure_temperature(self):
-        """Medición de temperatura de operación del resonador."""
-        # En producción: leer sensor físico
-        # temp = read_sensor("/dev/i2c-1", 0x48)
-        temp = 298.0  # Temperatura ambiente (T=298 K = 25°C)
-        return self.register_measurement("temperature", temp, "K")
+    data_points = []
+    metadata = {}
 
-    def measure_frequency_spectrum(self):
-        """Medición del espectro de frecuencias."""
-        # En producción: leer analizador de espectro
-        # spectrum = read_spectrum_analyzer()
-        spectrum = {
-            "f0_peak_hz": 141.7001,
-            "f0_amplitude_db": -3.2,
-            "noise_floor_db": -93.0,
-            "snr_db": 89.8,
-            "bandwidth_hz": 0.001,
-            "harmonic_content": {
-                "2f0": -47.1,
-                "3f0": -52.3,
-                "4f0": -61.8
+    for line in lines:
+        if line.startswith('#'):
+            if "Center Frequency" in line:
+                try:
+                    metadata["f0_measured"] = float(line.split(":")[-1].strip().split()[0])
+                except: pass
+            elif "Loaded Q-Factor" in line:
+                try:
+                    q_str = line.split(":")[-1].strip()
+                    metadata["q_factor"] = float(q_str.replace('e', 'e'))
+                except: pass
+            continue
+
+        parts = line.strip().split(',')
+        if len(parts) == 5:
+            try:
+                data_points.append({
+                    "timestamp": float(parts[0]),
+                    "temp_k": float(parts[1]),
+                    "freq_hz": float(parts[2]),
+                    "s21_db": float(parts[3]),
+                    "phase_rad": float(parts[4])
+                })
+            except: pass
+
+    return metadata, data_points
+
+def process_telemetry(input_path, output_json):
+    try:
+        meta, points = read_instrument_buffer(input_path)
+        if not points:
+            print("❌ No se encontraron datos en el archivo.")
+            return
+
+        peak_point = max(points, key=lambda p: p["s21_db"])
+        f_target = 141.7001
+        drift = peak_point["freq_hz"] - f_target
+        is_coherent = abs(drift) < 1e-6
+        coherence_value = 0.999999 if is_coherent else max(0.999999 - abs(drift), 0.0)
+
+        telemetry_status = {
+            "telemetry_metadata": {
+                "source_file": input_path,
+                "processed_at": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+            },
+            "environment": {
+                "temperature_k": peak_point["temp_k"],
+                "frequency_hz": peak_point["freq_hz"],
+                "q_factor": meta.get("q_factor", 0.0)
+            },
+            "control_metrics": {
+                "phase_drift_hz": drift,
+                "calculated_coherence": coherence_value,
+                "system_lock": "ACTIVE" if is_coherent else "LOST"
             }
         }
-        return self.register_measurement("frequency_spectrum", spectrum, "hz")
 
-    def measure_coherence_time(self):
-        """Medición del tiempo de coherencia del sistema."""
-        # En producción: medir decaimiento de correlación
-        # tau = measure_T2_star()
-        tau_seconds = 3600.0  # Tiempo de coherencia observado
-        return self.register_measurement("coherence_time", tau_seconds, "s")
+        os.makedirs(os.path.dirname(output_json) or '.', exist_ok=True)
+        with open(output_json, 'w') as jf:
+            json.dump(telemetry_status, jf, indent=2)
 
-    def measure_all(self):
-        """Registra todas las mediciones disponibles."""
-        results = []
-        results.append(self.measure_temperature())
-        results.append(self.measure_frequency_spectrum())
-        results.append(self.measure_coherence_time())
-        return results
+        print(f"✅ Telemetría procesada. Estado guardado en: {output_json}")
+        print(f"   f₀ = {peak_point['freq_hz']} Hz | Q = {meta.get('q_factor', 'N/A')}")
+        print(f"   Drift = {drift:.2e} Hz | Lock = {telemetry_status['control_metrics']['system_lock']}")
+        return telemetry_status
+
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+        return None
 
 if __name__ == "__main__":
-    telemetry = SapphireResonatorTelemetry()
-    files = telemetry.measure_all()
-    print(f"\n📊 {len(files)} mediciones registradas en measurements/")
-    print(f"🔗 Verificar en: https://github.com/motanova84/P-NP/tree/main/measurements")
+    import argparse
+    parser = argparse.ArgumentParser(description="QCAL Sapphire Telemetry")
+    parser.add_argument("--input", default="measurements/RESONATOR_SCAN_20260520_0405.dat",
+                        help="Archivo de datos del instrumento")
+    parser.add_argument("--output", default="config/sapphire_state.json",
+                        help="Archivo JSON de salida")
+    args = parser.parse_args()
+    process_telemetry(args.input, args.output)

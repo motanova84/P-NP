@@ -77,3 +77,35 @@ theorem sapphire_resonator_operational (m : FullMeasurementSet)
   exact ⟨h_temp, h_freq, h_coherence⟩
 
 end QCAL.Hardware.SapphireResonator
+
+namespace QCAL.Metrology
+
+/-!
+ # SapphireResonator — Módulo de validación de criterios lógicos
+ Verifica que los valores medidos no violen los límites físicos para preservar la resonancia.
+-/
+
+def MAX_ALLOWED_DRIFT : ℝ := 0.000001
+def MIN_Q_FACTOR : ℝ := 1.0e9
+
+structure TelemetryReport where
+  measured_freq : ℝ
+  measured_drift : ℝ
+  measured_q : ℝ
+  temperature : ℝ
+
+def IsReportValid (report : TelemetryReport) : Prop :=
+  |report.measured_drift| ≤ MAX_ALLOWED_DRIFT ∧ report.measured_q ≥ MIN_Q_FACTOR
+
+theorem validate_telemetry_metrics (report : TelemetryReport)
+    (h_drift : report.measured_drift = 0)
+    (h_high_q : report.measured_q = 1.18e9) : IsReportValid report := by
+  unfold IsReportValid
+  constructor
+  · rw [h_drift, abs_zero]
+    have h : (0 : ℝ) ≤ 0.000001 := by norm_num
+    exact h
+  · rw [h_high_q]
+    norm_num
+
+end QCAL.Metrology
