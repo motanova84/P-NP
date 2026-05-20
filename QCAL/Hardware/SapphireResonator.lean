@@ -144,4 +144,37 @@ theorem validate_adiabatic_bound (report : AdvancedTelemetryReport)
 
 end QCAL.Metrology.Thermal
 
+/-- Módulo de Verificación Formal Avanzado — AxiomaticThermal -/
+
+namespace QCAL.Metrology.AxiomaticThermal
+
+def MAX_THERMAL_GRADIENT : ℝ := 0.001
+def EPSILON_MAX : ℝ := 0.000002
+def DELTA_T_THRESHOLD : ℝ := 0.01
+def ETA_FREQ_THRESHOLD : ℝ := 0.000005
+
+structure AdvancedTelemetryReport where
+  measured_drift : ℝ
+  measured_q : ℝ
+  temperature : ℝ
+  thermal_gradient : ℝ
+  partial_f_partial_t : ℝ
+
+def IsAdiabaticallyStable (report : AdvancedTelemetryReport) : Prop :=
+  |report.thermal_gradient| ≤ MAX_THERMAL_GRADIENT ∧
+  |report.partial_f_partial_t| ≤ EPSILON_MAX ∧
+  report.measured_q ≥ 1.0e9
+
+theorem verify_thermal_bounds (report : AdvancedTelemetryReport)
+    (h_grad : report.thermal_gradient = 0.0001)
+    (h_partial : report.partial_f_partial_t = 0.000001)
+    (h_q : report.measured_q = 1.18e9) : IsAdiabaticallyStable report := by
+  unfold IsAdiabaticallyStable
+  refine ⟨?_, ?_, ?_⟩
+  · rw [h_grad]; norm_num
+  · rw [h_partial]; norm_num
+  · rw [h_q]; norm_num
+
+end QCAL.Metrology.AxiomaticThermal
+
 end QCAL.Metrology
