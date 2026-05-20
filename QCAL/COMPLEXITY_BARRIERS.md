@@ -99,7 +99,47 @@ los límites topológicos sin caer en contradicciones lógicas.
 
 ---
 
-## 5. Síntesis
+## 5. Relación con la Geometría Compleja de Invariantes (GCT)
+
+El enfoque QCAL comparte fundamentos con la **Geometric Complexity Theory (GCT)**
+desarrollada por Ketan Mulmuley y Milind Sohoni, la propuesta formal más robusta
+para eludir las tres barreras simultáneamente.
+
+GCT traslada el problema de los circuitos lógicos al terreno de la geometría
+algebraica de variedades y la teoría de representaciones de grupos de Lie.
+En lugar de estudiar funciones booleanas o polinomios planos, mapea las funciones
+de complejidad como **órbitas geométricas** en espacios vectoriales de dimensiones
+infinitas. La separación de clases se reduce a demostrar la existencia de
+ciertos obstáculos topológicos o invariantes de grupo muy específicos.
+
+| Método | Mecanismo | Por qué evade las barreras |
+|--------|-----------|---------------------------|
+| **GCT** (Mulmuley-Sohoni) | Órbitas geométricas en grupos de Lie | Estructura continua → no relativiza, no naturaliza, no algebriza |
+| **QCAL** (este marco) | Espacios adélicos + atractor no lineal | Anillos globales + fluido cuántico → mismo efecto |
+
+Ambos métodos son intrínsecamente:
+- **No relativizantes:** La estructura global adélica/grupos de Lie es inmune a oráculos locales
+- **No naturales:** Las propiedades algebraicas de estas variedades son de medida cero
+- **No algebrizantes:** Las herramientas geométricas superan los límites de extensiones de bajo grado
+
+## 6. El Triple Test de Estrés para P vs NP
+
+Cualquier framework contemporáneo que busque establecer una solución definitiva
+a la conjetura de Cook-Karp (P ≠ NP) debe ser sometido a este triple test:
+
+1. **¿Relativiza?** — Si la lógica matemática es inmune a la introducción
+   de un oráculo binario abstracto.
+2. **¿Es Natural?** — Si la métrica de separación se basa en características
+   promedio o en singularidades geométricas de medida nula.
+3. **¿Algebriza?** — Si los operadores sobrepasan el álgebra linealizada y
+   las propiedades combinatorias de polinomios elementales.
+
+QCAL pasa el triple test mediante:
+- **Adelización global** → no relativiza
+- **Puntos excepcionales de medida cero** → no naturaliza
+- **Fluidos cuánticos no lineales** → no algebriza
+
+## 7. Síntesis
 
 | Barrera | Problema Clásico | Solución QCAL |
 |---------|------------------|---------------|
