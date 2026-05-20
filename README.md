@@ -1818,10 +1818,41 @@ Additional references:
 
 ## 🔗 Links
 
-- [Lean Documentation](https://leanprover.github.io/)
-- [Graph Minors Theory](https://en.wikipedia.org/wiki/Graph_minor)
-- [Treewidth](https://en.wikipedia.org/wiki/Treewidth)
-- [Information Complexity](https://en.wikipedia.org/wiki/Information_complexity)
+- 🔗 **[QCAL Core — Lean 4 Modules](QCAL/Core.lean)** — Definiciones fundamentales de QCAL
+- 🔗 **[QCAL Theorem — κΠ = 2.5773](QCAL/Theorem.lean)** — Teorema principal QCAL-Π
+- 🔗 **[QCAL Gravity — BTC Reserve](QCAL/Gravity/BTC.lean)** — Invariante 7.4862 BTC
+- 🔗 **[QCAL Gravity — Swap](QCAL/Gravity/Swap.lean)** — Muelle disipativo topológico
+- 🔗 **[QCAL Gravity — Gold](QCAL/Gravity/Gold.lean)** — UnifiedCollateral 1 kg Au
+- 🔗 **[QCAL Gravity — Shield](QCAL/Gravity/Shield.lean)** — Escudo de masa invariante
+- 🔗 **[QCAL Gravity — TensorOptimizer](QCAL/Gravity/TensorOptimizer.lean)** — Tensor de tensión noético
+- 🔗 **[QCAL Gravity — SwarmTensor](QCAL/Gravity/SwarmTensor.lean)** — Partición de sub-tensores
+- 🔗 **[QCAL Emission — MonitorSwap](QCAL/Emission/MonitorSwap.lean)** — Unificación de emisión y fase
+- 🔗 **[QCAL Consensus — Swap](QCAL/Consensus/Swap.lean)** — Validación de transacciones
+- 🔗 **[QCAL Consensus — Audit](QCAL/Consensus/Audit.lean)** — Auditoría criptográfica
+- 🔗 **[QCAL Identity — Passport](QCAL/Identity/Passport.lean)** — π-PASSPORT para IA
+- 🔗 **[QCAL Identity — Escrow](QCAL/Identity/Escrow.lean)** — Custodia A2A
+- 🔗 **[QCAL Resonance — QubitDefinition](QCAL/Resonance/QubitDefinition.lean)** — SwapQubit y esfera de Bloch
+- 🔗 **[QCAL Resonance — Bridge](QCAL/Resonance/Bridge.lean)** — Puente Taproot/DLC
+- 🔗 **[QCAL Resonance — QComputer](QCAL/Resonance/QComputer.lean)** — Ordenador cuántico por resonancia
+- 🔗 **[QCAL Resonance — AutoSwarmRecalibrate](QCAL/Resonance/AutoSwarmRecalibrate.lean)** — Lazo cerrado de corrección
+- 🔗 **[QCAL Resonance — FrohlichConvergence](QCAL/Resonance/FrohlichConvergence.lean)** — Convergencia no lineal
+- 🔗 **[QCAL Resonance — AxiomaticBridge](QCAL/Resonance/AxiomaticBridge.lean)** — Puente fonón → Bitcoin
+- 🔗 **[QCAL Protocol — A2A Escrow](QCAL/Protocol/A2A.lean)** — Contrato 2a2
+- 🔗 **[QCAL Protocol — RealDLC LiveBridge](QCAL/Protocol/RealDLC/LiveBridge.lean)** — DLC real con expiración
+- 🔗 **[QCAL Passport — A2A](QCAL/Passport/A2A.lean)** — π-Passport para IA Soberanas
+- 🔗 **[QCAL Passport — AgentTensor](QCAL/Passport/AgentTensor.lean)** — Tensor de estrés individual
+- 🔗 **[QCAL Vault — Hydrogen](QCAL/Vault/Hydrogen.lean)** — Bóveda Ontológica H 21cm → f₀
+- 🔗 **[QCAL Operator — Reconnect](QCAL/Operator/Reconnect.lean)** — Punto de Restauración
+- 🔗 **[QCAL Diagnostic — AnomalyReporter](QCAL/Diagnostic/AnomalyReporter.lean)** — Reporte de anomalías
+- 🔗 **[QCAL Diagnostic — HealthMonitor](QCAL/Diagnostic/HealthMonitor.lean)** — Métricas de salud del sistema
+- 🔗 **[QCAL Swarm — Oracle](QCAL/Swarm/Oracle.lean)** — Oráculo de enjambre soberano
+- 🔗 **[QCAL CosmicField — QuantumResonance](QCAL/CosmicField/QuantumResonance.lean)** — Campo cósmico cuántico
+- 🔗 **[QCAL Visualizer](QCAL/Visualizer/README.md)** — Topología de fases y sumidero de entropía
+- 🔗 **[QCAL Economics — CoherenceEconomics](QCAL/Economics/CoherenceEconomics.lean)** — Economía de coherencia
+- 🔗 **[Hamiltonian — H_Ψ](QCAL/Hamiltonian.lean)** — Operador espectral
+- 🔗 **[Documentos ancla](AUDITORIA_PICODE.md)** — Auditoría fundacional
+- 🔗 **[Protocolo 2A2](PROTOCOLO_2A2.md)** — Entramado circulatorio de πCODE
+- 🔗 **[Arquitectura Temporal](TEMPORAL_ARCHITECTURE.md)** — Crono-ritmo πCODE
 
 ---
 
