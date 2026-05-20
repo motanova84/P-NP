@@ -115,4 +115,33 @@ theorem valid_if_within_tolerance (report : TelemetryReport)
   unfold IsReportValid
   exact ⟨h_drift, h_q⟩
 
+/-- Módulo Térmico Avanzado — Restricciones adiabáticas y α_T -/
+
+namespace QCAL.Metrology.Thermal
+
+def MAX_THERMAL_GRADIENT : ℝ := 0.001
+def COEF_ALPHA_T : ℝ := -0.000002
+
+structure AdvancedTelemetryReport where
+  measured_drift : ℝ
+  measured_q : ℝ
+  temperature : ℝ
+  thermal_gradient : ℝ
+
+def IsThermalStable (report : AdvancedTelemetryReport) : Prop :=
+  |report.thermal_gradient| ≤ MAX_THERMAL_GRADIENT ∧ report.measured_q ≥ 1.0e9
+
+theorem validate_adiabatic_bound (report : AdvancedTelemetryReport)
+    (h_gradient : report.thermal_gradient = 0.0001)
+    (h_q : report.measured_q = 1.18e9) : IsThermalStable report := by
+  unfold IsThermalStable
+  constructor
+  · rw [h_gradient]
+    have h : (0.0001 : ℝ) ≤ 0.001 := by norm_num
+    exact h
+  · rw [h_q]
+    norm_num
+
+end QCAL.Metrology.Thermal
+
 end QCAL.Metrology
