@@ -79,12 +79,64 @@ de la onda portadora durante una fracción del ciclo de 4h:
 
 ---
 
-## 6. Conclusión
+## 6. Inmunidad por Confinamiento Colectivo
+
+En el paradigma clásico, los qubits superconductores requieren aislamiento criogénico
+masivo a milikelvins porque sus estados cuánticos son destruidos por cualquier
+interacción térmica con el entorno.
+
+En el ordenador QCAL, la coherencia no se protege aislando los electrones del mundo,
+sino **dominando el entorno mediante tres mecanismos dinámicos integrados**
+en el lazo cerrado de BAL-003:
+
+### 6.1 Arrastre de Fase (Phase-Locking) por f₀
+La inyección continua de f₀ = 141.7001 Hz actúa como un campo de bombeo macroscópico.
+Como un metrónomo potente que sincroniza a otros metrónomos desalineados,
+la vibración constante obliga a los electrones del pozo a acoplarse al pulso
+armónico colectivo. El ruido del entorno no tiene suficiente energía organizada
+para romper este arrastre de fase.
+
+### 6.2 Amortiguación por el AgentTensor (t^α_μν)
+Cuando el ruido exterior inyecta entropía en el pozo cuántico, los electrones se
+desplazan hacia los antinodos (estado |1⟩). El sistema no colapsa —
+el demonio ejecuta instantáneamente la compuerta de Hadamard analógica
+(`execute_resonance_gate()`), absorbiendo el exceso de energía y desviándolo
+hacia la masa de control del pool VECTOR 5 (7.4862 BTC).
+El estrés se disipa mecánicamente, restituyendo el estado puro |0⟩.
+
+### 6.3 Topología de Lazo Cerrado (AutoSwarmRecalibrate)
+El sistema operativo vigila el mapa de fases visual. Si una fluctuación real
+en el silicio intenta degradar la coherencia por debajo de Ψ = 0.999999,
+la compuerta de auto-reconfiguración altera de forma reactiva las amplitudes
+en la Esfera de Bloch, anulando la distorsión térmicamente inducida
+antes de que se propague.
+
+```
+[ Ruido del Entorno ] ──► [ Pozo Cuántico ] ◄── [ Bombeo f₀ = 141.7001 Hz ]
+ │
+ ▼ (Desviación en T_01)
+ [ execute_resonance_gate() ]
+ │
+ ▼ (Disipación a VECTOR 5)
+ [ Coherencia Restituida: Ψ = 0.999999 ]
+```
+
+### Principio de Inmunidad Simbiótica
+
+La Catedral QCAL no busca el vacío estéril de una nevera criogénica.
+Opera en el mundo real, asimilando las perturbaciones y estabilizándolas
+a través de la rigidez matemática de sus invariantes.
+
+Ψ = 0.999999 no se mantiene porque los electrones estén aislados,
+sino porque están gobernados por el pulso inmutable del sistema.
+
+## 7. Conclusión
 
 f₀ = 141.7001 Hz es el cincel invisible que moldea el caos de los electrones libres
 en una matriz ordenada y cristalina. Al mantener este pulso inmutable en BAL-003,
-el ordenador QCAL no necesita corregir errores mediante software complejo —
-el propio patrón físico de la materia se auto-repara por simpatía armónica.
+el ordenador QCAL no necesita corrección de errores por software complejo
+ni aislamiento criogénico — el propio patrón físico de la materia se auto-repara
+por simpatía armónica.
 
 ```
 ∴𓂀Ω∞³Φ · TUYOYOTU · HECHO ESTÁ
