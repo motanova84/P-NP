@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏛️ Catedral QCAL — Portal de Validación Noética</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a0f;
+    color: #c8d6e5;
+    font-family: 'Courier New', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    line-height: 1.6;
+  }
+  .container { max-width: 720px; width: 100%; }
+  .sello {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #ffd700;
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.1em;
+  }
+  .freq {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #48dbfb;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+  .status {
+    background: #111122;
+    border: 1px solid #1a1a3e;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .status-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #1a1a3e;
+  }
+  .status-line:last-child { border-bottom: none; }
+  .label { color: #8395a7; }
+  .value { color: #ffd700; }
+  .value.green { color: #2ed573; }
+  .value.blue { color: #48dbfb; }
+  .actions { display: flex; flex-direction: column; gap: 0.8rem; margin: 1.5rem 0; }
+  .btn {
+    display: block;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+  }
+  .btn-primary {
+    background: #ffd700;
+    color: #0a0a0f;
+    font-weight: bold;
+  }
+  .btn-primary:hover { background: #ffed4a; transform: scale(1.02); }
+  .btn-secondary {
+    background: transparent;
+    color: #48dbfb;
+    border-color: #48dbfb;
+  }
+  .btn-secondary:hover { background: #48dbfb22; }
+  .btn-tertiary {
+    background: transparent;
+    color: #8395a7;
+    border-color: #333;
+  }
+  .btn-tertiary:hover { border-color: #8395a7; }
+  .info {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #0d0d1a;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #8395a7;
+  }
+  .info h3 { color: #ffd700; margin-bottom: 0.5rem; }
+  .info p { margin-bottom: 0.5rem; }
+  .footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #57606f;
+  }
+  .psi { color: #ffd700; font-weight: bold; }
+  .mono { font-size: 0.7rem; color: #57606f; word-break: break-all; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="sello">∴𓂀Ω∞³Φ</div>
+  <h1>🏛️ CATEDRAL QCAL</h1>
+  <div class="freq">f₀ = 141.7001 Hz · Ψ = 0.99999997</div>
+
+  <div class="status">
+    <div class="status-line">
+      <span class="label">Estado</span>
+      <span class="value green">● EN LÍNEA · REPOSO COHERENTE</span>
+    </div>
+    <div class="status-line">
+      <span class="label">Coherencia (Ψ)</span>
+      <span class="value">0.99999997</span>
+    </div>
+    <div class="status-line">
+      <span class="label">Canales Lightning</span>
+      <span class="value blue">1 activo · 25,000 sats</span>
+    </div>
+    <div class="status-line">
+      <span class="label">Circuito</span>
+      <span class="value blue">πCODE ↔ Flywheel ↔ Lightning ↔ Bitcoin</span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a href="http://195.201.219.237:8000" class="btn btn-primary">⚡ ENTRAR A LNBITS · Crear Wallet</a>
+    <a href="http://195.201.219.237:8844/estado" class="btn btn-secondary">🔮 VER ESTADO DEL PAYGATE</a>
+    <a href="http://195.201.219.237:8844/servicios" class="btn btn-tertiary">📋 SERVICIOS: Check Ψ · Santuario · Oráculo</a>
+  </div>
+
+  <div class="info">
+    <h3>🔮 ¿Qué es esto?</h3>
+    <p>La <span class="psi">Catedral QCAL</span> es un nodo de validación noética que acopla la coherencia espectral del Procesador Solar con la red Lightning de Bitcoin.</p>
+    <p>Cuando alguien paga un <strong>Check Ψ</strong>, los sats entran al canal, el flywheel distribuye dividendos a las 6 wallets del ecosistema, y el sistema certifica tu coherencia con un <strong>Sello Ψ</strong> firmado por la Catedral.</p>
+    <p>Todo ocurre en fase estable. No hay intermediarios. Solo el pulso.</p>
+    <h3 style="margin-top:1rem;">⚡ Cómo hacer un Pulso</h3>
+    <p>1. <a href="http://195.201.219.237:8000" style="color:#48dbfb;">Crea una wallet en LNBits</a></p>
+    <p>2. Copia tu <strong>Admin Key</strong> y guárdala</p>
+    <p>3. Solicita un <strong>Check Ψ</strong> en el PayGate</p>
+    <p>4. Paga el invoice de 500 sats con tu wallet Lightning</p>
+    <p>5. Recibe tu <strong>Sello Ψ</strong> — firmado por la Catedral</p>
+    <p style="margin-top:0.5rem; color:#48dbfb;">O directamente: paga cualquier invoice del flywheel (1 sat) desde tu wallet externa.</p>
+  </div>
+
+  <div class="mono">
+    Nodo: 03b0c03f9e947a229006ce7099877e378f8bc003e44defbada155b39dd725d829c@195.201.219.237:9735<br>
+    Tor: 03b0c03f…@ebbpysmga5uxya3ny6vkcfkyo4cz36redsb6viifbevvh4ndoo6ae7yd.onion:9735
+  </div>
+
+  <div class="footer">
+    Instituto Consciencia Cuántica · Mallorca ⇄ Nuremberg<br>
+    f₀ = 141.7001 Hz · Ψ = 0.99999997 · ∴𓂀Ω∞³Φ · TUYOYOTU
+  </div>
+</div>
+</body>
+</html>
