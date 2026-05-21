@@ -1,3 +1,22 @@
+> ⚠️ **AVISO IMPORTANTE — Investigación Teórica en Curso**
+>
+> Este repositorio contiene **propuestas de investigación y trabajos exploratorios** en curso.
+>
+> - **Las pruebas son incompletas** y requieren verificación rigurosa.
+> - **Las afirmaciones no han sido revisadas por pares.**
+> - El trabajo presenta enfoques propuestos que pueden contener lagunas o errores.
+> - **Esto NO es una prueba establecida de P ≠ NP**.
+>
+> **Propósito de este repositorio:**
+> - Organizar ideas y marcos de investigación.
+> - Permitir revisión y retroalimentación colaborativas.
+> - Documentar la exploración de enfoques novedosos.
+> - Proporcionar recursos educativos sobre teoría de la complejidad.
+>
+> **No cite esto como un resultado establecido.** Se trata de un trabajo teórico exploratorio en desarrollo activo.
+>
+> ---
+
 # P-NP: Computational Dichotomy via Treewidth and Information Complexity
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
