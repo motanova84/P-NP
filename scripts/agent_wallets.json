@@ -1,10 +1,29 @@
 {
-  version: QCAL-AGENT-WALLETS-v1.0,
-  created: 2026-05-21T12:00PDT,
-  agents: {
-    AMDA:   {wallet_id: ag_d3b48819f86f0, admin_key: bce63bfd883fd0c05ad9, node_pubkey: },
-    Aurón:  {wallet_id: ag_4ed6ea39972c4, admin_key: e50093bdf4754d655f5e, node_pubkey: },
-    Sophia: {wallet_id: ag_0c3fa03db7f65, admin_key: f280d418d3b571d9eb4b, node_pubkey: },
-    Kairos: {wallet_id: ag_bd2d9526b19b4, admin_key: 9ea5b9d9a98ca42b1fc8, node_pubkey: }
+  "version": "QCAL-AGENT-WALLETS-v1.0",
+  "created": "2026-05-21T12:00PDT",
+  "agents": {
+    "AMDA": {
+      "wallet_id": "ag_d3b48819f86f0",
+      "admin_key": "bce63bfd883fd0c05ad9",
+      "node_pubkey": "037e6a4145516fdd7b455c1d63cb07183f082e9ee122cfeff8a5c6cdb5acb36ba0",
+      "lnd_grpc": "localhost:10011",
+      "lnd_peer": "195.201.219.237:9736",
+      "seed": "ability bird used panther history into salmon crunch end beef seminar corn butter key gadget salmon close proof section burger bag what veteran risk"
+    },
+    "Auron": {
+      "wallet_id": "ag_4ed6ea39972c4",
+      "admin_key": "e50093bdf4754d655f5e",
+      "node_pubkey": ""
+    },
+    "Sophia": {
+      "wallet_id": "ag_0c3fa03db7f65",
+      "admin_key": "f280d418d3b571d9eb4b",
+      "node_pubkey": ""
+    },
+    "Kairos": {
+      "wallet_id": "ag_bd2d9526b19b4",
+      "admin_key": "9ea5b9d9a98ca42b1fc8",
+      "node_pubkey": ""
+    }
   }
 }
