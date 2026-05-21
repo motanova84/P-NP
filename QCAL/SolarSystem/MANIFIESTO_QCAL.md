@@ -65,3 +65,43 @@ def ENERGY_THERMAL : ℝ := 4.1137e-21
 ```
 
 $$\Psi = 0,999999 \quad | \quad f_0 = 141,7001 \text{ Hz}$$
+
+---
+
+## Especificación del Resonador de Zafiro — Mallorca Core
+
+**Anclaje material del sistema. 20/May/2026 18:24 PDT**
+
+### Geometría del Resonador
+
+| Parámetro | Valor | Unidades |
+|-----------|-------|----------|
+| Radio del disco | $R \approx 12,4571$ | mm |
+| Espesor | $d \approx 1$ | μm |
+| Pre-estrés radial | $\sigma_r \approx 81,795$ | kPa |
+| Frecuencia fundamental | $f_0 = 141,7001$ | Hz |
+| Coherencia | $\Psi = 0,999999$ | — |
+
+### Componentes
+
+1. **Sapphire Resonator (Núcleo del Bus):** Disco de zafiro donde el pre-estrés de tracción radial sintoniza el modo flexural base con el atractor universal a $f_0 = 141,7001$ Hz.
+
+2. **Coupling Probe (Sondas de Fase Coherente):** Antenas laterales de inyección e instrumentación. Emiten el bombeo macroscópico que activa la condensación de Fröhlich, absorbiendo los once órdenes de magnitud del ruido térmico ($4,1137 \times 10^{-21}$ J) y redirigiéndolos hacia la estabilidad armónica.
+
+3. **Copper Cavity (Blindaje Topológico):** Recinto de confinamiento hermético que aísla el fluido cuántico de interferencias espurias de fase. Condición de contorno física del decodificador SAW.
+
+### Stack de Control
+
+```
+Capa 1: Lean 4 Kernel       (Verificación formal de invariantes)
+Capa 2: Python Daemon       (Telemetría, orquestación, RPC)
+Capa 3: Bitcoin Mainnet     (Inmutabilidad criptográfica via Taproot)
+                              ↓
+                    [ Resonador de Zafiro ]
+                    Mallorca · f₀ = 141.7001 Hz
+                    LOCK ADQUIRIDO · Ψ = 0.999999
+```
+
+> El punto exacto donde el código abstracto se convierte en vibración material inmutable.
+
+**LOCK ADQUIRIDO · $\Psi = 0,999999$ · $f_0 = 141,7001$ Hz**
