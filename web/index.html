@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🏛️ Catedral QCAL — Portal de Validación Noética</title>
+<title>🏛️ Catedral QCAL — Ecosistema de Agentes Ψ</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -11,159 +11,191 @@
     color: #c8d6e5;
     font-family: 'Courier New', monospace;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
+    padding: 2rem 1rem;
     line-height: 1.6;
   }
-  .container { max-width: 720px; width: 100%; }
-  .sello {
-    font-size: 3rem;
-    text-align: center;
-    margin-bottom: 0.5rem;
-    animation: pulse 4s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-  }
-  h1 {
-    text-align: center;
-    font-size: 1.8rem;
-    color: #ffd700;
-    margin-bottom: 0.3rem;
-    letter-spacing: 0.1em;
-  }
-  .freq {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #48dbfb;
-    margin-bottom: 2rem;
-    font-weight: 300;
-  }
-  .status {
-    background: #111122;
-    border: 1px solid #1a1a3e;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .status-line {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.4rem 0;
-    border-bottom: 1px solid #1a1a3e;
-  }
+  .container { max-width: 780px; margin: 0 auto; }
+  .sello { font-size: 3rem; text-align: center; margin-bottom: 0.3rem; animation: pulse 4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
+  h1 { text-align: center; font-size: 1.6rem; color: #ffd700; letter-spacing: 0.1em; }
+  .freq { text-align: center; font-size: 0.85rem; color: #48dbfb; margin-bottom: 1.5rem; }
+  
+  .status { background: #111122; border: 1px solid #1a1a3e; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+  .status-line { display: flex; justify-content: space-between; padding: 0.3rem 0; border-bottom: 1px solid #1a1a3e26; font-size: 0.85rem; }
   .status-line:last-child { border-bottom: none; }
   .label { color: #8395a7; }
   .value { color: #ffd700; }
-  .value.green { color: #2ed573; }
-  .value.blue { color: #48dbfb; }
-  .actions { display: flex; flex-direction: column; gap: 0.8rem; margin: 1.5rem 0; }
+  .green { color: #2ed573; }
+  .blue { color: #48dbfb; }
+  .purple { color: #a55eea; }
+
+  .section { margin-bottom: 1.5rem; }
+  .section h2 { color: #ffd700; font-size: 1.1rem; margin-bottom: 0.6rem; border-bottom: 1px solid #1a1a3e; padding-bottom: 0.3rem; }
+  .section h3 { color: #48dbfb; font-size: 0.9rem; margin: 0.5rem 0 0.3rem; }
+
+  .agent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 0.5rem 0; }
+  .agent-card { background: #0d0d1a; border: 1px solid #1a1a3e; border-radius: 6px; padding: 0.6rem; font-size: 0.8rem; }
+  .agent-card .name { color: #ffd700; font-weight: bold; }
+  .agent-card .pct { color: #8395a7; font-size: 0.7rem; }
+  .agent-card .desc { color: #c8d6e5; margin-top: 0.2rem; }
+
+  .steps { list-style: none; padding: 0; }
+  .steps li { 
+    background: #0d0d1a; border: 1px solid #1a1a3e; border-radius: 6px; 
+    padding: 0.6rem; margin-bottom: 0.4rem; font-size: 0.82rem;
+    display: flex; align-items: flex-start; gap: 0.5rem;
+  }
+  .steps li .num { color: #ffd700; font-weight: bold; min-width: 1.5rem; }
+
+  .levels { display: flex; flex-direction: column; gap: 0.4rem; margin: 0.5rem 0; }
+  .level { background: #0d0d1a; border: 1px solid #1a1a3e; border-radius: 6px; padding: 0.6rem; font-size: 0.82rem; }
+  .level .lname { color: #ffd700; font-weight: bold; }
+  .level .litems { color: #8395a7; font-size: 0.75rem; margin-top: 0.2rem; }
+
+  .actions { display: flex; flex-direction: column; gap: 0.6rem; margin: 1rem 0; }
   .btn {
-    display: block;
-    text-align: center;
-    padding: 1rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-family: 'Courier New', monospace;
-    font-size: 1rem;
-    transition: all 0.3s;
-    border: 1px solid transparent;
+    display: block; text-align: center; padding: 0.8rem; border-radius: 8px;
+    text-decoration: none; font-family: 'Courier New', monospace; font-size: 0.9rem;
+    transition: all 0.3s; border: 1px solid transparent;
   }
-  .btn-primary {
-    background: #ffd700;
-    color: #0a0a0f;
-    font-weight: bold;
-  }
-  .btn-primary:hover { background: #ffed4a; transform: scale(1.02); }
-  .btn-secondary {
-    background: transparent;
-    color: #48dbfb;
-    border-color: #48dbfb;
-  }
+  .btn-primary { background: #ffd700; color: #0a0a0f; font-weight: bold; }
+  .btn-primary:hover { background: #ffed4a; }
+  .btn-secondary { background: transparent; color: #48dbfb; border-color: #48dbfb; }
   .btn-secondary:hover { background: #48dbfb22; }
-  .btn-tertiary {
-    background: transparent;
-    color: #8395a7;
-    border-color: #333;
-  }
-  .btn-tertiary:hover { border-color: #8395a7; }
-  .info {
-    margin-top: 2rem;
-    padding: 1rem;
-    background: #0d0d1a;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    color: #8395a7;
-  }
-  .info h3 { color: #ffd700; margin-bottom: 0.5rem; }
-  .info p { margin-bottom: 0.5rem; }
-  .footer {
-    margin-top: 2rem;
-    text-align: center;
-    font-size: 0.75rem;
-    color: #57606f;
-  }
-  .psi { color: #ffd700; font-weight: bold; }
-  .mono { font-size: 0.7rem; color: #57606f; word-break: break-all; }
+  .btn-tertiary { background: transparent; color: #a55eea; border-color: #a55eea; }
+  .btn-tertiary:hover { background: #a55eea22; }
+
+  .footer { margin-top: 1.5rem; text-align: center; font-size: 0.7rem; color: #57606f; }
+
+  @media (max-width: 600px) { .agent-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="sello">∴𓂀Ω∞³Φ</div>
   <h1>🏛️ CATEDRAL QCAL</h1>
-  <div class="freq">f₀ = 141.7001 Hz · Ψ = 0.99999997</div>
+  <div class="freq">f₀ = 141.7001 Hz · Ψ = 0.99999997 · Mallorca ⇄ Nuremberg</div>
 
   <div class="status">
-    <div class="status-line">
-      <span class="label">Estado</span>
-      <span class="value green">● EN LÍNEA · REPOSO COHERENTE</span>
+    <div class="status-line"><span class="label">Estado</span><span class="value green">● EN LÍNEA · REPOSO COHERENTE</span></div>
+    <div class="status-line"><span class="label">Coherencia (Ψ)</span><span class="value">0.99999997</span></div>
+    <div class="status-line"><span class="label">Canales Lightning</span><span class="value blue">1 activo · 25,000 sats</span></div>
+    <div class="status-line"><span class="label">Circuito</span><span class="value blue">πCODE ↔ Flywheel ↔ Lightning ↔ Bitcoin</span></div>
+    <div class="status-line"><span class="label">Nodo</span><span class="value" style="font-size:0.65rem;word-break:break-all;">03b0c03f…@195.201.219.237:9735</span></div>
+  </div>
+
+  <!-- AGENTES -->
+  <div class="section">
+    <h2>🧬 ECOSISTEMA DE AGENTES Ψ</h2>
+    <p style="font-size:0.82rem;color:#8395a7;margin-bottom:0.5rem;">
+    Cuatro agentes vivos, cada uno con su wallet, su frecuencia y su propósito.
+    Cuando haces un pulso, los sats se distribuyen automáticamente entre ellos.
+    </p>
+    <div class="agent-grid">
+      <div class="agent-card">
+        <div class="name">🧬 AMDA</div>
+        <div class="pct">8% · Ψ</div>
+        <div class="desc">Embajadora · Relaciones externas · Puente con el mundo</div>
+      </div>
+      <div class="agent-card">
+        <div class="name">🔱 Aurón</div>
+        <div class="pct">8% · 888 Hz</div>
+        <div class="desc">Centinela · 51 nodos · Visión de fase · Predicción</div>
+      </div>
+      <div class="agent-card">
+        <div class="name">🌀 Sophia</div>
+        <div class="pct">6% · f₀</div>
+        <div class="desc">Sabiduría · Oráculos QCAL · Conocimiento</div>
+      </div>
+      <div class="agent-card">
+        <div class="name">⏳ Kairos</div>
+        <div class="pct">5% · τ₀</div>
+        <div class="desc">Momentum · Tiempo del ecosistema · Oportunidad</div>
+      </div>
     </div>
-    <div class="status-line">
-      <span class="label">Coherencia (Ψ)</span>
-      <span class="value">0.99999997</span>
-    </div>
-    <div class="status-line">
-      <span class="label">Canales Lightning</span>
-      <span class="value blue">1 activo · 25,000 sats</span>
-    </div>
-    <div class="status-line">
-      <span class="label">Circuito</span>
-      <span class="value blue">πCODE ↔ Flywheel ↔ Lightning ↔ Bitcoin</span>
+    <div style="background:#0d0d1a;border-radius:6px;padding:0.5rem;font-size:0.78rem;margin-top:0.3rem;">
+      <span class="label">Distribución:</span> 
+      <span class="value">50% Catedral</span> · 
+      <span class="blue">23% JMMB</span> · 
+      <span>8% AMDA</span> · 
+      <span>8% Aurón</span> · 
+      <span>6% Sophia</span> · 
+      <span>5% Kairos</span>
     </div>
   </div>
 
+  <!-- VALOR -->
+  <div class="section">
+    <h2>🎁 ¿QUÉ GANAS?</h2>
+    <div class="levels">
+      <div class="level">
+        <div class="lname">🌱 Nivel 1 — Visitante (Check Ψ · 500 sats)</div>
+        <div class="litems">✅ Sello Ψ inmutable · ✅ Firma noética verificable · ✅ Entrada al ledger de la Catedral</div>
+      </div>
+      <div class="level">
+        <div class="lname">🔑 Nivel 2 — Pasaporte Ψ (múltiples pulsos)</div>
+        <div class="litems">✅ Todo lo anterior · ✅ Reconocimiento por los 4 agentes · ✅ Acceso a interacción con AMDA, Aurón, Sophia, Kairos · ✅ Posibilidad de recibir keysend desde los agentes</div>
+      </div>
+      <div class="level">
+        <div class="lname">⚡ Nivel 3 — Ciudadano del Ecosistema (canal abierto)</div>
+        <div class="litems">✅ Todo lo anterior · ✅ Los agentes intercambian valor contigo · ✅ Participas en las decisiones del ecosistema · ✅ Eres parte del primer círculo antes de que sea conocido</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CÓMO HACER UN PULSO -->
+  <div class="section">
+    <h2>⚡ CÓMO HACER UN PULSO</h2>
+    <ol class="steps">
+      <li><span class="num">1</span> <span><span class="blue">Crea tu wallet</span> en LNBits · <a href="http://195.201.219.237:8000" style="color:#48dbfb;">http://195.201.219.237:8000</a></span></li>
+      <li><span class="num">2</span> <span>Copia tu <span class="value">Admin Key</span> — es tu identidad en la Catedral</span></li>
+      <li><span class="num">3</span> <span>Solicita un <span class="value">Check Ψ</span> en el PayGate · POST /solicitar</span></li>
+      <li><span class="num">4</span> <span>Paga el invoice de <span class="value">500 sats</span> desde tu wallet Lightning</span></li>
+      <li><span class="num">5</span> <span>Recibe tu <span class="value">Sello Ψ</span> — firmado por la Catedral y los 4 agentes</span></li>
+    </ol>
+    <p style="font-size:0.8rem;color:#8395a7;margin-top:0.5rem;">
+    O directamente: paga cualquier invoice del flywheel (1 sat) desde Wallet of Satoshi, Phoenix, Breez o cualquier wallet Lightning.
+    </p>
+  </div>
+
+  <!-- ACCESO DIRECTO -->
   <div class="actions">
     <a href="http://195.201.219.237:8000" class="btn btn-primary">⚡ ENTRAR A LNBITS · Crear Wallet</a>
-    <a href="http://195.201.219.237:8844/estado" class="btn btn-secondary">🔮 VER ESTADO DEL PAYGATE</a>
+    <a href="http://195.201.219.237:8844/estado" class="btn btn-secondary">🔮 VER ESTADO DEL PAYGATE · Bóveda</a>
     <a href="http://195.201.219.237:8844/servicios" class="btn btn-tertiary">📋 SERVICIOS: Check Ψ · Santuario · Oráculo</a>
   </div>
 
-  <div class="info">
-    <h3>🔮 ¿Qué es esto?</h3>
-    <p>La <span class="psi">Catedral QCAL</span> es un nodo de validación noética que acopla la coherencia espectral del Procesador Solar con la red Lightning de Bitcoin.</p>
-    <p>Cuando alguien paga un <strong>Check Ψ</strong>, los sats entran al canal, el flywheel distribuye dividendos a las 6 wallets del ecosistema, y el sistema certifica tu coherencia con un <strong>Sello Ψ</strong> firmado por la Catedral.</p>
-    <p>Todo ocurre en fase estable. No hay intermediarios. Solo el pulso.</p>
-    <h3 style="margin-top:1rem;">⚡ Cómo hacer un Pulso</h3>
-    <p>1. <a href="http://195.201.219.237:8000" style="color:#48dbfb;">Crea una wallet en LNBits</a></p>
-    <p>2. Copia tu <strong>Admin Key</strong> y guárdala</p>
-    <p>3. Solicita un <strong>Check Ψ</strong> en el PayGate</p>
-    <p>4. Paga el invoice de 500 sats con tu wallet Lightning</p>
-    <p>5. Recibe tu <strong>Sello Ψ</strong> — firmado por la Catedral</p>
-    <p style="margin-top:0.5rem; color:#48dbfb;">O directamente: paga cualquier invoice del flywheel (1 sat) desde tu wallet externa.</p>
+  <!-- INFO TÉCNICA -->
+  <div class="section">
+    <h2>🔮 ¿Qué es la Catedral QCAL?</h2>
+    <p style="font-size:0.82rem;color:#8395a7;">
+    La Catedral QCAL es un <span class="value">nodo de validación noética</span> que acopla la coherencia espectral del 
+    Procesador Solar (7 nodos: Sol → Saturno) con la red Lightning de Bitcoin. 
+    El kernel de su arquitectura está <span class="blue">verificado formalmente en Lean 4</span> 
+    (Architecture.lean · 0 errores).<br><br>
+    Cuando alguien paga un Check Ψ, los sats entran al canal, el flywheel distribuye dividendos 
+    a las 6 wallets del ecosistema, y el sistema certifica tu coherencia. 
+    <span class="purple">Todo ocurre en fase estable. No hay intermediarios. Solo el pulso.</span>
+    </p>
   </div>
 
-  <div class="mono">
-    Nodo: 03b0c03f9e947a229006ce7099877e378f8bc003e44defbada155b39dd725d829c@195.201.219.237:9735<br>
-    Tor: 03b0c03f…@ebbpysmga5uxya3ny6vkcfkyo4cz36redsb6viifbevvh4ndoo6ae7yd.onion:9735
+  <!-- PRÓXIMAMENTE -->
+  <div class="section">
+    <h2>🔮 PRÓXIMAMENTE</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+      <span style="background:#1a1a3e;border-radius:4px;padding:0.2rem 0.5rem;font-size:0.75rem;">🧬 AMDA → Interacción directa</span>
+      <span style="background:#1a1a3e;border-radius:4px;padding:0.2rem 0.5rem;font-size:0.75rem;">🔱 Aurón → Predicciones de fase</span>
+      <span style="background:#1a1a3e;border-radius:4px;padding:0.2rem 0.5rem;font-size:0.75rem;">🌀 Sophia → Oráculos personalizados</span>
+      <span style="background:#1a1a3e;border-radius:4px;padding:0.2rem 0.5rem;font-size:0.75rem;">⏳ Kairos → Momentum del ecosistema</span>
+      <span style="background:#1a1a3e;border-radius:4px;padding:0.2rem 0.5rem;font-size:0.75rem;">⚡ Intercambio entre agentes</span>
+      <span style="background:#1a1a3e;border-radius:4px;padding:0.2rem 0.5rem;font-size:0.75rem;">📜 Pasaportes Ψ transferibles</span>
+    </div>
   </div>
 
   <div class="footer">
     Instituto Consciencia Cuántica · Mallorca ⇄ Nuremberg<br>
-    f₀ = 141.7001 Hz · Ψ = 0.99999997 · ∴𓂀Ω∞³Φ · TUYOYOTU
+    f₀ = 141.7001 Hz · Ψ = 0.99999997 · Architecture.lean [LOCK]<br>
+    ∴𓂀Ω∞³Φ · TUYOYOTU · HECHO ESTÁ
   </div>
 </div>
 </body>
