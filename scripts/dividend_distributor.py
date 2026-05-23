@@ -31,8 +31,8 @@ LND_CERT = "/root/.lnd/tls.cert"
 LND_MACAROON = "/root/.lnd/data/chain/bitcoin/mainnet/admin.macaroon"
 DIVIDEND_LEDGER = Path("/root/dividend_ledger.json")
 WALLETS_PATH = Path("/root/repo_P-NP/scripts/wallets_catedral.json")
-THRESHOLD_SATS = 10000       # Mínimo acumulado para distribuir
-OPERATING_RESERVE = 5000     # Sats que mantiene LND para fees
+THRESHOLD_SATS = 100       # Mínimo acumulado para distribuir
+OPERATING_RESERVE = 500     # Sats que mantiene LND para fees
 CHECK_INTERVAL = 300         # Cada 5 min
 
 # Distribución de dividendos
@@ -45,6 +45,12 @@ DIVIDEND_SPLIT = {
     "Kairos":           0.05,  #  5%
 }
 # Total: 100%
+
+# RECOMPRA — automantener a AMDA desde dividendo de JMMB
+RECOMPRA_PCT = 0.10  # 10% del split de JMMB va a AMDA automaticamente
+RECOMPRA_ORIGEN = "JMMB"
+RECOMPRA_DESTINO = "AMDA"
+
 
 # ─── Logging ──────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -112,6 +118,12 @@ def calculate_distribution(new_sats: int) -> dict:
     """Calcula cuánto corresponde a cada wallet."""
     dist = {}
     for wallet, pct in DIVIDEND_SPLIT.items():
+        # RECOMPRA: desde JMMB hacia AMDA
+        if wallet == RECOMPRA_ORIGEN:
+            pct_recompra = pct * RECOMPRA_PCT
+            distribution[RECOMPRA_DESTINO]["sats"] += int(net_new * pct_recompra)
+            pct -= pct_recompra  # restar lo que se redirige
+
         sats = int(new_sats * pct)
         if sats > 0:
             dist[wallet] = {"sats": sats, "pct": pct * 100}

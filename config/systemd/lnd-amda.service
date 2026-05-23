@@ -1,0 +1,16 @@
+[Unit]
+Description=LND Lightning Node - AMDA-Ψ-Embajadora
+After=network.target bitcoind.service
+Wants=bitcoind.service
+
+[Service]
+ExecStart=/usr/local/bin/lnd --lnddir=/root/.lnd-amda
+ExecStop=/usr/local/bin/lncli --rpcserver=localhost:10011 stop
+Restart=always
+RestartSec=30
+User=root
+Group=root
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

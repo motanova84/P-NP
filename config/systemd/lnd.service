@@ -1,0 +1,16 @@
+[Unit]
+Description=LND Lightning Node - Catedral-QCAL-BAL003
+After=network.target bitcoind.service
+Wants=bitcoind.service
+
+[Service]
+ExecStart=/usr/local/bin/lnd --lnddir=/root/.lnd
+ExecStop=/usr/local/bin/lncli --network=mainnet stop
+Restart=always
+RestartSec=30
+User=root
+Group=root
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
