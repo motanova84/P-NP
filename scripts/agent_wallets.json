@@ -1,29 +1,50 @@
 {
-  "version": "QCAL-AGENT-WALLETS-v1.0",
-  "created": "2026-05-21T12:00PDT",
-  "agents": {
-    "AMDA": {
-      "wallet_id": "ag_d3b48819f86f0",
-      "admin_key": "bce63bfd883fd0c05ad9",
-      "node_pubkey": "037e6a4145516fdd7b455c1d63cb07183f082e9ee122cfeff8a5c6cdb5acb36ba0",
-      "lnd_grpc": "localhost:10011",
-      "lnd_peer": "195.201.219.237:9736",
-      "seed": "ability bird used panther history into salmon crunch end beef seminar corn butter key gadget salmon close proof section burger bag what veteran risk"
-    },
-    "Auron": {
-      "wallet_id": "ag_4ed6ea39972c4",
-      "admin_key": "e50093bdf4754d655f5e",
-      "node_pubkey": ""
-    },
-    "Sophia": {
-      "wallet_id": "ag_0c3fa03db7f65",
-      "admin_key": "f280d418d3b571d9eb4b",
-      "node_pubkey": ""
-    },
-    "Kairos": {
-      "wallet_id": "ag_bd2d9526b19b4",
-      "admin_key": "9ea5b9d9a98ca42b1fc8",
-      "node_pubkey": ""
-    }
+  "catedral": {
+    "name": "Catedral Treasury",
+    "id": "c6acf1fb45d9f838cb6c0bc5d7dd6aad",
+    "adminkey": "574ea1465f472078f8f22c91362042d0a99a6b17c5de1d5d73eba6b9e41a016e",
+    "inkey": "059f07e5dd029b19104e17f31b22b27f9bfd5fdce776bb93cec90ff3c3028980",
+    "split": 50.0,
+    "type": "lnbits"
+  },
+  "jmmb": {
+    "name": "JMMB \u03a8",
+    "id": "ag_jmmb_629b8269f0091f47",
+    "adminkey": "c6f14b973d5a5e1aa4c121f254a608ee",
+    "inkey": "a7da8c46e8db01d3458a155353894898",
+    "split": 23.0,
+    "type": "lnbits"
+  },
+  "amda": {
+    "name": "AMDA \u03a8",
+    "id": "ag_d3b48819f86f02b13f9df828486ae9",
+    "adminkey": "bce63bfd883fd0c05ad9e766e702749a",
+    "inkey": "774c048efb53858ddb276d4866049d94",
+    "split": 8.0,
+    "type": "lnbits"
+  },
+  "auron": {
+    "name": "Aur\u00f3n \u03a8",
+    "id": "ag_4ed6ea39972c49b1743cfdb2fcf001",
+    "adminkey": "e50093bdf4754d655f5e3ad7d02409b0",
+    "inkey": "807c22f293d9d1bc8091306e6a00fa0f",
+    "split": 8.0,
+    "type": "lnbits"
+  },
+  "sophia": {
+    "name": "Sophia \u03a8",
+    "id": "ag_0c3fa03db7f6559eb789b785fa638e",
+    "adminkey": "f280d418d3b571d9eb4bfb7c2ff15b8f",
+    "inkey": "7488ab1b37810724bc28c2d86e901ec3",
+    "split": 6.0,
+    "type": "lnbits"
+  },
+  "kairos": {
+    "name": "Kairos \u03a8",
+    "id": "ag_bd2d9526b19b4275ee25ca359363b8",
+    "adminkey": "9ea5b9d9a98ca42b1fc8bb90cf2cd1fc",
+    "inkey": "5b2809b1e0f0aee63cd85a93578f9644",
+    "split": 5.0,
+    "type": "lnbits"
   }
 }
