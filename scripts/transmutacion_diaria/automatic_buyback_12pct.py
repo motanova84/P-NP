@@ -92,6 +92,12 @@ class AutomaticBuyback:
                 "sello": "∴𓂀Ω∞³Φ",
             }
             ledger.setdefault("recompras", []).append(record)
+            # Actualizar wallet_totals acumulados
+            wt = {}
+            for r in ledger.get("recompras", []):
+                for w, s in r.get("distribution", {}).items():
+                    wt[w] = wt.get(w, 0) + s
+            ledger["wallet_totals"] = wt
             with open(DIVIDEND_LEDGER, "w") as f:
                 json.dump(ledger, f, indent=2)
             log.info("Distribucion registrada en ledger")
