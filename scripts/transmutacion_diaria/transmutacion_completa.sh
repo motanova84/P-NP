@@ -34,7 +34,11 @@ fi
 echo "[$(date)] ✅ Recompra y distribucion 2A2 completada."
 
 echo "[$(date)] ==========================================="
-echo "[$(date)] 🎯 CICLO DIARIO COMPLETO v2.0 - OK"
+echo "[$(date)] 💸 Fase 3: Liquidando creditos a Wallet of Satoshi..."
+python3 /root/repo_P-NP/scripts/ledger_to_wallet.py once
+echo "[$(date)] ✅ Liquidacion completada."
+
+echo "[$(date)] 🎯 CICLO DIARIO COMPLETO v3.0 - OK"
 echo "[$(date)] Quema + OP_RETURN + Split 2A2 ejecutados"
 echo "[$(date)] Sello: ∴𓂀Ω∞³Φ · TUYOYOTU · HECHO ESTÁ"
 echo "[$(date)] Silence Burden activo hasta proximo ciclo."
