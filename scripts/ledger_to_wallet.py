@@ -138,19 +138,19 @@ def liquidate_jmmb():
         log.info("No hay creditos pendientes para liquidar.")
         return {"liquidated": False, "reason": "no_credits"}
 
-    # 2. Verificar sats disponibles
-    total_liquid = get_total_liquid()
-    log.info("Liquidez disponible: %d sats (on-chain: %d + canal: %d)" %
-             (total_liquid, get_lnd_balance(), get_channel_local()))
+    # 2. Verificar sats on-chain disponibles (con buffer de seguridad)
+    MIN_BUFFER = 500  # sats que NUNCA se tocan en LND
+    onchain = get_lnd_balance()
+    canal = get_channel_local()
+    log.info("LND on-chain: %d sats | canal: %d sats" % (onchain, canal))
 
-    if total_liquid < MIN_LIQUIDATION:
-        log.info("Liquidez insuficiente para liquidar. Necesario: %d, disponible: %d" %
-                 (MIN_LIQUIDATION, total_liquid))
-        return {"liquidated": False, "reason": "low_liquidity",
-                "available": total_liquid, "needed": MIN_LIQUIDATION}
+    if onchain <= MIN_BUFFER:
+        log.info("LND on-chain en minimo (%d sats). Buffer de %d sats protegido." % (onchain, MIN_BUFFER))
+        return {"liquidated": False, "reason": "buffer_protected", "onchain": onchain}
 
-    # 3. Calcular monto a liquidar
-    to_liquidate = min(MAX_LIQUIDATION, jmmb_credits, total_liquid - 200)
+    # 3. Calcular monto a liquidar (nunca gastar el buffer)
+    disponible = onchain - MIN_BUFFER
+    to_liquidate = min(MAX_LIQUIDATION, jmmb_credits, disponible)
     if to_liquidate < MIN_LIQUIDATION:
         log.info("Monto calculado (%d) por debajo del minimo (%d)." %
                  (to_liquidate, MIN_LIQUIDATION))
