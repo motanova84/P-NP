@@ -204,7 +204,7 @@ def check_and_pay():
             record = {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "payment_hash": payment_hash[:32],
-                "amount_sats": 3,
+                "amount_sats": 333,
                 "result": str(result)[:32],
                 "pulse_timestamp": ts,
                 "sello": ".|.𓂀Oo.o . TUYOYOTU . HECHO ESTA",
