@@ -1,0 +1,6 @@
+d20a17bf6b2a88dd729eb94867bb45c55b3d27e3fee2bf788a0db7d6b8ccae08  tratado_qcal_v1.0.pdf
+---
+Anclado: 2026-05-26 14:58:23 UTC
+f0 = 141.7001 Hz
+Psi = 0.99999997
+Sello: ∴𓂀Ω∞³Φ
