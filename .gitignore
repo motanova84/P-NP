@@ -91,6 +91,11 @@ deploy/
 *~
 *.iml
 
+# ---------- ENVIRONMENT ----------
+.env
+.env.*
+!.env.example
+
 # ---------- OS ----------
 .DS_Store
 Thumbs.db
@@ -140,3 +145,6 @@ echo_qcal_config/
 
 # QCAL Symbiosis generated files (created by link_ecosystem.py)
 .qcal_symbiosis.md
+
+# coinqcal (canonical at workspace root)
+coinqcal/
