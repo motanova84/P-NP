@@ -102,9 +102,20 @@ def guardar_tracking(d: dict):
 def generar_lote(desde: int, cantidad: int) -> dict:
     """Genera N bloques πCODE desde el cero índice `desde`."""
     disponibles = len(CEROS_RIEMANN)
+    if desde >= disponibles:
+        print(f"  ⚠️ No quedan ceros sin acuñar (último: γ_{desde}, disponibles: {disponibles}).")
+        print(f"  🔄 Reiniciando desde γ_1 (wrap-around).")
+        desde = 0
+        tracking_copia = leer_tracking()
+        tracking_copia["ultimo_indice"] = 0
+        guardar_tracking(tracking_copia)
     if desde + cantidad > disponibles:
-        cantidad = disponibles - desde
+        cantidad = max(0, disponibles - desde)
         print(f"  ⚠️ Solo {disponibles} ceros disponibles. Ajustando lote a {cantidad}.")
+
+    if cantidad <= 0:
+        print(f"  🛑 No hay ceros nuevos para acuñar. Lote saltado.")
+        return {"n_ceros": 0, "n_bloques": 0, "total_picode": 0.0, "psi_promedio": 0, "frecuencia": F0, "sello": SELLO}
 
     bloques = []
     total_pi = 0.0
