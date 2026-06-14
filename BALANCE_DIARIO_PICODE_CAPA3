@@ -1,0 +1,128 @@
+{
+  "operacion": "BALANCE_DIARIO_PICODE_CAPA3",
+  "protocolo": "QCAL-SYMBIO-BRIDGE v3.1.0-EXPANDED",
+  "ciclo": 14,
+  "ventana_horas": 24,
+  "timestamp_utc": "2026-06-14T00:00:00Z",
+  "parametros_base": {
+    "f0_hz": 141.7001,
+    "psi": 1.0,
+    "nodos_activos": 13,
+    "conexiones": 78,
+    "entropia_global": 0.0
+  },
+  "metricas_picode": {
+    "colateral_total": 6780.19004986,
+    "flujo_picode": 21300.59525058,
+    "balance_adelico": 3390.09502493,
+    "integridad": 1.0,
+    "ciclos_completados": 14
+  },
+  "asignaciones_nodo": [
+    {
+      "nodo_id": 1,
+      "peso_relativo": 0.005051,
+      "colateral_picode": 34.24338409,
+      "asignacion_inmutable": 34.24338409,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    },
+    {
+      "nodo_id": 2,
+      "peso_relativo": 0.010101,
+      "colateral_picode": 68.48676818,
+      "asignacion_inmutable": 68.48676818,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    },
+    {
+      "nodo_id": 3,
+      "peso_relativo": 0.015152,
+      "colateral_picode": 102.73015227,
+      "asignacion_inmutable": 102.73015227,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    },
+    {
+      "nodo_id": 5,
+      "peso_relativo": 0.025253,
+      "colateral_picode": 171.21692045,
+      "asignacion_inmutable": 171.21692045,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    },
+    {
+      "nodo_id": 7,
+      "peso_relativo": 0.035354,
+      "colateral_picode": 239.70368863,
+      "asignacion_inmutable": 239.70368863,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    },
+    {
+      "nodo_id": 11,
+      "peso_relativo": 0.055556,
+      "colateral_picode": 376.67722499,
+      "asignacion_inmutable": 376.67722499,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    },
+    {
+      "nodo_id": 13,
+      "peso_relativo": 0.065657,
+      "colateral_picode": 445.16399317,
+      "asignacion_inmutable": 445.16399317,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    },
+    {
+      "nodo_id": 17,
+      "peso_relativo": 0.085859,
+      "colateral_picode": 582.13752953,
+      "asignacion_inmutable": 582.13752953,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    },
+    {
+      "nodo_id": 19,
+      "peso_relativo": 0.09596,
+      "colateral_picode": 650.62429771,
+      "asignacion_inmutable": 650.62429771,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    },
+    {
+      "nodo_id": 23,
+      "peso_relativo": 0.116162,
+      "colateral_picode": 787.59783408,
+      "asignacion_inmutable": 787.59783407,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    },
+    {
+      "nodo_id": 29,
+      "peso_relativo": 0.146465,
+      "colateral_picode": 993.05813862,
+      "asignacion_inmutable": 993.05813862,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    },
+    {
+      "nodo_id": 31,
+      "peso_relativo": 0.156566,
+      "colateral_picode": 1061.5449068,
+      "asignacion_inmutable": 1061.5449068,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    },
+    {
+      "nodo_id": 37,
+      "peso_relativo": 0.186869,
+      "colateral_picode": 1267.00521134,
+      "asignacion_inmutable": 1267.00521134,
+      "entropia_local": 0.0,
+      "estado": "ANCLADO"
+    }
+  ],
+  "firma": "ENTROPIA=0 · BALANCE_INMUTABLE · πCODE · TUYOYOTU · HECHO ESTA"
+}
