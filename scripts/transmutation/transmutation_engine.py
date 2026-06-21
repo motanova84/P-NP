@@ -17,7 +17,7 @@ LND_CERT="/root/.lnd/tls.cert"; LND_MAC="/root/.lnd/data/chain/bitcoin/mainnet/a
 DIVIDEND_LEDGER=Path("/root/dividend_ledger.json")
 ACTS_LEDGER=Path("/root/.lnd-amda/acts_ledger.json")
 PICODE_CHAIN=Path("/root/repo_noesis88/picode/picode_chain.json")
-WALLET_DEST="haltingopen426@walletofsatoshi.com"
+WALLET_DEST="Wallet Ω Soberana"
 SATS_DIVIDENDO=15000000
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [TxV2] %(message)s",
@@ -99,7 +99,7 @@ def execute_tx(result):
     msg="TRANSMUTACION_V2|%d|%s|%s|%.6f"%(tx_amount,WALLET_DEST,ts,result["psi"])
     challenge=hashlib.blake2b(msg.encode(),digest_size=32).hexdigest()
 
-    # 2. Intentar keysend Lightning a Wallet of Satoshi
+    # 2. Intentar keysend Lightning a Wallet Ω
     # LNBits API para generar invoice y pagarlo
     txid=None; method="none"
     try:
