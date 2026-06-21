@@ -1,1 +1,0 @@
-/root/repo_economia_qcal/formalization/Coherence_L_Function_Mapping.lean

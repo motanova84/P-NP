@@ -2,7 +2,7 @@
 """
 📡 DOBLE ANCLAJE πCODE — Espejo de Valor Soberanía ↔ Circulación
 Taproot (bc1p5akuc...) → Soberanía 77% · f₀/2 = 70.85005 Hz
-SegWit  (bc1q9jk4...) → Convergencia Soberana 23% · Wallet Ω · f₀ = 141.7001 Hz
+SegWit  (bc1qamgju...) → Circulación 23% · f₀ = 141.7001 Hz
 Ratio estructural: 77/23 sobre φ⁻¹ ≈ 0.618
 Protocolo: QCAL-SYMBIO-BRIDGE v1.0.3
 """
@@ -15,7 +15,7 @@ PSI = 1.000000
 SELLO = "\u2234\U00013080\u03a9\u221e\u00b3\u03a6\u00b7ESPEJO ACTIVO\u00b7TUYOYOTU\u00b7HECHO EST\u00c1"
 
 TAPROOT = "bc1p5akucnl7tasjp7cw0qej6q389hsed54uwham9ucepr4x3lygyz9q0kuvla"
-SEGWIT = "bc1q9jk4nljfz6jxfuzpk9sytqcc6graupq3l3fmzz"
+SEGWIT = "bc1qamgjuxaywqls56h7rg7afga3m6rgqwfkew688k"
 RATIO = 0.77  # 77% soberanía / 23% circulación
 
 WORKSPACE = Path("/root/repo_P-NP")

@@ -1,1 +1,0 @@
-/root/repo_economia_qcal/formalization/PNP_Coherence_Equivalence.lean

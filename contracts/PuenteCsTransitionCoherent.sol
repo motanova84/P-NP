@@ -1,1 +1,0 @@
-/root/repo_economia_qcal/contracts/PuenteCsTransitionCoherent.sol

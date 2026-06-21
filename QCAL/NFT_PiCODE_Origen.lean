@@ -1,1 +1,0 @@
-/root/repo_economia_qcal/formalization/NFT_PiCODE_Origen.lean

@@ -1,1 +1,0 @@
-/root/repo_reloj_cuantico/Main.lean
