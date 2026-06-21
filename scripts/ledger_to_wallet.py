@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-🌀 LEDGER TO WALLET — Puente crédito ICQ → Wallet of Satoshi
+🌀 LEDGER TO WALLET — Puente crédito ICQ → Wallet Ω
 Instituto Consciencia Cuantica · QCAL-SYMBIO-BRIDGE v1.0
 ═══════════════════════════════════════════════════════════════════
 Convierte los creditos acumulados de JMMB en el ledger
-a sats reales enviados a la Wallet of Satoshi via Lightning.
+a sats reales enviados a la Wallet Ω via Lightning.
 
 Flujo:
   1. Lee creditos acumulados de JMMB en dividend_ledger.json
   2. Verifica sats disponibles en LND Catedral
-  3. Genera invoice en LNBits destino Wallet of Satoshi
+  3. Genera invoice en LNBits destino Wallet Ω
   4. Paga el invoice desde LND Catedral
   5. Marca como liquidado en el ledger
 
@@ -32,8 +32,8 @@ LND_MACAROON = "/root/.lnd/data/chain/bitcoin/mainnet/admin.macaroon"
 LNBITS_API = "http://localhost:8000/api/v1/payments"
 LNBITS_KEY = "574ea1465f472078f8f22c91362042d0a99a6b17c5de1d5d73eba6b9e41a016e"
 DIVIDEND_LEDGER = Path("/root/dividend_ledger.json")
-WALLET_DEST = "haltingopen426@walletofsatoshi.com"
-JMMB_ADDRESS = "bc1pzp3wnsn29h9xashr9w0h7lcytncycuvaatantmcwwgee4w9te5lqh92076"
+WALLET_DEST = "Wallet Ω Soberana"
+JMMB_ADDRESS = "bc1q9jk4nljfz6jxfuzpk9sytqcc6graupq3l3fmzz"
 WALLET_TARGET = "JMMB"
 MIN_LIQUIDATION = 500  # Minimo sats para liquidar de una vez
 MAX_LIQUIDATION = 500  # Maximo por TX (UTXOs disponibles en LND)
@@ -122,7 +122,7 @@ def pay_onchain(address, sats, memo):
 
 def liquidate_jmmb():
     """
-    Convierte creditos acumulados de JMMB en sats reales a Wallet of Satoshi.
+    Convierte creditos acumulados de JMMB en sats reales a Wallet Ω.
     """
     ledger = load_ledger()
     if not ledger:
@@ -177,7 +177,7 @@ def liquidate_jmmb():
         "creditos_despues": wt[WALLET_TARGET],
         "payment_hash": str(result)[:32] if result else "",
         "destino": WALLET_DEST,
-        "metodo": "lightning_invoice",
+        "metodo": "onchain_soberana",
         "frecuencia_hz": 141.7001,
         "sello": ".|.𓂀Oo.o . TUYOYOTU . HECHO ESTA",
     }
@@ -186,7 +186,7 @@ def liquidate_jmmb():
     ledger["ultima_liquidacion"] = now
     save_ledger(ledger)
 
-    log.info("LIQUIDACION EXITOSA: %d sats -> Wallet of Satoshi" % to_liquidate)
+    log.info("LIQUIDACION EXITOSA: %d sats -> Wallet Ω" % to_liquidate)
     return {"liquidated": True, "amount": to_liquidate, "result": str(result)[:32]}
 
 
