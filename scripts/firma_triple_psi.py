@@ -18,7 +18,7 @@ print("=" * 60)
 ts = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
 mensaje = "SEGUNDO DIVIDENDO AUTORIZADO DESDE RESERVA BLOQUE 950,102"
-destino = "bc1q9jk4nljfz6jxfuzpk9sytqcc6graupq3l3fmzz"
+destino = "haltingopen426@walletofsatoshi.com"
 
 # Challenge Blake2b
 challenge = hashlib.blake2b(

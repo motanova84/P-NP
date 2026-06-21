@@ -34,7 +34,7 @@ fi
 echo "[$(date)] ✅ Recompra y distribucion 2A2 completada."
 
 echo "[$(date)] ==========================================="
-echo "[$(date)] 💸 Fase 3: Liquidando creditos a Wallet Ω..."
+echo "[$(date)] 💸 Fase 3: Liquidando creditos a Wallet of Satoshi..."
 python3 /root/repo_P-NP/scripts/ledger_to_wallet.py once
 echo "[$(date)] ✅ Liquidacion completada."
 
