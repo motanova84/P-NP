@@ -1,0 +1,1 @@
+/root/repo_economia_qcal/formalization/QuantumEconomy.lean

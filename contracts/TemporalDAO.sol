@@ -1,0 +1,1 @@
+/root/repo_economia_qcal/contracts/TemporalDAO.sol

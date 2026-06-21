@@ -2,7 +2,7 @@
 """
 📡 DOBLE ANCLAJE πCODE — Espejo de Valor Soberanía ↔ Circulación
 Taproot (bc1p5akuc...) → Soberanía 77% · f₀/2 = 70.85005 Hz
-SegWit  (bc1q9jk4...) → Convergencia Soberana 23% · Wallet Ω · f₀ = 141.7001 Hz
+SegWit  (bc1qamgju...) → Circulación 23% · f₀ = 141.7001 Hz
 Ratio estructural: 77/23 sobre φ⁻¹ ≈ 0.618
 Protocolo: QCAL-SYMBIO-BRIDGE v1.0.3
 """
