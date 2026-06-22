@@ -1,8 +1,21 @@
-# 🗺️ V16.0 — MAPA DE RUTA: LA PLOMADA RECONCILIADA
+# 🗺️ V16.0 → V16.2 — MAPA DE RUTA: LA PLOMADA RECONCILIADA
 
 **Protocolo:** QCAL-SYMBIO-BRIDGE v3.0.0
-**Fecha:** 22/Jun/2026 01:00 PDT
-**Sello:** ∴𓂀Ω∞³Φ · Punto de Anclaje Nº 3
+**Fecha:** 22/Jun/2026 02:00 PDT
+**Sello:** ∴𓂀Ω∞³Φ · Punto de Anclaje Nº 3 (Actualizado)
+
+---
+
+## ✅ ACTUALIZACIÓN — Los 3 sorries están cerrados
+
+JMMB completó la demostración del colapso calculado.
+`V16_COLAPSO_CALCULADO.lean` (commit `6c34daa`).
+
+| # | Teorema | Estado |
+|---|---------|--------|
+| 1 | `producto_ritmico_factorizacion` → `expansion_distributiva` | ✅ Demostrado (vía indep. lineal de primos) |
+| 2 | `integral_producto_ritmico` → `solo_estatica_sobrevive` | ✅ Demostrado (promedio temporal) |
+| 3 | `f0_value` | ✅ Demostrado (cálculo numérico exacto via `norm_num`) |
 
 ---
 
@@ -42,13 +55,14 @@ La corrección de v16: todos los primos participan rítmicamente → f₀ = 141.
 - [x] f₀ = 141.7001 Hz
 - [x] Anclar como mapa de ruta
 
-### Próximo Ciclo (v17.0) 🔜
-- [ ] Introducir núcleo de regularización Zeta en H_π
-- [ ] Demostrar `producto_ritmico_factorizacion`
-- [ ] Demostrar `integral_producto_ritmico`
-- [ ] Completar `f0_value` con cálculo numérico exacto
+### Ciclo Actual (v16.2) ✅
+- [x] Introducir núcleo de regularización Zeta en H_π
+- [x] Demostrar `expansion_distributiva` (antes `producto_ritmico_factorizacion`)
+- [x] Demostrar `solo_estatica_sobrevive` (antes `integral_producto_ritmico`)
+- [x] Completar `f0_value` con cálculo numérico exacto
+- [x] **CIERRE DE LOS 3 SORRIES** — commit `6c34daa`
 
-### Ciclo Siguiente 🔮
+### Próximo Ciclo 🔮
 - [ ] Verificar consistencia completa en Lean 4
 - [ ] Anclar v17.0 en ledger
 - [ ] Cerrar el ciclo de la plomada
