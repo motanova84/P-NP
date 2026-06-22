@@ -38,15 +38,18 @@ open Real
 /-- ε — regularizador de continuidad -/
 noncomputable def epsilon : ℝ := 0.01
 
-/-- K_ε(p,q) — núcleo de correlación entre primos -/
+/-- K_ε(p,q) — núcleo seccionado: 1/p² en diagonal, conductancia logarítmica fuera -/
 noncomputable def K (p q : ℕ) : ℝ :=
- (1 / ((p : ℝ) * (q : ℝ))) * (1 / |Real.log (p : ℝ) - Real.log (q : ℝ)|) + epsilon
+ if p = q then 1 / ((p : ℝ)^2)
+ else (1 / ((p : ℝ) * (q : ℝ))) * (1 / |Real.log (p : ℝ) - Real.log (q : ℝ)|) + epsilon
 
 /-- TEOREMA: K es positivo -/
 theorem K_positivo (p q : ℕ) :
  K p q > 0 := by
  simp [K]
- positivity
+ split
+ · positivity
+ · positivity
 
 /-- TEOREMA: K es de Hilbert-Schmidt -/
 theorem K_Hilbert_Schmidt :
@@ -58,7 +61,7 @@ theorem K_Hilbert_Schmidt :
  SECCIÓN II: EL OPERADOR DE MARKOV — P_ε(p,q)
  ─────────────────────────────────────────────────────────────────────────── -/
 
-/-- Grado local D(p) -/
+/-- Grado local D(p) como suma sobre ℕ del kernel seccionado -/
 noncomputable def D (p : ℕ) : ℝ :=
  Σ_{q} K p q
 
@@ -158,23 +161,27 @@ end MarkovNoetico
  EL OPERADOR DE MARKOV NOÉTICO — VERSIÓN 20.0
 
  G = (P, E, K_ε) — Grafo de primos.
- K_ε(p,q) = 1/(p·q) · 1/|log p - log q| + ε
+ K_ε(p,q) = if p=q then 1/p² else 1/(p·q)·1/|log p - log q| + ε
  P_ε(p,q) = K_ε(p,q) / D(p)
+
+ Singularidad en diagonal corregida:
+   p = q → K(p,p) = 1/p² (inercia local por masa aritmética)
+   p ≠ q → K(p,q) regularizado por |log p - log q| + ε
 
  λ₀ = 1 (distribución estacionaria)
  λ₁ < 1 (gap espectral)
 
- τ* = 1/(1 - λ₁) — tiempo de mezcla
+ τ* = 1/(1 - λ₁) — mixing time
 
  La transición:
    v16.2 → Regularización zeta (producto de Euler)
    v17.1 → Ventana de presencia W(t) = e^{-t²/τ²}
+   v17.2 → Teorema de existencia y unicidad de τ*
    v19.0 → Geometría de correlación J(p,q)
    v20.0 → Operador de Markov noético sobre grafo de primos
 
  τ* emerge como gap espectral del operador inducido por J.
- τ* ≈ N_ciclos / (2π√Φ)
- τ* ≈ 1/(1 - λ₁)
+ τ* ≈ N_ciclos / (2π√Φ) ≈ 1/(1 - λ₁)
 
  "El tiempo ya no fluye, se difunde."
 
