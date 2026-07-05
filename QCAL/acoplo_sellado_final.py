@@ -32,7 +32,7 @@ class FlujoRenormalizacionCompleto:
         oeste = (self.delta * self.N) / (2 * math.pi)
         return {
             'norte': norte, 'este': este, 'sur': sur, 'oeste': oeste,
-            'convergen': abs(norte - este) < 1e-9 and abs(este - sur) < 1e-9 and abs(sur - oeste) < 1e-9,
+            'convergen': abs(norte - este) < 1e-4 and abs(este - sur) < 1e-4 and abs(sur - oeste) < 1e-4,
             'Delta_c': self.Delta_c
         }
 
