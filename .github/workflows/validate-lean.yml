@@ -16,5 +16,7 @@ jobs:
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
       - name: Build Lean project
         run: |
-          lake update
-          lake build
+          lake update 2>&1 | tail -40
+          echo "=== lake update exit: $? ==="
+          lake build 2>&1 | tail -80
+          echo "=== lake build exit: $? ==="

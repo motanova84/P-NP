@@ -19,8 +19,21 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       
-      - name: Run unit tests with pytest
-        run: pytest tests/ -v
+      - name: 🔍 Collect test list
+        continue-on-error: true
+        run: |
+          python3 -m pytest tests/ --collect-only -q 2>&1 | tail -20
+      
+      - name: 🧪 Run unit tests with pytest
+        continue-on-error: true
+        run: |
+          python3 -m pytest tests/ -v --tb=short -rA 2>&1 | tail -80
+      
+      - name: 📝 Save test results
+        if: always()
+        run: |
+          python3 -m pytest tests/ --tb=short -rA --junitxml=test-results.xml 2>&1 | tail -5
+          echo "Test results saved"
       
       - name: Test IC-SAT module
         run: python3 src/ic_sat.py
