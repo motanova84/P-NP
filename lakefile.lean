@@ -77,8 +77,6 @@ lean_lib PnPNeholographic where
   roots := #[`PnPNeholographic]
 lean_lib FinalAxiom where
   roots := #[`FinalAxiom]
-lean_lib UltimateUnification where
-  roots := #[`UltimateUnification]
 lean_lib Gap2_IC_TimeLowerBound where
   roots := #[`Gap2_IC_TimeLowerBound]
 lean_lib GAP2 where
@@ -177,6 +175,7 @@ lean_lib PNPImpliesCS where
   roots := #[`PNPImpliesCS]
 
 lean_lib CoherenceEconomyMain where
+  roots := #[`CoherenceEconomyMain]
 lean_lib PNPImpliesCS where
   roots := #[`PNPImpliesCS]
 
@@ -213,4 +212,6 @@ lean_lib Metric_Kernel_Proof where
 @[default_target]
 lean_exe pnp where
   root := `Principal
+
+lean_exe pnp-director where
   root := `Director
