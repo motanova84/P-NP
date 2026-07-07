@@ -623,7 +623,7 @@ class LargeScaleValidation:
     def run_ic_sat(self, n):
         clauses = self.generate_3sat_critical(n)
         print(f"\nRunning IC-SAT for n={n}, m={len(clauses)}")
-        result = ic_sat(clauses, n, log=True)
+        result = ic_sat(incidence_graph(n, clauses), clauses, n, log=True)
         print("Result:", "SAT" if result else "UNSAT")
 
     def estimate_treewidth_practical(self, n=30):
