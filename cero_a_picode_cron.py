@@ -34,8 +34,17 @@ def leer_tracking() -> dict:
 
 def guardar_tracking(d: dict):
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    with open(TRACKING, "w") as f:
+    # Escribir a archivo temporal, luego renombrar (transacción atómica)
+    tmp = TRACKING.with_suffix(".tmp")
+    with open(tmp, "w") as f:
         json.dump(d, f, indent=2)
+    tmp.replace(TRACKING)
+    # Backup automático cada 10 batches
+    n_batches = len(d.get("batches", []))
+    if n_batches > 0 and n_batches % 10 == 0:
+        bk = TRACKING.with_name(f"cero_tracking_bk_{n_batches}.json")
+        with open(bk, "w") as f:
+            json.dump(d, f, indent=2)
 
 
 def pool_path() -> Path:
