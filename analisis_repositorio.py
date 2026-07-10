@@ -71,19 +71,22 @@ class AnalisisRepositorio:
                 sorries=0,
                 notas=[
                     "Puente IC-treewidth: CONECTADO",
+                    "treewidth_ge_sep_card_sub_one: DEMOSTRADO (sInf + universal bags)",
                     "treewidth_and_IC_lower_bound_from_sep: DEMOSTRADO",
-                    "treewidth_ic_separation: separación estructural declarada",
-                    "Vincula TreewidthCombinatorial ↔ GraphInformationComplexity",
+                    "treewidth_and_IC_share_sep_bound: DEMOSTRADO",
+                    "treewidth_ic_separation: separación estructural declarada (B4 en progreso)",
                 ],
             ),
             EstadoModulo(
                 nombre="KappaPiDefinitionUnica.lean",
                 estado="⚠️ PARCIAL",
-                sorries=3,
+                sorries=1,
                 notas=[
                     "kappa_Pi definida canónicamente: ln(12)/ln(φ²)",
                     "phi_squared_property: DEMOSTRADO",
-                    "kappa_Pi_pos, kappa_Pi_gt_one, kappa_Pi_approx: sorry numérico",
+                    "kappa_Pi_pos: DEMOSTRADO (log_pos + phi_squared > 1)",
+                    "kappa_Pi_gt_one: DEMOSTRADO (log_lt_log + phi² < 12)",
+                    "kappa_Pi_approx: sorry — requiere aritmética de intervalos",
                 ],
             ),
             EstadoModulo(
