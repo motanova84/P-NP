@@ -71,8 +71,8 @@ class AnalisisRepositorio:
                 sorries=0,
                 notas=[
                     "Puente IC-treewidth: CONECTADO",
-                    "treewidth_ge_graphIC_div_two: DEMOSTRADO (instancia concreta)",
-                    "treewidth_ic_separation: separación formal declarada",
+                    "treewidth_and_IC_lower_bound_from_sep: DEMOSTRADO",
+                    "treewidth_ic_separation: separación estructural declarada",
                     "Vincula TreewidthCombinatorial ↔ GraphInformationComplexity",
                 ],
             ),
@@ -156,7 +156,7 @@ class AnalisisRepositorio:
             "B1": "✅ CERRADO — TreewidthCombinatorial.lean (0 sorries)",
             "B2": "⚠️ EN PROGRESO — Pendiente",
             "B3": "⚠️ EN PROGRESO — GraphInformationComplexity.lean (base)",
-            "B4": "✅ CERRADO (parcial) — TreewidthICBridge.lean conecta ambas teorías",
+            "B4": "⚠️ EN PROGRESO — TreewidthICBridge.lean conecta ambas teorías (separación declarada)",
             "B5": "⚠️ EN PROGRESO — KappaPiDefinitionUnica.lean (3 sorries numéricos)",
             "B6": "❌ PENDIENTE",
         }
