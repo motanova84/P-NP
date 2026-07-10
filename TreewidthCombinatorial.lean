@@ -36,6 +36,7 @@ import Mathlib.Data.Finset.Card
 import Mathlib.Data.Nat.Basic
 import Mathlib.Order.BoundedOrder
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
+import PathGraphAcyclic
 
 namespace TreewidthCombinatorial
 
@@ -161,10 +162,10 @@ private lemma path_graph_isTree : path_graph.IsTree := by
           exact (SimpleGraph.Walk.nil.cons hstep).reachable |>.trans ihk
       exact h0.trans (ihm.symm.trans (ihm.symm))
   · -- Acyclic: the path graph has no cycles
-    intro v c hc
-    -- A cycle in the path graph would require going backward then forward
-    -- This is a sorry: the formal proof requires walk analysis
-    sorry
+    -- Show path_graph = NatPath.natPathGraph, then apply proved theorem
+    have heq : path_graph = NatPath.natPathGraph := by ext i j; exact Iff.rfl
+    rw [heq]
+    exact NatPath.natPathGraph_isAcyclic
 
 /--
 **Trivial tree decomposition**: put all vertices in a single bag.

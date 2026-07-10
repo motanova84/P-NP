@@ -36,6 +36,9 @@ lean_lib SpectralExpansion where
 lean_lib CycleTreeDecomposition where
   roots := #[`CycleTreeDecomposition]
 
+lean_lib PathGraphAcyclic where
+  roots := #[`PathGraphAcyclic]
+
 lean_lib MainTheorem where
   roots := #[`PvsNP]
   globs := #[.submodules `formal]
