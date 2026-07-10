@@ -39,6 +39,12 @@ lean_lib CycleTreeDecomposition where
 lean_lib PathGraphAcyclic where
   roots := #[`PathGraphAcyclic]
 
+lean_lib TreewidthCombinatorial where
+  roots := #[`TreewidthCombinatorial]
+
+lean_lib TreewidthICBridge where
+  roots := #[`TreewidthICBridge]
+
 lean_lib MainTheorem where
   roots := #[`PvsNP]
   globs := #[.submodules `formal]
