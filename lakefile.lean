@@ -162,6 +162,12 @@ lean_lib RamanujanGraph where
 lean_lib KappaExpander where
   roots := #[`KappaExpander]
 
+lean_lib TreeDecompositionWalk where
+  roots := #[`TreeDecompositionWalk]
+
+lean_lib KappaPiAnalytic where
+  roots := #[`KappaPiAnalytic]
+
 lean_lib CompilationTests where
   roots := #[`CompilationTests]
 

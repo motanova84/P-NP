@@ -228,4 +228,28 @@ theorem natPathGraph_isAcyclic : natPathGraph.IsAcyclic := by
         exact hv_not_in_r (hu_val ▸ hu_r)
       · exact hz_ne_w (by omega)
 
+/--
+**Connectivity of the infinite path graph on ℕ**.
+
+Every pair of natural numbers is connected: go `u → u-1 → ... → 0 → 1 → ... → v`.
+-/
+theorem natPathGraph_connected : natPathGraph.Connected := by
+  intro u v
+  -- Key: every n is reachable from 0 by going 0 → 1 → ... → n
+  have key : ∀ n : ℕ, natPathGraph.Reachable 0 n := by
+    intro n
+    induction n with
+    | zero => exact Walk.nil.reachable
+    | succ k ih =>
+      -- Append one more step: k → k+1
+      -- natPathGraph.Adj k (k+1) holds by the left disjunct: k+1 = k+1
+      have hadj : natPathGraph.Adj k (k + 1) := Or.inl rfl
+      exact ih.trans (Walk.nil.cons hadj).reachable
+  -- Reachable u v: go 0 ←(sym) u, then 0 → v
+  exact (key u).symm.trans (key v)
+
+/-- The infinite path graph on ℕ is a tree (connected and acyclic). -/
+theorem natPathGraph_isTree : natPathGraph.IsTree :=
+  ⟨natPathGraph_connected, natPathGraph_isAcyclic⟩
+
 end NatPath
