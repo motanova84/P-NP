@@ -160,7 +160,7 @@ class AnalisisRepositorio:
             "B2": "⚠️ EN PROGRESO — Pendiente",
             "B3": "⚠️ EN PROGRESO — GraphInformationComplexity.lean (base)",
             "B4": "⚠️ EN PROGRESO — TreewidthICBridge.lean conecta ambas teorías (separación declarada)",
-            "B5": "⚠️ EN PROGRESO — KappaPiDefinitionUnica.lean (3 sorries numéricos)",
+            "B5": "⚠️ EN PROGRESO — KappaPiDefinitionUnica.lean (1 sorry: kappa_Pi_approx)",
             "B6": "❌ PENDIENTE",
         }
 

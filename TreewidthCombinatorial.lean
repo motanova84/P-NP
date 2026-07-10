@@ -213,15 +213,16 @@ theorem treewidth_pos_of_has_edge (G : SimpleGraph V) [DecidableRel G.Adj]
   apply Nat.le_csInf (decompWidth_set_nonempty G) hall
 
 /-!
-## Summary: What remains as `sorry` after this file
+## Summary: No `sorry` in this file
 
-1. `path_graph_isTree` (acyclicity half): proving the infinite path is acyclic
-   requires a formal walk-analysis argument (induction on walk length).
-   This is a **pure combinatorial** fact, provable in Mathlib using
-   `SimpleGraph.Walk` API, but requires substantial scaffolding.
+The acyclicity of the infinite path graph on ℕ is proved in `PathGraphAcyclic.lean`
+(`NatPath.natPathGraph_isAcyclic`, 0 sorries) and delegated here via `path_graph_isTree`.
 
-2. No other `sorry` in this file. The core argument
-   (`decompWidth_pos_of_has_edge` → `treewidth_pos_of_has_edge`) is complete.
+The complete proof chain:
+- `PathGraphAcyclic.natPathGraph_isAcyclic` → `path_graph_isTree`
+- `decompWidth_pos_of_has_edge` → `treewidth_pos_of_has_edge`
+
+All theorems in this file are sorry-free.
 -/
 
 end TreewidthCombinatorial
