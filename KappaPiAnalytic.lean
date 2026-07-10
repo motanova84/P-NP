@@ -78,8 +78,8 @@ theorem exp2_lt_13 : Real.exp 2 < 13 := by
 -/
 theorem e_lt_pi : Real.exp 1 < Real.pi := by
   have h_e_lt_3 : Real.exp 1 < 3 := lt_trans Real.exp_one_lt_d9 (by norm_num)
-  have h_3_lt_pi : (3 : ℝ) < Real.pi := lt_trans (by norm_num : (3 : ℝ) < 3.141592)
-                                          Real.pi_gt_3141592
+  -- Real.pi_gt_3141592 : 3.141592 < Real.pi, so 3 < Real.pi
+  have h_3_lt_pi : (3 : ℝ) < Real.pi := by linarith [Real.pi_gt_3141592]
   linarith
 
 /-! ## 4. Main theorem: κ_Π_analytic > 2 -/
