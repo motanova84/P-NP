@@ -99,20 +99,59 @@ notation "κ_Π" => KappaPi
 
 /-! ## Sección 4: Propiedades de κΠ -/
 
+-- Helper lemmas used in the proofs below
+
+/-- φ > 1: el número áureo es mayor que 1 -/
+private lemma phi_gt_one : 1 < phi := by
+  unfold phi
+  have h5pos : (0 : ℝ) < 5 := by norm_num
+  have hsqrt5_gt_one : (1 : ℝ) < Real.sqrt 5 := by
+    have : (1 : ℝ) = Real.sqrt 1 := (Real.sqrt_one).symm
+    rw [this]
+    exact Real.sqrt_lt_sqrt (by norm_num) (by norm_num)
+  linarith
+
+/-- φ² > 1: necesario para log(φ²) > 0 -/
+private lemma phi_squared_gt_one : 1 < phi_squared := by
+  have hphi : 1 < phi := phi_gt_one
+  have heq : phi_squared = phi + 1 := phi_squared_property
+  linarith
+
+/-- φ² < 12: necesario para log(φ²) < log(12) -/
+private lemma phi_squared_lt_twelve : phi_squared < 12 := by
+  have heq : phi_squared = phi + 1 := phi_squared_property
+  -- phi = (1 + sqrt 5)/2 < (1 + 3)/2 = 2  since sqrt 5 < 3
+  have hsqrt5_lt_3 : Real.sqrt 5 < 3 := by
+    have : (3 : ℝ) = Real.sqrt 9 := by
+      rw [show (9 : ℝ) = 3 ^ 2 from by norm_num]
+      exact (Real.sqrt_sq (by norm_num)).symm
+    rw [this]
+    exact Real.sqrt_lt_sqrt (by norm_num) (by norm_num)
+  have hphi_lt_2 : phi < 2 := by unfold phi; linarith
+  linarith
+
 /-- κΠ es positivo (necesario para el teorema de acoplamiento) -/
 theorem kappa_Pi_pos : kappa_Pi > 0 := by
-  unfold kappa_Pi N_critico phi_squared phi
-  sorry -- Numerical verification: ln(12)/ln(φ²) ≈ 2.581926 > 0
+  unfold kappa_Pi N_critico
+  apply div_pos
+  · -- log 12 > 0 porque 12 > 1
+    exact Real.log_pos (by norm_num)
+  · -- log φ² > 0 porque φ² > 1
+    exact Real.log_pos phi_squared_gt_one
 
 /-- κΠ es mayor que 1 (condición crítica para P ≠ NP) -/
 theorem kappa_Pi_gt_one : kappa_Pi > 1 := by
-  unfold kappa_Pi N_critico phi_squared phi
-  sorry -- Numerical verification: 2.581926 > 1
+  unfold kappa_Pi N_critico
+  rw [gt_iff_lt, lt_div_iff (Real.log_pos phi_squared_gt_one)]
+  -- Need: log(φ²) < log(12)
+  -- Equivalent to: φ² < 12 (since log is monotone on (0,∞))
+  apply Real.log_lt_log phi_squared_gt_one.le
+  exact phi_squared_lt_twelve
 
 /-- Valor aproximado: κΠ ≈ 2.581926 con precisión de 0.001 -/
 theorem kappa_Pi_approx : abs (kappa_Pi - 2.581926) < 0.001 := by
   unfold kappa_Pi N_critico phi_squared phi
-  sorry -- Numerical calculation verification
+  sorry -- Numerical calculation: requires interval arithmetic for Real.log
 
 /-! ## Sección 5: Teorema Central (Declaración) -/
 

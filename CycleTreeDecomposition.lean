@@ -9,6 +9,7 @@ Author: José Manuel Mota Burruezo & Implementation Team
 
 import GraphTheory
 import Treewidth
+import PathGraphAcyclic
 import Mathlib.Data.Finset.Basic
 import Mathlib.Combinatorics.SimpleGraph.Basic
 import Mathlib.Combinatorics.SimpleGraph.Connectivity
@@ -72,8 +73,9 @@ lemma tree_is_connected : treeStructure.Connected := by
   -- A path is connected by definition
 
 lemma tree_is_acyclic : treeStructure.IsAcyclic := by
-  sorry
-  -- A path has no cycles
+  have heq : treeStructure = PNP.localPathGraph n := by ext i j; exact Iff.rfl
+  rw [heq]
+  exact PNP.localPathGraph_isAcyclic n
 
 lemma tree_structure_is_tree : treeStructure.IsTree := by
   constructor

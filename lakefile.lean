@@ -36,6 +36,15 @@ lean_lib SpectralExpansion where
 lean_lib CycleTreeDecomposition where
   roots := #[`CycleTreeDecomposition]
 
+lean_lib PathGraphAcyclic where
+  roots := #[`PathGraphAcyclic]
+
+lean_lib TreewidthCombinatorial where
+  roots := #[`TreewidthCombinatorial]
+
+lean_lib TreewidthICBridge where
+  roots := #[`TreewidthICBridge]
+
 lean_lib MainTheorem where
   roots := #[`PvsNP]
   globs := #[.submodules `formal]
@@ -152,6 +161,12 @@ lean_lib RamanujanGraph where
 
 lean_lib KappaExpander where
   roots := #[`KappaExpander]
+
+lean_lib TreeDecompositionWalk where
+  roots := #[`TreeDecompositionWalk]
+
+lean_lib KappaPiAnalytic where
+  roots := #[`KappaPiAnalytic]
 
 lean_lib CompilationTests where
   roots := #[`CompilationTests]
