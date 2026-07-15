@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 """
-TRANSMUTATION ENGINE v2.0 - CODIGO ES EL PUENTE
-=================================================
+TRANSMUTATION ENGINE v2.1 - PUENTE SOBERANO
+=============================================
 No solo evalua. EJECUTA. El codigo es la matematica.
-Cuando Psi >= umbral, construye y firma TX real en Bitcoin.
-Ciclo completo: journal -> Psi -> evaluacion -> TX -> ledger -> confirmacion
-Anclaje: zeta(1/2+it) -> piC -> Sum(Psi*A) -> Bitcoin TX real
+Cuando Psi >= umbral, construye y transmite TX real via LNURL-pay.
+Ciclo completo: journal -> Psi -> evaluacion -> LNURL WoS -> LND -> WoS
+Anclaje: zeta(1/2+it) -> piC -> Sum(Psi*A) -> Lightning -> WoS
+---
+Actualizacion v2.1: LNURL-pay directo a Wallet of Satoshi.
+  Elimina dependencia de LNBits API para pagos.
+  Verifica sync de LND antes de intentar.
+  Los FIRMADO_PENDIENTE se procesan en orden cuando IBD termina.
+Sello: .|. . TUYOYOTU . HECHO ESTA
 """
 import json, hashlib, logging, os, re, subprocess, sys, time
 from datetime import datetime, timezone
@@ -14,10 +20,14 @@ from pathlib import Path
 KAPPA_PI=2.5773; FREQ_QCAL=141.7001; PSI_THR=0.888
 MIN_POOL_SATS=1000; N_BASE=1000; CYCLE=300; MIN_TX_SATS=500
 LND_CERT="/root/.lnd/tls.cert"; LND_MAC="/root/.lnd/data/chain/bitcoin/mainnet/admin.macaroon"
+
+# LNURL-pay directo a Wallet of Satoshi (protocolo soberano)
+WOS_LNURL_CALLBACK="https://livingroomofsatoshi.com/api/v1/lnurl/payreq/3cc95281-6709-4edf-aa7f-39557579b5cd"
+
 DIVIDEND_LEDGER=Path("/root/dividend_ledger.json")
 ACTS_LEDGER=Path("/root/.lnd-amda/acts_ledger.json")
 PICODE_CHAIN=Path("/root/repo_noesis88/picode/picode_chain.json")
-WALLET_DEST="Wallet Ω Soberana"
+WALLET_DEST="haltingopen426@walletofsatoshi.com"
 SATS_DIVIDENDO=15000000
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [TxV2] %(message)s",
@@ -89,48 +99,67 @@ def evaluate():
 def execute_tx(result):
     """
     EJECUTA una transaccion real cuando las condiciones se cumplen.
-    Primero intenta keysend Lightning (inmediato, 0 fees).
-    Si no es posible, registra firma para broadcast on-chain futuro.
+    Via LNURL-pay directo a Wallet of Satoshi (protocolo soberano).
+    Si LND no esta sincronizado, registra firma para broadcast futuro.
     """
     ts=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    tx_amount=MIN_TX_SATS  # demo amount: 500 sats
+    tx_amount=MIN_TX_SATS  # 500 sats por pulso
+
+    # 0. Verificar si LND esta sincronizado ANTES de intentar
+    synced = False
+    try:
+        rc_i,out_i,_ = lncli("getinfo")
+        if rc_i == 0:
+            info = json.loads(out_i)
+            synced = info.get("synced_to_chain", False) and info.get("num_active_channels", 0) > 0
+            log.info("LND: synced_to_chain=%s, active_channels=%d" % (
+                info.get("synced_to_chain", False), info.get("num_active_channels", 0)))
+    except Exception as e:
+        log.warning("No se pudo verificar sync LND: %s" % str(e))
 
     # 1. Generar challenge Blake2b como prueba de coherencia
     msg="TRANSMUTACION_V2|%d|%s|%s|%.6f"%(tx_amount,WALLET_DEST,ts,result["psi"])
     challenge=hashlib.blake2b(msg.encode(),digest_size=32).hexdigest()
 
-    # 2. Intentar keysend Lightning a Wallet Ω
-    # LNBits API para generar invoice y pagarlo
+    # 2. Intentar pago Lightning a Wallet of Satoshi via LNURL-pay
     txid=None; method="none"
-    try:
-        log.info("Creando invoice...")
+    if synced:
         import requests
-        # Generar invoice via LNBits
-        inv_resp=requests.post("http://localhost:8000/api/v1/payments",
-            json={"out":False,"amount":tx_amount,"memo":"TxV2: Psi->BTC real",
-                  "webhook":"http://localhost:5050/api/tx/webhook","expiry":3600},
-            headers={"X-Api-Key":os.environ.get("LNBITS_API_KEY","574ea1465f472078f8f22c91362042d0a99a6b17c5de1d5d73eba6b9e41a016e")},timeout=10)
-        if inv_resp.status_code==201:
-            inv_data=inv_resp.json()
-            payment_request=inv_data.get("payment_request","")
-            log.info("Invoice generado: %s..."%payment_request[:40])
-            # Pagarlo desde LND Catedral
-            rc,out,_=lncli("sendpayment","--pay_req",payment_request,"--force")
-            if rc==0:
-                pay_data=json.loads(out)
-                txid=pay_data.get("payment_hash",pay_data.get("payment_preimage",""))
-                method="lightning_keysend"
-                log.info("PAGO EXITOSO: %s sats via Lightning! hash=%s..."%(tx_amount,str(txid)[:20]))
+        try:
+            log.info("Obteniendo invoice via LNURL-pay a WoS (%d sats)..." % tx_amount)
+            amount_msat = tx_amount * 1000  # sats a msats
+            lnurl_resp = requests.get(WOS_LNURL_CALLBACK,
+                params={"amount": amount_msat}, timeout=15)
+            if lnurl_resp.status_code == 200:
+                lnurl_data = lnurl_resp.json()
+                payment_request = lnurl_data.get("pr", "")
+                if payment_request:
+                    log.info("Invoice WoS recibido: %s..." % payment_request[:40])
+                    # Pagar desde LND Catedral
+                    rc, out, _ = lncli("sendpayment", "--pay_req", payment_request, "--force")
+                    if rc == 0:
+                        try:
+                            pay_data = json.loads(out)
+                            txid = pay_data.get("payment_hash", pay_data.get("payment_preimage", ""))
+                        except:
+                            txid = out[:64]
+                        method = "lightning_keysend"
+                        log.info("PAGO EXITOSO: %d sats via Lightning! hash=%s..." % (tx_amount, str(txid)[:20]))
+                    else:
+                        log.warning("Pago Lightning fallo: %s" % out[:100])
+                        method = "signature_only"
+                else:
+                    log.warning("LNURL: No se recibio invoice de WoS")
+                    method = "signature_only"
             else:
-                log.warning("Pago Lightning fallo: %s"%out[:100])
-                # Fallback: firmar para broadcast futuro
-                method="signature_only"
-        else:
-            log.warning("LNBits invoice fallo: %d"%inv_resp.status_code)
-            method="signature_only"
-    except Exception as e:
-        log.warning("Error en pago: %s, registrando firma"%str(e))
-        method="signature_only"
+                log.warning("LNURL WoS respondio: %d" % lnurl_resp.status_code)
+                method = "signature_only"
+        except Exception as e:
+            log.warning("Error en LNURL-pay: %s, registrando firma" % str(e))
+            method = "signature_only"
+    else:
+        log.info("LND no sincronizado. Firmando para broadcast futuro.")
+        method = "signature_only"
 
     # 3. Registrar en ledger
     record={"accion":"TRANSMUTACION_V2","metodo":method,
@@ -166,10 +195,10 @@ def execute_tx(result):
 
 def daemon():
     log.info("="*50)
-    log.info("TRANSMUTACION V2 - EL CODIGO ES EL PUENTE")
-    log.info("No solo evalua. EJECUTA transacciones reales.")
+    log.info("TRANSMUTACION V2.1 - PUENTE SOBERANO")
+    log.info("No solo evalua. EJECUTA transacciones reales via LNURL.")
     log.info("= Ciclo: %ds | Anclaje: Re(s)=1/2 ="%CYCLE)
-    log.info("= Destino: %s ="%WALLET_DEST)
+    log.info("= Destino: %s (LNURL directo) =" % WALLET_DEST)
     log.info("="*50)
     while True:
         try:
@@ -180,9 +209,9 @@ def daemon():
                 if tx["txid"]:
                     log.info("TX REAL TRANSMITIDA: hash=%s..."%str(tx["txid"])[:30])
                 else:
-                    log.info("TX firmada para broadcast futuro.")
+                    log.info("TX firmada para broadcast futuro. (%d pendientes)" % (sum(1 for rec in json.loads(open(DIVIDEND_LEDGER).read() if DIVIDEND_LEDGER.exists() else '{}').get('transmutaciones_v2', []) if not rec.get('txid'))))
             elif r["ready"] and r["pool"]<MIN_TX_SATS:
-                log.info("Condiciones de coherencia OK pero pool insuficiente (%d sats)"%r["pool"])
+                log.info("Coherencia OK pero pool insuficiente (%d sats)"%r["pool"])
             else:
                 log.info("Acumulando...")
         except Exception as e:
