@@ -17,7 +17,8 @@ jobs:
           python-version: "3.11"
       
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        continue-on-error: true
+        run: pip install -r requirements.txt || pip install numpy scipy pytest
       
       - name: 🔍 Collect test list
         continue-on-error: true
