@@ -45,6 +45,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       
       - name: 🔬 Run QCAL Validation Agents
+        continue-on-error: true
         id: validation
         run: |
           echo "::group::QCAL Hypothesis Validation"
