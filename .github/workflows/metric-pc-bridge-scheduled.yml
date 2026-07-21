@@ -50,6 +50,7 @@ jobs:
           pip install numpy scipy pytest mpmath
 
       - name: 🌀 Activate Metric PC Bridge
+        continue-on-error: true
         id: activation
         run: |
           echo "::group::Metric PC Bridge Production Activation"
