@@ -265,7 +265,7 @@ def find_passport(client_id: str) -> dict | None:
 def register_passport(client_id: str) -> dict:
     reg = load_passport_registry()
     import uuid, hashlib
-    pid = f"PASSPORT-PSI-{str(len(reg['pasaportes']) + 1).zfill(3)}"
+    pid = "PASSPORT-PSI-" + str(len(reg.get("pasaportes", [])) + 1).zfill(3)
     passport = {
         "client_id": client_id,
         "passport_id": pid,
@@ -279,7 +279,7 @@ def register_passport(client_id: str) -> dict:
         "timestamp_registration": datetime.now(timezone.utc).isoformat(),
         "sello_verification": SELLO
     }
-    reg['pasaportes'].append(passport)
+    reg["pasaportes"].append(passport)
     save_passport_registry(reg)
     return passport
 

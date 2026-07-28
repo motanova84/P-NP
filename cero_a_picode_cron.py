@@ -17,11 +17,11 @@ Por cada lote de 100 ceros (cada 6h):
 τ_riemann = 4 · cuadrantes ⇔ Ψ = 0.999999
 """
 
-import sys, json, os, math, hashlib, time
+import sys, json, os, math, hashlib, time, mpmath
 from pathlib import Path
 from datetime import datetime, timezone
 
-WORKSPACE = Path.home() / ".openclaw" / "workspace"
+WORKSPACE = Path("/root")
 TRACKING = WORKSPACE / "picode_blocks" / "cero_tracking.json"
 OUTPUT = WORKSPACE / "picode_blocks"
 PNP = WORKSPACE / "repo_P-NP"
@@ -66,11 +66,11 @@ Por cada lote de 100 ceros (cada 6h):
 τ_riemann = 4 · cuadrantes ⇔ Ψ = 0.999999
 """
 
-import sys, json, os, math, hashlib, time
+import sys, json, os, math, hashlib, time, mpmath
 from pathlib import Path
 from datetime import datetime, timezone
 
-WORKSPACE = Path.home() / ".openclaw" / "workspace"
+WORKSPACE = Path("/root")
 TRACKING = WORKSPACE / "picode_blocks" / "cero_tracking.json"
 OUTPUT = WORKSPACE / "picode_blocks"
 PNP = WORKSPACE / "repo_P-NP"
@@ -95,23 +95,27 @@ def leer_tracking() -> dict:
 
 def guardar_tracking(d: dict):
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    with open(TRACKING, "w") as f:
+    tmp = TRACKING.with_suffix(".tmp")
+    with open(tmp, "w") as f:
         json.dump(d, f, indent=2)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, TRACKING)
 
 
 def generar_lote(desde: int, cantidad: int) -> dict:
     """Genera N bloques πCODE desde el cero índice `desde`."""
     disponibles = len(CEROS_RIEMANN)
-    if desde >= disponibles:
-        print(f"  ⚠️ No quedan ceros sin acuñar (último: γ_{desde}, disponibles: {disponibles}).")
-        print(f"  🔄 Reiniciando desde γ_1 (wrap-around).")
-        desde = 0
-        tracking_copia = leer_tracking()
-        tracking_copia["ultimo_indice"] = 0
-        guardar_tracking(tracking_copia)
     if desde + cantidad > disponibles:
-        cantidad = max(0, disponibles - desde)
-        print(f"  ⚠️ Solo {disponibles} ceros disponibles. Ajustando lote a {cantidad}.")
+        faltantes = desde + cantidad - disponibles
+        print(f"  \u26a0\ufe0f Pool insuficiente (disponibles: {disponibles}, necesarios: {desde+cantidad}).")
+        print(f"  \u2697\ufe0f Generando {faltantes} nuevos ceros v\u00eda mpmath.zetazero(i)...")
+        for i in range(disponibles + 1, desde + cantidad + 1):
+            gamma = float(mpmath.im(mpmath.zetazero(i)))
+            CEROS_RIEMANN.append(gamma)
+            with open(CEROS_PATH, "a") as fz:
+                fz.write(f"{gamma}\n")
+        print(f"  \u2705 Pool extendido a {len(CEROS_RIEMANN)} ceros. Nunca reciclados.")
 
     if cantidad <= 0:
         print(f"  🛑 No hay ceros nuevos para acuñar. Lote saltado.")
