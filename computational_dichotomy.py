@@ -321,29 +321,24 @@ class ComputationalDichotomy:
         import time
         start_time = time.time()
         
+        # Use the simple DPLL from ic_sat module
         try:
-            # Try to import from dpll_solver or ic_sat
-            try:
-                from dpll_solver import DPLLSolver
-                if isinstance(formula, CNF):
-                    # Convert to simple format
-                    clauses = [list(c) for c in formula.clauses]
-                    n = formula.num_variables()
-                else:
-                    clauses = formula.clauses
-                    n = getattr(formula, 'num_vars', len(formula.variables))
-                
-                solver = DPLLSolver({'num_vars': n, 'clauses': clauses})
-                result = solver.solve()
-                satisfiable = result is not None
-            except ImportError:
-                # Fallback: simple satisfiability heuristic
-                satisfiable = True
-            
+            from ic_sat import simple_dpll
+        except ImportError:
+            # Fallback to direct import from src
+            import sys
+            import os
+            sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+            from ic_sat import simple_dpll
+        
+        try:
+            result = simple_dpll(formula.clauses, formula.num_vars)
             time_taken = time.time() - start_time
+            
+            # Enforce minimum time to avoid division by zero
             time_taken = max(time_taken, 0.001)
             
-            return (time_taken, satisfiable)
+            return (time_taken, result == 'SAT')
         except Exception:
             return (timeout, False)
     
