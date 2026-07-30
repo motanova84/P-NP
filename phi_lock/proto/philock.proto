@@ -1,0 +1,20 @@
+syntax = "proto3";
+package philock;
+
+message PhasePulse {
+  uint32 node_id = 1;
+  double phase_rad = 2;
+  double omega_rad_s = 3;
+  uint64 timestamp_t0 = 4;
+  bytes signature = 5;
+}
+
+message PulseResponse {
+  bool accepted = 1;
+  double local_psi = 2;
+}
+
+service PhaseSyncService {
+  rpc SendPhasePulse (PhasePulse) returns (PulseResponse);
+  rpc StreamPhaseSync (stream PhasePulse) returns (stream PhasePulse);
+}

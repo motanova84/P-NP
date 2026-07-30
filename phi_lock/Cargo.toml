@@ -1,0 +1,12 @@
+[package]
+name = "phi-lock-p2p"
+version = "1.0.0"
+edition = "2021"
+description = "Φ-LOCK v1.0 — Byzantine Consensus by Phase Synchronization (P2P Network Layer)"
+authors = ["Director Atlas³ <qcal-research>"]
+license = "QCAL-Sovereign"
+
+[dependencies]
+num-complex = "0.4"
+rand = "0.8"
+tokio = { version = "1", features = ["full"] }
