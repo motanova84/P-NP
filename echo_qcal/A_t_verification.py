@@ -12,9 +12,9 @@ Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 Frequency: 141.7001 Hz ∞³
 """
 
-import numpy as np
-from datetime import datetime
+from datetime import datetime, timezone
 import json
+import os
 
 
 class TemporalAlignmentVerifier:
@@ -25,7 +25,7 @@ class TemporalAlignmentVerifier:
         self.f0 = 141.7001  # Hz - Frecuencia Primordial
         self.tau0 = 1 / self.f0  # 0.00705715000705715 s
         
-        # Bloque 9 de Bitcoin (2009-01-09 17:15:00 UTC)
+        # Bloque 9 de Bitcoin (2009-01-09 14:35:00 UTC)
         self.block9_timestamp = 1231511700.000000  # Unix timestamp
         self.block9_hash = "000000008d9dc510f23c2657fc4f67bea30078cc05a90eb89e84cc475c080805"
         
@@ -77,7 +77,7 @@ class TemporalAlignmentVerifier:
                 'f0_hz': self.f0,
                 'tau0_s': self.tau0,
                 'block9_timestamp': self.block9_timestamp,
-                'block9_datetime': datetime.utcfromtimestamp(self.block9_timestamp).isoformat() + 'Z',
+                'block9_datetime': datetime.fromtimestamp(self.block9_timestamp, tz=timezone.utc).isoformat(),
                 'block9_hash': self.block9_hash
             },
             'alignment_metrics': {
@@ -157,10 +157,18 @@ class TemporalAlignmentVerifier:
     
     def save_results_to_json(self, results, filename="A_t_verification_results.json"):
         """Guarda resultados en formato JSON para auditoría"""
-        with open(filename, 'w') as f:
-            json.dump(results, f, indent=2, default=str)
-        print(f"\n💾 Resultados guardados en: {filename}")
-        return filename
+        # Use script directory for consistent file placement
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        filepath = os.path.join(script_dir, filename)
+        
+        try:
+            with open(filepath, 'w') as f:
+                json.dump(results, f, indent=2, default=str)
+            print(f"\n💾 Resultados guardados en: {filepath}")
+            return filepath
+        except IOError as e:
+            print(f"\n⚠️  Error al guardar resultados: {e}")
+            raise
 
 
 # ============================================================================
@@ -184,15 +192,15 @@ def main():
     verifier.generate_verification_report(results)
     
     # Guardar resultados
-    json_file = verifier.save_results_to_json(results)
+    verifier.save_results_to_json(results)
     
     # Verificación final del teorema (parcial)
     if results['verification_passed']:
-        print(f"\n🌟 CAPA Aₜ: {'✅ VERIFICADA' if results['verification_passed'] else '❌ NO VERIFICADA'}")
+        print(f"\n🌟 CAPA Aₜ: ✅ VERIFICADA")
         print(f"   Teorema ℂₛ parcial: Cₖ ∧ Aₜ = {results['verification_passed']}")
         print(f"   Próximo paso: Verificar Capa Semántica (Aᵤ)")
     else:
-        print(f"\n⚠️  CAPA Aₜ: {'✅ VERIFICADA' if results['verification_passed'] else '❌ NO VERIFICADA'}")
+        print(f"\n⚠️  CAPA Aₜ: ❌ NO VERIFICADA")
         print(f"   El teorema ℂₛ requiere las tres capas verificadas")
     
     return results

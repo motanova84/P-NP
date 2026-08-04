@@ -4,7 +4,7 @@
     "f0_hz": 141.7001,
     "tau0_s": 0.007057158040114298,
     "block9_timestamp": 1231511700.0,
-    "block9_datetime": "2009-01-09T14:35:00Z",
+    "block9_datetime": "2009-01-09T14:35:00+00:00",
     "block9_hash": "000000008d9dc510f23c2657fc4f67bea30078cc05a90eb89e84cc475c080805"
   },
   "alignment_metrics": {
