@@ -12,7 +12,6 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Sequence, Tuple
 
 import numpy as np
-from scipy.linalg import expm
 
 
 Clause = Sequence[Tuple[int, bool]]
@@ -23,10 +22,10 @@ class QCALConfig:
     """Solver configuration."""
 
     f0: float = 141.7001
-    epsilon: float = 0.05
+    epsilon: float = 0.03
     dt: float = 0.1
-    steps: int = 50
-    phase_scale: float = 1e-4
+    steps: int = 35
+    phase_scale: float = 1e-5
 
 
 class QCAL3SATSolver:
@@ -76,17 +75,20 @@ class QCAL3SATSolver:
 
         psi = np.ones(dim, dtype=complex) / np.sqrt(dim)
 
-        times: List[float] = []
+        times: List[float] = [0.0]
         coherences: List[float] = []
         probabilities: List[np.ndarray] = []
 
         valid_mask = h_diag == 0
+        initial_probs = np.abs(psi) ** 2
+        probabilities.append(initial_probs.copy())
+        coherences.append(float(np.sum(initial_probs[valid_mask])) if np.any(valid_mask) else 0.0)
 
-        for step in range(self.config.steps):
+        for step in range(1, self.config.steps + 1):
             t = step * self.config.dt
-            phase = np.exp(1j * self.omega0 * step * self.config.phase_scale)
-            u = expm(-a_eps * self.config.dt * phase)
-            psi = u @ psi
+            phase = np.exp(-1j * self.omega0 * t * self.config.phase_scale)
+            d_psi = -(a_eps @ psi) * phase
+            psi = psi + d_psi * self.config.dt
             psi = psi / np.linalg.norm(psi)
 
             probs = np.abs(psi) ** 2
@@ -118,9 +120,13 @@ class QCAL3SATSolver:
 
     def spectrum_report(self, a_eps: np.ndarray, ground_state_count: int) -> Dict[str, Any]:
         """Compute sorted eigenvalues and effective excitation gap."""
-        eigenvalues = np.sort(np.real_if_close(np.linalg.eigvals(a_eps)).astype(float))
-        gap_idx = min(max(ground_state_count, 1), len(eigenvalues) - 1)
-        effective_gap = float(eigenvalues[gap_idx] - eigenvalues[ground_state_count - 1]) if ground_state_count > 0 else 0.0
+        if not np.allclose(a_eps, a_eps.T, atol=1e-12):
+            raise ValueError("a_eps must be symmetric to compute a Hermitian spectral gap.")
+        eigenvalues = np.linalg.eigvalsh(a_eps)
+        if ground_state_count <= 0 or ground_state_count >= len(eigenvalues):
+            effective_gap = 0.0
+        else:
+            effective_gap = float(eigenvalues[ground_state_count] - eigenvalues[ground_state_count - 1])
         return {
             "eigenvalues": eigenvalues,
             "effective_gap": effective_gap,
@@ -171,12 +177,12 @@ if __name__ == "__main__":
     table = solver.sampled_evolution_table(result, [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5])
 
     print("🌊 NOESIS — QCAL 3-SAT SOLVER")
-    print(f"Variables: {result['n_vars']} | Cláusulas: {result['clauses']} | dim: {result['dim']}")
+    print(f"Variables: {result['n_vars']} | Clauses: {result['clauses']} | dim: {result['dim']}")
     print(f"Ground states: {result['ground_states'].tolist()}")
     print(f"Projected assignment: {tuple(result['solution'])}")
     print(f"Satisfies all: {result['satisfies_all']}")
     print(f"Final coherence Ψ: {result['coherence']:.6f}")
     print(f"Effective gap Δ_eff: {spectrum['effective_gap']:.6f}")
-    print("\nEvolución temporal:")
+    print("\nTemporal evolution:")
     for row in table:
         print(row)
