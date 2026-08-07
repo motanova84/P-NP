@@ -1,5 +1,6 @@
 import NOESIS.Phase3_Closure
 import NOESIS.Step9_DecisionBarrier
+import NOESIS.ClosureLimit
 
 namespace NOESIS.Operational
 
@@ -14,6 +15,7 @@ inductive StepId where
   | phase7_gap_rigidity
   | phase8_krylov_reduction
   | phase9_decision_barrier
+  | phase10_closure_limit
   deriving DecidableEq, Repr
 
 /-- Ancla lógica: cada paso tiene una especificación activa en repositorio. -/
@@ -27,6 +29,7 @@ def step_anchored : StepId → Prop
   | .phase7_gap_rigidity => True
   | .phase8_krylov_reduction => True
   | .phase9_decision_barrier => True
+  | .phase10_closure_limit => True
 
 theorem all_steps_anchored : ∀ s, step_anchored s := by
   intro s
