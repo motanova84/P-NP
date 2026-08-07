@@ -20,6 +20,7 @@ Root module for the formal verification of the P≠NP separation.
 * `Formal.P_neq_NP`: Sacred geometry formalization with κ_Π constant
 * `Formal.MainTheorem`: Main theorem (P ≠ NP)
 * `Formal.VerificationPipeline`: Complete verification pipeline
+* `Formal.SingularLimit`: Singular limit ε → 0 formal dependency skeleton
 
 ## New Modules Completing the Proof
 
@@ -75,6 +76,7 @@ import Formal.MainTheorem
 import Formal.VerificationPipeline
 import Formal.AuxiliaryLemmas
 import Formal.AxiomDocumentation
+import Formal.SingularLimit
 
 namespace Formal
 
