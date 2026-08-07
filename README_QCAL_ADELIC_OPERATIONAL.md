@@ -34,3 +34,9 @@ python3 scripts/run_qcal_adelic_operational.py 77 --k-max 5
 ```
 
 Returns anchors, critical times, coherence trace and verified factorization payload.
+
+## Batch usage
+```bash
+python3 scripts/run_qcal_adelic_operational.py --n-list 77,91,143 --k-max 5
+python3 scripts/run_qcal_adelic_operational.py --n-file data.txt --output qcal_batch.json
+```

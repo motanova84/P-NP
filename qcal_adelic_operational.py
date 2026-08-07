@@ -136,3 +136,33 @@ def operational_summary_json(
 ) -> str:
     """JSON serializer helper for CLI."""
     return json.dumps(operational_summary(n, k_max=k_max, anchors=anchors), indent=2)
+
+
+def operational_batch_summary(
+    values: List[int], k_max: int = 8, anchors: QCALAdelicAnchors = ANCHORS
+) -> Dict[str, object]:
+    """Run operational summaries for a batch of integers."""
+    if not values:
+        raise ValueError("values must not be empty")
+
+    items = [operational_summary(n, k_max=k_max, anchors=anchors) for n in values]
+    verified_count = sum(1 for item in items if item["factorization"]["verified"])
+    return {
+        "anchors": {
+            "f0_hz": anchors.f0_hz,
+            "omega0_rad_s": anchors.omega0_rad_s,
+            "psi_target": anchors.psi_target,
+        },
+        "count": len(items),
+        "verified_count": verified_count,
+        "items": items,
+    }
+
+
+def operational_batch_summary_json(
+    values: List[int], k_max: int = 8, anchors: QCALAdelicAnchors = ANCHORS
+) -> str:
+    """JSON serializer helper for batch CLI mode."""
+    return json.dumps(
+        operational_batch_summary(values, k_max=k_max, anchors=anchors), indent=2
+    )

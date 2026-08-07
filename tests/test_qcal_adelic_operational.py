@@ -3,6 +3,7 @@ import math
 from qcal_adelic_operational import (
     ANCHORS,
     coherence_at_time,
+    operational_batch_summary,
     critical_time,
     critical_times,
     factorize_semiprime_operational,
@@ -39,3 +40,10 @@ def test_factorize_prime_returns_none():
     out = factorize_semiprime_operational(13)
     assert out["verified"] is False
     assert out["factors"] is None
+
+
+def test_operational_batch_summary_counts():
+    batch = operational_batch_summary([77, 13], k_max=3)
+    assert batch["count"] == 2
+    assert batch["verified_count"] == 1
+    assert len(batch["items"]) == 2
