@@ -1,0 +1,41 @@
+NOESIS E2E VALIDATION REPORT (file-by-file)
+Repository: /home/runner/work/P-NP/P-NP
+
+1) Lean / Lake toolchain
+- lean --version: PASS (Lean 4.20.0)
+- lake --version: PASS (Lake 5.0.0)
+
+2) Lean layer files
+- /home/runner/work/P-NP/P-NP/NOESIS/Oracle.lean: created and anchored
+- /home/runner/work/P-NP/P-NP/NOESIS/Complete.lean: PASS (`sorry` absent)
+- Compile in sandbox:
+  - `lake env lean /home/runner/work/P-NP/P-NP/NOESIS/Oracle.lean`
+  - `lake env lean /home/runner/work/P-NP/P-NP/NOESIS/Complete.lean`
+  Result: BLOCKED by DNS to `lakecache.blob.core.windows.net` (mathlib cache fetch).
+
+3) Python/API layer files
+- /home/runner/work/P-NP/P-NP/noesis_solver.py: PASS (`python3 -m py_compile`)
+- /home/runner/work/P-NP/P-NP/tests/test_noesis_solver.py: PASS (`pytest -v ...` => 2 passed)
+- /home/runner/work/P-NP/P-NP/scripts/test_e2e_integration.py: PASS (`python3 -m py_compile`)
+
+4) Docker layer files
+- /home/runner/work/P-NP/P-NP/Dockerfile.noesis
+- /home/runner/work/P-NP/P-NP/docker-compose.noesis.yml
+- /home/runner/work/P-NP/P-NP/dashboard/index.html
+Checks:
+- `docker compose -f docker-compose.noesis.yml up -d --build`: PASS
+- `curl -fsS http://localhost:8000/health`: PASS
+- `python3 /home/runner/work/P-NP/P-NP/scripts/test_e2e_integration.py`: PASS
+
+5) Solidity layer files
+- /home/runner/work/P-NP/P-NP/foundry.toml
+- /home/runner/work/P-NP/P-NP/solidity/src/NOESISVerifier.sol
+- /home/runner/work/P-NP/P-NP/solidity/test/NOESISVerifier.t.sol
+  Note: SAT decision in contract is anchored to `PSI_THRESHOLD = 999999`.
+Local status:
+- BLOCKED (forge unavailable locally; DNS resolution failure for foundry installer host).
+- CI workflow executes Foundry install + `forge build` + `forge test`.
+
+6) CI orchestration
+- /home/runner/work/P-NP/P-NP/.github/workflows/e2e-validation.yml
+- Includes 4 layers: Lean, Python/API, Solidity/Foundry, Docker E2E.

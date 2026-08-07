@@ -1,0 +1,94 @@
+name: 🌊 NOESIS E2E Total Validation
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  lean-formal-proofs:
+    name: "Capa 1: Formalización Lean 4"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Lean/Lake
+        uses: leanprover/lean4-action@v1
+
+      - name: Construir y verificar teoremas
+        run: |
+          lake build
+          lake env lean /home/runner/work/P-NP/P-NP/NOESIS/Complete.lean
+          ! grep -n "sorry" /home/runner/work/P-NP/P-NP/NOESIS/Complete.lean
+
+  python-solver-tests:
+    name: "Capa 2: Solver & API Python"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-noesis.txt
+
+      - name: Ejecutar pruebas del solver/API
+        run: pytest -v /home/runner/work/P-NP/P-NP/tests/test_noesis_solver.py
+
+  solidity-contracts:
+    name: "Capa 3: Contratos Solidity (Foundry)"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Instalar forge-std
+        run: |
+          mkdir -p solidity/lib
+          forge install foundry-rs/forge-std --root . --libs solidity/lib --no-commit
+
+      - name: Compilar y testear contratos
+        run: |
+          forge build
+          forge test --match-path solidity/test/NOESISVerifier.t.sol
+
+  e2e-docker-validation:
+    name: "Capa 4: Integración E2E en Contenedores"
+    needs: [lean-formal-proofs, python-solver-tests, solidity-contracts]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Levantar infraestructura con Docker Compose
+        run: docker compose -f docker-compose.noesis.yml up -d --build
+
+      - name: Esperar a que los servicios estén activos
+        run: |
+          timeout 60s bash -c 'until curl -fsS http://localhost:8000/health; do sleep 2; done'
+
+      - name: Ejecutar test E2E de integración
+        run: |
+          python -m pip install --upgrade pip
+          pip install httpx
+          python /home/runner/work/P-NP/P-NP/scripts/test_e2e_integration.py
+
+      - name: Bajar infraestructura
+        if: always()
+        run: docker compose -f docker-compose.noesis.yml down -v
