@@ -11,7 +11,7 @@ Este documento ancla en el repositorio la síntesis acordada en el análisis:
 
 ## Archivo Lean anclado
 
-- `/home/runner/work/P-NP/P-NP/NOESIS/ClosureLimit.lean`
+- `NOESIS/ClosureLimit.lean`
 
 Contenido formalizado:
 
