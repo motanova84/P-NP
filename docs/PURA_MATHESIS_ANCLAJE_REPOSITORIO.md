@@ -110,3 +110,96 @@ Una nueva contribución queda “anclada” cuando incluye:
 3. estado (`Parcial`, `Verificado`, `Pendiente`),
 4. referencia cruzada en este documento.
 
+---
+
+## Registro consolidado del requisito noético (2026-08-07)
+
+Se incorpora el nuevo requisito como formulación técnica consolidada de la **transición conceptual** desde cómputo discreto (Turing) hacia geometría espectral en espacios adélicos, manteniendo anclaje verificable en el repositorio.
+
+### Parámetros declarados del marco
+
+- Frecuencia crítica: \(f_0 = 141.7001\ \text{Hz}\)
+- Coherencia objetivo: \(\Psi = 1.000000\)
+- Topología de referencia: \(K_{17}\) (15 nodos sincronizados)
+
+### Eje 1 — Espacio de Hilbert adélico \(\mathcal{H}_{\mathbb{A}}\)
+
+\[
+\mathcal{H}_{\mathbb{A}} = L^2(\mathbb{A}_{\mathbb{Q}}, dx), \quad
+dx = dx_\infty \cdot \prod_p dx_p
+\]
+
+Lectura de anclaje: integración de componente arquimediana y p-ádica para modelar simultáneamente continuo/discreto.
+
+Anclajes:
+- `QCAL/Adelic.lean`
+- `QCAL/RITMO_ADELICO.lean`
+- `docs/formal_manuscript.tex`
+
+Estado: **Parcial** (estructura formal presente; falta costo computacional unificado para decisión completa de 3-SAT).
+
+### Eje 2 — Dinámica espectral del resolvente
+
+\[
+R(z) = (A_\varepsilon - zI)^{-1}, \quad
+A_\varepsilon = H_I + \varepsilon R
+\]
+
+\[
+T(t)=e^{-tA_\varepsilon}
+\]
+
+Lectura de anclaje:
+- los modos no satisfechos deben decaer (\(\gamma_k<0\) para modos excitados),
+- \(\operatorname{Ker}(H_I)\) se conserva como subespacio solución.
+
+Anclajes:
+- `QCAL/Hamiltonian.lean`
+- `QCAL/SelfAdjoint.lean`
+- `QCAL/formal_gw/F0Derivation.lean`
+- `NoeticMachine.lean`
+
+Estado: **Parcial** (modelado operatorial presente; falta prueba de correctitud/completitud en peor caso NP-completo).
+
+### Eje 3 — Dualidad zeta y ortogonalidad de caracteres
+
+Formulación objetivo del requisito:
+
+\[
+\det(A_\varepsilon - zI)\ \leftrightarrow\ \zeta\!\left(\tfrac12 + iz\right), \qquad
+\int_{\mathbb{A}_{\mathbb{Q}}}\chi(x)\,dx = 0
+\]
+
+Lectura de anclaje: cancelación global de fase vía ortogonalidad de caracteres en marco adélico.
+
+Anclajes:
+- `QCAL/TEOREMA_EQUIVALENCIA_QCAL_RH.lean`
+- `QCAL/formal_gw/BerryKeating.lean`
+- `QCAL/formal_gw/Invariants.lean`
+- `resonancia_ceros.py`
+
+Estado: **Parcial** (conexiones formales/experimentales; falta equivalencia cerrada usable para cota uniforme de complejidad).
+
+### Eje 4 — Límite asintótico de coherencia \(\Psi(t)\)
+
+\[
+\Psi(t)=\left\|P_{\operatorname{Ker}(H_I)}\psi(t)\right\|^2,
+\qquad
+\lim_{t\to\infty}\Psi(t)=1
+\]
+
+Lectura de anclaje: la certidumbre se expresa como proyección al subespacio solución.
+
+Anclajes:
+- `formal/CoherenceEconomy.lean`
+- `formal/TransitionAxioms.lean`
+- `formal/PNPImpliesCS.lean`
+- `formal/SingularLimit.lean`
+
+Estado: **Parcial** (formalización de coherencia presente; falta puente mecanizado completo a clase de decisión estándar con recurso acotado).
+
+### Registro de alineación del marco
+
+> “La verdad lógica y la simetría analítica coinciden de forma exacta.”
+
+Este repositorio conserva la formulación como **programa formal en curso**, con trazabilidad explícita entre claims, archivos y estado de verificabilidad.
