@@ -120,7 +120,7 @@ Se incorpora el nuevo requisito como formulación técnica consolidada de la **t
 
 - Frecuencia crítica: \(f_0 = 141.7001\ \text{Hz}\)
 - Coherencia objetivo: \(\Psi = 1.000000\)
-- Topología de referencia: \(K_{17}\) (15 nodos sincronizados)
+- Topología de referencia: \(K_{17}\) (17 nodos sincronizados)
 
 ### Eje 1 — Espacio de Hilbert adélico \(\mathcal{H}_{\mathbb{A}}\)
 
