@@ -28,6 +28,12 @@ def primeFactors (N : ℕ) : Finset ℕ := (Nat.factors N).toFinset
 /-- Minimal abstract state carrier used by this file. -/
 abbrev AdelicState := ℕ → ℝ
 
+/-- Abstract local p-adic Laplacian action placeholder on states. -/
+def pAdicLaplacian (_q : ℕ) (ψ : AdelicState) : AdelicState := ψ
+
+/-- Zero adelic state. -/
+def zeroState : AdelicState := fun _ => 0
+
 /-- Hypothesis package required to state a fully explicit adelic coherence theorem. -/
 structure AdelicSystemHypotheses (N : ℕ) where
   /-- `N > 1` is needed for meaningful factor structure. -/
@@ -36,8 +42,11 @@ structure AdelicSystemHypotheses (N : ℕ) where
   essentially_self_adjoint : Prop
   /-- H1.1 + H2: designated Schwartz-Bruhat initial state specification. -/
   is_schwartz_bruhat_init : Prop
+  /-- Fixed initial state used by support and coherence assumptions. -/
+  psi0 : AdelicState
   /-- H5.1: primes outside `primeFactors N` are decoupled in the initial configuration. -/
-  prime_support : ∀ q : ℕ, Nat.Prime q → q ∉ primeFactors N → True
+  prime_support :
+    ∀ q : ℕ, Nat.Prime q → q ∉ primeFactors N → pAdicLaplacian q psi0 = zeroState
   /-- H5.2: phase-lock condition for each prime dividing `N`. -/
   phase_alignment :
     ∀ p : ℕ, p ∈ primeFactors N → ∃ m : ℕ, |omega0 / Real.log (p : ℝ) - m| < (1e-4 : ℝ)
