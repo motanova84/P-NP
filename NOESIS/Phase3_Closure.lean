@@ -16,9 +16,12 @@ theorem off_diagonal_suppression (n p : ℕ) (hp : p ≥ 2) (hn : n ≥ 2) :
   have hn_pos : (0 : ℝ) < n := by
     have : (2 : ℝ) ≤ n := by exact_mod_cast hn
     linarith
+  have h_one_le_n : (1 : ℝ) ≤ n := by
+    have : (2 : ℝ) ≤ n := by exact_mod_cast hn
+    linarith
   have hpow : (n : ℝ) ^ 4 ≤ (n : ℝ) ^ (2 * p) := by
     have hExp : (4 : ℕ) ≤ 2 * p := by nlinarith
-    exact pow_le_pow_of_nonneg_left hn_nonneg hExp
+    exact pow_le_pow_right h_one_le_n hExp
   have h_inv : 1 / ((n : ℝ) ^ (2 * p)) ≤ 1 / ((n : ℝ) ^ 4) := by
     have hpos4 : 0 < (n : ℝ) ^ 4 := by exact pow_pos hn_pos 4
     exact one_div_le_one_div_of_le hpos4 hpow
@@ -41,9 +44,10 @@ theorem spectral_gap_stability (n p : ℕ) (hp : p ≥ 2) (hn : n ≥ 2) :
   dsimp [Δ_eff, ε]
   have hn2 : (2 : ℝ) ≤ n := by exact_mod_cast hn
   have hn_nonneg : (0 : ℝ) ≤ n := by positivity
+  have h_one_le_n : (1 : ℝ) ≤ n := by linarith
   have hn_sq_ge4 : (4 : ℝ) ≤ (n : ℝ) ^ 2 := by nlinarith
   have hpow : (n : ℝ) ^ 2 ≤ (n : ℝ) ^ p := by
-    exact pow_le_pow_of_nonneg_left hn_nonneg hp
+    exact pow_le_pow_right h_one_le_n hp
   have hnp_ge4 : (4 : ℝ) ≤ (n : ℝ) ^ p := le_trans hn_sq_ge4 hpow
   have hε : 1 / ((n : ℝ) ^ p) ≤ 1 / 4 := by
     exact one_div_le_one_div_of_le (by norm_num : (0 : ℝ) < 4) hnp_ge4
@@ -51,10 +55,9 @@ theorem spectral_gap_stability (n p : ℕ) (hp : p ≥ 2) (hn : n ≥ 2) :
 
 /-- Lema 3: Cota polinómica simple para dimensión de Krylov. -/
 theorem krylov_poly_complexity (n : ℕ) (hn : n ≥ 1) :
-    let T_star : ℝ := (n : ℝ) * Real.log 2 + Real.log 2
     let krylov_dim : ℕ := 2 * (n ^ 4)
     ∃ c : ℕ, (krylov_dim : ℝ) ≤ c * (n ^ 4 : ℝ) := by
-  intro T_star krylov_dim
+  intro krylov_dim
   refine ⟨2, ?_⟩
   dsimp [krylov_dim]
   push_cast
