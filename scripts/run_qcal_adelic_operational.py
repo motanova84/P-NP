@@ -22,12 +22,28 @@ def _parse_values(args: argparse.Namespace) -> list[int]:
     if args.n is not None:
         values.append(args.n)
     if args.n_list:
-        values.extend(int(part.strip()) for part in args.n_list.split(",") if part.strip())
+        for part in args.n_list.split(","):
+            stripped = part.strip()
+            if not stripped:
+                continue
+            try:
+                values.append(int(stripped))
+            except ValueError as exc:
+                raise ValueError(f"Invalid integer in --n-list: {stripped!r}") from exc
     if args.n_file:
-        for line in Path(args.n_file).read_text(encoding="utf-8").splitlines():
+        try:
+            lines = Path(args.n_file).read_text(encoding="utf-8").splitlines()
+        except OSError as exc:
+            raise ValueError(f"Unable to read --n-file {args.n_file!r}: {exc}") from exc
+        for line in lines:
             stripped = line.strip()
             if stripped:
-                values.append(int(stripped))
+                try:
+                    values.append(int(stripped))
+                except ValueError as exc:
+                    raise ValueError(
+                        f"Invalid integer in --n-file {args.n_file!r}: {stripped!r}"
+                    ) from exc
     return values
 
 
@@ -55,7 +71,10 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    values = _parse_values(args)
+    try:
+        values = _parse_values(args)
+    except ValueError as exc:
+        parser.error(str(exc))
     if not values:
         parser.error("Provide n or --n-list or --n-file.")
 
