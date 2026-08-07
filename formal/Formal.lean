@@ -21,6 +21,7 @@ Root module for the formal verification of the P≠NP separation.
 * `Formal.MainTheorem`: Main theorem (P ≠ NP)
 * `Formal.VerificationPipeline`: Complete verification pipeline
 * `Formal.SingularLimit`: Singular limit ε → 0 formal dependency skeleton
+* `Formal.SatSolver`: QCAL 3-SAT resonant convergence dependency skeleton
 
 ## New Modules Completing the Proof
 
@@ -77,6 +78,7 @@ import Formal.VerificationPipeline
 import Formal.AuxiliaryLemmas
 import Formal.AxiomDocumentation
 import Formal.SingularLimit
+import Formal.SatSolver
 
 namespace Formal
 
