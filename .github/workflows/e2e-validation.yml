@@ -1,4 +1,4 @@
-name: 🌊 NOESIS E2E Total Validation
+name: 🌊 NOESIS E2E Total Validation & Core Verification
 
 on:
   push:
@@ -6,10 +6,10 @@ on:
   pull_request:
     branches: [main, master]
 
-permissions:
-  contents: read
-
 jobs:
+  # ========================================================
+  # CAPA 1: Validación Formal en Lean 4 (Verificación Estricta)
+  # ========================================================
   lean-formal-proofs:
     name: "Capa 1: Formalización Lean 4"
     runs-on: ubuntu-latest
@@ -17,15 +17,21 @@ jobs:
       - name: Checkout del repositorio
         uses: actions/checkout@v4
 
-      - name: Instalar Lean/Lake
+      - name: Instalar elenv y Lean 4 Toolchain
         uses: leanprover/lean4-action@v1
 
-      - name: Construir y verificar teoremas
+      - name: Verificar dependencias y construir Kernel
         run: |
-          lake build
-          lake env lean /home/runner/work/P-NP/P-NP/NOESIS/Complete.lean
-          ! grep -n "sorry" /home/runner/work/P-NP/P-NP/NOESIS/Complete.lean
+          lake exe cache get
+          lake build NOESIS.Complete NOESIS.Oracle
 
+      - name: Auditoría de Axiomas y 'sorry'
+        run: |
+          ! grep -r "sorry" NOESIS/Complete.lean
+
+  # ========================================================
+  # CAPA 2: Pruebas Unitarias del Solver y API (Python)
+  # ========================================================
   python-solver-tests:
     name: "Capa 2: Solver & API Python"
     runs-on: ubuntu-latest
@@ -41,11 +47,14 @@ jobs:
       - name: Instalar dependencias
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements-noesis.txt
+          pip install -r requirements.txt pytest httpx
 
-      - name: Ejecutar pruebas del solver/API
-        run: pytest -v /home/runner/work/P-NP/P-NP/tests/test_noesis_solver.py
+      - name: Ejecutar Test Suite del Solver
+        run: pytest tests/ -v --durations=0
 
+  # ========================================================
+  # CAPA 3: Contratos Inteligentes y Verificación EVM (Foundry)
+  # ========================================================
   solidity-contracts:
     name: "Capa 3: Contratos Solidity (Foundry)"
     runs-on: ubuntu-latest
@@ -53,42 +62,37 @@ jobs:
       - name: Checkout del repositorio
         uses: actions/checkout@v4
 
-      - name: Instalar Foundry
+      - name: Instalar Foundry Toolchain
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
 
-      - name: Instalar forge-std
+      - name: Compilación y Pruebas Unitarias/Fuzzing
         run: |
-          mkdir -p solidity/lib
-          forge install foundry-rs/forge-std --root . --libs solidity/lib --no-commit
+          forge build --sizes
+          forge test -vvv
 
-      - name: Compilar y testear contratos
-        run: |
-          forge build
-          forge test --match-path solidity/test/NOESISVerifier.t.sol
-
+  # ========================================================
+  # CAPA 4: Orquestación E2E en Contenedores & Integración
+  # ========================================================
   e2e-docker-validation:
-    name: "Capa 4: Integración E2E en Contenedores"
+    name: "Capa 4: Integración E2E Dockerizada"
     needs: [lean-formal-proofs, python-solver-tests, solidity-contracts]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout del repositorio
         uses: actions/checkout@v4
 
-      - name: Levantar infraestructura con Docker Compose
-        run: docker compose -f docker-compose.noesis.yml up -d --build
+      - name: Desplegar Entorno Docker Compose
+        run: docker compose up -d --build
 
-      - name: Esperar a que los servicios estén activos
+      - name: Healthcheck de API & Servicio de Resonancia
         run: |
-          timeout 60s bash -c 'until curl -fsS http://localhost:8000/health; do sleep 2; done'
+          timeout 60s bash -c 'until curl -s http://localhost:8000/health | grep -q "ok"; do sleep 2; done'
 
-      - name: Ejecutar test E2E de integración
-        run: |
-          python -m pip install --upgrade pip
-          pip install httpx
-          python /home/runner/work/P-NP/P-NP/scripts/test_e2e_integration.py
+      - name: Ejecutar Sonda de Integración End-to-End
+        run: python scripts/test_e2e_integration.py
 
-      - name: Bajar infraestructura
+      - name: Desmantelar Entorno
         if: always()
-        run: docker compose -f docker-compose.noesis.yml down -v
+        run: docker compose down -v
