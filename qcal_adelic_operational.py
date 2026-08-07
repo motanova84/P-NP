@@ -110,17 +110,19 @@ def factorize_semiprime_operational(
     }
 
 
-def operational_summary(n: int, k_max: int = 8) -> Dict[str, object]:
+def operational_summary(
+    n: int, k_max: int = 8, anchors: QCALAdelicAnchors = ANCHORS
+) -> Dict[str, object]:
     """Full operational payload: anchors, critical clocks, coherence and factors."""
-    times = critical_times(n, k_max=k_max)
-    coherence_trace = [coherence_at_time(n, t) for t in times]
-    factorization = factorize_semiprime_operational(n)
+    times = critical_times(n, k_max=k_max, anchors=anchors)
+    coherence_trace = [coherence_at_time(n, t, anchors=anchors) for t in times]
+    factorization = factorize_semiprime_operational(n, anchors=anchors)
 
     return {
         "anchors": {
-            "f0_hz": ANCHORS.f0_hz,
-            "omega0_rad_s": ANCHORS.omega0_rad_s,
-            "psi_target": ANCHORS.psi_target,
+            "f0_hz": anchors.f0_hz,
+            "omega0_rad_s": anchors.omega0_rad_s,
+            "psi_target": anchors.psi_target,
         },
         "n": n,
         "critical_times": times,
@@ -129,6 +131,8 @@ def operational_summary(n: int, k_max: int = 8) -> Dict[str, object]:
     }
 
 
-def operational_summary_json(n: int, k_max: int = 8) -> str:
+def operational_summary_json(
+    n: int, k_max: int = 8, anchors: QCALAdelicAnchors = ANCHORS
+) -> str:
     """JSON serializer helper for CLI."""
-    return json.dumps(operational_summary(n, k_max=k_max), indent=2)
+    return json.dumps(operational_summary(n, k_max=k_max, anchors=anchors), indent=2)

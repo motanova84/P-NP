@@ -24,13 +24,13 @@ using nearest \(t_k\) and bandwidth \(b>0\), clipped at \(\Psi^\*\).
 4. Verify \(d\mid N\), \(1<d<N\), \(1<N/d<N\).
 
 ## Implemented artifacts
-- Module: `/home/runner/work/P-NP/P-NP/qcal_adelic_operational.py`
-- CLI: `/home/runner/work/P-NP/P-NP/scripts/run_qcal_adelic_operational.py`
-- Tests: `/home/runner/work/P-NP/P-NP/tests/test_qcal_adelic_operational.py`
+- Module: `qcal_adelic_operational.py`
+- CLI: `scripts/run_qcal_adelic_operational.py`
+- Tests: `tests/test_qcal_adelic_operational.py`
 
 ## Usage
 ```bash
-python3 /home/runner/work/P-NP/P-NP/scripts/run_qcal_adelic_operational.py 77 --k-max 5
+python3 scripts/run_qcal_adelic_operational.py 77 --k-max 5
 ```
 
 Returns anchors, critical times, coherence trace and verified factorization payload.
