@@ -19,13 +19,23 @@ namespace Formal.SingularLimit
 
 open Filter
 
-/-- Strong resolvent-style convergence encoded as a scalar gap `ε ↦ gap(ε)`. -/
-def ResolventConverges (gap : ℝ → ℝ) : Prop :=
+/-- Base notion: a scalar error profile converges to zero as `ε → 0`. -/
+def ConvergesToZero (gap : ℝ → ℝ) : Prop :=
   Tendsto gap (𝓝[≠] (0 : ℝ)) (𝓝 0)
 
-/-- Strong convergence of trajectories encoded as a scalar energy gap. -/
-def TrajectoryConverges (gap : ℝ → ℝ) : Prop :=
-  Tendsto gap (𝓝[≠] (0 : ℝ)) (𝓝 0)
+/-- Tagged profile for resolvent errors. -/
+structure ResolventGap where
+  toFun : ℝ → ℝ
+
+/-- Tagged profile for trajectory/semigroup errors. -/
+structure TrajectoryGap where
+  toFun : ℝ → ℝ
+
+/-- Resolvent gap convergence (`‖R(z,Aε) - R(z,A)‖ → 0` abstractly). -/
+def ResolventConverges (gap : ResolventGap) : Prop := ConvergesToZero gap.toFun
+
+/-- Trajectory/semigroup gap convergence (`‖uε(t) - u(t)‖ → 0` abstractly). -/
+def TrajectoryConverges (gap : TrajectoryGap) : Prop := ConvergesToZero gap.toFun
 
 /-- Coherence limit condition `Ψ(ε) → 1` as `ε → 0`. -/
 def CoherencePreserved (Ψ : ℝ → ℝ) : Prop :=
@@ -40,8 +50,8 @@ def UniformAPrioriBound (b : ℝ → ℝ) : Prop :=
 
 /-- Hypotheses package for the singular-limit transition. -/
 structure SingularLimitHypotheses where
-  resolventGap : ℝ → ℝ
-  trajectoryGap : ℝ → ℝ
+  resolventGap : ResolventGap
+  trajectoryGap : TrajectoryGap
   coherence : ℝ → ℝ
   sobolevBound : ℝ → ℝ
   h_resolvent : ResolventConverges resolventGap
@@ -64,23 +74,81 @@ theorem hasUniformBound (H : SingularLimitHypotheses) :
     UniformAPrioriBound H.sobolevBound :=
   H.h_uniformBound
 
-/-- Consolidated certification object for the singular limit package. -/
-structure Certification where
-  strongConvergence : Prop
-  coherenceInvariant : Prop
-  compactnessReady : Prop
+/--
+Closed theorem package aligned with the NOESIS statement:
+resolvent convergence, semigroup convergence, uniform `H¹` control, and no blow-up.
+
+Each analytical ingredient is explicit as a hypothesis, so the final theorem is a
+fully closed deduction from those assumptions.
+-/
+structure SpectralClosureHypotheses where
+  resolventGap : ℝ → ResolventGap
+  semigroupGap : ℝ → TrajectoryGap
+  h_resolvent :
+    ∀ z : ℝ, 0 < z → ResolventConverges (resolventGap z)
+  h_trotterKato :
+    (∀ z : ℝ, 0 < z → ResolventConverges (resolventGap z)) →
+      ∀ T : ℝ, 0 ≤ T → TrajectoryConverges (semigroupGap T)
+  h1Norm : ℝ → ℝ
+  enstrophy : ℝ → ℝ
+  h_uniform_h1 : UniformAPrioriBound h1Norm
+  h_uniform_enstrophy : UniformAPrioriBound enstrophy
+  coherence : ℝ → ℝ
+  h_coherence : CoherencePreserved coherence
+
+/-- Step 1: strong resolvent convergence for positive spectral parameter. -/
+theorem step1_resolvent_strong
+    (H : SpectralClosureHypotheses) :
+    ∀ z : ℝ, 0 < z → ResolventConverges (H.resolventGap z) :=
+  H.h_resolvent
+
+/-- Step 2: semigroup/trajectory convergence via Trotter–Kato bridge. -/
+theorem step2_semigroup_convergence
+    (H : SpectralClosureHypotheses) :
+    ∀ T : ℝ, 0 ≤ T → TrajectoryConverges (H.semigroupGap T) :=
+  H.h_trotterKato H.h_resolvent
+
+/-- Step 3: uniform `H¹` and enstrophy bounds. -/
+theorem step3_uniform_bounds
+    (H : SpectralClosureHypotheses) :
+    UniformAPrioriBound H.h1Norm ∧ UniformAPrioriBound H.enstrophy :=
+  ⟨H.h_uniform_h1, H.h_uniform_enstrophy⟩
+
+/-- Step 3 (coherence branch): `Ψ(ε) → 1`. -/
+theorem step3_coherence
+    (H : SpectralClosureHypotheses) :
+    CoherencePreserved H.coherence :=
+  H.h_coherence
+
+/-- Step 4: consolidated closure theorem (Q.E.D. from declared hypotheses). -/
+theorem spectralClosureTheorem
+    (H : SpectralClosureHypotheses) :
+    (∀ z : ℝ, 0 < z → ResolventConverges (H.resolventGap z)) ∧
+    (∀ T : ℝ, 0 ≤ T → TrajectoryConverges (H.semigroupGap T)) ∧
+    UniformAPrioriBound H.h1Norm ∧
+    UniformAPrioriBound H.enstrophy ∧
+    CoherencePreserved H.coherence := by
+  refine ⟨step1_resolvent_strong H, step2_semigroup_convergence H, ?_, ?_, step3_coherence H⟩
+  · exact H.h_uniform_h1
+  · exact H.h_uniform_enstrophy
+
+/-- Consolidated certification object carrying proof witnesses. -/
+structure Certification (H : SingularLimitHypotheses) where
+  strongConvergence : TrajectoryConverges H.trajectoryGap
+  coherenceInvariant : CoherencePreserved H.coherence
+  compactnessReady : UniformAPrioriBound H.sobolevBound
 
 /-- Build a certification directly from the hypothesis package. -/
-def certify (H : SingularLimitHypotheses) : Certification where
-  strongConvergence := TrajectoryConverges H.trajectoryGap
-  coherenceInvariant := CoherencePreserved H.coherence
-  compactnessReady := UniformAPrioriBound H.sobolevBound
+def certify (H : SingularLimitHypotheses) : Certification H where
+  strongConvergence := strongTrajectoryConvergence H
+  coherenceInvariant := coherenceAtLimit H
+  compactnessReady := hasUniformBound H
 
-/-- The certification generated from valid hypotheses is immediately true componentwise. -/
+/-- Soundness: certification fields agree with the direct derived proofs from `H`. -/
 theorem certify_sound (H : SingularLimitHypotheses) :
-    (certify H).strongConvergence ∧
-    (certify H).coherenceInvariant ∧
-    (certify H).compactnessReady := by
-  refine ⟨strongTrajectoryConvergence H, coherenceAtLimit H, hasUniformBound H⟩
+    TrajectoryConverges H.trajectoryGap ∧
+    CoherencePreserved H.coherence ∧
+    UniformAPrioriBound H.sobolevBound :=
+  ⟨(certify H).strongConvergence, (certify H).coherenceInvariant, (certify H).compactnessReady⟩
 
 end Formal.SingularLimit
