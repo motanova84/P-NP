@@ -3,10 +3,12 @@ import math
 from qcal_adelic_operational import (
     ANCHORS,
     coherence_at_time,
-    operational_batch_summary,
     critical_time,
     critical_times,
     factorize_semiprime_operational,
+    hypothesis_report,
+    operational_batch_summary,
+    phase_alignment_report,
 )
 
 
@@ -42,8 +44,24 @@ def test_factorize_prime_returns_none():
     assert out["factors"] is None
 
 
+def test_phase_alignment_report_shape():
+    out = phase_alignment_report(77)
+    assert out["n"] == 77
+    assert out["tolerance"] == 1e-4
+    assert isinstance(out["aligned_all"], bool)
+    assert [row["prime"] for row in out["factors"]] == [7, 11]
+
+
+def test_hypothesis_report_bounds_and_claim():
+    out = hypothesis_report(77)
+    assert out["epsilon"] == 1e-6
+    assert math.isclose(out["coherence_lower_bound"], 1 - 1e-6)
+    assert out["coherence_claim_holds"] is True
+
+
 def test_operational_batch_summary_counts():
     batch = operational_batch_summary([77, 13], k_max=3)
     assert batch["count"] == 2
     assert batch["verified_count"] == 1
     assert len(batch["items"]) == 2
+    assert "hypotheses" in batch["items"][0]

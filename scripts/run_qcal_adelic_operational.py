@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -12,6 +13,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from qcal_adelic_operational import (
+    hypothesis_report,
     operational_batch_summary_json,
     operational_summary_json,
 )
@@ -64,6 +66,11 @@ def main() -> int:
         help="Path to file containing one integer per line for batch mode",
     )
     parser.add_argument(
+        "--hypotheses-only",
+        action="store_true",
+        help="Return only explicit hypothesis packets",
+    )
+    parser.add_argument(
         "--output",
         type=str,
         default="",
@@ -78,7 +85,12 @@ def main() -> int:
     if not values:
         parser.error("Provide n or --n-list or --n-file.")
 
-    if len(values) == 1:
+    if args.hypotheses_only:
+        if len(values) == 1:
+            payload = json.dumps(hypothesis_report(values[0]), indent=2)
+        else:
+            payload = json.dumps([hypothesis_report(value) for value in values], indent=2)
+    elif len(values) == 1:
         payload = operational_summary_json(values[0], k_max=args.k_max)
     else:
         payload = operational_batch_summary_json(values, k_max=args.k_max)

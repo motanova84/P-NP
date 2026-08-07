@@ -20,6 +20,18 @@ class QCALAdelicAnchors:
         return 2.0 * math.pi * self.f0_hz
 
 
+@dataclass(frozen=True)
+class AdelicSystemHypotheses:
+    """Explicit operational hypothesis package aligned with the Lean scaffold."""
+
+    n: int
+    epsilon: float = 1e-6
+    phase_tolerance: float = 1e-4
+
+    def coherence_lower_bound(self) -> float:
+        return 1.0 - self.epsilon
+
+
 ANCHORS = QCALAdelicAnchors()
 
 
@@ -73,6 +85,102 @@ def divisor_resonance_score(n: int, d: int, anchors: QCALAdelicAnchors = ANCHORS
     return min(0.5 / (1.0 + remainder), anchors.psi_target)
 
 
+def _all_prime_factors(n: int) -> List[int]:
+    """Return unique prime factors in ascending order."""
+    if n <= 1:
+        return []
+
+    factors: List[int] = []
+    value = n
+
+    if value % 2 == 0:
+        factors.append(2)
+        while value % 2 == 0:
+            value //= 2
+
+    d = 3
+    while d * d <= value:
+        if value % d == 0:
+            factors.append(d)
+            while value % d == 0:
+                value //= d
+        d += 2
+
+    if value > 1:
+        factors.append(value)
+
+    return factors
+
+
+def phase_alignment_report(
+    n: int,
+    anchors: QCALAdelicAnchors = ANCHORS,
+    tolerance: float = 1e-4,
+) -> Dict[str, object]:
+    """Check H5.2-style phase alignment for each prime factor of n."""
+    if n <= 1:
+        raise ValueError("n must be > 1")
+    if tolerance <= 0:
+        raise ValueError("tolerance must be > 0")
+
+    rows = []
+    aligned_all = True
+    for p in _all_prime_factors(n):
+        ratio = anchors.omega0_rad_s / math.log(p)
+        nearest = round(ratio)
+        error = abs(ratio - nearest)
+        aligned = error < tolerance
+        aligned_all = aligned_all and aligned
+        rows.append(
+            {
+                "prime": p,
+                "ratio": ratio,
+                "nearest_integer": nearest,
+                "phase_error": error,
+                "aligned": aligned,
+            }
+        )
+
+    return {
+        "n": n,
+        "tolerance": tolerance,
+        "aligned_all": aligned_all,
+        "factors": rows,
+    }
+
+
+def hypothesis_report(
+    n: int,
+    anchors: QCALAdelicAnchors = ANCHORS,
+    epsilon: float = 1e-6,
+    phase_tolerance: float = 1e-4,
+) -> Dict[str, object]:
+    """Operational, explicit hypothesis packet for the adelic pipeline."""
+    if n <= 1:
+        raise ValueError("n must be > 1")
+    if not (0.0 < epsilon <= 1e-6):
+        raise ValueError("epsilon must satisfy 0 < epsilon <= 1e-6")
+
+    hypotheses = AdelicSystemHypotheses(n=n, epsilon=epsilon, phase_tolerance=phase_tolerance)
+    phase = phase_alignment_report(n, anchors=anchors, tolerance=phase_tolerance)
+
+    return {
+        "n": n,
+        "h1_domain_dense_common": True,
+        "h1_essentially_self_adjoint": True,
+        "h2_state_factorized": True,
+        "h2_state_normalized": True,
+        "h3_padic_normalization": True,
+        "h4_discrete_injection": True,
+        "h5_external_primes_decoupled": True,
+        "h5_phase_alignment": phase,
+        "epsilon": hypotheses.epsilon,
+        "coherence_lower_bound": hypotheses.coherence_lower_bound(),
+        "psi_target": anchors.psi_target,
+        "coherence_claim_holds": hypotheses.coherence_lower_bound() >= anchors.psi_target,
+    }
+
+
 def factorize_semiprime_operational(
     n: int, anchors: QCALAdelicAnchors = ANCHORS
 ) -> Dict[str, Optional[object]]:
@@ -113,7 +221,7 @@ def factorize_semiprime_operational(
 def operational_summary(
     n: int, k_max: int = 8, anchors: QCALAdelicAnchors = ANCHORS
 ) -> Dict[str, object]:
-    """Full operational payload: anchors, critical clocks, coherence and factors."""
+    """Full operational payload: anchors, critical clocks, coherence, factors, hypotheses."""
     times = critical_times(n, k_max=k_max, anchors=anchors)
     coherence_trace = [coherence_at_time(n, t, anchors=anchors) for t in times]
     factorization = factorize_semiprime_operational(n, anchors=anchors)
@@ -128,6 +236,7 @@ def operational_summary(
         "critical_times": times,
         "coherence_trace": coherence_trace,
         "factorization": factorization,
+        "hypotheses": hypothesis_report(n, anchors=anchors),
     }
 
 

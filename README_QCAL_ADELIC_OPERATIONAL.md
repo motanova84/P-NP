@@ -40,3 +40,15 @@ Returns anchors, critical times, coherence trace and verified factorization payl
 python3 scripts/run_qcal_adelic_operational.py --n-list 77,91,143 --k-max 5
 python3 scripts/run_qcal_adelic_operational.py --n-file data.txt --output qcal_batch.json
 ```
+
+## Explicit hypotheses packet
+The operational payload now includes a `hypotheses` section that makes explicit:
+- domain/self-adjointness assumptions (H1)
+- initial-state normalization assumptions (H2)
+- p-adic normalization and discrete injection assumptions (H3-H4)
+- finite-prime decoupling and per-prime phase alignment diagnostics (H5)
+
+Hypotheses-only CLI mode:
+```bash
+python3 scripts/run_qcal_adelic_operational.py 77 --hypotheses-only
+```
