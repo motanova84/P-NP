@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main, master]
 
+permissions:
+  contents: read
+
 jobs:
   # ========================================================
   # CAPA 1: Validación Formal en Lean 4 (Verificación Estricta)
