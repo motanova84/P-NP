@@ -32,6 +32,13 @@ This document describes the current status of the Lean 4 mechanical formalizatio
    - Clear dependency graph
    - Proper imports
 
+5. **Singular Limit Closure Skeleton** (`formal/SingularLimit.lean`)
+   - Encodes resolvent convergence and semigroup convergence dependencies
+   - Encodes uniform `H¹` / enstrophy bound witnesses
+   - Encodes coherence limit `Ψ(ε) → 1`
+   - Provides a consolidated closure theorem from explicit hypotheses
+   - Certification note: `formal/NOESIS_SINGULAR_LIMIT_CERTIFICATION.md`
+
 ### 🔄 Proof Sketches Completed
 
 The following modules have complete proof structures with detailed proof sketches:

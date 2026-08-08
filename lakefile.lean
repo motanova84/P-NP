@@ -191,8 +191,6 @@ lean_lib PNPImpliesCS where
 
 lean_lib CoherenceEconomyMain where
   roots := #[`CoherenceEconomyMain]
-lean_lib PNPImpliesCS where
-  roots := #[`PNPImpliesCS]
 
 lean_lib CSMain where
   roots := #[`Main]
@@ -228,5 +226,5 @@ lean_lib Metric_Kernel_Proof where
 lean_exe pnp where
   root := `Principal
 
-lean_exe pnp-director where
+lean_exe pnpDirector where
   root := `Director
