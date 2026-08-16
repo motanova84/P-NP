@@ -9,23 +9,27 @@ def ChooseK := ℕ → ℕ
 def CorrectChooseK (M : QCALModel) (isSAT : ℕ → Prop) (chooseK : ChooseK) : Prop :=
   ∀ N : ℕ, oracleAccepts M N (chooseK N) ↔ isSAT N
 
-/--
-A complexity certificate is intentionally an abstract contract.
-It does not assert that an implementation is polynomial; a concrete
-certificate must provide the bound and its proof in the chosen cost model.
--/
-structure PolyTimeCertificate (chooseK : ChooseK) where
-  polynomial : ℕ → ℕ
-  polynomial_nonnegative : ∀ n, 0 ≤ polynomial n
-  bound : Prop
+/-- Abstract cost model for executing a selector on an encoded input size. -/
+structure CostModel where
+  cost : ChooseK → ℕ → ℕ
 
 /--
-The P-NP oracle gap is closed only when both semantic correctness and a
-machine-checked complexity certificate are supplied for the same selector.
+A polynomial-time certificate is a proof relative to an explicit cost model.
+The predicate `IsPolynomial` is deliberately left as part of the contract so
+that the eventual theorem cannot hide its representation or machine model.
 -/
-structure VerifiedChooseK (M : QCALModel) (isSAT : ℕ → Prop) where
+structure PolyTimeCertificate (C : CostModel) (chooseK : ChooseK) where
+  polynomial : ℕ → ℕ
+  isPolynomial : Prop
+  bound : ∀ n, C.cost chooseK n ≤ polynomial n
+
+/--
+The P-NP oracle gap is closed only when the same selector has both semantic
+correctness and an explicit, proved complexity certificate.
+-/
+structure VerifiedChooseK (M : QCALModel) (isSAT : ℕ → Prop) (C : CostModel) where
   chooseK : ChooseK
   correctness : CorrectChooseK M isSAT chooseK
-  complexity : PolyTimeCertificate chooseK
+  complexity : PolyTimeCertificate C chooseK
 
 end NOESIS.Oracle
