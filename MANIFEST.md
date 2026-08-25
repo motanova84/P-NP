@@ -59,6 +59,7 @@ This document provides a comprehensive overview of all files in the P-NP reposit
 | `IC_SAT_IMPLEMENTATION.md` | IC-SAT implementation notes | ✅ Complete |
 | `UNIFICACION_COMPLEJIDAD_ESPECTRAL.md` | Spectral complexity unification | ✅ Complete |
 | `LEMA_6_24_ACOPLAMIENTO.md` | Lemma 6.24 (Structural Coupling) | ✅ Complete |
+| `LEMA_6_35_REDUCCION.md` | Lemma 6.35 (Structural Reduction) | ✅ Complete |
 | `DUALIDAD_RESOLUCION_INFOCOM.md` | Resolution-InfoCom duality | ✅ Complete |
 
 ### Lean Formalization
@@ -159,6 +160,7 @@ python3 examples/demo_ic_sat.py
 - [x] Satisfiability definitions
 - [x] Treewidth axiomatization
 - [x] Structural coupling axiom (Lemma 6.24)
+- [x] Structural reduction axiom (Lemma 6.35)
 - [x] Dichotomy theorem statement
 - [ ] Complete proofs (pending)
 
@@ -169,9 +171,9 @@ python3 examples/demo_ic_sat.py
 | Python files | 5 |
 | Lean files | 4 |
 | Test files | 2 |
-| Documentation files | 7 |
+| Documentation files | 8 |
 | Total lines of Python | ~1500 |
-| Total lines of Lean | ~100 |
+| Total lines of Lean | ~105 |
 | Unit tests | 29 |
 | Test coverage | High |
 
