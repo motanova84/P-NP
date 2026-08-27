@@ -114,7 +114,7 @@ def dodecahedron_vertices : ℕ := 20
 def dodecahedron_edges : ℕ := 30
 def dodecahedron_faces : ℕ := 12
 
-example : dodecahedron_vertices - dodecahedron_edges + dodecahedron_faces = 2 := by
+example : dodecahedron_vertices + dodecahedron_faces = dodecahedron_edges + 2 := by
   rfl
 
 example : (dodecahedron_faces : ℝ) = N_critico := by rfl
