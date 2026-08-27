@@ -22,7 +22,7 @@ import Treewidth
 import Treewidth.SeparatorInfo
 import Lifting.Gadgets
 import LowerBounds.Circuits
-import KappaPI
+import formal.KappaPI
 
 namespace FormalVerification
 
