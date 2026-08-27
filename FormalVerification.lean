@@ -40,6 +40,6 @@ def proofCompletionNote : String :=
   "All theorems have complete proof structures. " ++
   "Axiom reduction achieved: 18 → 1 via κ_Π theorem. " ++
   "Some proofs use 'sorry' where full formalization requires external libraries. " ++
-  "Core theorem: tw(G) ≥ κ_Π · IC(G) with κ_Π = ln(12)/ln(φ²) ≈ 2.57735"
+  "Core theorem: tw(G) ≥ κ_Π · IC(G) with κ_Π = ln(12)/ln(φ²) ≈ 2.58193"
 
 end FormalVerification
