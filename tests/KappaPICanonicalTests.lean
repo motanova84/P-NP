@@ -164,13 +164,12 @@ example (G G' : Graph) (h : subgraph G' G) : IC G' ≤ IC G :=
 -- Si conocemos IC(G), podemos establecer una cota inferior para tw(G)
 -- tw(G) ≥ κ_Π · IC(G)
 
-axiom tw : Graph → ℝ
-
-example (G : Graph) (h_ic : IC G = 5) : 
-  tw G ≥ kappa_Pi * 5 := by
-  have : tw G ≥ kappa_Pi * IC G := noetic_lower_bound G
-  rw [h_ic] at this
-  exact this
+example (G : KappaPI.Graph) (h_ic : KappaPI.InformationComplexity G = 5) :
+  KappaPI.Treewidth G ≥ kappa_Pi * 5 := by
+  have h : KappaPI.Treewidth G ≥ kappa_Pi * KappaPI.InformationComplexity G :=
+    noetic_lower_bound G
+  rw [h_ic] at h
+  exact h
 
 /-! ## Test 18: Verificación de φ² -/
 
