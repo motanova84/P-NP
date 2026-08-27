@@ -180,7 +180,8 @@ axiom twelve_symmetry_axes : N_critico = 12
 axiom dodecahedron_faces : ∃ (D : Type), True  -- Dodecaedro formal
 
 /-- Mínimo común denominador de simetrías en empaquetamientos densos -/
-axiom dense_packing_modulus : N_critico = 12
+theorem dense_packing_modulus : N_critico = 12 := by
+  rfl
 
 /-- Permite una resonancia Ψ estable en dimensiones bajas -/
 axiom stable_resonance : kappa_Pi_gt_one → ∃ Ψ : ℝ, Ψ ≥ 0.999999
