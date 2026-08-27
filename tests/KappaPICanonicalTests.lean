@@ -8,7 +8,7 @@ Autor: JMMB Ψ✧ ∞³
 Fecha: Mayo 2026
 -/
 
-import KappaPI
+import formal.KappaPI
 import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 
