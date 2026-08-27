@@ -20,7 +20,7 @@ inferior noética.
 
 ## Referencias
 
-- Documento: KAPPA_PI_DEFINITION_UNICA.lean v1.0
+- Documento: KAPPA_PI_DEFINITION_UNICA.md v1.0
 - Autor: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
 - Fecha: Enero 2026
 -/
