@@ -32,14 +32,13 @@ def version : String := "1.0.0"
 /-- Module status -/
 def status : String := "Complete formalization with proof structures and documented axioms"
 
-/-- Axiom count (reducido mediante teorema κ_Π único) -/
-def axiomCount : Nat := 1  -- tw(G) ≥ κ_Π · IC(G)
+/-- Target axiom count after completing the planned reduction -/
+def targetAxiomCount : Nat := 1
 
 /-- Proof completion percentage (proof sketches vs full proofs) -/
 def proofCompletionNote : String := 
-  "All theorems have complete proof structures. " ++
-  "Axiom reduction achieved: 18 → 1 via κ_Π theorem. " ++
-  "Some proofs use 'sorry' where full formalization requires external libraries. " ++
+  "The formalization still contains axioms and sorry placeholders. " ++
+  "Target axiom reduction: 18 → 1 via the κ_Π theorem. " ++
   "Core theorem: tw(G) ≥ κ_Π · IC(G) with κ_Π = ln(12)/ln(φ²) ≈ 2.58193"
 
 end FormalVerification

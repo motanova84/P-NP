@@ -3,11 +3,11 @@
 
 This module contains the core definitions and fundamental concepts of QCAL 
 (Quantum Coherent Algebraic Logic), the theoretical framework underlying
-the P≠NP proof via κ_Π = 2.5773.
+the P≠NP proof via κ_Π = 2.58193.
 
 ## Core Concepts
 
-1. **κ_Π (Kappa Pi)**: The millennium constant = 2.5773
+1. **κ_Π (Kappa Pi)**: The millennium constant = 2.58193
 2. **QCAL Frequency**: f₀ = 141.7001 Hz (resonance frequency)
 3. **Calabi-Yau Connection**: λ_CY eigenvalue ratio
 4. **Golden Ratio**: φ = (1 + √5)/2 ≈ 1.618034
@@ -24,9 +24,8 @@ the P≠NP proof via κ_Π = 2.5773.
 ## Structure
 
 ```
-κ_Π = φ × (π/e) × λ_CY
-    = 1.618034 × 1.155727 × 1.38197
-    ≈ 2.5773
+κ_Π = ln(12) / ln(φ²)
+    ≈ 2.58193
 ```
 
 Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
@@ -49,7 +48,7 @@ namespace QCAL
 -- FUNDAMENTAL CONSTANTS
 -- ══════════════════════════════════════════════════════════════
 
-/-- The Millennium Constant κ_Π = 2.57735
+/-- The Millennium Constant κ_Π = 2.58193
     
     **DEFINICIÓN CANÓNICA ÚNICA (N=12):**
     κ_Π = ln(12) / ln(φ²) ≈ 2.58193

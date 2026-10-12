@@ -4,7 +4,7 @@
 Versión oficial del sistema QCAL ∞³ para la demostración P≠NP
 
 **N = 12** (dodecaedro / simetría mínima estable)  
-**κ_Π = ln(12) / ln(φ²) ≈ 2.57735**
+**κ_Π = ln(12) / ln(φ²) ≈ 2.58193**
 
 Esta definición reemplaza todas las anteriores y establece la base
 matemática para la separación P≠NP a través del teorema de acotación
@@ -15,7 +15,7 @@ inferior noética.
 1. **Variedad Calabi-Yau** (espacio de estados de H_Ψ)
 2. **Números de Hodge** → h¹¹ + h²¹ define la dimensionalidad efectiva
 3. **N = 12** (modelo mínimo seleccionado por simetría dodecaédrica)
-4. **κ_Π = ln(12) / ln(φ²)** ≈ 2.57735
+4. **κ_Π = ln(12) / ln(φ²)** ≈ 2.58193
 5. **Acoplamiento**: tw(G) ≥ κ_Π · IC(G) para instancias CNF-hard
 
 ## Referencias
@@ -74,7 +74,7 @@ theorem kappa_Pi_value : abs (kappa_Pi - 2.58193) < 0.001 := by
   -- φ ≈ 1.618034
   -- φ² ≈ 2.618034
   -- ln(φ²) ≈ 0.962424
-  -- ln(12)/ln(φ²) ≈ 2.5773499... ≈ 2.57735
+  -- ln(12)/ln(φ²) ≈ 2.581926... ≈ 2.58193
   sorry -- requires numerical computation
 
 /-- κ_Π es positivo -/
@@ -88,13 +88,16 @@ theorem kappa_Pi_pos : 0 < kappa_Pi := by
     apply log_pos
     unfold phi
     have h5 : (0 : ℝ) < 5 := by norm_num
-    have hsqrt : 0 < sqrt 5 := sqrt_pos.mpr h5
+    have hsqrt_gt_one : 1 < sqrt 5 := by
+      have hsqrt_nonneg : 0 ≤ sqrt 5 := sqrt_nonneg _
+      have hsqrt_sq : (sqrt 5) ^ 2 = 5 := sq_sqrt (by norm_num : (0 : ℝ) ≤ 5)
+      nlinarith
     have hphi : 1 < phi := by
       unfold phi
       calc (1 : ℝ) = (2 / 2) := by norm_num
         _ < (1 + sqrt 5) / 2 := by
           apply div_lt_div_of_pos_right
-          · linarith [hsqrt]
+          · linarith [hsqrt_gt_one]
           · norm_num
     calc (1 : ℝ) < phi := hphi
       _ < phi^2 := by
@@ -174,10 +177,10 @@ theorem computational_barrier (G : Type)
 -- ══════════════════════════════════════════════════════════════
 
 /-- N = 12 representa los 12 ejes de simetría del Tetraedro -/
-axiom twelve_symmetry_axes : N_critico = 12
+theorem twelve_symmetry_axes : N_critico = 12 := rfl
 
 /-- Conexión con el dodecaedro (12 caras) -/
-axiom dodecahedron_faces : ∃ (D : Type), True  -- Dodecaedro formal
+def DodecahedronFace : Type := Fin 12
 
 /-- Mínimo común denominador de simetrías en empaquetamientos densos -/
 theorem dense_packing_modulus : N_critico = 12 := by
