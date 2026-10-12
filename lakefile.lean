@@ -196,7 +196,7 @@ lean_lib CSMain where
   roots := #[`Main]
 
 lean_lib ProofComplexity where
-  roots := #[`ProofComplexity.Complexity]
+  roots := #[`ProofComplexity.Complexity, `ProofComplexity.TseitinExpander, `ProofComplexity.EdgeExpansion]
 
 lean_lib NoeticMachine where
   roots := #[`NoeticMachine]
