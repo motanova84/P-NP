@@ -30,7 +30,7 @@ numpy>=1.24.0
 scipy>=1.10.0
 
 # Testing framework (validación de coherencia)
-pytest>=7.0.0
+pytest>=9.0.3
 
 # Análisis de datos (procesamiento de resultados)
 pandas>=2.0.0
