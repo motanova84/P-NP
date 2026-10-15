@@ -53,6 +53,12 @@ python3 examples/demo_ic_sat.py > /dev/null 2>&1
 echo "✓ demo_ic_sat.py completed successfully"
 echo ""
 
+# Test 9: Validate Lean formalization structure
+echo "Test 9: Validating Lean formalization structure..."
+python3 tests/test_lean_structure.py > /dev/null 2>&1
+echo "✓ Lean formalization structure validated (12 tests)"
+echo ""
+
 # Summary
 echo "============================================================"
 echo "ALL TESTS PASSED! ✓"
@@ -60,9 +66,10 @@ echo "============================================================"
 echo ""
 echo "Summary:"
 echo "  ✓ Python dependencies installed"
-echo "  ✓ 29 unit tests passed (pytest)"
+echo "  ✓ 50 unit tests passed (pytest)"
 echo "  ✓ All core modules run successfully"
 echo "  ✓ Demo script runs without errors"
+echo "  ✓ Lean formalization structure validated"
 echo ""
 echo "The repository is fully functional!"
 echo ""

@@ -1,0 +1,184 @@
+
+<style>
+body { margin: 0; }
+canvas { display: block; width: 100% !important; }
+.panel { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); padding: 1rem 1.25rem; margin-bottom: 12px; }
+.metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+.metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem 1rem; text-align: center; }
+.metric-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.metric-value { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.metric-value.highlight { color: #E24B4A; }
+.metric-value.ok { color: #1D9E75; }
+.status-bar { border-radius: var(--border-radius-md); padding: 0.6rem 1rem; font-size: 13px; font-weight: 500; text-align: center; margin-bottom: 12px; }
+.status-bar.detected { background: #FCEBEB; color: #A32D2D; border: 0.5px solid #F09595; }
+.status-bar.null { background: #EAF3DE; color: #3B6D11; border: 0.5px solid #97C459; }
+.ctrl-row { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--color-text-secondary); margin-bottom: 8px; }
+h2 { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 0 0 10px; text-transform: none; letter-spacing: 0.02em; }
+.legend { display: flex; gap: 16px; font-size: 12px; color: var(--color-text-secondary); margin-bottom: 8px; flex-wrap: wrap; }
+.legend span { display: flex; align-items: center; gap: 5px; }
+.legend-dot { width: 20px; height: 2px; display: inline-block; border-radius: 1px; }
+</style>
+
+<div style="padding: 0.5rem 0;">
+  <div class="metric-row" id="metrics">
+    <div class="metric"><div class="metric-label">Amplitud en f₀</div><div class="metric-value" id="m-amp">—</div></div>
+    <div class="metric"><div class="metric-label">Z-score (σ)</div><div class="metric-value" id="m-z">—</div></div>
+    <div class="metric"><div class="metric-label">Veredicto</div><div class="metric-value" id="m-v">—</div></div>
+  </div>
+
+  <div class="status-bar null" id="status-bar">Calculando...</div>
+
+  <div class="ctrl-row">
+    <span>Amplitud ξ</span>
+    <input type="range" id="amp-slider" min="0.1" max="5" step="0.1" value="1.414" style="flex:1">
+    <span id="amp-label" style="min-width:38px;text-align:right">1.41×</span>
+    <span style="margin-left:12px">SNR</span>
+    <input type="range" id="noise-slider" min="0.5" max="3" step="0.1" value="1" style="flex:1">
+    <span id="noise-label" style="min-width:38px;text-align:right">1.0×</span>
+  </div>
+  <div class="ctrl-row" style="margin-top:4px">
+    <button onclick="runSim()" style="padding:6px 18px; font-size:13px">↗ Nueva simulación</button>
+    <span style="color:var(--color-text-tertiary);font-size:12px">Monte Carlo: cada corrida genera ruido distinto</span>
+  </div>
+
+  <div class="panel" style="margin-top:12px">
+    <h2>Densidad espectral de potencia — banda crítica [130–150 Hz]</h2>
+    <div class="legend">
+      <span><span class="legend-dot" style="background:#888780"></span>H₀ ruido clásico</span>
+      <span><span class="legend-dot" style="background:#185FA5"></span>H₁ señal QCAL</span>
+      <span><span class="legend-dot" style="background:#E24B4A; width:1px; height:14px"></span>f₀ = 141.7001 Hz</span>
+    </div>
+    <div style="position:relative;height:220px"><canvas id="psd-chart" role="img" aria-label="Densidad espectral de potencia alrededor de 141.7 Hz"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <h2>Desviación de Allan — estabilidad temporal</h2>
+    <div class="legend">
+      <span><span class="legend-dot" style="background:#888780"></span>H₀</span>
+      <span><span class="legend-dot" style="background:#1D9E75; border-top: 2px dashed #1D9E75; background:none"></span>H₁ modulado</span>
+    </div>
+    <div style="position:relative;height:200px"><canvas id="allan-chart" role="img" aria-label="Desviación de Allan vs tiempo de integración"></canvas></div>
+  </div>
+</div>
+
+
+<script>
+let psdCanvas, allanCanvas;
+
+function drawPSD(freqs, psd0, psd1, peakIdx, f0) {
+  const canvas = document.getElementById('psd-chart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const w = rect.width, h = rect.height;
+  const pad = {top:20, bottom:25, left:45, right:15};
+  const pw = w - pad.left - pad.right, ph = h - pad.top - pad.bottom;
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const bg = dark ? '#1a1a2e' : '#fff';
+  const gridC = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
+  const textC = dark ? '#9c9a92' : '#73726c';
+
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
+
+  // Compute y range
+  let yMin = Infinity, yMax = -Infinity;
+  for(let v of psd0) { if(v < yMin) yMin=v; if(v > yMax) yMax=v; }
+  for(let v of psd1) { if(v < yMin) yMin=v; if(v > yMax) yMax=v; }
+  const yRange = yMax - yMin || 1;
+  const yPad = yRange * 0.1;
+
+  const scaleX = i => pad.left + i/freqs.length * pw;
+  const scaleY = v => pad.top + ph - (v - (yMin-yPad)) / (yRange + 2*yPad) * ph;
+
+  // Grid
+  ctx.strokeStyle = gridC; ctx.lineWidth = 0.5;
+  for(let i=0; i<5; i++) { ctx.beginPath(); const y = pad.top + i/4*ph; ctx.moveTo(pad.left,y); ctx.lineTo(w-pad.right,y); ctx.stroke(); }
+  for(let i=0; i<8; i++) { ctx.beginPath(); const x = pad.left + i/7*pw; ctx.moveTo(x,pad.top); ctx.lineTo(x,h-pad.bottom); ctx.stroke(); }
+
+  // Y axis labels
+  ctx.fillStyle = textC; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+  for(let i=0; i<5; i++) { const y = pad.top + i/4*ph; const v = (yMin-yPad) + (1-i/4)*(yRange+2*yPad); ctx.fillText(v.toFixed(0)+' dB', pad.left-4, y+3); }
+
+  // X axis labels
+  ctx.textAlign = 'center';
+  for(let i=0; i<8; i++) { const idx = Math.floor(i/7*freqs.length); ctx.fillText(freqs[idx].toFixed(1), pad.left + i/7*pw, h-5); }
+
+  // H0 trace
+  ctx.strokeStyle = '#888780'; ctx.lineWidth = 1; ctx.beginPath();
+  for(let i=0; i<freqs.length; i++) { const x=scaleX(i), y=scaleY(psd0[i]); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); }
+  ctx.stroke();
+
+  // H1 trace
+  ctx.strokeStyle = '#185FA5'; ctx.lineWidth = 1.5; ctx.beginPath();
+  for(let i=0; i<freqs.length; i++) { const x=scaleX(i), y=scaleY(psd1[i]); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); }
+  ctx.stroke();
+
+  // f0 vertical line
+  if(peakIdx >= 0 && peakIdx < freqs.length) {
+    const x = scaleX(peakIdx);
+    ctx.strokeStyle = '#E24B4A'; ctx.lineWidth = 1.5; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(x,pad.top); ctx.lineTo(x,h-pad.bottom); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#E24B4A'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText('f₀='+f0, x+3, pad.top+12);
+  }
+}
+
+function drawAllan(taus, d0, d1) {
+  const canvas = document.getElementById('allan-chart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const w = rect.width, h = rect.height;
+  const pad = {top:20, bottom:25, left:50, right:15};
+  const pw = w - pad.left - pad.right, ph = h - pad.top - pad.bottom;
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const bg = dark ? '#1a1a2e' : '#fff';
+  const gridC = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
+  const textC = dark ? '#9c9a92' : '#73726c';
+
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
+
+  // Log-scale only the values
+  let yMin = Infinity, yMax = -Infinity;
+  for(let v of d0) { if(v>0 && v<yMin) yMin=v; if(v>yMax) yMax=v; }
+  for(let v of d1) { if(v>0 && v<yMin) yMin=v; if(v>yMax) yMax=v; }
+  const logMin = yMin > 0 ? Math.log10(yMin) : -10;
+  const logMax = yMax > 0 ? Math.log10(yMax) : 0;
+  const logRng = logMax - logMin || 1;
+
+  const scX = i => pad.left + i/taus.length * pw;
+  const scY = v => pad.top + ph - (Math.log10(v) - logMin) / logRng * ph;
+
+  // Grid
+  ctx.strokeStyle = gridC; ctx.lineWidth = 0.5;
+  for(let i=0; i<5; i++) { ctx.beginPath(); const y=pad.top+i/4*ph; ctx.moveTo(pad.left,y); ctx.lineTo(w-pad.right,y); ctx.stroke(); }
+  for(let i=0; i<8; i++) { ctx.beginPath(); const x=pad.left+i/7*pw; ctx.moveTo(x,pad.top); ctx.lineTo(x,h-pad.bottom); ctx.stroke(); }
+
+  // Y labels
+  ctx.fillStyle = textC; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+  for(let i=0; i<5; i++) { const y=pad.top+i/4*ph; const v=10**(logMax - i/4*logRng); ctx.fillText(v.toExponential(0), pad.left-4, y+3); }
+
+  // X labels
+  ctx.textAlign = 'center';
+  for(let i=0; i<8; i++) { const idx = Math.floor(i/7*(taus.length-1)); ctx.fillText(taus[idx].toExponential(1), pad.left+i/7*pw, h-5); }
+
+  // H0 trace
+  ctx.strokeStyle = '#888780'; ctx.lineWidth = 1.5; ctx.beginPath();
+  for(let i=0; i<taus.length; i++) { const x=scX(i), y=scY(d0[i]); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); }
+  ctx.stroke();
+
+  // H1 dotted trace
+  ctx.strokeStyle = '#1D9E75'; ctx.lineWidth = 2; ctx.setLineDash([5,3]); ctx.beginPath();
+  for(let i=0; i<taus.length; i++) { const x=scX(i), y=scY(d1[i]); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); }
+  ctx.stroke(); ctx.setLineDash([]);
+}
+

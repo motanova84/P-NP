@@ -1,0 +1,12 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements-noesis.txt /app/requirements-noesis.txt
+RUN pip install --no-cache-dir -r /app/requirements-noesis.txt
+
+COPY noesis_solver.py /app/noesis_solver.py
+
+EXPOSE 8000
+
+CMD ["uvicorn", "noesis_solver:app", "--host", "0.0.0.0", "--port", "8000"]

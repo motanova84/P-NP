@@ -1,0 +1,17 @@
+[Unit]
+Description=QCAL Flywheel - piCODE->Lightning pulse engine
+After=network.target lnd.service
+Wants=lnd.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/repo_P-NP/scripts
+ExecStart=/usr/bin/python3 /root/repo_P-NP/scripts/pi_code_flywheel.py
+Restart=always
+RestartSec=30
+StandardOutput=append:/var/log/qcal-flywheel.log
+StandardError=append:/var/log/qcal-flywheel.log
+
+[Install]
+WantedBy=multi-user.target

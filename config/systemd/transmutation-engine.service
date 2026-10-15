@@ -1,0 +1,17 @@
+[Unit]
+Description=TRANSMUTATION ENGINE — PoCΨ to BTC native daemon
+After=network.target lnd.service lnd-amda.service amda-agent.service
+Wants=lnd.service lnd-amda.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/repo_P-NP/scripts/transmutation
+ExecStart=/usr/bin/python3 /root/repo_P-NP/scripts/transmutation/transmutation_engine.py
+Restart=always
+RestartSec=30
+StandardOutput=append:/var/log/transmutation_native.log
+StandardError=append:/var/log/transmutation_native.error.log
+
+[Install]
+WantedBy=multi-user.target

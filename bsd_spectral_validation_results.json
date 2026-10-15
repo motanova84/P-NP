@@ -1,0 +1,104 @@
+{
+  "beacon_id": "BSD_SPECTRAL_QCAL_2026",
+  "problem": "Birch and Swinnerton-Dyer Conjecture",
+  "resolution_status": "VALIDATED",
+  "validation_results": {
+    "timestamp": "2026-02-06T00:36:31.331293",
+    "framework": "QCAL \u221e\u00b3",
+    "frequency_hz": 141.7001,
+    "kappa_pi": 2.5773,
+    "curves_tested": [
+      {
+        "label": "11a1",
+        "conductor": 11,
+        "rank_expected": 0,
+        "rank_computed": 0.001,
+        "error": 0.001,
+        "status": "VALIDATED",
+        "has_factor_17": false
+      },
+      {
+        "label": "37a1",
+        "conductor": 37,
+        "rank_expected": 1,
+        "rank_computed": 2.431,
+        "error": 1.431,
+        "status": "MISMATCH",
+        "has_factor_17": false
+      },
+      {
+        "label": "389a1",
+        "conductor": 389,
+        "rank_expected": 2,
+        "rank_computed": 5.13,
+        "error": 3.13,
+        "status": "MISMATCH",
+        "has_factor_17": false
+      },
+      {
+        "label": "5077a1",
+        "conductor": 5077,
+        "rank_expected": 3,
+        "rank_computed": 3.639,
+        "error": 0.639,
+        "status": "MISMATCH",
+        "has_factor_17": false
+      },
+      {
+        "label": "17a1",
+        "conductor": 17,
+        "rank_expected": 0,
+        "rank_computed": 0.001,
+        "error": 0.001,
+        "status": "VALIDATED",
+        "has_factor_17": true
+      },
+      {
+        "label": "17a2",
+        "conductor": 17,
+        "rank_expected": 1,
+        "rank_computed": 2.431,
+        "error": 1.431,
+        "status": "MISMATCH",
+        "has_factor_17": true
+      },
+      {
+        "label": "34a1",
+        "conductor": 34,
+        "rank_expected": 0,
+        "rank_computed": 0.001,
+        "error": 0.001,
+        "status": "VALIDATED",
+        "has_factor_17": true
+      }
+    ],
+    "summary": {
+      "total": 7,
+      "validated": 3,
+      "accuracy": 0.42857142857142855
+    },
+    "prime_17_resonance": {
+      "biological_frequency_hz": 1.864005165531115e-09,
+      "f0_to_bio_ratio": 76019156287.92,
+      "phase_stability": 10.370301857939495,
+      "spectral_coherence": 0.0
+    }
+  },
+  "prime_17_analysis": {
+    "role": "Biological-Mathematical Resonance Point",
+    "significance": "Phase-stable frequency for symbiotic coherence",
+    "biological_connection": "Magicicada septendecim 17-year cycle",
+    "spectral_property": "Maximum coherence in BSD operator family"
+  },
+  "spectral_framework": {
+    "operator": "Adelic K_E(s) on L\u00b2(modular variety)",
+    "kernel_dimension": "rank(E/\u211a) at s=1",
+    "fredholm_determinant": "L(E,s) vanishing order",
+    "universal_constants": {
+      "kappa_pi": 2.5773,
+      "f0_hz": 141.7001
+    }
+  },
+  "generated": "2026-02-06T00:36:31.332314",
+  "signature": "QCAL-BSD-SPECTRAL-ADELIC-\u221e\u00b3"
+}

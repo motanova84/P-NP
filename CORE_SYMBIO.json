@@ -1,0 +1,18 @@
+{
+  "protocol": "QCAL-SYMBIO-BRIDGE",
+  "origin": "motanova84",
+  "identity_nodes": {
+    "ledger": "economia-qcal-nodo-semilla",
+    "spectral": "141hz",
+    "verification": "Ramsey",
+    "geometry": "Riemann-adelic",
+    "complexity": "P-NP",
+    "fluid": "3D-Navier-Stokes"
+  },
+  "constants": {
+    "f0": 141.7001,
+    "limit_nfts": 88,
+    "resonance": 888,
+    "r66": 108
+  }
+}

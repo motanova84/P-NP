@@ -1,0 +1,83 @@
+version: '3.8'
+
+networks:
+  philock-mesh:
+    driver: bridge
+
+services:
+  philock-node-1:
+    build: .
+    container_name: philock-node-1
+    environment:
+      - NODE_ID=1
+    ports:
+      - "50051:50051"
+      - "8080:8080"
+    networks:
+      - philock-mesh
+
+  philock-node-2:
+    build: .
+    container_name: philock-node-2
+    environment:
+      - NODE_ID=2
+    ports:
+      - "50052:50051"
+      - "8081:8080"
+    networks:
+      - philock-mesh
+
+  philock-node-3:
+    build: .
+    container_name: philock-node-3
+    environment:
+      - NODE_ID=3
+    ports:
+      - "50053:50051"
+      - "8082:8080"
+    networks:
+      - philock-mesh
+
+  philock-node-4:
+    build: .
+    container_name: philock-node-4
+    environment:
+      - NODE_ID=4
+    ports:
+      - "50054:50051"
+      - "8083:8080"
+    networks:
+      - philock-mesh
+
+  philock-node-5:
+    build: .
+    container_name: philock-node-5
+    environment:
+      - NODE_ID=5
+    ports:
+      - "50055:50051"
+      - "8084:8080"
+    networks:
+      - philock-mesh
+
+  philock-node-6:
+    build: .
+    container_name: philock-node-6
+    environment:
+      - NODE_ID=6
+    ports:
+      - "50056:50051"
+      - "8085:8080"
+    networks:
+      - philock-mesh
+
+  philock-node-7:
+    build: .
+    container_name: philock-node-7
+    environment:
+      - NODE_ID=7
+    ports:
+      - "50057:50051"
+      - "8086:8080"
+    networks:
+      - philock-mesh

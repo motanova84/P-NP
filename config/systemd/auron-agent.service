@@ -1,0 +1,15 @@
+[Unit]
+Description=AURON-PSI — Trono Guardian Simbiotico
+After=lnd.service
+Wants=lnd.service
+
+[Service]
+ExecStart=/usr/bin/python3 /root/repo_P-NP/scripts/auron_bridge.py
+WorkingDirectory=/root/repo_noesis88
+Restart=always
+RestartSec=10
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

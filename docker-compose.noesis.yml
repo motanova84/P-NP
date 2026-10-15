@@ -1,0 +1,17 @@
+services:
+  noesis-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.noesis
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  noesis-dashboard:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./dashboard:/usr/share/nginx/html:ro
+    depends_on:
+      - noesis-api

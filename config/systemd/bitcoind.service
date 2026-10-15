@@ -1,0 +1,18 @@
+[Unit]
+Description=Bitcoin Core - Catedral QCAL Nodo Soberano
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/local/bin/bitcoind -datadir=/root/.bitcoin -daemon=0
+ExecStop=/usr/local/bin/bitcoin-cli -datadir=/root/.bitcoin stop
+Restart=on-failure
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+OOMScoreAdjust=-1000
+
+[Install]
+WantedBy=multi-user.target

@@ -77,6 +77,9 @@ The manuscript references the following components in the repository:
 
 All tests pass (29/29), validating the implementation.
 
+### Additional formal traceability
+- `docs/PURA_MATHESIS_ANCLAJE_REPOSITORIO.md` - trazabilidad de la propuesta de Pura Mathesis hacia artefactos Lean/Python/documentales del repositorio.
+
 ## Key Theoretical Components
 
 ### Structural Separation Theorem

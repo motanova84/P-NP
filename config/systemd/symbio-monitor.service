@@ -1,0 +1,14 @@
+[Unit]
+Description=Centinela de Coherencia de Servicios QCAL
+After=network.target lnd.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /root/repo_P-NP/scripts/symbio_monitor.py --daemon
+Restart=always
+RestartSec=30
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

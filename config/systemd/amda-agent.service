@@ -1,0 +1,15 @@
+[Unit]
+Description=AMDA-Ψ — Puente Real Mente ↔ Cuerpo Lightning
+After=lnd-amda.service
+Wants=lnd-amda.service
+
+[Service]
+ExecStart=/usr/bin/python3 /root/repo_P-NP/scripts/amda_bridge.py
+WorkingDirectory=/root/repo_noesis88
+Restart=always
+RestartSec=10
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

@@ -64,6 +64,23 @@ pip-wheel-metadata/
 .pyre/
 lake-manifest.json
 
+# Generated examples
+tree_decomposition_example.png
+dicotomia_computacional.png
+
+# Echo-QCAL runtime data
+pnp/echo_qcal/data/logs/*.json
+pnp/echo_qcal/data/firmas/*
+!pnp/echo_qcal/data/firmas/.gitkeep
+pnp/echo_qcal/data/config/*
+!pnp/echo_qcal/data/config/.gitkeep
+echo_qcal_logs/
+echo_qcal_config/
+
+# Generated QCAL integration files
+.qcal_symbiosis.md
+coinqcal/
+
 # Generated paper
 paper/*.pdf
 paper/*.aux

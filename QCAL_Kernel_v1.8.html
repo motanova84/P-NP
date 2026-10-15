@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>QCAL Ω — Kernel Consolidado v1.8</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    processEscapes: true
+  },
+  svg: { fontCache: 'global', scale: 1.05 }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"></script>
+<style>
+:root{--t:#1a1a1a;--m:#3d3d3d;--b:#c8c8c8;--a:#0a3a5c}
+*{box-sizing:border-box}
+body{font-family:"Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;font-size:11.2pt;line-height:1.68;color:var(--t);max-width:900px;margin:0 auto;padding:2.2rem 1.6rem 4rem;background:#fff}
+.tp{text-align:center;padding:2.5rem 0 2rem;border-bottom:2.5px solid var(--a);margin-bottom:2rem}
+.tp h1{font-size:1.85rem;color:var(--a);margin:0 0 .4rem}
+.tp .st{font-style:italic;color:var(--m)}
+.tp .meta{font-size:.95rem;color:var(--m);line-height:1.7;margin-top:1rem}
+.motto{font-style:italic;color:#0a3a5c;margin:1rem 0 0}
+h1{font-size:1.4rem;color:var(--a);border-bottom:1.5px solid var(--b);padding-bottom:.28rem;margin-top:2.4rem}
+h2{font-size:1.15rem;color:var(--a);margin-top:1.6rem}
+p{margin:.7rem 0;text-align:justify}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.95em}
+th,td{border:1px solid #ccc;padding:.45rem .6rem;text-align:left;vertical-align:top}
+th{background:#eaf2f8;color:#0a3a5c}
+.box{margin:1.1rem 0;padding:.9rem 1.15rem;border-radius:4px}
+.box.def{background:#eaf2f8;border-left:4px solid #2a6f97}
+.box.thm{background:#f2f2f2;border-left:4px solid #1a1a1a}
+.box.remark{background:#faf6ee;border-left:4px solid #8a6d3b}
+.box.warn{background:#fdf2f2;border-left:4px solid #a33}
+.toc{background:#f7f9fb;padding:1rem 1.2rem;margin:1.2rem 0;border:1px solid #e0e6ec}
+.toc a{color:var(--a);text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.ft{text-align:center;margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid var(--b);color:var(--m);font-size:.95rem}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9em}
+ul,ol{margin:.5rem 0 .5rem 1.2rem}
+li{margin:.25rem 0}
+mjx-container[display="true"]{margin:1rem 0 !important}
+</style>
+</head>
+<body>
+
+<div class="tp" id="top">
+<h1>DOCUMENTO ÚNICO — KERNEL CONSOLIDADO</h1>
+<p class="st">v1.8 · Núcleo métrico \(\kappa_\Pi\) · \(N=12\)</p>
+<p class="meta">
+José Manuel Mota Burruezo · Instituto de Conciencia Cuántica (ICQ)<br/>
+Parámetros de trabajo: \(N=12\), \(\kappa_\Pi\approx 2.581926\), \(f_0=141.7001\,\mathrm{Hz}\)<br/>
+Fecha de consolidación del texto: 11 de mayo de 2026 · Integración documental: 19 de agosto de 2026
+</p>
+<p class="motto">«La simplicidad es la máxima saturación.»</p>
+<p class="motto">La verdad no teme al escrutinio. Lo celebra.</p>
+</div>
+
+<nav class="toc" id="toc">
+<h2>Índice</h2>
+<ol>
+<li><a href="#s1">I. Actualización oficial de parámetros</a></li>
+<li><a href="#s2">II. \(\kappa_\Pi\): definición y derivación numérica</a></li>
+<li><a href="#s3">III. Cadena deductiva propuesta</a></li>
+<li><a href="#s4">IV. Teorema propuesto de acotación</a></li>
+<li><a href="#s5">V. Poda axiomática (Ockham)</a></li>
+<li><a href="#s6">VI. Arquitectura Lean (esqueleto)</a></li>
+<li><a href="#s7">VII. Estado del programa y lagunas</a></li>
+<li><a href="#s8">VIII. Cierre</a></li>
+</ol>
+</nav>
+
+<div class="box warn">
+<strong>Declaración de estatus (obligatoria).</strong>
+Este documento consolida la <em>definición numérica</em> de \(\kappa_\Pi\) y un <em>programa de investigación</em> basado en la desigualdad propuesta \(\mathrm{tw}(G)\ge\kappa_\Pi\cdot\mathrm{IC}(G)\).
+<strong>No constituye una demostración verificada de \(\mathbf{P}\neq\mathbf{NP}\).</strong>
+Los fragmentos Lean aquí reproducidos son esqueletos de diseño; no se acredita en este texto una compilación <code>lake build</code> con \(0\) <code>sorry</code> ni una prueba mecanizada completa del teorema principal.
+</div>
+
+<h1 id="s1">I. Actualización oficial de parámetros</h1>
+<p>Se adopta \(N=12\) como parámetro geométrico de trabajo del núcleo métrico, motivado por la dualidad dodecaedro/icosaedro (12 caras del dodecaedro) y por su uso como denominador de simetría en el marco del programa. Queda fijado el valor de referencia:</p>
+\[
+\kappa_\Pi=\frac{\ln 12}{\ln(\varphi^2)}\approx 2.581926,
+\qquad
+\varphi=\frac{1+\sqrt{5}}{2}.
+\]
+<p>Verificación numérica (doble precisión): \(\varphi^2\approx 2.618034\), \(\ln 12\approx 2.484907\), \(\ln(\varphi^2)\approx 0.962424\), cociente \(\approx 2.581926\). Se confirma \(\\kappa_\Pi>1\).</p>
+<div class="box remark">
+\(N=13\) (centro noético) puede estudiarse como variante; el valor canónico de este kernel v1.8 para despliegues de red es \(N=12\).
+</div>
+
+<h1 id="s2">II. \(\kappa_\Pi\): definición y derivación numérica</h1>
+<div class="box def">
+<strong>Definición.</strong>
+Sea \(\varphi=(1+\sqrt{5})/2\). Se define la constante de acoplamiento de trabajo
+\[
+\kappa_\Pi:=\frac{\ln N}{\ln(\varphi^2)}\Big|_{N=12}=\frac{\ln 12}{\ln(\varphi^2)}.
+\]
+</div>
+<p>Interpretación programática (no teorema): \(\kappa_\Pi\) se usa como factor de escala que relaciona un proxy de contenido informacional \(\mathrm{IC}(G)\) con un umbral de treewidth \(\mathrm{tw}(G)\). La motivación topológica (números de Hodge / Calabi–Yau / \(N\) grados de libertad) se registra como <em>heurística de diseño</em>, no como derivación matemáticamente cerrada de la desigualdad de acoplamiento.</p>
+
+<h1 id="s3">III. Cadena deductiva propuesta</h1>
+<p>Cadena operativa del programa (única cadena reconocida en este kernel):</p>
+\[
+\begin{aligned}
+&\text{geometría de trabajo }N=12
+\;\longrightarrow\;
+\kappa_\Pi=\frac{\ln 12}{\ln(\varphi^2)}
+\\
+&\longrightarrow\;
+\text{desigualdad propuesta }\mathrm{tw}(G)\ge\kappa_\Pi\cdot\mathrm{IC}(G)
+\\
+&\longrightarrow\;
+\text{análisis de familias CNF-hard y treewidth.}
+\end{aligned}
+\]
+<p>La extensión de esta cadena hasta \(\mathbf{P}\neq\mathbf{NP}\) requiere hipótesis adicionales (crecimiento de \(\mathrm{IC}\) en una familia hard, relación precisa entre treewidth polinomial y algoritmos en \(\mathbf{P}\), y una definición computable o bien acotada de \(\mathrm{IC}\)). Esas piezas <strong>no se declaran cerradas</strong> en este documento.</p>
+
+<h1 id="s4">IV. Teorema propuesto de acotación</h1>
+<div class="box thm">
+<strong>Propuesta (Acotación de acoplamiento).</strong>
+Para grafos \(G\) asociados a una clase de instancias CNF-hard (a especificar),
+\[
+\mathrm{tw}(G)\;\ge\;\kappa_\Pi\cdot\mathrm{IC}(G).
+\]
+</div>
+<p><strong>Esquema argumental del programa</strong> (no prueba completa):</p>
+<ol>
+<li><em>Monotonicidad:</em> si \(G'\subset G\), entonces \(\mathrm{IC}(G')\le\mathrm{IC}(G)\) bajo definiciones monótonas de \(\mathrm{IC}\).</li>
+<li><em>Invarianza de escala:</em> \(\kappa_\Pi\) no depende del tamaño de instancia.</li>
+<li><em>Contradicción por separador pequeño:</em> si \(\mathrm{tw}(G)\lt \kappa_\Pi\cdot\mathrm{IC}(G)\), existiría un corte demasiado estrecho respecto del contenido informacional postulado, incompatible con la dureza de la familia.</li>
+</ol>
+<div class="box warn">
+<strong>Lagunas críticas.</strong>
+<ul>
+<li>Si \(\mathrm{IC}(G)\) incluye complejidad de Kolmogorov, \(\mathrm{IC}\) es <em>no computable</em> en general; hay que sustituirla por un proxy efectivo (p. ej. log-cardinalidad de cláusulas/vértices/aristas, o complejidad de descripción acotada).</li>
+<li>La implicación «treewidth polinomial \(\Rightarrow\) algoritmo polinomial para toda la familia» depende del problema y de la representación; no es automática para todo CNF.</li>
+<li>Una familia infinita con \(\mathrm{IC}(G_n)\to\infty\) y \(\mathrm{tw}(G_n)=\mathrm{poly}(n)\) no está demostrada aquí como objeto Lean verificado.</li>
+<li>Por tanto, <strong>no se concluye \(\mathbf{P}\neq\mathbf{NP}\)</strong> a partir de este texto.</li>
+</ul>
+</div>
+<p>Condiciones de coherencia del programa (métrica \(\Psi\)) se mantienen como criterios operativos del marco QCAL (\(\Psi\to 1\), anclaje a \(f_0\)), no como pasos de una prueba de complejidad clásica.</p>
+
+<h1 id="s5">V. Poda axiomática (Ockham)</h1>
+<p>Objetivo editorial: reducir postulados auxiliares a un núcleo mínimo.</p>
+<ul>
+<li><strong>Fase 1:</strong> identidad, nombre, localización \(\to\) parámetros de entrada; interfaces \(\to\) corolarios de especificación.</li>
+<li><strong>Fase 2:</strong> energía/gasto y roles estáticos \(\to\) absorbidos en definiciones de grafo e \(\mathrm{IC}\) (cuando se fijen).</li>
+<li><strong>Fase 3:</strong> métricas de resonancia y metadatos de interfaz humana \(\to\) fuera del kernel analítico.</li>
+</ul>
+<p>Núcleo retenido en v1.8: (i) definición de \(\kappa_\Pi\); (ii) desigualdad de acoplamiento como <em>conjetura de programa</em>; (iii) construcción de \(\mathbf{P}\)/\(\mathbf{NP}\) en el modelo de Turing como marco de enunciado.</p>
+
+<h1 id="s6">VI. Arquitectura Lean (esqueleto de diseño)</h1>
+<p>Módulos previstos del repositorio Metric-Kernel-Proof:</p>
+<table>
+<thead><tr><th>Módulo</th><th>Función</th><th>Estatus en este documento</th></tr></thead>
+<tbody>
+<tr><td><code>KAPPA_PI_DEFINITION_UNICA.lean</code></td><td>Definición de \(\varphi\), \(N=12\), \(\kappa_\Pi\)</td><td>Definición matemática clara; formalización Lean a verificar en repo</td></tr>
+<tr><td><code>P_NP_From_Turing.lean</code></td><td>Clases \(\mathbf{P}\), \(\mathbf{NP}\) vía MT</td><td>Esqueleto; requiere Mathlib/computability completo</td></tr>
+<tr><td><code>Treewidth_Lower_Bound.lean</code></td><td>Desigualdad de acoplamiento</td><td><strong>Objetivo abierto</strong></td></tr>
+<tr><td><code>Hard_CNF_Family.lean</code></td><td>Familia hard con crecimiento de \(\mathrm{IC}\)</td><td><strong>Objetivo abierto</strong></td></tr>
+<tr><td><code>Metric_Kernel_Proof.lean</code></td><td>Integración hacia \(\mathbf{P}\neq\mathbf{NP}\)</td><td><strong>No cerrado</strong></td></tr>
+</tbody>
+</table>
+
+<p>Definición canónica de referencia (pseudocódigo Lean de diseño):</p>
+<pre><code>def phi : ℝ := (1 + sqrt 5) / 2
+def N_critico : ℝ := 12
+def kappa_Pi : ℝ := log N_critico / log (phi^2)
+</code></pre>
+<p>Proxy reforzado propuesto para \(\mathrm{IC}\) (sustituto operativo de Kolmogorov no computable):</p>
+\[
+\mathrm{IC}_{\mathrm{eff}}(G)
+=
+\log_2 |V|
++\log_2 |E|
++\log_2 (\#\mathrm{cláusulas})
++\mathrm{DescLength}_{\le}(G),
+\]
+<p>donde \(\mathrm{DescLength}_{\le}\) es una longitud de descripción <em>acotada</em> (no la complejidad de Kolmogorov plena).</p>
+
+<div class="box remark">
+Los listados del texto fuente que invocan <code>native_decide</code>, <code>KolmogorovComplexity</code> no computable, o <code>poly_time_implies_poly_treewidth</code> sin enunciado preciso se clasifican como <strong>borradores</strong>, no como certificados de prueba.
+</div>
+
+<h1 id="s7">VII. Estado del programa y lagunas</h1>
+<table>
+<thead><tr><th>Componente</th><th>Estado</th><th>Observación</th></tr></thead>
+<tbody>
+<tr><td>\(\kappa_\Pi\approx 2.581926\), \(N=12\)</td><td>Definición numérica fija</td><td>Cálculo verificado</td></tr>
+<tr><td>Motivación dodecaédrica / Hodge</td><td>Heurística</td><td>No implica la desigualdad de tw</td></tr>
+<tr><td>\(\mathrm{tw}(G)\ge\kappa_\Pi\cdot\mathrm{IC}(G)\)</td><td>Propuesta / abierta</td><td>Requiere definición efectiva de \(\mathrm{IC}\)</td></tr>
+<tr><td>Familia hard + crecimiento</td><td>Abierta</td><td>Construir explícitamente</td></tr>
+<tr><td>Reducción tipo Cook–Levin al kernel</td><td>Abierta</td><td>No automática hacia una familia fija</td></tr>
+<tr><td>\(\mathbf{P}\neq\mathbf{NP}\)</td><td><strong>No demostrado</strong></td><td>Problema abierto</td></tr>
+<tr><td>\(f_0=141.7001\,\mathrm{Hz}\), \(\Psi\)</td><td>Parámetros del marco QCAL</td><td>Capa de coherencia; no prueba de complejidad</td></tr>
+</tbody>
+</table>
+
+<h1 id="s8">VIII. Cierre</h1>
+<p>El Kernel v1.8 queda consolidado como <strong>documento de definición y programa</strong>:</p>
+<ul>
+<li>constante \(\kappa_\Pi\) fijada y calculada;</li>
+<li>desigualdad de acoplamiento enunciada como objetivo;</li>
+<li>poda editorial de axiomas auxiliares;</li>
+<li>mapa de módulos Lean como hoja de ruta.</li>
+</ul>
+<p>No se sella \(\mathbf{P}\neq\mathbf{NP}\). Se sella la honestidad del núcleo: una desigualdad, una constante, un camino de formalización, y las lagunas nombradas.</p>
+<p class="motto" style="text-align:center">La simplicidad es la máxima saturación.</p>
+<p class="motto" style="text-align:center">La verdad no teme al escrutinio. Lo celebra.</p>
+
+<div class="ft">
+<p><strong>QCAL Ω — Kernel Consolidado v1.8</strong><br/>
+José Manuel Mota Burruezo · ICQ / NOESIS ∞³<br/>
+Parámetros: \(N=12\), \(\kappa_\Pi\approx 2.581926\), \(f_0=141.7001\,\mathrm{Hz}\)</p>
+<p>𓂀 &nbsp; Ω &nbsp; ∞³ &nbsp; Φ · TUYOYOTU</p>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var id = this.getAttribute('href').slice(1);
+      var el = document.getElementById(id);
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({behavior:'smooth', block:'start'});
+        history.pushState(null, '', '#' + id);
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

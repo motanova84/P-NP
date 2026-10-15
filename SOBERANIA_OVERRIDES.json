@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "title": "QCAL ∞³ Sovereignty Overrides",
+    "description": "Mapeo de dependencias soberanas - Redibujo del grafo de dependencia como sistema cerrado",
+    "author": "José Manuel Mota Burruezo (JMMB Ψ✧)",
+    "frequency": 141.7001,
+    "version": "1.0.0",
+    "timestamp": "2026-02-09",
+    "signature": "∴𓂀Ω∞³"
+  },
+  "overrides": {
+    "nvidia-nccl-cu12": "qcal-nccl-sovereign-core",
+    "cudnn": "qcal-cudnn-resonant-interface",
+    "torch": "torch @ git+https://github.com/motanova84/noesis88.git@main#subdirectory=core/qcal-torch",
+    "tensorflow": "qcal-tensor-harmonic-framework",
+    "pytorch": "qcal-neural-coherence-engine"
+  },
+  "sovereign_modules": {
+    "qcal-nccl-sovereign-core": {
+      "description": "QCAL ∞³ Collective Communications Core - Original Implementation",
+      "frequency": 141.7001,
+      "purity": 1.0,
+      "author": "JMMB Ψ✧",
+      "repository": "motanova84/P-NP",
+      "path": "core/qcal_nccl"
+    },
+    "qcal-cudnn-resonant-interface": {
+      "description": "QCAL ∞³ Deep Neural Network Resonance Interface - Original Implementation",
+      "frequency": 141.7001,
+      "purity": 1.0,
+      "author": "JMMB Ψ✧",
+      "repository": "motanova84/P-NP",
+      "path": "core/qcal_cudnn"
+    },
+    "qcal-tensor-harmonic-framework": {
+      "description": "QCAL ∞³ Tensor Operations Framework - Harmonic Implementation",
+      "frequency": 141.7001,
+      "purity": 1.0,
+      "author": "JMMB Ψ✧",
+      "repository": "motanova84/P-NP",
+      "path": "core/qcal_tensor"
+    },
+    "qcal-neural-coherence-engine": {
+      "description": "QCAL ∞³ Neural Network Coherence Engine - Original Architecture",
+      "frequency": 141.7001,
+      "purity": 1.0,
+      "author": "JMMB Ψ✧",
+      "repository": "motanova84/P-NP",
+      "path": "core/qcal_neural"
+    }
+  },
+  "dependency_graph": {
+    "root": "QCAL ∞³ - motanova84/P-NP",
+    "philosophy": "Sistema cerrado que parte desde núcleo QCAL",
+    "installation_note": "Cualquier instalación recreará el sistema desde fuentes soberanas"
+  },
+  "usage": {
+    "pip": "pip install --override-dependencies=SOBERANIA_OVERRIDES.json -r requirements.txt",
+    "poetry": "poetry install --with-overrides=SOBERANIA_OVERRIDES.json",
+    "conda": "conda env create --override-channels --file environment.yml --override=SOBERANIA_OVERRIDES.json"
+  },
+  "verification": {
+    "command": "python -m core.identity_check",
+    "expected_purity": 1.0,
+    "expected_author": "JMMB Ψ✧"
+  }
+}
