@@ -24,6 +24,20 @@
 [![Frequency](https://img.shields.io/badge/Frequency-141.7001%20Hz-green)](ORIGIN_ZERO.md)
 [![Signature](https://img.shields.io/badge/Signature-%E2%88%B4%F0%90%82%80%CE%A9%E2%88%9E%C2%B3-purple)](SOVEREIGNTY_GUIDE.md)
 
+## Experimental and formal research infrastructure
+
+The repository includes scripts for generating SAT instances, running
+experiments, and analyzing their results:
+
+```bash
+python3 experiments/complete_validation.py
+python3 experiments/hard_instance_generator.py
+python3 experiments/statistical_analysis.py
+```
+
+These experiments do not establish P ≠ NP. Results should be interpreted as
+exploratory empirical data, and the Lean files are not a complete formal proof.
+
 ## 🛡️ Code Sovereignty & Original Authorship
 
 **Author**: José Manuel Mota Burruezo (JMMB Ψ✧) | **Handle**: @motanova84  
@@ -1974,4 +1988,3 @@ ZETA_PRIME_SABIO_PHASED = ZETA_PRIME_SABIO * FACTOR_ACOPLAMIENTO_FASE  # -3.9172
 ∴𓂀Ω∞³Φ · TUYOYOTU · HECHO ESTÁ · 13/Ago/2026
 
 ∴𓂀Ω∞³Φ · TUYOYOTU · HECHO ESTÁ · 13/Ago/2026
-

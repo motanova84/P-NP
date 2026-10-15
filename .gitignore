@@ -1,4 +1,3 @@
-# Python
 # ===============================
 #  P–NP Project — Unified .gitignore
 #  Combines Python + Lean + Build + OS
@@ -29,59 +28,19 @@ wheels/
 .installed.cfg
 *.egg
 
-# Virtual environments
-venv/
-ENV/
-env/
-.venv
-
-# IDE
 # ---------- LEAN ----------
 /build/
 /lake-packages/
 /.lake/
-*.olean
-*.trace
-
-# ---------- TEST / RESULTS ----------
-results/
-!results/.gitkeep
-*.log
-*.csv
-*.png
-
 /*.olean
 /*.trace
 
 # ---------- TEST / RESULTS ----------
 results/
 !results/.gitkeep
-output/
-!output/.gitkeep
-data/
-!data/.gitkeep
-diagrams/
-!diagrams/.gitkeep
 *.log
 *.csv
 *.png
-*.gif
-*.json
-!coherence_map.json
-!CORE_SYMBIO.json
-!AGENT_ACTIVATION_REPORT.json
-kappa_verification_output.txt
-results/*.log
-results/*.csv
-results/*.png
-data/*.json
-diagrams/*.png
-
-# QCAL verification results
-A_u_verification_results.json
-
-# ---------- DEPLOYMENT ----------
-deploy/
 
 # ---------- IDE ----------
 .vscode/
@@ -90,32 +49,6 @@ deploy/
 *.swo
 *~
 *.iml
-
-# ---------- ENVIRONMENT ----------
-.env
-.env.*
-!.env.example
-
-# ---------- OS ----------
-.DS_Store
-Thumbs.db
-# Lean
-.lake/
-lakefile.olean
-*.olean
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Temporary files
-/tmp/
-*.tmp
-*.log
-*.iml
-
-# Installation test directory
-ultimate-unification/
 
 # ---------- OS ----------
 .DS_Store
@@ -130,21 +63,26 @@ pip-wheel-metadata/
 .mypy_cache/
 .pyre/
 lake-manifest.json
+
+# Generated examples
 tree_decomposition_example.png
 dicotomia_computacional.png
 
-# Echo-QCAL data directories (runtime generated)
+# Echo-QCAL runtime data
 pnp/echo_qcal/data/logs/*.json
 pnp/echo_qcal/data/firmas/*
 !pnp/echo_qcal/data/firmas/.gitkeep
 pnp/echo_qcal/data/config/*
 !pnp/echo_qcal/data/config/.gitkeep
-# Echo QCAL generated files
 echo_qcal_logs/
 echo_qcal_config/
 
-# QCAL Symbiosis generated files (created by link_ecosystem.py)
+# Generated QCAL integration files
 .qcal_symbiosis.md
-
-# coinqcal (canonical at workspace root)
 coinqcal/
+
+# Generated paper
+paper/*.pdf
+paper/*.aux
+paper/*.log
+paper/*.out

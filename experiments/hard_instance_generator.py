@@ -1,262 +1,238 @@
+#!/usr/bin/env python3
 """
 Hard Instance Generator for P≠NP Validation
 ============================================
 
-Generates hard SAT instances for testing the computational dichotomy,
-including Tseitin formulas over expander graphs and grid-based SAT instances.
+Generates hard SAT instances with controlled treewidth properties
+for validating the computational dichotomy theorem.
 
-Author: José Manuel Mota Burruezo · JMMB Ψ✧ ∞³
+Author: José Manuel Mota Burruezo (JMMB Ψ✧)
 """
 
-import networkx as nx
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
 import numpy as np
+import networkx as nx
 from typing import List, Tuple
-import random
-
-
-class CNFFormula:
-    """Represents a CNF formula with graph properties."""
-    
-    def __init__(self, num_vars: int, clauses: List[List[int]]):
-        """
-        Initialize CNF formula.
-        
-        Args:
-            num_vars: Number of variables
-            clauses: List of clauses (each clause is list of literals)
-        """
-        self.variables = num_vars
-        self.num_vars = num_vars
-        self.clauses = clauses
-        self._incidence_graph = None
-    
-    @property
-    def incidence_graph(self) -> nx.Graph:
-        """Build and cache the incidence graph."""
-        if self._incidence_graph is None:
-            self._incidence_graph = self._build_incidence_graph()
-        return self._incidence_graph
-    
-    def _build_incidence_graph(self) -> nx.Graph:
-        """Build the incidence graph of the formula."""
-        G = nx.Graph()
-        
-        # Add variable nodes
-        for i in range(1, self.num_vars + 1):
-            G.add_node(f"v{i}", bipartite=0)
-        
-        # Add clause nodes and edges
-        for idx, clause in enumerate(self.clauses):
-            clause_node = f"c{idx}"
-            G.add_node(clause_node, bipartite=1)
-            
-            for lit in clause:
-                var = abs(lit)
-                G.add_edge(f"v{var}", clause_node)
-        
-        return G
-    
-    def __repr__(self):
-        return f"CNFFormula(vars={self.num_vars}, clauses={len(self.clauses)})"
+from src.gadgets.tseitin_generator import TseitinGenerator
 
 
 class HardInstanceGenerator:
-    """Generator for hard SAT instances."""
+    """Generator for hard SAT instances with specific treewidth properties"""
     
-    def __init__(self, seed: int = None):
+    def __init__(self, seed: int = 42):
         """
-        Initialize generator with optional seed for reproducibility.
+        Initialize generator
         
         Args:
-            seed: Random seed
+            seed: Random seed for reproducibility
         """
         self.seed = seed
-        if seed is not None:
-            random.seed(seed)
-            np.random.seed(seed)
+        np.random.seed(seed)
     
-    def generate_tseitin_expander(self, n: int, degree: int = 3) -> CNFFormula:
+    def generate_random_3sat(self, n: int, ratio: float = 4.3) -> List:
         """
-        Generate a Tseitin formula over an expander graph.
-        
-        Creates unsatisfiable formulas with high treewidth by using
-        regular expander graphs with odd charge assignments.
-        
-        Args:
-            n: Number of vertices in the graph
-            degree: Degree of the regular graph (default 3)
-            
-        Returns:
-            CNFFormula representing Tseitin transformation
-        """
-        # Ensure n*degree is even for regular graph
-        if (n * degree) % 2 != 0:
-            n = n + 1
-        
-        # Generate random regular graph (expander with high probability)
-        try:
-            graph = nx.random_regular_graph(degree, n, seed=self.seed)
-        except:
-            # Fallback to cycle graph if regular graph fails
-            graph = nx.cycle_graph(n)
-        
-        # Number of variables = number of edges
-        num_vars = len(graph.edges())
-        
-        # Create edge to variable mapping
-        edge_to_var = {edge: idx + 1 for idx, edge in enumerate(graph.edges())}
-        
-        # Generate Tseitin clauses with all odd charges (unsatisfiable)
-        clauses = []
-        charge_assignment = [1] * n  # All vertices have odd charge
-        
-        for node_idx, node in enumerate(graph.nodes()):
-            # Get edges incident to this node
-            incident_vars = []
-            for edge in graph.edges(node):
-                if edge in edge_to_var:
-                    incident_vars.append(edge_to_var[edge])
-                else:
-                    # Try reversed edge
-                    rev_edge = (edge[1], edge[0])
-                    if rev_edge in edge_to_var:
-                        incident_vars.append(edge_to_var[rev_edge])
-            
-            charge = charge_assignment[node_idx]
-            
-            # Encode XOR constraint for parity
-            # For simplicity, use a compact encoding
-            self._add_xor_clauses(incident_vars, charge, clauses)
-        
-        return CNFFormula(num_vars, clauses)
-    
-    def _add_xor_clauses(self, vars: List[int], target: int, clauses: List[List[int]]):
-        """
-        Add CNF clauses encoding XOR constraint.
-        
-        For XOR of variables to equal target, we add clauses that
-        forbid assignments with wrong parity.
-        """
-        n = len(vars)
-        if n == 0:
-            if target == 1:
-                clauses.append([])  # Unsatisfiable
-            return
-        
-        # For small number of variables, enumerate all forbidden assignments
-        if n <= 4:
-            for i in range(2 ** n):
-                parity = 0
-                assignment = []
-                for j in range(n):
-                    if (i >> j) & 1:
-                        parity ^= 1
-                        assignment.append(vars[j])
-                    else:
-                        assignment.append(-vars[j])
-                
-                if parity != target:
-                    # Forbid this assignment
-                    clauses.append([-lit for lit in assignment])
-        else:
-            # For larger XORs, use a simpler approximation
-            # Add some representative clauses
-            if target == 1:
-                # At least one must be true
-                clauses.append(vars[:])
-                # Not all can be true (if even number)
-                if n % 2 == 0:
-                    clauses.append([-v for v in vars])
-            else:
-                # Even parity - add clauses enforcing this
-                clauses.append(vars[:])
-    
-    def generate_grid_sat(self, rows: int, cols: int) -> CNFFormula:
-        """
-        Generate a SAT formula based on a grid graph.
-        
-        Grid graphs have low treewidth (≤ min(rows, cols)) and serve
-        as tractable instances for comparison.
-        
-        Args:
-            rows: Number of rows in grid
-            cols: Number of columns in grid
-            
-        Returns:
-            CNFFormula based on grid structure
-        """
-        n = rows * cols
-        clauses = []
-        
-        # Create grid connectivity constraints
-        for i in range(rows):
-            for j in range(cols):
-                var = i * cols + j + 1
-                
-                # Horizontal constraint
-                if j < cols - 1:
-                    next_var = i * cols + (j + 1) + 1
-                    clauses.append([var, next_var])
-                    clauses.append([-var, -next_var])
-                
-                # Vertical constraint
-                if i < rows - 1:
-                    below_var = (i + 1) * cols + j + 1
-                    clauses.append([var, below_var])
-                    clauses.append([-var, -below_var])
-        
-        # Add some corner constraints to make it non-trivial
-        if n > 0:
-            clauses.append([1])  # Top-left must be true
-            if n > 1:
-                clauses.append([-n])  # Bottom-right must be false
-        
-        return CNFFormula(n, clauses)
-    
-    def generate_random_3sat(self, n: int, ratio: float = 4.26) -> CNFFormula:
-        """
-        Generate random 3-SAT instance at critical ratio.
+        Generate random 3-SAT instance
         
         Args:
             n: Number of variables
-            ratio: Clause-to-variable ratio
+            ratio: Clause-to-variable ratio (4.3 is near phase transition)
             
         Returns:
-            CNFFormula with random 3-SAT instance
+            List of clauses
         """
         m = int(n * ratio)
         clauses = []
         
         for _ in range(m):
-            # Generate random 3-clause
-            vars_in_clause = random.sample(range(1, n + 1), min(3, n))
-            clause = []
-            for var in vars_in_clause:
-                if random.random() < 0.5:
-                    clause.append(-var)
-                else:
-                    clause.append(var)
+            vars_in_clause = np.random.choice(range(1, n+1), size=3, replace=False)
+            signs = np.random.choice([1, -1], size=3)
+            clause = [int(v * s) for v, s in zip(vars_in_clause, signs)]
             clauses.append(clause)
         
-        return CNFFormula(n, clauses)
+        return clauses
+    
+    def generate_low_treewidth(self, n: int) -> Tuple[List, int]:
+        """
+        Generate SAT instance with low treewidth (O(log n))
+        
+        Uses path-like or tree-like structure
+        
+        Args:
+            n: Number of variables
+            
+        Returns:
+            (clauses, estimated_treewidth)
+        """
+        # Create path graph (treewidth = 1)
+        G = nx.path_graph(n)
+        
+        # Generate Tseitin formula
+        tseitin_gen = TseitinGenerator(G)
+        charge = [i % 2 for i in range(n)]  # Alternating charges
+        num_vars, clauses = tseitin_gen.generate_formula(charge)
+        tw = 1  # Path has treewidth 1
+        
+        return clauses, tw
+    
+    def generate_high_treewidth(self, n: int) -> Tuple[List, int]:
+        """
+        Generate SAT instance with high treewidth (ω(log n))
+        
+        Uses expander graphs (Ramanujan expanders ideally)
+        
+        Args:
+            n: Number of variables
+            
+        Returns:
+            (clauses, estimated_treewidth)
+        """
+        # Create regular expander (high treewidth)
+        d = min(int(np.sqrt(n)), 10)  # Degree
+        
+        # Ensure n*d is even
+        if (n * d) % 2 != 0:
+            d = d + 1 if d < 10 else d - 1
+        d = max(3, d)
+        
+        try:
+            G = nx.random_regular_graph(d, n)
+        except:
+            p = d / n
+            G = nx.erdos_renyi_graph(n, p)
+        
+        # Generate Tseitin formula
+        tseitin_gen = TseitinGenerator(G)
+        charge = [i % 2 for i in range(n)]  # Alternating charges
+        num_vars, clauses = tseitin_gen.generate_formula(charge)
+        
+        # Estimate treewidth (expanders have high treewidth)
+        # Simple heuristic: treewidth scales with degree for expanders
+        tw = max(1, d * int(np.log(max(2, n))))
+        
+        return clauses, tw
+    
+    def generate_controlled_treewidth(self, n: int, target_tw: int) -> Tuple[List, int]:
+        """
+        Generate SAT instance with approximately target treewidth
+        
+        Args:
+            n: Number of variables
+            target_tw: Target treewidth
+            
+        Returns:
+            (clauses, actual_treewidth)
+        """
+        # Use grid graph with controlled dimensions
+        # Grid graph has treewidth ≈ min(width, height)
+        if target_tw <= 1:
+            return self.generate_low_treewidth(n)
+        
+        # Create grid with target treewidth
+        width = min(target_tw, int(np.sqrt(n)))
+        height = max(1, n // width)
+        
+        G = nx.grid_2d_graph(width, height)
+        
+        # Relabel nodes to integers
+        mapping = {node: i for i, node in enumerate(G.nodes())}
+        G = nx.relabel_nodes(G, mapping)
+        
+        # Generate Tseitin formula
+        tseitin_gen = TseitinGenerator(G)
+        num_nodes = len(G.nodes())
+        charge = [i % 2 for i in range(num_nodes)]
+        num_vars, clauses = tseitin_gen.generate_formula(charge)
+        
+        # Grid treewidth is min(width, height)
+        tw = min(width, height)
+        
+        return clauses, tw
+    
+    def generate_ramanujan_expander(self, n: int) -> Tuple[List, int]:
+        """
+        Generate Ramanujan expander (optimal expansion, high treewidth)
+        
+        Args:
+            n: Number of vertices (should be prime^k + 1 ideally)
+            
+        Returns:
+            (clauses, estimated_treewidth)
+        """
+        # For simplicity, use random regular graph as approximation
+        # True Ramanujan expanders require more sophisticated construction
+        d = min(max(3, int(np.log(max(2, n)))), 10)  # Logarithmic degree
+        
+        # Ensure n*d is even
+        if (n * d) % 2 != 0:
+            d = d + 1 if d < 10 else d - 1
+        
+        try:
+            G = nx.random_regular_graph(d, n)
+        except:
+            p = d / n
+            G = nx.erdos_renyi_graph(n, p)
+        
+        tseitin_gen = TseitinGenerator(G)
+        charge = [i % 2 for i in range(n)]
+        num_vars, clauses = tseitin_gen.generate_formula(charge)
+        
+        # Estimate treewidth
+        tw = max(1, d * int(np.log(max(2, n))))
+        
+        return clauses, tw
+    
+    def save_instance_to_cnf(self, clauses: List, n: int, filename: str):
+        """
+        Save SAT instance in DIMACS CNF format
+        
+        Args:
+            clauses: List of clauses
+            n: Number of variables
+            filename: Output filename
+        """
+        m = len(clauses)
+        
+        with open(filename, 'w') as f:
+            f.write(f"p cnf {n} {m}\n")
+            for clause in clauses:
+                f.write(" ".join(map(str, clause)) + " 0\n")
+        
+        print(f"✓ Saved instance to {filename}")
+
+
+def main():
+    """Main entry point for testing"""
+    print("\n" + "="*70)
+    print("HARD INSTANCE GENERATOR - P≠NP VALIDATION")
+    print("="*70)
+    
+    gen = HardInstanceGenerator()
+    
+    # Generate examples
+    print("\nGenerating example instances...")
+    
+    # Low treewidth (should be in P)
+    print("\n1. Low treewidth instance (n=50)...")
+    clauses_low, tw_low = gen.generate_low_treewidth(50)
+    print(f"   Treewidth: {tw_low}, Clauses: {len(clauses_low)}")
+    
+    # High treewidth (should be hard)
+    print("\n2. High treewidth instance (n=50)...")
+    clauses_high, tw_high = gen.generate_high_treewidth(50)
+    print(f"   Treewidth: {tw_high}, Clauses: {len(clauses_high)}")
+    
+    # Controlled treewidth
+    print("\n3. Controlled treewidth instance (n=50, target_tw=10)...")
+    clauses_ctrl, tw_ctrl = gen.generate_controlled_treewidth(50, 10)
+    print(f"   Treewidth: {tw_ctrl}, Clauses: {len(clauses_ctrl)}")
+    
+    print("\n" + "="*70)
+    print("✅ Instance generation complete")
+    print("="*70 + "\n")
 
 
 if __name__ == "__main__":
-    print("Hard Instance Generator ∞³")
-    print("=" * 70)
-    
-    generator = HardInstanceGenerator(seed=42)
-    
-    # Test Tseitin expander
-    print("\n1. Tseitin Expander (n=20):")
-    phi = generator.generate_tseitin_expander(20)
-    print(f"   Variables: {phi.variables}, Clauses: {len(phi.clauses)}")
-    print(f"   Incidence graph nodes: {len(phi.incidence_graph.nodes())}")
-    
-    # Test grid SAT
-    print("\n2. Grid SAT (5x5):")
-    phi = generator.generate_grid_sat(5, 5)
-    print(f"   Variables: {phi.variables}, Clauses: {len(phi.clauses)}")
-    print(f"   Incidence graph nodes: {len(phi.incidence_graph.nodes())}")
-    
-    print("\n✓ Generator tests passed")
+    main()
